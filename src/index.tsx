@@ -2,12 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
+import Provider from 'providers'
 import './index.css'
-import 'semantic-ui-css/semantic.min.css'
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <Provider>
+      <App />
+    </Provider>
   </BrowserRouter>,
-  document.getElementById('root')
+  document.getElementById('root'),
 )

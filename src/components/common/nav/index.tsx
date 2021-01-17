@@ -1,23 +1,39 @@
+import MyDrawer from 'components/common/myDrawer'
 import * as React from 'react'
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Button,
-} from '@material-ui/core'
-import { Menu } from '@material-ui/icons'
+import Typography from '@material-ui/core/Typography'
+import AppBar from '@material-ui/core/AppBar'
+import IconButton from '@material-ui/core/IconButton'
+import Toolbar from '@material-ui/core/Toolbar'
+import Menu from '@material-ui/icons/Menu'
 import styles from './index.module.css'
+import { Grid } from '@material-ui/core'
 
 const Nav: React.FC = () => {
+  const [title, setTitle] = React.useState('User')
+  const [isActive, setIsActive] = React.useState(false)
+
+  const onToggle = (title?: string) => {
+    setIsActive((isActive) => !isActive)
+    if (title) {
+      setTitle(title)
+    }
+  }
+
   return (
     <AppBar position='static'>
+      <MyDrawer onToggle={onToggle} isActive={isActive}></MyDrawer>
       <Toolbar>
-        <IconButton edge='start' color='inherit' aria-label='menu'>
+        <IconButton
+          onClick={() => onToggle()}
+          edge='start'
+          color='inherit'
+          aria-label='menu'
+        >
           <Menu />
         </IconButton>
-        <Typography variant='h6'>News</Typography>
-        <Button color='inherit'>Login</Button>
+        <Grid container item justify='flex-end'>
+          <Typography variant='h6'>{title}</Typography>
+        </Grid>
       </Toolbar>
     </AppBar>
   )

@@ -36,7 +36,7 @@ const App: React.FC = (props) => {
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: 20,
-    height: '100vh',
+    height: '100%',
     backgroundColor: theme.palette.background.default,
   },
   fab: {

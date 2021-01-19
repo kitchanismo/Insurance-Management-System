@@ -7,7 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import IconButton from '@material-ui/core/IconButton'
 import * as React from 'react'
 import Grid from '@material-ui/core/Grid/Grid'
-import ToggleButton from '@material-ui/lab/ToggleButton'
+import Switch from '@material-ui/core/Switch'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import GlobalContext, { GlobalProps } from 'providers/contexts/globalContext'
 
 export interface MyDrawerProps {
@@ -45,14 +46,19 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
         </IconButton>
       </Grid>
       {list()}
-      <ToggleButton
-        selected={isDark}
-        onChange={() => {
-          setIsDark(!isDark)
-        }}
-      >
-        {isDark ? 'Light Mode' : 'Dark Mode'}
-      </ToggleButton>
+
+      <FormControlLabel
+        style={{ marginLeft: 10 }}
+        control={
+          <Switch
+            checked={isDark}
+            onChange={() => setIsDark(!isDark)}
+            name='checkedA'
+            inputProps={{ 'aria-label': 'secondary checkbox' }}
+          />
+        }
+        label='Dark Mode'
+      />
     </Drawer>
   )
 }

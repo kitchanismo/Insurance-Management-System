@@ -1,6 +1,6 @@
 import { GlobalProps, AlertProps } from '../contexts/globalContext'
 import { createMuiTheme } from '@material-ui/core/styles'
-import { ComponentProps, useState } from 'react'
+import { useState } from 'react'
 
 const useGlobalState = () => {
   const [alert, setAlert] = useState<AlertProps | null>(null)
@@ -11,7 +11,7 @@ const useGlobalState = () => {
       MuiCssBaseline: {
         '@global': {
           body: {
-            backgroundColor: isDark ? '#303030' : 'white',
+            backgroundColor: isDark ? '#303030' : '#fafafa',
           },
         },
       },

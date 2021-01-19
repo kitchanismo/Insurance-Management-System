@@ -74,7 +74,7 @@ const NewUser: React.SFC<NewUserProps> = () => {
               options: ['Male', 'Female', 'Other'],
             })}
             {mySelect({
-              label: 'Civi Status',
+              label: 'Civil Status',
               value: user.civil,
               name: 'civil',
               options: ['Single', 'Married', 'Widowed'],

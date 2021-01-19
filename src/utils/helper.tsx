@@ -9,8 +9,8 @@ export const lettersOnly = (label: string) => {
     .error((errors: any) => {
       errors.forEach((err: any) => {
         switch (err.code) {
-          case 'any.empty':
-            err.message = `"${label}" is not allowed to be empty`
+          case 'string.empty':
+            err.message = `"${label}" is required`
             break
           case 'string.pattern.base':
             err.message = `"${label}" must not have a number or special character`
@@ -20,6 +20,29 @@ export const lettersOnly = (label: string) => {
         }
       })
       return errors
+    })
+}
+
+export const alphaNumeric = (label: string) => {
+  return Joi.string()
+    .required()
+    .label(label)
+    .alphanum()
+    .error((errors: any) => {
+      errors.forEach((err: any) => {
+        if (err.code === 'string.empty') {
+          err.message = `"${label}" is required`
+        }
+      })
+      return errors
+    })
+}
+
+export const notNull = (label: string) => {
+  return Joi.required()
+    .not(null)
+    .messages({
+      'any.invalid': `"${label}" is required`,
     })
 }
 

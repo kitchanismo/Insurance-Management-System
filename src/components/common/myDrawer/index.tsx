@@ -33,6 +33,8 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
     </>
   )
 
+  
+
   return (
     <Drawer anchor='left' open={props.isActive}>
       <Grid container justify='flex-end'>

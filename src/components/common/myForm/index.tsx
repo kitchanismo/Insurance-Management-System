@@ -88,10 +88,19 @@ function MyForm<T>(props: MyFormProps<T>) {
       })
   }
 
+  const onChange = (e: any) => {
+    const { value, name } = e.target
+
+    setData({
+      ...data,
+      [name]: value,
+    })
+  }
+
   const myInput = (input: InputProps) => {
     const error = errors && errors[input.name]
     return (
-      <Grid item xs={12}>
+      <Grid item xs={12} key={input.name}>
         <TextField
           multiline={input.isMultiline}
           fullWidth
@@ -100,12 +109,7 @@ function MyForm<T>(props: MyFormProps<T>) {
           label={input.label}
           type={input.type}
           value={input.value}
-          onChange={(e) =>
-            setData({
-              ...data,
-              [input.name]: e.target.value,
-            })
-          }
+          onChange={onChange}
           error={!!error}
           helperText={error}
         />
@@ -115,7 +119,7 @@ function MyForm<T>(props: MyFormProps<T>) {
 
   const myDateTimePicker = (input: InputProps) => {
     return (
-      <Grid item xs={12}>
+      <Grid item xs={12} key={input.name}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             fullWidth
@@ -144,20 +148,15 @@ function MyForm<T>(props: MyFormProps<T>) {
   const mySelect = (select: SelectProps) => {
     const error = errors && errors[select.name]
     return (
-      <Grid item xs={12}>
+      <Grid item xs={12} key={select.name}>
         <FormControl fullWidth variant='outlined' error={!!error}>
           <InputLabel id={select.label}>{select.label}</InputLabel>
           <Select
             labelId={select.label}
             id={select.name}
             name={select.name}
-            value={select.value}
-            onChange={(e) =>
-              setData({
-                ...data,
-                [select.name]: e.target.value,
-              })
-            }
+            value={select.value === null ? '' : select.value}
+            onChange={onChange}
           >
             {select.options.map((option, index) => (
               <MenuItem value={option}>{option}</MenuItem>

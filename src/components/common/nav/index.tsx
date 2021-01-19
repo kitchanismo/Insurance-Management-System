@@ -29,16 +29,22 @@ const Nav: React.FC = () => {
     >
       <MyDrawer onToggle={onToggle} isActive={isActive}></MyDrawer>
       <Toolbar>
-        <IconButton
-          onClick={() => onToggle()}
-          edge='start'
-          color='inherit'
-          aria-label='menu'
-        >
-          <Menu />
-        </IconButton>
-        <Grid container item justify='flex-end'>
-          <Typography variant='h6'>{title}</Typography>
+        <Grid container xs={12} justify='center'>
+          <Grid container xs={6} sm={4} md={2} justify='flex-start'>
+            <IconButton
+              onClick={() => onToggle()}
+              edge='start'
+              color='inherit'
+              aria-label='menu'
+            >
+              <Menu />
+            </IconButton>
+          </Grid>
+          <Grid container xs={6} sm={4} md={2} justify='flex-end'>
+            <Typography style={{ paddingTop: 8 }} variant='h6'>
+              {title}
+            </Typography>
+          </Grid>
         </Grid>
       </Toolbar>
     </AppBar>

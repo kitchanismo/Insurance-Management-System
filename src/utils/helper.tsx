@@ -3,6 +3,7 @@ import jwtDecode from 'jwt-decode'
 
 export const lettersOnly = (label: string) => {
   return Joi.string()
+    .required()
     .label(label)
     .regex(/^[A-Za-z\s]*$/)
     .error((errors: any) => {

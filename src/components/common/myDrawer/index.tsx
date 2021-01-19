@@ -7,6 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import IconButton from '@material-ui/core/IconButton'
 import * as React from 'react'
 import Grid from '@material-ui/core/Grid/Grid'
+import ToggleButton from '@material-ui/lab/ToggleButton'
+import GlobalContext, { GlobalProps } from 'providers/contexts/globalContext'
 
 export interface MyDrawerProps {
   isActive: boolean
@@ -15,6 +17,7 @@ export interface MyDrawerProps {
 
 const MyDrawer: React.FC<MyDrawerProps> = (props) => {
   const styles = useStyles()
+  const { isDark, setIsDark } = React.useContext<GlobalProps>(GlobalContext)
   const menus = ['Menu1', 'Menu2', 'Menu3', 'Menu4']
 
   const list = () => (
@@ -42,6 +45,14 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
         </IconButton>
       </Grid>
       {list()}
+      <ToggleButton
+        selected={isDark}
+        onChange={() => {
+          setIsDark(!isDark)
+        }}
+      >
+        {isDark ? 'Light Mode' : 'Dark Mode'}
+      </ToggleButton>
     </Drawer>
   )
 }

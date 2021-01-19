@@ -4,7 +4,7 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 const Routes = () => {
   return (
     <Switch>
-      <Route path='/users/new' component={NewUser} />
+      <Route path='/home' component={NewUser} />
       <Redirect from='/' exact to='/home' />
       <Redirect to='/not-found' />
     </Switch>

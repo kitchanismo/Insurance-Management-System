@@ -1,15 +1,22 @@
 import { ThemeProvider } from '@material-ui/core/styles'
 import * as React from 'react'
 import GlobalContext from './contexts/globalContext'
-import useCustomTheme from './services/useCustomTheme'
+import UserContext from './contexts/userContext'
+import useGlobalState from './services/useGlobalState'
+import useUserService from './services/useUserService'
 
 const Provider: React.FC = (props) => {
-  const { theme, isDark, setIsDark } = useCustomTheme()
+  const useGlobal = useGlobalState()
+  const userService = useUserService()
 
   return (
     <>
-      <GlobalContext.Provider value={{ isDark, setIsDark, theme }}>
-        <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
+      <GlobalContext.Provider value={{ ...useGlobal }}>
+        <ThemeProvider theme={useGlobal.theme}>
+          <UserContext.Provider value={{ ...userService }}>
+            {props.children}
+          </UserContext.Provider>
+        </ThemeProvider>
       </GlobalContext.Provider>
     </>
   )

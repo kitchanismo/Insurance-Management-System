@@ -5,7 +5,7 @@ import Profile from './profile'
 interface User extends Profile {
   username: string | Joi.StringSchema
   password: string | Joi.StringSchema
-  branch: string
+  branch: string | Joi.StringSchema | null
   position:
     | 'Sales Agent'
     | 'Branch Manager'
@@ -13,13 +13,13 @@ interface User extends Profile {
     | 'Supervisor'
     | 'Admin'
     | Joi.StringSchema
-    | ''
-  team?: string
+    | null
+  team?: string | Joi.StringSchema | null
   is_active?: boolean | Joi.BooleanSchema
   is_delete?: boolean | Joi.BooleanSchema
   sales?: number | Joi.NumberSchema
   is_darkmode?: boolean
-  created_at: Date
+  created_at?: Date
 }
 
 interface Team {

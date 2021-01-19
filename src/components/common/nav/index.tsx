@@ -9,7 +9,7 @@ import styles from './index.module.css'
 import { Grid } from '@material-ui/core'
 
 const Nav: React.FC = () => {
-  const [title, setTitle] = React.useState('Users')
+  const [title, setTitle] = React.useState('Add New User')
   const [isActive, setIsActive] = React.useState(false)
 
   const onToggle = (title?: string) => {
@@ -20,7 +20,13 @@ const Nav: React.FC = () => {
   }
 
   return (
-    <AppBar position='sticky'>
+    <AppBar
+      style={{
+        background:
+          'linear-gradient(to left, #e91e63, #df0077, #d0008b, #ba119e, #9c27b0)',
+      }}
+      position='sticky'
+    >
       <MyDrawer onToggle={onToggle} isActive={isActive}></MyDrawer>
       <Toolbar>
         <IconButton

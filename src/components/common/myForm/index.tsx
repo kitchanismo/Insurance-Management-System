@@ -6,11 +6,13 @@ import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@material-ui/core/Button'
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns/build'
+import FormHelperText from '@material-ui/core/FormHelperText'
 
 export interface MyFormProps<T> {
   state: [T, React.Dispatch<React.SetStateAction<T>>]
@@ -35,7 +37,7 @@ export interface SelectProps extends InputProps {
 export interface RenderProps {
   myInput: (input: InputProps) => JSX.Element
   myDateTimePicker: (input: InputProps) => JSX.Element
-  myButton: () => JSX.Element
+  myButton: (text?: string) => JSX.Element
   mySelect: (select: SelectProps) => JSX.Element
 }
 
@@ -44,10 +46,12 @@ function MyForm<T>(props: MyFormProps<T>) {
 
   const [isDisable, setIsDisable] = React.useState<boolean>(false)
 
-  const [errors, setErrors] = React.useState<any>()
+  const [errors, setErrors] = React.useState<any>(null)
 
   const onValidate = () => {
-    const schema = Joi.object(props.validator).options({ abortEarly: false })
+    const schema = Joi.object(props.validator).options({
+      abortEarly: false,
+    })
 
     const { error } = schema.validate(data)
 
@@ -84,15 +88,8 @@ function MyForm<T>(props: MyFormProps<T>) {
       })
   }
 
-  const onChange = (e: React.ChangeEvent<any>) => {
-    const { value, name } = e.target
-    setData({
-      ...data,
-      [name]: value,
-    })
-  }
-
   const myInput = (input: InputProps) => {
+    const error = errors && errors[input.name]
     return (
       <Grid item xs={12}>
         <TextField
@@ -103,7 +100,14 @@ function MyForm<T>(props: MyFormProps<T>) {
           label={input.label}
           type={input.type}
           value={input.value}
-          onChange={onChange}
+          onChange={(e) =>
+            setData({
+              ...data,
+              [input.name]: e.target.value,
+            })
+          }
+          error={!!error}
+          helperText={error}
         />
       </Grid>
     )
@@ -125,7 +129,7 @@ function MyForm<T>(props: MyFormProps<T>) {
             onChange={(date) =>
               setData({
                 ...data,
-                [input.name]: date,
+                [input.name]: date?.toLocaleDateString(),
               })
             }
             KeyboardButtonProps={{
@@ -138,39 +142,48 @@ function MyForm<T>(props: MyFormProps<T>) {
   }
 
   const mySelect = (select: SelectProps) => {
+    const error = errors && errors[select.name]
     return (
       <Grid item xs={12}>
-        <FormControl fullWidth variant='outlined'>
+        <FormControl fullWidth variant='outlined' error={!!error}>
           <InputLabel id={select.label}>{select.label}</InputLabel>
           <Select
             labelId={select.label}
             id={select.name}
             name={select.name}
             value={select.value}
-            onChange={onChange}
+            onChange={(e) =>
+              setData({
+                ...data,
+                [select.name]: e.target.value,
+              })
+            }
           >
-            {select.options.map((option) => (
+            {select.options.map((option, index) => (
               <MenuItem value={option}>{option}</MenuItem>
             ))}
           </Select>
+          <FormHelperText>{error}</FormHelperText>
         </FormControl>
       </Grid>
     )
   }
 
-  // const myButton = () => {
-  //   return (
-  //     <Button
-  //       loading={isDisable}
-  //       fluid
-  //       disabled={isDisable}
-  //       color='purple'
-  //       type='submit'
-  //     >
-  //       Submit
-  //     </Button>
-  //   )
-  // }
+  const myButton = (text?: string) => {
+    return (
+      <Grid item xs={12}>
+        <Button
+          style={{ paddingTop: 15, paddingBottom: 15 }}
+          fullWidth
+          type='submit'
+          variant='contained'
+          color='primary'
+        >
+          {text ?? 'SUBMIT'}
+        </Button>
+      </Grid>
+    )
+  }
 
   return (
     <form onSubmit={onSubmit}>
@@ -179,25 +192,10 @@ function MyForm<T>(props: MyFormProps<T>) {
           myInput,
           mySelect,
           myDateTimePicker,
+          myButton,
         } as RenderProps)}
       </Grid>
     </form>
-    // <Form onSubmit={onSubmit} className={globalStyles.formContainer}>
-    //   {isResolved && (
-    //     <Notification color='purple' icon='check circle' header='Done!'>
-    //       {props.resolveMessage || 'Thank you...'}
-    //     </Notification>
-    //   )}
-    //   {isRejected && (
-    //     <Notification color='red' icon='warning circle' header='Warning!'>
-    //       {errorMessage}
-    //     </Notification>
-    //   )}
-    //   {props.children?.call(null, {
-    //     myInput,
-    //     myButton,
-    //   } as RenderProps)}
-    // </Form>
   )
 }
 

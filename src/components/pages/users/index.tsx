@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Fab from '@material-ui/core/Fab'
 import TextField from '@material-ui/core/TextField'
+import IconButton from '@material-ui/core/IconButton'
 import User from 'models/user'
 import UserCard from './card'
 import makeStyles from '@material-ui/styles/makeStyles'
@@ -49,17 +50,20 @@ const Users: React.SFC<UsersProps> = () => {
   return (
     <>
       <Grid
-        style={{ marginBottom: 15, marginTop: -10 }}
+        style={{ marginBottom: 10, marginTop: -10 }}
         container
         xs={12}
         spacing={1}
         justify='flex-start'
       >
-        <Grid item xs={11}>
+        <Grid item xs={10}>
           <TextField fullWidth id='search-user' label='Search...' />
         </Grid>
+        <Grid item xs={1}></Grid>
         <Grid container justify='center' alignContent='flex-end' item xs={1}>
-          <SearchIcon />
+          <IconButton style={{ marginTop: 5 }} aria-label='previous'>
+            <SearchIcon />
+          </IconButton>
         </Grid>
       </Grid>
 

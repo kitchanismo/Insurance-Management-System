@@ -22,7 +22,7 @@ export interface UsersProps {
 const UserCard: React.SFC<UsersProps> = ({ user }) => {
   const styles = useStyles()
   return (
-    <Card>
+    <Card style={{ paddingBottom: 5 }}>
       <div className={styles.cardHeader}>
         <Typography className={styles.titleHeader} component='h5' variant='h5'>
           {user.username}

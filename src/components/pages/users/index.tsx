@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-
+import clsx from 'clsx'
 import Grid from '@material-ui/core/Grid'
 import Fab from '@material-ui/core/Fab'
 import TextField from '@material-ui/core/TextField'
@@ -13,6 +13,13 @@ import SearchIcon from '@material-ui/icons/Search'
 import AddIcon from '@material-ui/icons/Add'
 
 import { Theme, fade } from '@material-ui/core/styles'
+
+import {
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+} from '@material-ui/core'
 
 export interface UsersProps {}
 
@@ -49,22 +56,28 @@ const Users: React.SFC<UsersProps> = () => {
   const styles = useStyles()
   return (
     <>
-      <Grid
-        style={{ marginBottom: 10, marginTop: -10 }}
-        container
-        xs={12}
-        spacing={1}
-        justify='flex-start'
-      >
-        <Grid item xs={10}>
-          <TextField fullWidth id='search-user' label='Search...' />
-        </Grid>
-        <Grid item xs={1}></Grid>
-        <Grid container justify='center' alignContent='flex-end' item xs={1}>
-          <IconButton style={{ marginTop: 5 }} aria-label='previous'>
-            <SearchIcon />
-          </IconButton>
-        </Grid>
+      <Grid style={{ marginBottom: 15, marginTop: 5 }} container xs={12}>
+        <FormControl fullWidth variant='outlined'>
+          <InputLabel htmlFor='outlined-adornment-password'>
+            Search...
+          </InputLabel>
+          <OutlinedInput
+            id='outlined-adornment-password'
+            name='search'
+            type='text'
+            labelWidth={65}
+            endAdornment={
+              <InputAdornment position='end'>
+                <IconButton
+                  aria-label='toggle password visibility'
+                  onClick={() => {}}
+                >
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
       </Grid>
 
       <Grid

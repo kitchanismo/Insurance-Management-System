@@ -7,12 +7,16 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns/build'
 import FormHelperText from '@material-ui/core/FormHelperText'
+import classes from '*.module.css'
+import { OutlinedInput, InputAdornment } from '@material-ui/core'
+import { Visibility, VisibilityOff } from '@material-ui/icons'
 
 export interface MyFormProps<T> {
   state: [T, React.Dispatch<React.SetStateAction<T>>]
@@ -28,6 +32,7 @@ export interface InputProps {
   type?: string | 'text'
   label: string
   isMultiline?: boolean
+  onTogglePassword?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface SelectProps extends InputProps {
@@ -36,6 +41,7 @@ export interface SelectProps extends InputProps {
 
 export interface RenderProps {
   myInput: (input: InputProps) => JSX.Element
+  myInputPassword: (input: InputProps) => JSX.Element
   myDateTimePicker: (input: InputProps) => JSX.Element
   myButton: (text?: string) => JSX.Element
   mySelect: (select: SelectProps) => JSX.Element
@@ -117,6 +123,46 @@ function MyForm<T>(props: MyFormProps<T>) {
     )
   }
 
+  const myInputPassword = (input: InputProps) => {
+    const error = errors && errors[input.name]
+
+    return (
+      <Grid item xs={12} key={input.name}>
+        <FormControl fullWidth variant='outlined' error={!!error}>
+          <InputLabel htmlFor={input.label}>{input.label}</InputLabel>
+          <OutlinedInput
+            id={input.name}
+            name={input.name}
+            type={input.type}
+            value={input.value}
+            onChange={onChange}
+            labelWidth={70}
+            endAdornment={
+              <InputAdornment position='end'>
+                <IconButton
+                  aria-label='toggle password visibility'
+                  onClick={() =>
+                    input.onTogglePassword?.call(
+                      null,
+                      (isVisible) => !isVisible,
+                    )
+                  }
+                >
+                  {input.type !== 'password' ? (
+                    <Visibility />
+                  ) : (
+                    <VisibilityOff />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+          <FormHelperText>{error}</FormHelperText>
+        </FormControl>
+      </Grid>
+    )
+  }
+
   const myDateTimePicker = (input: InputProps) => {
     return (
       <Grid item xs={12} key={input.name}>
@@ -157,6 +203,7 @@ function MyForm<T>(props: MyFormProps<T>) {
             name={select.name}
             value={select.value === null ? '' : select.value}
             onChange={onChange}
+            labelWidth={60}
           >
             {select.options.map((option, index) => (
               <MenuItem value={option}>{option}</MenuItem>
@@ -189,6 +236,7 @@ function MyForm<T>(props: MyFormProps<T>) {
       <Grid container spacing={2} direction='column'>
         {props.children?.call(null, {
           myInput,
+          myInputPassword,
           mySelect,
           myDateTimePicker,
           myButton,

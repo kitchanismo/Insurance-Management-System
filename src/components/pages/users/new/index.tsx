@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import MyForm, { MyFormProps } from 'components/common/myForm'
+import MyForm, { MyFormProps, InputProps } from 'components/common/myForm'
 import User from 'models/user'
 import GlobalContext from 'providers/contexts/globalContext'
 import React, { useContext } from 'react'
@@ -41,21 +41,30 @@ const NewUser: React.SFC<NewUserProps> = () => {
     validator,
   }
 
+  const [isVisible, setIsVisible] = React.useState<boolean>(false)
+
   return (
     <Grid container direction='column'>
       <MyForm {...formProps}>
-        {({ myInput, mySelect, myDateTimePicker, myButton }) => (
+        {({
+          myInput,
+          myInputPassword,
+          mySelect,
+          myDateTimePicker,
+          myButton,
+        }) => (
           <>
             {myInput({
               label: 'Username',
               value: newUser.username,
               name: 'username',
             })}
-            {myInput({
+            {myInputPassword({
               label: 'Password',
               value: newUser.password,
               name: 'password',
-              type: 'password',
+              type: isVisible ? 'text' : 'password',
+              onTogglePassword: setIsVisible,
             })}
             {myInput({
               label: 'Firstname',

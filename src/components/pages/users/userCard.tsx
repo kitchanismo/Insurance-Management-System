@@ -1,5 +1,5 @@
 import React from 'react'
-import Card from '@material-ui/core/Card'
+
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
@@ -8,32 +8,27 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import ViewIcon from '@material-ui/icons/RemoveRedEye'
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
-import Paper from '@material-ui/core/Paper'
+import Chip from '@material-ui/core/Chip'
 import userIcon from 'assets/profile-user.svg'
-import makeStyles from '@material-ui/styles/makeStyles'
-import createStyles from '@material-ui/styles/createStyles'
-import { Theme } from '@material-ui/core/styles'
 import User from 'models/user'
+import { useHistory } from 'react-router-dom'
+import MyCard from 'components/common/myCard'
 
 export interface UsersProps {
   user: Partial<User>
 }
 
 const UserCard: React.SFC<UsersProps> = ({ user }) => {
-  const styles = useStyles()
+  const history = useHistory()
   return (
-    <Card style={{ paddingBottom: 5 }}>
-      <div className={styles.cardHeader}>
-        <Typography className={styles.titleHeader} component='h5' variant='h5'>
-          {user.username}
-        </Typography>
-      </div>
+    <MyCard title={user.username} style={{ paddingBottom: 5 }}>
       <CardContent>
         <Grid container xs={12} justify='space-between'>
           <Grid
             style={{ paddingLeft: 10 }}
             container
             item
+            direction='column'
             xs={7}
             justify='flex-start'
           >
@@ -43,9 +38,22 @@ const UserCard: React.SFC<UsersProps> = ({ user }) => {
             <Typography variant='subtitle1' color='textSecondary'>
               {user.position}
             </Typography>
+
+            <Grid item xs={1}>
+              <Chip
+                style={{ marginTop: 5 }}
+                size='small'
+                label={user.is_active ? 'Active' : 'Deactivate'}
+                variant='default'
+                color={user.is_active ? 'primary' : 'secondary'}
+              />
+            </Grid>
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
-            <IconButton aria-label='play/pause'>
+            <IconButton
+              onClick={() => history.push('users/' + user.id)}
+              aria-label='play/pause'
+            >
               <img style={{ width: 100 }} src={userIcon} alt='User Logo' />
             </IconButton>
           </Grid>
@@ -54,7 +62,10 @@ const UserCard: React.SFC<UsersProps> = ({ user }) => {
 
       <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
       <Grid container xs={12} justify='space-evenly'>
-        <IconButton aria-label='previous'>
+        <IconButton
+          onClick={() => history.push('users/' + user.id)}
+          aria-label='previous'
+        >
           <ViewIcon />
         </IconButton>
         <IconButton aria-label='play/pause'>
@@ -64,22 +75,8 @@ const UserCard: React.SFC<UsersProps> = ({ user }) => {
           <DeleteIcon />
         </IconButton>
       </Grid>
-    </Card>
+    </MyCard>
   )
 }
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    cardHeader: {
-      backgroundColor: theme.palette.primary.main,
-      paddingLeft: 15,
-      paddingTop: 10,
-      paddingBottom: 10,
-    },
-    titleHeader: {
-      color: 'white',
-    },
-  }),
-)
 
 export default UserCard

@@ -1,12 +1,10 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import clsx from 'clsx'
 import Grid from '@material-ui/core/Grid'
 import Fab from '@material-ui/core/Fab'
-import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton'
 import User from 'models/user'
-import UserCard from './card'
+import UserCard from './userCard'
 import makeStyles from '@material-ui/styles/makeStyles'
 import createStyles from '@material-ui/styles/createStyles'
 import SearchIcon from '@material-ui/icons/Search'
@@ -28,25 +26,25 @@ const Users: React.SFC<UsersProps> = () => {
     {
       id: 1,
       username: 'myusername',
-      firstname: 'firstname',
-      middlename: 'middlename',
-      lastname: 'lastname',
+      firstname: 'Firstname',
+      middlename: 'Middlename',
+      lastname: 'Lastname',
       position: 'Admin',
     },
     {
       id: 2,
       username: 'urusername',
-      firstname: 'firstname',
-      middlename: 'middlename',
-      lastname: 'lastname',
+      firstname: 'Firstname',
+      middlename: 'Middlename',
+      lastname: 'Lastname',
       position: 'Sales Agent',
     },
     {
       id: 3,
       username: 'sample',
-      firstname: 'firstname',
-      middlename: 'middlename',
-      lastname: 'lastname',
+      firstname: 'Firstname',
+      middlename: 'Middlename',
+      lastname: 'Lastname',
       position: 'Branch Manager',
     },
   ]
@@ -56,7 +54,7 @@ const Users: React.SFC<UsersProps> = () => {
   const styles = useStyles()
   return (
     <>
-      <Grid style={{ marginBottom: 15, marginTop: 5 }} container xs={12}>
+      <Grid style={{ marginBottom: 15 }} container xs={12}>
         <FormControl fullWidth variant='outlined'>
           <InputLabel htmlFor='outlined-adornment-password'>
             Search...
@@ -70,7 +68,7 @@ const Users: React.SFC<UsersProps> = () => {
               <InputAdornment position='end'>
                 <IconButton
                   aria-label='toggle password visibility'
-                  onClick={() => {}}
+                  onClick={() => history.push('/users/new')}
                 >
                   <SearchIcon />
                 </IconButton>

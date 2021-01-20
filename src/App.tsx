@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import Nav from 'components/common/nav'
+import Nav from 'components/common/myNav'
 import Container from '@material-ui/core/Container'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Routes from 'components/routes'

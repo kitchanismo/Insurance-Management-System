@@ -38,6 +38,7 @@ const Users: React.SFC<UsersProps> = () => {
       middlename: 'Middlename',
       lastname: 'Lastname',
       position: 'Sales Agent',
+      is_active: true,
     },
     {
       id: 3,

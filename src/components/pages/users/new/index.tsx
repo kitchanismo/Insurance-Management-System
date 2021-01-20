@@ -1,15 +1,14 @@
 import Grid from '@material-ui/core/Grid'
 import MyForm, { MyFormProps } from 'components/common/myForm'
 import User from 'models/user'
-import UserContext, { UserProps } from 'providers/contexts/userContext'
-import GlobalContext, { GlobalProps } from 'providers/contexts/globalContext'
+import GlobalContext from 'providers/contexts/globalContext'
 import React, { useContext } from 'react'
 import validator from './validator'
 
 export interface NewUserProps {}
 
 const NewUser: React.SFC<NewUserProps> = () => {
-  const { setAlert } = useContext<GlobalProps>(GlobalContext)
+  const ctx = useContext(GlobalContext)
 
   const [newUser, setNewUser] = React.useState<User>({
     username: '',
@@ -28,7 +27,7 @@ const NewUser: React.SFC<NewUserProps> = () => {
   })
 
   const onSubmit = async () => {
-    setAlert({ message: 'Successfully added', type: 'success' })
+    ctx?.setAlert({ message: 'Successfully added', type: 'success' })
     return Promise.resolve()
   }
 

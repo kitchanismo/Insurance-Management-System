@@ -14,6 +14,6 @@ export interface GlobalProps {
   setAlert: React.Dispatch<React.SetStateAction<AlertProps | null>>
 }
 
-const GlobalContext = React.createContext<any>(null)
+const GlobalContext = React.createContext<GlobalProps | null>(null)
 
 export default GlobalContext

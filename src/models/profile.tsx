@@ -1,7 +1,7 @@
 import Joi from 'joi'
 
 export default interface Profile {
-  id?: number | Joi.NumberSchema
+  id?: number
   firstname: string | Joi.StringSchema
   middlename: string | Joi.StringSchema
   lastname: string | Joi.StringSchema

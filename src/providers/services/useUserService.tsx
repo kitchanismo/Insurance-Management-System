@@ -3,7 +3,10 @@ import { UserProps } from 'providers/contexts/userContext'
 import * as React from 'react'
 
 const useUserService = () => {
-  const [currentUser, setCurrentUser] = React.useState<User | null>(null)
+  const [currentUser, setCurrentUser] = React.useState<Partial<User> | null>(
+    null,
+  )
+
   return { currentUser, setCurrentUser } as UserProps
 }
 

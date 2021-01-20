@@ -9,7 +9,7 @@ import * as React from 'react'
 import Grid from '@material-ui/core/Grid/Grid'
 import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import GlobalContext, { GlobalProps } from 'providers/contexts/globalContext'
+import GlobalContext from 'providers/contexts/globalContext'
 
 export interface MyDrawerProps {
   isActive: boolean
@@ -18,7 +18,9 @@ export interface MyDrawerProps {
 
 const MyDrawer: React.FC<MyDrawerProps> = (props) => {
   const styles = useStyles()
-  const { isDark, setIsDark } = React.useContext<GlobalProps>(GlobalContext)
+
+  const ctx = React.useContext(GlobalContext)
+
   const menus = ['Menu1', 'Menu2', 'Menu3', 'Menu4']
 
   const list = () => (
@@ -32,8 +34,6 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
       </List>
     </>
   )
-
-  
 
   return (
     <Drawer anchor='left' open={props.isActive}>
@@ -53,8 +53,8 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
         style={{ marginLeft: 10 }}
         control={
           <Switch
-            checked={isDark}
-            onChange={() => setIsDark(!isDark)}
+            checked={ctx?.isDark}
+            onChange={() => ctx?.setIsDark((isDark) => !isDark)}
             name='checkedA'
             inputProps={{ 'aria-label': 'secondary checkbox' }}
           />

@@ -7,7 +7,7 @@ const Routes = () => {
     <Switch>
       <Route path='/users/new' component={NewUser} />
       <Route path='/users' component={Users} />
-      <Redirect from='/' exact to='/home' />
+      <Redirect from='/' exact to='/users' />
       <Redirect to='/not-found' />
     </Switch>
   )

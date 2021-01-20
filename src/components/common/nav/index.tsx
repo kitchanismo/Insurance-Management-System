@@ -1,15 +1,15 @@
-import MyDrawer from 'components/common/myDrawer'
 import * as React from 'react'
+
+import MyDrawer from 'components/common/myDrawer'
 import Typography from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar'
 import IconButton from '@material-ui/core/IconButton'
 import Toolbar from '@material-ui/core/Toolbar'
 import Menu from '@material-ui/icons/Menu'
-import styles from './index.module.css'
-import { Grid } from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
 
 const Nav: React.FC = () => {
-  const [title, setTitle] = React.useState('Add New User')
+  const [title, setTitle] = React.useState('User Management')
   const [isActive, setIsActive] = React.useState(false)
 
   const onToggle = (title?: string) => {
@@ -30,7 +30,7 @@ const Nav: React.FC = () => {
       <MyDrawer onToggle={onToggle} isActive={isActive}></MyDrawer>
       <Toolbar>
         <Grid container xs={12} justify='center'>
-          <Grid container xs={6} sm={4} md={2} justify='flex-start'>
+          <Grid container xs={1} sm={5} md={4} justify='flex-start'>
             <IconButton
               onClick={() => onToggle()}
               edge='start'
@@ -40,7 +40,7 @@ const Nav: React.FC = () => {
               <Menu />
             </IconButton>
           </Grid>
-          <Grid container xs={6} sm={4} md={2} justify='flex-end'>
+          <Grid container xs={11} sm={5} md={4} justify='flex-end'>
             <Typography style={{ paddingTop: 8 }} variant='h6'>
               {title}
             </Typography>

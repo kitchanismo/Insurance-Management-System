@@ -1,23 +1,20 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+
 import Grid from '@material-ui/core/Grid'
 import Fab from '@material-ui/core/Fab'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
+import InputAdornment from '@material-ui/core/InputAdornment'
 import IconButton from '@material-ui/core/IconButton'
-import User from 'models/user'
-import { UserCard } from './UserCard'
-import makeStyles from '@material-ui/styles/makeStyles'
-import createStyles from '@material-ui/styles/createStyles'
 import SearchIcon from '@material-ui/icons/Search'
 import AddIcon from '@material-ui/icons/Add'
 
-import { Theme } from '@material-ui/core/styles'
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 
-import {
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-} from '@material-ui/core'
+import User from 'models/user'
+import { UserCard } from './UserCard'
 
 export interface UsersProps {}
 

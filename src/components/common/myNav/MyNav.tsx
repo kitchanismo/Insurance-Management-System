@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { useHistory } from 'react-router-dom'
-import { MyDrawer } from 'components/Common/MyDrawer'
+
 import Typography from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar'
 import IconButton from '@material-ui/core/IconButton'
 import Toolbar from '@material-ui/core/Toolbar'
 import Menu from '@material-ui/icons/Menu'
 import Grid from '@material-ui/core/Grid'
+
+import { MyDrawer } from 'components/Common/MyDrawer'
 
 export const Nav: React.FC = () => {
   const history = useHistory()

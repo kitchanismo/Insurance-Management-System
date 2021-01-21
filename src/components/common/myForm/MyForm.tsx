@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Joi from 'joi'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
@@ -8,15 +8,16 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
+import DateFnsUtils from '@date-io/date-fns/build'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import Visibility from '@material-ui/icons/Visibility'
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/date-fns/build'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import classes from '*.module.css'
-import { OutlinedInput, InputAdornment } from '@material-ui/core'
-import { Visibility, VisibilityOff } from '@material-ui/icons'
 
 export interface MyFormProps<T> {
   state: [T, React.Dispatch<React.SetStateAction<T>>]

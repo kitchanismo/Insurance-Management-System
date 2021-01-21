@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
-import { Nav } from 'components/Common/MyNav'
+import React from 'react'
 import Container from '@material-ui/core/Container'
-import makeStyles from '@material-ui/core/styles/makeStyles'
-import { Layout } from 'components/Layout'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import { Nav } from 'components/Common/MyNav'
 import { MyAlert } from 'components/Common/MyAlert'
+import { Layout } from 'components/Layout'
 
 const App: React.FC = (props) => {
   const styles = useStyles()

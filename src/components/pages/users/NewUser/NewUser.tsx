@@ -1,11 +1,11 @@
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
-import { MyForm, MyFormProps, InputProps } from 'components/Common/MyForm'
-import User from 'models/user'
-import GlobalContext from 'providers/contexts/globalContext'
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import GlobalContext from 'providers/contexts/globalContext'
 import validator from './validator'
+import { MyForm, MyFormProps, InputProps } from 'components/Common/MyForm'
+import User from 'models/user'
 
 export interface NewUserProps {}
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
@@ -10,9 +11,9 @@ import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import Chip from '@material-ui/core/Chip'
 import userIcon from 'assets/profile-user.svg'
-import User from 'models/user'
-import { useHistory } from 'react-router-dom'
+
 import { MyCard } from 'components/Common/MyCard'
+import User from 'models/user'
 
 export interface UsersProps {
   user: Partial<User>

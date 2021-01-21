@@ -1,3 +1,4 @@
+import React from 'react'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ArrowBack from '@material-ui/icons/ArrowBack'
@@ -8,12 +9,11 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import IconButton from '@material-ui/core/IconButton'
 import Divider from '@material-ui/core/Divider'
-import * as React from 'react'
 import Grid from '@material-ui/core/Grid/Grid'
 import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import GlobalContext from 'providers/contexts/globalContext'
 import DashboardIcon from '@material-ui/icons/Dashboard'
+import GlobalContext from 'providers/contexts/globalContext'
 
 export interface MyDrawerProps {
   isActive: boolean

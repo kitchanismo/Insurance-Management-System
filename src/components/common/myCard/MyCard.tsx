@@ -1,11 +1,7 @@
-import * as React from 'react'
-import makeStyles from '@material-ui/styles/makeStyles'
-import createStyles from '@material-ui/styles/createStyles'
+import React from 'react'
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
-import { Theme } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import CardContent from '@material-ui/core/CardContent'
 
 export interface MyCardProps {
   title: any

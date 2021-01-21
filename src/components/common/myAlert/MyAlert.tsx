@@ -2,7 +2,8 @@ import React, { useContext } from 'react'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import Alert from '@material-ui/lab/Alert'
-import GlobalContext, { GlobalProps } from 'providers/contexts/globalContext'
+import GlobalContext from 'providers/contexts/globalContext'
+
 export interface MyAlertProps {}
 
 export const MyAlert: React.SFC<MyAlertProps> = () => {

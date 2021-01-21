@@ -52,7 +52,7 @@ export const UserCard: React.SFC<UsersProps> = ({ user }) => {
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <IconButton
-              onClick={() => history.push('users/' + user.id)}
+              onClick={() => history.push('/users/' + user.id)}
               aria-label='play/pause'
             >
               <img style={{ width: 100 }} src={userIcon} alt='User Logo' />
@@ -64,13 +64,13 @@ export const UserCard: React.SFC<UsersProps> = ({ user }) => {
       <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
       <Grid container xs={12} justify='space-evenly'>
         <IconButton
-          onClick={() => history.push('users/' + user.id)}
+          onClick={() => history.push('/users/' + user.id)}
           aria-label='view'
         >
           <ViewIcon />
         </IconButton>
         <IconButton
-          onClick={() => history.push('users/edit/' + user.id)}
+          onClick={() => history.push('/users/edit/' + user.id)}
           aria-label='edit'
         >
           <EditIcon />

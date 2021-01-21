@@ -23,9 +23,9 @@ export const Nav: React.FC = () => {
     }
 
     if (title === 'User Management') {
-      history.push('/users')
+      history.replace('/users')
     } else if (title === 'Dashboard') {
-      history.push('/')
+      history.replace('/')
     }
 
     setTitle(title)

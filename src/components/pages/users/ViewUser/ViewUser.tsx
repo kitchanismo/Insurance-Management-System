@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
+import EditIcon from '@material-ui/icons/Edit'
 import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
 import userIcon from 'assets/profile-user.svg'
@@ -13,6 +15,7 @@ import User from 'models/user'
 export interface ViewUserProps {}
 
 export const ViewUser: React.SFC<ViewUserProps> = () => {
+  const history = useHistory()
   const [user, setUser] = useState<Partial<User> | null>(null)
 
   useEffect(() => {
@@ -45,7 +48,15 @@ export const ViewUser: React.SFC<ViewUserProps> = () => {
   return (
     <Grid container xs={12}>
       {user && (
-        <MyCard title='Personal Details'>
+        <MyCard
+          title='Personal Details'
+          endIcon={
+            <EditIcon
+              style={{ color: 'white', marginTop: 5 }}
+              onClick={() => history.push('/users/edit/' + user.id)}
+            />
+          }
+        >
           <CardContent>
             <Grid container xs={12} justify='space-between'>
               <Grid

@@ -44,126 +44,118 @@ export const NewUser: React.SFC<NewUserProps> = () => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false)
 
   return (
-    <Grid container direction='column'>
-      <MyForm {...formProps}>
-        {({
-          myInput,
-          myInputPassword,
-          mySelect,
-          myDateTimePicker,
-          myButton,
-        }) => (
-          <>
-            {myInput({
-              label: 'Username',
-              value: newUser.username,
-              name: 'username',
-            })}
-            {myInputPassword({
-              label: 'Password',
-              value: newUser.password,
-              name: 'password',
-              type: isVisible ? 'text' : 'password',
-              onTogglePassword: setIsVisible,
-            })}
-            {myInput({
-              label: 'Firstname',
-              value: newUser.firstname,
-              name: 'firstname',
-            })}
-            {myInput({
-              label: 'Middlename',
-              value: newUser.middlename,
-              name: 'middlename',
-            })}
-            {myInput({
-              label: 'Lastname',
-              value: newUser.lastname,
-              name: 'lastname',
-            })}
-            {myInput({
-              label: 'Contact Number',
-              value: newUser.contact,
-              name: 'contact',
-            })}
+    <MyForm {...formProps}>
+      {({ myInput, myInputPassword, mySelect, myDateTimePicker, myButton }) => (
+        <>
+          {myInput({
+            label: 'Username',
+            value: newUser.username,
+            name: 'username',
+          })}
+          {myInputPassword({
+            label: 'Password',
+            value: newUser.password,
+            name: 'password',
+            type: isVisible ? 'text' : 'password',
+            onTogglePassword: setIsVisible,
+          })}
+          {myInput({
+            label: 'Firstname',
+            value: newUser.firstname,
+            name: 'firstname',
+          })}
+          {myInput({
+            label: 'Middlename',
+            value: newUser.middlename,
+            name: 'middlename',
+          })}
+          {myInput({
+            label: 'Lastname',
+            value: newUser.lastname,
+            name: 'lastname',
+          })}
+          {myInput({
+            label: 'Contact Number',
+            value: newUser.contact,
+            name: 'contact',
+          })}
 
-            {myInput({
-              label: 'Address',
-              value: newUser.address,
-              name: 'address',
-              isMultiline: true,
-            })}
-            {mySelect({
-              label: 'Gender',
-              value: newUser.gender,
-              name: 'gender',
-              options: ['Male', 'Female', 'Other'],
-            })}
-            {mySelect({
-              label: 'Civil Status',
-              value: newUser.civil,
-              name: 'civil',
-              options: ['Single', 'Married', 'Widowed'],
-            })}
+          {myInput({
+            label: 'Address',
+            value: newUser.address,
+            name: 'address',
+            isMultiline: true,
+          })}
+          {mySelect({
+            label: 'Gender',
+            value: newUser.gender,
+            name: 'gender',
+            options: ['Male', 'Female', 'Other'],
+          })}
+          {mySelect({
+            label: 'Civil Status',
+            value: newUser.civil,
+            name: 'civil',
+            options: ['Single', 'Married', 'Widowed'],
+          })}
 
-            {mySelect({
-              label: 'Position',
-              value: newUser.position,
-              name: 'position',
-              options: [
-                'Sales Agent',
-                'Branch Manager',
-                'Agency Manager',
-                'Supervisor',
-                'Admin',
-              ],
-            })}
+          {mySelect({
+            label: 'Position',
+            value: newUser.position,
+            name: 'position',
+            options: [
+              'Sales Agent',
+              'Branch Manager',
+              'Agency Manager',
+              'Supervisor',
+              'Admin',
+            ],
+          })}
 
-            {mySelect({
-              label: 'Branch',
-              value: newUser.branch,
-              name: 'branch',
-              options: ['CEBU', 'MAKATI', 'MANILA'],
-            })}
+          {mySelect({
+            label: 'Branch',
+            value: newUser.branch,
+            name: 'branch',
+            options: ['CEBU', 'MAKATI', 'MANILA'],
+          })}
 
-            {mySelect({
-              label: 'Team',
-              value: newUser.team,
-              name: 'team',
-              options: ['ABC', '123', 'XYZ'],
-            })}
+          {mySelect({
+            label: 'Team',
+            value: newUser.team,
+            name: 'team',
+            options: ['ABC', '123', 'XYZ'],
+          })}
 
-            {myDateTimePicker({
-              label: 'Birthdate',
-              value: newUser.birthdate,
-              name: 'birthdate',
-            })}
+          {myDateTimePicker({
+            label: 'Birthdate',
+            value: newUser.birthdate,
+            name: 'birthdate',
+          })}
 
-            <Grid
-              style={{ paddingLeft: 18, paddingTop: 10, paddingBottom: 5 }}
-              container
-              xs={12}
-              justify='center'
-              spacing={2}
-            >
-              <Grid item xs={6}>
-                <Button
-                  onClick={() => history.push('/users')}
-                  style={{ paddingTop: 15, paddingBottom: 15 }}
-                  fullWidth
-                  variant='contained'
-                  color='default'
-                >
-                  BACK
-                </Button>
-              </Grid>
-              <Grid item xs={6}>
-                {myButton()}
-              </Grid>
+          <Grid
+            style={{ paddingLeft: 18, paddingTop: 10, paddingBottom: 5 }}
+            container
+            xs={12}
+            justify='center'
+            spacing={2}
+          >
+            <Grid item xs={6}>
+              <Button
+                onClick={() => history.goBack()}
+                style={{ paddingTop: 15, paddingBottom: 15 }}
+                fullWidth
+                variant='contained'
+                color='default'
+              >
+                BACK
+              </Button>
             </Grid>
-          </>
-        )}
-      </MyForm>
-    </Grid>
+            <Grid item xs={6}>
+              {myButton()}
+            </Grid>
+          </Grid>
+        </>
+      )}
+    </MyForm>
   )
 }

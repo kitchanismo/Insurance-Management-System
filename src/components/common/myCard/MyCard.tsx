@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card'
 export interface MyCardProps {
   title: any
   style?: React.CSSProperties
+  endIcon?: JSX.Element
 }
 
 export const MyCard: React.FC<MyCardProps> = ({ title, style, ...props }) => {
@@ -13,9 +14,10 @@ export const MyCard: React.FC<MyCardProps> = ({ title, style, ...props }) => {
   return (
     <Card style={style}>
       <div className={styles.cardHeader}>
-        <Typography className={styles.titleHeader} component='h5' variant='h5'>
+        <Typography className={styles.titleHeader} component='h6' variant='h6'>
           {title}
         </Typography>
+        {props.endIcon}
       </div>
       {props.children}
     </Card>
@@ -25,8 +27,11 @@ export const MyCard: React.FC<MyCardProps> = ({ title, style, ...props }) => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     cardHeader: {
+      display: 'flex',
+      justifyContent: 'space-between',
       backgroundColor: theme.palette.primary.main,
       paddingLeft: 15,
+      paddingRight: 15,
       paddingTop: 10,
       paddingBottom: 10,
     },

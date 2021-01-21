@@ -7,14 +7,14 @@ import validator from '../validator'
 import { MyForm, MyFormProps, InputProps } from 'components/Common/MyForm'
 import User from 'models/user'
 
-export interface NewUserProps {}
+export interface EditUserProps {}
 
-export const NewUser: React.SFC<NewUserProps> = () => {
+export const EditUser: React.SFC<EditUserProps> = () => {
   const ctx = useContext(GlobalContext)
 
   const history = useHistory()
 
-  const [newUser, setNewUser] = React.useState<User>({
+  const [user, setUser] = React.useState<User>({
     username: '',
     password: '',
     firstname: '',
@@ -36,7 +36,7 @@ export const NewUser: React.SFC<NewUserProps> = () => {
   }
 
   const formProps: MyFormProps<User> = {
-    state: [newUser, setNewUser],
+    state: [user, setUser],
     onSubmit,
     validator,
   }
@@ -56,59 +56,59 @@ export const NewUser: React.SFC<NewUserProps> = () => {
           <>
             {myInput({
               label: 'Username',
-              value: newUser.username,
+              value: user.username,
               name: 'username',
             })}
             {myInputPassword({
               label: 'Password',
-              value: newUser.password,
+              value: user.password,
               name: 'password',
               type: isVisible ? 'text' : 'password',
               onTogglePassword: setIsVisible,
             })}
             {myInput({
               label: 'Firstname',
-              value: newUser.firstname,
+              value: user.firstname,
               name: 'firstname',
             })}
             {myInput({
               label: 'Middlename',
-              value: newUser.middlename,
+              value: user.middlename,
               name: 'middlename',
             })}
             {myInput({
               label: 'Lastname',
-              value: newUser.lastname,
+              value: user.lastname,
               name: 'lastname',
             })}
             {myInput({
               label: 'Contact Number',
-              value: newUser.contact,
+              value: user.contact,
               name: 'contact',
             })}
 
             {myInput({
               label: 'Address',
-              value: newUser.address,
+              value: user.address,
               name: 'address',
               isMultiline: true,
             })}
             {mySelect({
               label: 'Gender',
-              value: newUser.gender,
+              value: user.gender,
               name: 'gender',
               options: ['Male', 'Female', 'Other'],
             })}
             {mySelect({
               label: 'Civil Status',
-              value: newUser.civil,
+              value: user.civil,
               name: 'civil',
               options: ['Single', 'Married', 'Widowed'],
             })}
 
             {mySelect({
               label: 'Position',
-              value: newUser.position,
+              value: user.position,
               name: 'position',
               options: [
                 'Sales Agent',
@@ -121,21 +121,21 @@ export const NewUser: React.SFC<NewUserProps> = () => {
 
             {mySelect({
               label: 'Branch',
-              value: newUser.branch,
+              value: user.branch,
               name: 'branch',
               options: ['CEBU', 'MAKATI', 'MANILA'],
             })}
 
             {mySelect({
               label: 'Team',
-              value: newUser.team,
+              value: user.team,
               name: 'team',
               options: ['ABC', '123', 'XYZ'],
             })}
 
             {myDateTimePicker({
               label: 'Birthdate',
-              value: newUser.birthdate,
+              value: user.birthdate,
               name: 'birthdate',
             })}
 

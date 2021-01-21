@@ -65,14 +65,17 @@ export const UserCard: React.SFC<UsersProps> = ({ user }) => {
       <Grid container xs={12} justify='space-evenly'>
         <IconButton
           onClick={() => history.push('users/' + user.id)}
-          aria-label='previous'
+          aria-label='view'
         >
           <ViewIcon />
         </IconButton>
-        <IconButton aria-label='play/pause'>
+        <IconButton
+          onClick={() => history.push('users/edit/' + user.id)}
+          aria-label='edit'
+        >
           <EditIcon />
         </IconButton>
-        <IconButton aria-label='next'>
+        <IconButton aria-label='archive'>
           <DeleteIcon />
         </IconButton>
       </Grid>

@@ -64,10 +64,7 @@ export const Users: React.SFC<UsersProps> = () => {
             labelWidth={65}
             endAdornment={
               <InputAdornment position='end'>
-                <IconButton
-                  aria-label='toggle password visibility'
-                  onClick={() => history.push('/users/new')}
-                >
+                <IconButton aria-label='toggle password visibility'>
                   <SearchIcon />
                 </IconButton>
               </InputAdornment>

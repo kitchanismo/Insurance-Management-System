@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import MyForm, { MyFormProps, InputProps } from 'components/common/myForm'
+import { MyForm, MyFormProps, InputProps } from 'components/Common/MyForm'
 import User from 'models/user'
 import GlobalContext from 'providers/contexts/globalContext'
 import React, { useContext } from 'react'
@@ -9,7 +9,7 @@ import validator from './validator'
 
 export interface NewUserProps {}
 
-const NewUser: React.SFC<NewUserProps> = () => {
+export const NewUser: React.SFC<NewUserProps> = () => {
   const ctx = useContext(GlobalContext)
 
   const history = useHistory()
@@ -167,5 +167,3 @@ const NewUser: React.SFC<NewUserProps> = () => {
     </Grid>
   )
 }
-
-export default NewUser

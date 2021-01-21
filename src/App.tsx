@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
-import Nav from 'components/common/myNav'
+import { Nav } from 'components/Common/MyNav'
 import Container from '@material-ui/core/Container'
 import makeStyles from '@material-ui/core/styles/makeStyles'
-import Routes from 'components/routes'
+import { Layout } from 'components/Layout'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import MyAlert from 'components/common/myAlert'
+import { MyAlert } from 'components/Common/MyAlert'
 
 const App: React.FC = (props) => {
   const styles = useStyles()
@@ -15,7 +15,7 @@ const App: React.FC = (props) => {
       <MyAlert />
       <Nav></Nav>
       <Container maxWidth='xs' className={styles.container}>
-        <Routes></Routes>
+        <Layout />
       </Container>
     </>
   )

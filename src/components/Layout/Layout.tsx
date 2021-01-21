@@ -1,10 +1,10 @@
-import Dashboard from 'components/pages/dashboard'
-import Users from 'components/pages/users'
-import NewUser from 'components/pages/users/new'
-import ViewUser from 'components/pages/users/view'
+import { Dashboard } from 'components/Pages/Dashboard'
+import { Users } from 'components/Pages/Users'
+import { NewUser } from 'components/Pages/Users/NewUser'
+import { ViewUser } from 'components/Pages/Users/ViewUser'
 import { Route, Redirect, Switch } from 'react-router-dom'
 
-const Routes = () => {
+export const Layout = () => {
   return (
     <Switch>
       <Route path='/users/new' component={NewUser} />
@@ -16,5 +16,3 @@ const Routes = () => {
     </Switch>
   )
 }
-
-export default Routes

@@ -12,13 +12,13 @@ import Chip from '@material-ui/core/Chip'
 import userIcon from 'assets/profile-user.svg'
 import User from 'models/user'
 import { useHistory } from 'react-router-dom'
-import MyCard from 'components/common/myCard'
+import { MyCard } from 'components/Common/MyCard'
 
 export interface UsersProps {
   user: Partial<User>
 }
 
-const UserCard: React.SFC<UsersProps> = ({ user }) => {
+export const UserCard: React.SFC<UsersProps> = ({ user }) => {
   const history = useHistory()
   return (
     <MyCard title={user.username} style={{ paddingBottom: 5 }}>
@@ -78,5 +78,3 @@ const UserCard: React.SFC<UsersProps> = ({ user }) => {
     </MyCard>
   )
 }
-
-export default UserCard

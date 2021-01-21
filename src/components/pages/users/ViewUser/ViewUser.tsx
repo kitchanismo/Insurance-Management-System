@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
 import Chip from '@material-ui/core/Chip'
-import MyCard from 'components/common/myCard'
+import { MyCard } from 'components/Common/MyCard'
 import Divider from '@material-ui/core/Divider'
 import userIcon from 'assets/profile-user.svg'
 
@@ -12,7 +12,7 @@ import User from 'models/user'
 
 export interface ViewUserProps {}
 
-const ViewUser: React.SFC<ViewUserProps> = () => {
+export const ViewUser: React.SFC<ViewUserProps> = () => {
   const [user, setUser] = useState<Partial<User> | null>(null)
 
   useEffect(() => {
@@ -110,5 +110,3 @@ const ViewUser: React.SFC<ViewUserProps> = () => {
     </Grid>
   )
 }
-
-export default ViewUser

@@ -2,7 +2,7 @@ import React from 'react'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ArrowBack from '@material-ui/icons/ArrowBack'
-import UsersIcon from '@material-ui/icons/People'
+import EmployeesIcon from '@material-ui/icons/People'
 import ListItem from '@material-ui/core/ListItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid/Grid'
 import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import GlobalContext from 'providers/contexts/globalContext'
+import GlobalContext from 'contexts/globalContext'
 
 export interface MyDrawerProps {
   isActive: boolean
@@ -27,7 +27,7 @@ export const MyDrawer: React.FC<MyDrawerProps> = (props) => {
 
   const menus = [
     { name: 'Dashboard', icon: <DashboardIcon /> },
-    { name: 'User Management', icon: <UsersIcon /> },
+    { name: 'Employee Management', icon: <EmployeesIcon /> },
   ]
 
   const list = () => (

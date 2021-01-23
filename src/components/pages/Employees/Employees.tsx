@@ -13,16 +13,15 @@ import AddIcon from '@material-ui/icons/Add'
 
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 
-import User from 'models/user'
-import { UserCard } from './UserCard'
+import Employee from 'models/employee'
+import { EmployeeCard } from './EmployeeCard'
 
-export interface UsersProps {}
+export interface EmployeesProps {}
 
-export const Users: React.SFC<UsersProps> = () => {
-  const users: Partial<User>[] = [
+export const Employees: React.SFC<EmployeesProps> = () => {
+  const employees: Partial<Employee>[] = [
     {
       id: 1,
-      username: 'myusername',
       firstname: 'Firstname',
       middlename: 'Middlename',
       lastname: 'Lastname',
@@ -30,7 +29,6 @@ export const Users: React.SFC<UsersProps> = () => {
     },
     {
       id: 2,
-      username: 'urusername',
       firstname: 'Firstname',
       middlename: 'Middlename',
       lastname: 'Lastname',
@@ -39,7 +37,6 @@ export const Users: React.SFC<UsersProps> = () => {
     },
     {
       id: 3,
-      username: 'sample',
       firstname: 'Firstname',
       middlename: 'Middlename',
       lastname: 'Lastname',
@@ -80,15 +77,15 @@ export const Users: React.SFC<UsersProps> = () => {
         justify='flex-start'
         alignItems='center'
       >
-        {users.map((user) => (
-          <Grid key={user.id} item xs={12}>
-            <UserCard user={user} />
+        {employees.map((employee) => (
+          <Grid key={employee.id} item xs={12}>
+            <EmployeeCard employee={employee} />
           </Grid>
         ))}
       </Grid>
 
       <Fab
-        onClick={() => history.push('/users/new')}
+        onClick={() => history.push('/employees/new')}
         className={styles.fab}
         color='primary'
         aria-label='add'

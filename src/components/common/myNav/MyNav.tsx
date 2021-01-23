@@ -9,11 +9,35 @@ import Menu from '@material-ui/icons/Menu'
 import Grid from '@material-ui/core/Grid'
 
 import { MyDrawer } from 'components/Common/MyDrawer'
+import GlobalContext from 'contexts/globalContext'
 
 export const Nav: React.FC = () => {
+  const ctx = React.useContext(GlobalContext)
   const history = useHistory()
-  const [title, setTitle] = React.useState('User Management')
   const [isActive, setIsActive] = React.useState(false)
+
+  React.useEffect(() => {
+    console.log(history)
+    const path = history.location.pathname.substring(1)
+
+    if (path.includes('employees')) {
+      if (path.includes('new')) {
+        ctx?.setTitle('Add New Employee')
+        return
+      }
+      if (path.includes('edit')) {
+        ctx?.setTitle('Edit Employee')
+        return
+      }
+      ctx?.setTitle('Employee Management')
+      return
+    }
+
+    if (path.includes('dashboard')) {
+      ctx?.setTitle('Dashboard')
+      return
+    }
+  }, [])
 
   const onToggle = (title?: string) => {
     setIsActive((isActive) => !isActive)
@@ -22,13 +46,13 @@ export const Nav: React.FC = () => {
       return
     }
 
-    if (title === 'User Management') {
-      history.replace('/users')
+    if (title === 'Employee Management') {
+      history.replace('/employees')
     } else if (title === 'Dashboard') {
       history.replace('/')
     }
 
-    setTitle(title)
+    ctx?.setTitle(title)
   }
 
   return (
@@ -54,7 +78,7 @@ export const Nav: React.FC = () => {
           </Grid>
           <Grid container xs={11} sm={5} md={4} justify='flex-end'>
             <Typography style={{ paddingTop: 8 }} variant='h6'>
-              {title}
+              {ctx?.title}
             </Typography>
           </Grid>
         </Grid>

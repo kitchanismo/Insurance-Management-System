@@ -2,9 +2,7 @@ import Joi from 'joi'
 import Profile from './profile'
 
 //to give types in validator object
-interface User extends Profile {
-  username: string | Joi.StringSchema
-  password: string | Joi.StringSchema
+interface Employee extends Profile {
   branch: string | Joi.StringSchema | null
   position:
     | 'Sales Agent'
@@ -29,4 +27,4 @@ interface Team {
   branch?: string
 }
 
-export default User
+export default Employee

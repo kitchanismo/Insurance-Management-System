@@ -4,20 +4,23 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import Container from '@material-ui/core/Container'
 import { Dashboard } from 'components/Pages/Dashboard'
-import { Users } from 'components/Pages/Users'
-import { ViewUser } from 'components/Pages/Users/ViewUser'
-import { NewUser } from 'components/Pages/Users/NewUser'
-import { EditUser } from 'components/Pages/Users/EditUser'
+import { Employees } from 'components/Pages/Employees'
+import { ViewEmployee } from 'components/Pages/Employees/ViewEmployee'
+import { NewEmployee } from 'components/Pages/Employees/NewEmployee'
+import { EditEmployee } from 'components/Pages/Employees/EditEmployee'
 
 export const Layout = () => {
   const styles = useStyles()
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
-        <Route path='/users/new' component={NewUser} />
-        <Route path='/users/edit/:id' component={EditUser} />
-        <Route path='/users/:id' component={ViewUser} />
-        <Route path='/users' component={Users} />
+        <Route path='/employees/new' component={NewEmployee} />
+        <Route path='/employees/edit/:id' component={EditEmployee} />
+        <Route
+          path='/employees/:id'
+          render={(props) => <ViewEmployee title='View User' {...props} />}
+        />
+        <Route path='/employees' component={Employees} />
         <Route path='/' component={Dashboard} />
         <Redirect from='/' exact to='/dashboard' />
         <Redirect to='/not-found' />

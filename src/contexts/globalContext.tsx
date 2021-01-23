@@ -1,4 +1,3 @@
-import { Theme } from '@material-ui/core/styles'
 import React from 'react'
 
 export interface AlertProps {
@@ -7,11 +6,12 @@ export interface AlertProps {
 }
 
 export interface GlobalProps {
-  theme: Theme
   isDark: boolean
   setIsDark: React.Dispatch<React.SetStateAction<boolean>>
   alert: AlertProps | null
   setAlert: React.Dispatch<React.SetStateAction<AlertProps | null>>
+  title: string
+  setTitle: React.Dispatch<React.SetStateAction<string>>
 }
 
 const GlobalContext = React.createContext<GlobalProps | null>(null)

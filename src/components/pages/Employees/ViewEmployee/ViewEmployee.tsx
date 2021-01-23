@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import GlobalContext from 'contexts/globalContext'
 import { useHistory } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -10,18 +11,25 @@ import Divider from '@material-ui/core/Divider'
 import userIcon from 'assets/profile-user.svg'
 
 import { MyCard } from 'components/Common/MyCard'
-import User from 'models/user'
+import Employee from 'models/employee'
 
-export interface ViewUserProps {}
+export interface ViewUserProps {
+  title: string
+}
 
-export const ViewUser: React.SFC<ViewUserProps> = () => {
-  const history = useHistory()
-  const [user, setUser] = useState<Partial<User> | null>(null)
+export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
+  const ctx = useContext(GlobalContext)
 
   useEffect(() => {
-    setUser({
+    ctx?.setTitle('View Employee')
+  }, [])
+
+  const history = useHistory()
+  const [employee, setEmployee] = useState<Partial<Employee> | null>(null)
+
+  useEffect(() => {
+    setEmployee({
       id: 1,
-      username: 'kitchan',
       firstname: 'Firstname',
       middlename: 'Middlename',
       lastname: 'Lastname',
@@ -47,13 +55,13 @@ export const ViewUser: React.SFC<ViewUserProps> = () => {
 
   return (
     <Grid container xs={12}>
-      {user && (
+      {employee && (
         <MyCard
           title='Personal Details'
           endIcon={
             <EditIcon
               style={{ color: 'white', marginTop: 5 }}
-              onClick={() => history.push('/users/edit/' + user.id)}
+              onClick={() => history.push('/employees/edit/' + employee.id)}
             />
           }
         >
@@ -68,18 +76,18 @@ export const ViewUser: React.SFC<ViewUserProps> = () => {
                 justify='flex-start'
               >
                 <Typography component='h6' variant='h6'>
-                  {`${user.lastname}, ${user.firstname} ${user.middlename}`}
+                  {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
                 </Typography>
                 <Typography variant='subtitle1' color='textSecondary'>
-                  {user.position}
+                  {employee.position}
                 </Typography>
                 <Grid item xs={1}>
                   <Chip
                     style={{ marginTop: 5 }}
                     size='small'
-                    label={user.is_active ? 'Active' : 'Deactivate'}
+                    label={employee.is_active ? 'Active' : 'Deactivate'}
                     variant='default'
-                    color={user.is_active ? 'primary' : 'secondary'}
+                    color={employee.is_active ? 'primary' : 'secondary'}
                   />
                 </Grid>
               </Grid>
@@ -93,12 +101,12 @@ export const ViewUser: React.SFC<ViewUserProps> = () => {
           <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
           <CardContent>
             <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
-              {info('Username', user.username)}
-              {info('Gender', user.gender)}
-              {info('Civil Status', user.civil)}
-              {info('Contact', user.contact)}
+              {info('Gender', employee.gender)}
+              {info('Civil Status', employee.civil)}
+              {info('Contact', employee.contact)}
+              {info('Adddress', employee.address)}
 
-              <Grid
+              {/* <Grid
                 container
                 alignItems='center'
                 direction='column'
@@ -111,9 +119,9 @@ export const ViewUser: React.SFC<ViewUserProps> = () => {
                 <Typography variant='subtitle1' color='textSecondary'>
                   {user.address}
                 </Typography>
-              </Grid>
-              {info('Birthdate', user.birthdate || 'N/A')}
-              {info('Team', user.team || 'N/A')}
+              </Grid> */}
+              {info('Birthdate', employee.birthdate || 'N/A')}
+              {info('Team', employee.team || 'N/A')}
             </Grid>
           </CardContent>
         </MyCard>

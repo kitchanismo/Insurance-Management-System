@@ -1,18 +1,17 @@
 import React from 'react'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import Card from '@material-ui/core/Card'
+import Card, { CardProps } from '@material-ui/core/Card'
 
-export interface MyCardProps {
+export interface MyCardProps extends CardProps {
   title: any
-  style?: React.CSSProperties
   endIcon?: JSX.Element
 }
 
-export const MyCard: React.FC<MyCardProps> = ({ title, style, ...props }) => {
+export const MyCard: React.FC<MyCardProps> = ({ title, ...props }) => {
   const styles = useStyles()
   return (
-    <Card style={style}>
+    <Card {...props}>
       <div className={styles.cardHeader}>
         <Typography className={styles.titleHeader} component='h6' variant='h6'>
           {title}

@@ -2,14 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
-import { Provider } from 'providers'
+import { GlobalProvider } from 'providers'
 import './index.css'
 
 ReactDOM.render(
   <BrowserRouter>
-    <Provider>
+    <GlobalProvider>
       <App />
-    </Provider>
+    </GlobalProvider>
   </BrowserRouter>,
   document.getElementById('root'),
 )

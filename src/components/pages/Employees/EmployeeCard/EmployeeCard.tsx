@@ -13,16 +13,17 @@ import Chip from '@material-ui/core/Chip'
 import userIcon from 'assets/profile-user.svg'
 
 import { MyCard } from 'components/Common/MyCard'
-import User from 'models/user'
+import Employee from 'models/employee'
 
-export interface UsersProps {
-  user: Partial<User>
+export interface EmployeesProps {
+  employee: Partial<Employee>
 }
 
-export const UserCard: React.SFC<UsersProps> = ({ user }) => {
+export const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
   const history = useHistory()
+
   return (
-    <MyCard title={user.username} style={{ paddingBottom: 5 }}>
+    <MyCard title={employee.firstname} style={{ paddingBottom: 5 }}>
       <CardContent>
         <Grid container xs={12} justify='space-between'>
           <Grid
@@ -34,25 +35,25 @@ export const UserCard: React.SFC<UsersProps> = ({ user }) => {
             justify='flex-start'
           >
             <Typography component='h6' variant='h6'>
-              {`${user.lastname}, ${user.firstname} ${user.middlename}`}
+              {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {user.position}
+              {employee.position}
             </Typography>
 
             <Grid item xs={1}>
               <Chip
                 style={{ marginTop: 5 }}
                 size='small'
-                label={user.is_active ? 'Active' : 'Deactivate'}
+                label={employee.is_active ? 'Active' : 'Deactivate'}
                 variant='default'
-                color={user.is_active ? 'primary' : 'secondary'}
+                color={employee.is_active ? 'primary' : 'secondary'}
               />
             </Grid>
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <IconButton
-              onClick={() => history.push('/users/' + user.id)}
+              onClick={() => history.push('/employees/' + employee.id)}
               aria-label='play/pause'
             >
               <img style={{ width: 100 }} src={userIcon} alt='User Logo' />
@@ -64,13 +65,13 @@ export const UserCard: React.SFC<UsersProps> = ({ user }) => {
       <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
       <Grid container xs={12} justify='space-evenly'>
         <IconButton
-          onClick={() => history.push('/users/' + user.id)}
+          onClick={() => history.push('/employees/' + employee.id)}
           aria-label='view'
         >
           <ViewIcon />
         </IconButton>
         <IconButton
-          onClick={() => history.push('/users/edit/' + user.id)}
+          onClick={() => history.push('/employees/edit/' + employee.id)}
           aria-label='edit'
         >
           <EditIcon />

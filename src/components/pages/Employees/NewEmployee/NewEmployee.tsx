@@ -2,21 +2,19 @@ import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import GlobalContext from 'providers/contexts/globalContext'
+import GlobalContext from 'contexts/globalContext'
 import validator from '../validator'
-import { MyForm, MyFormProps } from 'components/Common/MyForm'
-import User from 'models/user'
+import { MyForm, MyFormProps, InputProps } from 'components/Common/MyForm'
+import Employee from 'models/employee'
 
-export interface EditUserProps {}
+export interface NewUserProps {}
 
-export const EditUser: React.SFC<EditUserProps> = () => {
+export const NewEmployee: React.SFC<NewUserProps> = () => {
   const ctx = useContext(GlobalContext)
 
   const history = useHistory()
 
-  const [user, setUser] = React.useState<User>({
-    username: '',
-    password: '',
+  const [employee, setEmployee] = React.useState<Employee>({
     firstname: '',
     middlename: '',
     lastname: '',
@@ -35,73 +33,59 @@ export const EditUser: React.SFC<EditUserProps> = () => {
     return Promise.resolve()
   }
 
-  const formProps: MyFormProps<User> = {
-    state: [user, setUser],
+  const formProps: MyFormProps<Employee> = {
+    state: [employee, setEmployee],
     onSubmit,
     validator,
   }
 
-  const [isVisible, setIsVisible] = React.useState<boolean>(false)
-
   return (
     <MyForm {...formProps}>
-      {({ myInput, myInputPassword, mySelect, myDateTimePicker, myButton }) => (
+      {({ myInput, mySelect, myDateTimePicker, myButton }) => (
         <>
           {myInput({
-            label: 'Username',
-            value: user.username,
-            name: 'username',
-          })}
-          {myInputPassword({
-            label: 'Password',
-            value: user.password,
-            name: 'password',
-            type: isVisible ? 'text' : 'password',
-            onTogglePassword: setIsVisible,
-          })}
-          {myInput({
             label: 'Firstname',
-            value: user.firstname,
+            value: employee.firstname,
             name: 'firstname',
           })}
           {myInput({
             label: 'Middlename',
-            value: user.middlename,
+            value: employee.middlename,
             name: 'middlename',
           })}
           {myInput({
             label: 'Lastname',
-            value: user.lastname,
+            value: employee.lastname,
             name: 'lastname',
           })}
           {myInput({
             label: 'Contact Number',
-            value: user.contact,
+            value: employee.contact,
             name: 'contact',
           })}
 
           {myInput({
             label: 'Address',
-            value: user.address,
+            value: employee.address,
             name: 'address',
             isMultiline: true,
           })}
           {mySelect({
             label: 'Gender',
-            value: user.gender,
+            value: employee.gender,
             name: 'gender',
             options: ['Male', 'Female', 'Other'],
           })}
           {mySelect({
             label: 'Civil Status',
-            value: user.civil,
+            value: employee.civil,
             name: 'civil',
             options: ['Single', 'Married', 'Widowed'],
           })}
 
           {mySelect({
             label: 'Position',
-            value: user.position,
+            value: employee.position,
             name: 'position',
             options: [
               'Sales Agent',
@@ -114,21 +98,21 @@ export const EditUser: React.SFC<EditUserProps> = () => {
 
           {mySelect({
             label: 'Branch',
-            value: user.branch,
+            value: employee.branch,
             name: 'branch',
             options: ['CEBU', 'MAKATI', 'MANILA'],
           })}
 
           {mySelect({
             label: 'Team',
-            value: user.team,
+            value: employee.team,
             name: 'team',
             options: ['ABC', '123', 'XYZ'],
           })}
 
           {myDateTimePicker({
             label: 'Birthdate',
-            value: user.birthdate,
+            value: employee.birthdate,
             name: 'birthdate',
           })}
 

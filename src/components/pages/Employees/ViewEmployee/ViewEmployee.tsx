@@ -104,24 +104,23 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
               {info('Gender', employee.gender)}
               {info('Civil Status', employee.civil)}
               {info('Contact', employee.contact)}
-              {info('Adddress', employee.address)}
-
-              {/* <Grid
-                container
-                alignItems='center'
-                direction='column'
-                item
-                xs={12}
-              >
-                <Typography component='h6' variant='h6'>
-                  Address
-                </Typography>
-                <Typography variant='subtitle1' color='textSecondary'>
-                  {user.address}
-                </Typography>
-              </Grid> */}
               {info('Birthdate', employee.birthdate || 'N/A')}
-              {info('Team', employee.team || 'N/A')}
+              {
+                <Grid
+                  container
+                  alignItems='center'
+                  direction='column'
+                  item
+                  xs={12}
+                >
+                  <Typography component='h6' variant='h6'>
+                    Address
+                  </Typography>
+                  <Typography variant='subtitle1' color='textSecondary'>
+                    {employee.address}
+                  </Typography>
+                </Grid>
+              }
             </Grid>
           </CardContent>
         </MyCard>

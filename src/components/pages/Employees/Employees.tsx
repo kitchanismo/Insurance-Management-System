@@ -42,6 +42,14 @@ export const Employees: React.SFC<EmployeesProps> = () => {
       lastname: 'Lastname',
       position: 'Branch Manager',
     },
+
+    {
+      id: 4,
+      firstname: 'Firstname',
+      middlename: 'Middlename',
+      lastname: 'Lastname',
+      position: 'Supervisor',
+    },
   ]
 
   const history = useHistory()

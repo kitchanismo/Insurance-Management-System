@@ -45,9 +45,15 @@ export const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
               <Chip
                 style={{ marginTop: 5 }}
                 size='small'
-                label={employee.is_active ? 'Active' : 'Deactivate'}
+                label={employee.status}
                 variant='default'
-                color={employee.is_active ? 'primary' : 'secondary'}
+                color={
+                  employee.status !== 'active'
+                    ? employee.status === 'deactive'
+                      ? 'secondary'
+                      : 'default'
+                    : 'primary'
+                }
               />
             </Grid>
           </Grid>

@@ -13,7 +13,7 @@ interface Employee extends Profile {
     | null
   branch: string | Joi.StringSchema | null
   team?: string | Joi.StringSchema | null
-  is_active?: boolean
+  status?: 'active' | 'deactive' | 'deceased'
   is_delete?: boolean
   commission_amount?: number
   is_darkmode?: boolean

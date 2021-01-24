@@ -38,7 +38,7 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
       gender: 'Male',
       address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
       contact: '09234545866',
-      is_active: true,
+      status: 'active',
     })
   }, [])
 
@@ -85,9 +85,11 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
                   <Chip
                     style={{ marginTop: 5 }}
                     size='small'
-                    label={employee.is_active ? 'Active' : 'Deactivate'}
+                    label={employee.status}
                     variant='default'
-                    color={employee.is_active ? 'primary' : 'secondary'}
+                    color={
+                      employee.status !== 'active' ? 'secondary' : 'primary'
+                    }
                   />
                 </Grid>
               </Grid>

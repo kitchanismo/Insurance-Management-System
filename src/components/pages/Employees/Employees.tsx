@@ -26,6 +26,7 @@ export const Employees: React.SFC<EmployeesProps> = () => {
       middlename: 'Middlename',
       lastname: 'Lastname',
       position: 'Admin',
+      status: 'deactive',
     },
     {
       id: 2,
@@ -33,7 +34,7 @@ export const Employees: React.SFC<EmployeesProps> = () => {
       middlename: 'Middlename',
       lastname: 'Lastname',
       position: 'Sales Agent',
-      is_active: true,
+      status: 'active',
     },
     {
       id: 3,
@@ -41,6 +42,7 @@ export const Employees: React.SFC<EmployeesProps> = () => {
       middlename: 'Middlename',
       lastname: 'Lastname',
       position: 'Branch Manager',
+      status: 'deceased',
     },
 
     {
@@ -49,6 +51,7 @@ export const Employees: React.SFC<EmployeesProps> = () => {
       middlename: 'Middlename',
       lastname: 'Lastname',
       position: 'Supervisor',
+      status: 'active',
     },
   ]
 

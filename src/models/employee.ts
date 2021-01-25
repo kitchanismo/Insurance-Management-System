@@ -8,7 +8,6 @@ interface Employee extends Profile {
     | 'Branch Manager'
     | 'Agency Manager'
     | 'Supervisor'
-    | 'Admin'
     | Joi.StringSchema
     | null
   branch: string | Joi.StringSchema | null

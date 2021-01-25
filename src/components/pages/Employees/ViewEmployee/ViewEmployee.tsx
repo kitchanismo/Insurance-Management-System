@@ -3,12 +3,14 @@ import GlobalContext from 'contexts/globalContext'
 import { useHistory } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
 import userIcon from 'assets/profile-user.svg'
+import { calculateAge } from 'utils/helper'
 
 import { MyCard } from 'components/Common/MyCard'
 import Employee from 'models/employee'
@@ -39,6 +41,7 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
       address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
       contact: '09234545866',
       status: 'active',
+      birthdate: new Date('10/03/1991'),
     })
   }, [])
 
@@ -56,76 +59,102 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   return (
     <Grid container xs={12}>
       {employee && (
-        <MyCard
-          title='Personal Details'
-          endIcon={
-            <EditIcon
-              style={{ color: 'white', marginTop: 5 }}
-              onClick={() => history.push('/employees/edit/' + employee.id)}
-            />
-          }
-        >
-          <CardContent>
-            <Grid container xs={12} justify='space-between'>
-              <Grid
-                style={{ paddingLeft: 10 }}
-                container
-                direction='column'
-                item
-                xs={7}
-                justify='flex-start'
-              >
-                <Typography component='h6' variant='h6'>
-                  {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
-                </Typography>
-                <Typography variant='subtitle1' color='textSecondary'>
-                  {employee.position}
-                </Typography>
-                <Grid item xs={1}>
-                  <Chip
-                    style={{ marginTop: 5 }}
-                    size='small'
-                    label={employee.status}
-                    variant='default'
-                    color={
-                      employee.status !== 'active' ? 'secondary' : 'primary'
-                    }
-                  />
-                </Grid>
-              </Grid>
-              <Grid container item xs={5} justify='center' alignItems='center'>
-                <IconButton aria-label='play/pause'>
-                  <img style={{ width: 100 }} src={userIcon} alt='User Logo' />
-                </IconButton>
-              </Grid>
-            </Grid>
-          </CardContent>
-          <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
-          <CardContent>
-            <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
-              {info('Gender', employee.gender)}
-              {info('Civil Status', employee.civil)}
-              {info('Contact', employee.contact)}
-              {info('Birthdate', employee.birthdate || 'N/A')}
-              {
+        <>
+          <MyCard
+            title='Personal Details'
+            endIcon={
+              <EditIcon
+                style={{ color: 'white', marginTop: 5 }}
+                onClick={() => history.push('/employees/edit/' + employee.id)}
+              />
+            }
+          >
+            <CardContent>
+              <Grid container xs={12} justify='space-between'>
                 <Grid
+                  style={{ paddingLeft: 10 }}
                   container
-                  alignItems='center'
                   direction='column'
                   item
-                  xs={12}
+                  xs={7}
+                  justify='flex-start'
                 >
                   <Typography component='h6' variant='h6'>
-                    Address
+                    {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
                   </Typography>
                   <Typography variant='subtitle1' color='textSecondary'>
-                    {employee.address}
+                    {employee.position}
                   </Typography>
+                  <Grid item xs={1}>
+                    <Chip
+                      style={{ marginTop: 5 }}
+                      size='small'
+                      label={employee.status}
+                      variant='default'
+                      color={
+                        employee.status !== 'active' ? 'secondary' : 'primary'
+                      }
+                    />
+                  </Grid>
                 </Grid>
-              }
-            </Grid>
-          </CardContent>
-        </MyCard>
+                <Grid
+                  container
+                  item
+                  xs={5}
+                  justify='center'
+                  alignItems='center'
+                >
+                  <IconButton aria-label='play/pause'>
+                    <img
+                      style={{ width: 100 }}
+                      src={userIcon}
+                      alt='User Logo'
+                    />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </CardContent>
+            <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
+            <CardContent>
+              <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
+                {info('Gender', employee.gender)}
+                {info('Civil Status', employee.civil)}
+                {info('Contact', employee.contact)}
+                {info(
+                  'Age',
+                  employee.birthdate ? calculateAge(employee.birthdate) : 'N/A',
+                )}
+                {
+                  <Grid
+                    container
+                    alignItems='center'
+                    direction='column'
+                    item
+                    xs={12}
+                  >
+                    <Typography component='h6' variant='h6'>
+                      Address
+                    </Typography>
+                    <Typography variant='subtitle1' color='textSecondary'>
+                      {employee.address}
+                    </Typography>
+                  </Grid>
+                }
+              </Grid>
+            </CardContent>
+          </MyCard>
+          <Grid style={{ marginTop: 15 }} container xs={5}>
+            <Button
+              onClick={() => history.goBack()}
+              style={{ paddingTop: 15, paddingBottom: 15 }}
+              fullWidth
+              variant='contained'
+              color='default'
+            >
+              BACK
+            </Button>
+          </Grid>
+        </>
       )}
     </Grid>
   )

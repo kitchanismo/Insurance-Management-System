@@ -16,7 +16,7 @@ export const MyCard: React.FC<MyCardProps> = ({ title, ...props }) => {
         <Typography className={styles.titleHeader} component='h6' variant='h6'>
           {title}
         </Typography>
-        {props.endIcon}
+        {props?.endIcon}
       </div>
       {props.children}
     </Card>
@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     cardHeader: {
       display: 'flex',
+      minWidth: 444,
       justifyContent: 'space-between',
       backgroundColor: theme.palette.primary.main,
       paddingLeft: 15,

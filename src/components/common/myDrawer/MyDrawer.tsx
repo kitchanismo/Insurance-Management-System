@@ -3,6 +3,7 @@ import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import EmployeesIcon from '@material-ui/icons/People'
+import ClientIcon from '@material-ui/icons/SupervisedUserCircle'
 import ListItem from '@material-ui/core/ListItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -14,6 +15,7 @@ import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import GlobalContext from 'contexts/globalContext'
+import { useHistory } from 'react-router-dom'
 
 export interface MyDrawerProps {
   isActive: boolean
@@ -23,11 +25,18 @@ export interface MyDrawerProps {
 export const MyDrawer: React.FC<MyDrawerProps> = (props) => {
   const styles = useStyles()
 
+  const history = useHistory()
+
   const ctx = React.useContext(GlobalContext)
 
   const menus = [
-    { name: 'Dashboard', icon: <DashboardIcon /> },
-    { name: 'Employee Management', icon: <EmployeesIcon /> },
+    { name: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
+    {
+      name: 'Employee Management',
+      path: '/employees',
+      icon: <EmployeesIcon />,
+    },
+    { name: 'Client Management', path: '/clients', icon: <ClientIcon /> },
   ]
 
   const list = () => (
@@ -39,7 +48,10 @@ export const MyDrawer: React.FC<MyDrawerProps> = (props) => {
 
             <ListItemText
               primary={menu.name}
-              onClick={() => props.onToggle(menu.name)}
+              onClick={() => {
+                props.onToggle(menu.name)
+                history.replace(menu.path)
+              }}
             />
           </ListItem>
         ))}

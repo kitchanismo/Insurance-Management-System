@@ -46,12 +46,6 @@ export const Nav: React.FC = () => {
       return
     }
 
-    if (title === 'Employee Management') {
-      history.replace('/employees')
-    } else if (title === 'Dashboard') {
-      history.replace('/')
-    }
-
     ctx?.setTitle(title)
   }
 

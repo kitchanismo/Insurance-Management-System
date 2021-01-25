@@ -1,5 +1,4 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { MyCard } from 'components/Common/MyCard'
 
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
@@ -10,20 +9,22 @@ import ViewIcon from '@material-ui/icons/RemoveRedEye'
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import Chip from '@material-ui/core/Chip'
-
-import { MyCard } from 'components/Common/MyCard'
+import Avatar from '@material-ui/core/Avatar'
+import userIcon from 'assets/profile-user.svg'
+import Client from 'models/client'
+import { useHistory } from 'react-router-dom'
+import { getTotalCountPayment } from 'utils/helper'
 import { MyAvatar } from 'components/Common/MyAvatar'
-import Employee from 'models/employee'
 
-export interface EmployeesProps {
-  employee: Partial<Employee>
+export interface ClientCardProps {
+  client: Partial<Client>
 }
 
-export const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
+export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
   const history = useHistory()
 
   return (
-    <MyCard title={employee.firstname} style={{ paddingBottom: 5 }}>
+    <MyCard title={client.code} style={{ paddingBottom: 5 }}>
       <CardContent>
         <Grid container xs={12} justify='space-between'>
           <Grid
@@ -35,31 +36,29 @@ export const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
             justify='flex-start'
           >
             <Typography component='h6' variant='h6'>
-              {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
+              {`${client.lastname}, ${client.firstname} ${client.middlename}`}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {employee.position}
+              {client.plan}
             </Typography>
-
             <Grid item xs={1}>
               <Chip
                 style={{ marginTop: 5 }}
                 size='small'
-                label={employee.status}
-                variant='default'
-                color={
-                  employee.status !== 'active'
-                    ? employee.status === 'deactive'
-                      ? 'secondary'
-                      : 'default'
-                    : 'primary'
+                label={
+                  client.payment_count +
+                  '/' +
+                  getTotalCountPayment(client.payment_period || null) +
+                  ' Paid'
                 }
+                variant='default'
+                color='secondary'
               />
             </Grid>
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <MyAvatar
-              onClick={() => () => history.push('/employees/' + employee.id)}
+              onClick={() => () => history.push('/clients/' + client.id)}
             />
           </Grid>
         </Grid>
@@ -68,13 +67,13 @@ export const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
       <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
       <Grid container xs={12} justify='space-evenly'>
         <IconButton
-          onClick={() => history.push('/employees/' + employee.id)}
+          onClick={() => history.push('/clients/' + client.id)}
           aria-label='view'
         >
           <ViewIcon />
         </IconButton>
         <IconButton
-          onClick={() => history.push('/employees/edit/' + employee.id)}
+          onClick={() => history.push('/clients/edit/' + client.id)}
           aria-label='edit'
         >
           <EditIcon />

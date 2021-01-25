@@ -61,3 +61,47 @@ export const getDecodeToken: any = () => {
     return null
   }
 }
+
+export const calculateAge = (date: any) => {
+  if (!date) return 0
+  const birthdate = new Date(new Date(date).toLocaleDateString())
+
+  const ageDif = Date.now() - birthdate.getTime()
+  const ageDate = new Date(ageDif)
+  return Math.abs(ageDate.getUTCFullYear() - 1970)
+}
+
+export const getNumberWithOrdinal = (num: number) => {
+  var s = ['th', 'st', 'nd', 'rd'],
+    v = num % 100
+  return num + (s[(v - 20) % 10] || s[v] || s[0])
+}
+
+export const getTotalCountPayment = (
+  payment_period: 'Monthly' | 'Quarterly' | 'Semi-Annually' | 'Annually' | null,
+) => {
+  let period: number = 0
+
+  switch (payment_period) {
+    case 'Monthly':
+      period = 12
+      break
+    case 'Quarterly':
+      period = 4
+      break
+    case 'Semi-Annually':
+      period = 2
+      break
+    case 'Annually':
+      period = 1
+      break
+    case null:
+      period = 0
+      break
+    default:
+      period = 0
+      break
+  }
+
+  return period * 5
+}

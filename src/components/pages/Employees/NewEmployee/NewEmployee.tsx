@@ -6,6 +6,7 @@ import GlobalContext from 'contexts/globalContext'
 import validator from '../validator'
 import { MyForm, MyFormProps, InputProps } from 'components/Common/MyForm'
 import Employee from 'models/employee'
+import { EmployeesProps } from '../Employees'
 
 export interface NewUserProps {}
 
@@ -15,7 +16,7 @@ export const NewEmployee: React.SFC<NewUserProps> = () => {
   const history = useHistory()
 
   const [employee, setEmployee] = React.useState<Employee>({
-    firstname: '',
+    firstname: 'dfdf',
     middlename: '',
     lastname: '',
     address: '',
@@ -28,7 +29,8 @@ export const NewEmployee: React.SFC<NewUserProps> = () => {
     team: null,
   })
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: Employee) => {
+    console.log(data)
     ctx?.setAlert({ message: 'Successfully added', type: 'success' })
     return Promise.resolve()
   }

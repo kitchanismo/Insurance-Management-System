@@ -41,6 +41,7 @@ export const alphaNumeric = (label: string) => {
 export const notNull = (label: string) => {
   return Joi.required()
     .not(null)
+    .not('')
     .messages({
       'any.invalid': `"${label}" is required`,
     })

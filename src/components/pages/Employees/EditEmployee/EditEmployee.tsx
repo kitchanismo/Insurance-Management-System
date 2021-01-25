@@ -15,11 +15,11 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
   const history = useHistory()
 
   const [employee, setEmployee] = React.useState<Employee>({
-    firstname: '',
-    middlename: '',
-    lastname: '',
-    address: '',
-    contact: '',
+    firstname: 'sds',
+    middlename: 'dfdf',
+    lastname: 'fgf',
+    address: 'fgf',
+    contact: 'fgfg',
     gender: null,
     civil: null,
     birthdate: null,
@@ -28,7 +28,8 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
     team: null,
   })
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: Employee) => {
+    console.log(data)
     ctx?.setAlert({ message: 'Successfully added', type: 'success' })
     return Promise.resolve()
   }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, RefObject, MutableRefObject } from 'react'
 import Joi from 'joi'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
@@ -18,10 +18,11 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers'
+import { endOfYesterday } from 'date-fns'
 
 export interface MyFormProps<T> {
   state: [T, React.Dispatch<React.SetStateAction<T>>]
-  onSubmit: () => Promise<any>
+  onSubmit: (data: T) => Promise<any>
   validator?: {}
   children?: (props: RenderProps) => JSX.Element
 }
@@ -55,12 +56,12 @@ export function MyForm<T>(props: MyFormProps<T>) {
 
   const [errors, setErrors] = React.useState<any>(null)
 
-  const onValidate = () => {
+  const onValidate = (_data: T) => {
     const schema = Joi.object(props.validator).options({
       abortEarly: false,
     })
 
-    const { error } = schema.validate(data)
+    const { error } = schema.validate(_data)
 
     if (!error) return null
 
@@ -71,10 +72,15 @@ export function MyForm<T>(props: MyFormProps<T>) {
     return _errors
   }
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: any) => {
     e.preventDefault()
 
-    const hasErrors = onValidate()
+    const newData = { ...data } as any
+
+    for (let [key, value] of new FormData(e.target).entries()) {
+      newData[key] = value
+    }
+    const hasErrors = onValidate(newData)
 
     setIsDisable(true)
 
@@ -85,7 +91,7 @@ export function MyForm<T>(props: MyFormProps<T>) {
     }
 
     return props
-      .onSubmit()
+      .onSubmit(newData)
       .then(() => {
         setErrors({})
         setIsDisable(false)
@@ -95,28 +101,19 @@ export function MyForm<T>(props: MyFormProps<T>) {
       })
   }
 
-  const onChange = (e: any) => {
-    const { value, name } = e.target
-
-    setData({
-      ...data,
-      [name]: value,
-    })
-  }
-
   const myInput = (input: InputProps) => {
     const error = errors && errors[input.name]
+
     return (
       <Grid item xs={12} key={input.name}>
         <TextField
+          defaultValue={input.value}
           multiline={input.isMultiline}
           fullWidth
           name={input.name}
           variant='outlined'
           label={input.label}
           type={input.type}
-          value={input.value}
-          onChange={onChange}
           error={!!error}
           helperText={error}
         />
@@ -132,11 +129,10 @@ export function MyForm<T>(props: MyFormProps<T>) {
         <FormControl fullWidth variant='outlined' error={!!error}>
           <InputLabel htmlFor={input.label}>{input.label}</InputLabel>
           <OutlinedInput
+            defaultValue={input.value}
             id={input.name}
             name={input.name}
             type={input.type}
-            value={input.value}
-            onChange={onChange}
             labelWidth={70}
             endAdornment={
               <InputAdornment position='end'>
@@ -203,7 +199,13 @@ export function MyForm<T>(props: MyFormProps<T>) {
             id={select.name}
             name={select.name}
             value={select.value === null ? '' : select.value}
-            onChange={onChange}
+            onChange={(e: any) => {
+              const { value, name } = e.target
+              setData({
+                ...data,
+                [name]: value,
+              })
+            }}
             labelWidth={60}
           >
             {select.options.map((option, index) => (
@@ -220,6 +222,7 @@ export function MyForm<T>(props: MyFormProps<T>) {
     return (
       <Grid item xs={12}>
         <Button
+          disabled={isDisable}
           style={{ paddingTop: 15, paddingBottom: 15 }}
           fullWidth
           type='submit'

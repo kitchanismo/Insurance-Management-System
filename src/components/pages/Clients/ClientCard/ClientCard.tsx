@@ -57,9 +57,7 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
             </Grid>
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
-            <MyAvatar
-              onClick={() => () => history.push('/clients/' + client.id)}
-            />
+            <MyAvatar onClick={() => history.push('/clients/' + client.id)} />
           </Grid>
         </Grid>
       </CardContent>

@@ -9,12 +9,14 @@ import { ViewEmployee } from 'components/Pages/Employees/ViewEmployee'
 import { NewEmployee } from 'components/Pages/Employees/NewEmployee'
 import { EditEmployee } from 'components/Pages/Employees/EditEmployee'
 import { Clients } from 'components/Pages/Clients'
+import { ViewClient } from 'components/Pages/Clients/ViewClient'
 
 export const Layout = () => {
   const styles = useStyles()
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
+        <Route path='/clients/:id' component={ViewClient} />
         <Route path='/clients' component={Clients} />
         <Route path='/employees/new' component={NewEmployee} />
         <Route path='/employees/edit/:id' component={EditEmployee} />

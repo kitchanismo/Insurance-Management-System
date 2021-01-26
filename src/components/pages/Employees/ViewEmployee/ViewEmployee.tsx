@@ -41,11 +41,12 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
       address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
       contact: '09234545866',
       status: 'active',
+
       birthdate: new Date('10/03/1991'),
     })
   }, [])
 
-  const info = (title: string, subtitle: any) => (
+  const detail = (title: string, subtitle: any) => (
     <Grid container alignItems='center' direction='column' item xs={6}>
       <Typography component='h6' variant='h6'>
         {title}
@@ -61,7 +62,7 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
       {employee && (
         <>
           <MyCard
-            title='Personal Details'
+            title='Employee Details'
             endIcon={
               <EditIcon
                 style={{ color: 'white', marginTop: 5 }}
@@ -117,10 +118,10 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
             <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
             <CardContent>
               <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
-                {info('Gender', employee.gender)}
-                {info('Civil Status', employee.civil)}
-                {info('Contact', employee.contact)}
-                {info(
+                {detail('Gender', employee.gender)}
+                {detail('Civil Status', employee.civil)}
+                {detail('Contact', employee.contact)}
+                {detail(
                   'Age',
                   employee.birthdate ? calculateAge(employee.birthdate) : 'N/A',
                 )}

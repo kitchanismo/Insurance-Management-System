@@ -17,6 +17,7 @@ interface Client extends Profile {
   payment_period: 'Monthly' | 'Quarterly' | 'Semi-Annually' | 'Annually'
   is_delete: boolean
   end_date: Date
+  branch: string
   initials: string
   created_at: Date
 }

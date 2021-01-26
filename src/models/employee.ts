@@ -3,14 +3,14 @@ import Profile from './profile'
 
 //to give types in validator object
 interface Employee extends Profile {
-  position:
+  position?:
     | 'Sales Agent'
     | 'Branch Manager'
     | 'Agency Manager'
     | 'Supervisor'
     | Joi.StringSchema
     | null
-  branch: string | Joi.StringSchema | null
+  branch?: string | Joi.StringSchema | null
   team?: string | Joi.StringSchema | null
   status?: 'active' | 'deactive' | 'deceased'
   is_delete?: boolean

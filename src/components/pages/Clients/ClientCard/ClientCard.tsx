@@ -39,7 +39,7 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
               {`${client.lastname}, ${client.firstname} ${client.middlename}`}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {client.plan}
+              {client.plan + ' - ' + client.payment_mode}
             </Typography>
             <Grid item xs={1}>
               <Chip

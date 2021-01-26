@@ -144,16 +144,35 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
               </Grid>
             </CardContent>
           </MyCard>
-          <Grid style={{ marginTop: 15 }} container xs={5}>
-            <Button
-              onClick={() => history.goBack()}
-              style={{ paddingTop: 15, paddingBottom: 15 }}
-              fullWidth
-              variant='contained'
-              color='default'
-            >
-              BACK
-            </Button>
+          <Grid
+            style={{ paddingLeft: 18, paddingTop: 10, paddingBottom: 5 }}
+            container
+            xs={12}
+            justify='center'
+            spacing={2}
+          >
+            <Grid item xs={6}>
+              <Button
+                onClick={() => history.goBack()}
+                style={{ paddingTop: 15, paddingBottom: 15 }}
+                fullWidth
+                variant='contained'
+                color='default'
+              >
+                BACK
+              </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                onClick={() => history.push('/employees/edit/' + employee.id)}
+                style={{ paddingTop: 15, paddingBottom: 15 }}
+                fullWidth
+                variant='contained'
+                color='primary'
+              >
+                EDIT
+              </Button>
+            </Grid>
           </Grid>
         </>
       )}

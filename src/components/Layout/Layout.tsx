@@ -10,12 +10,14 @@ import { NewEmployee } from 'components/Pages/Employees/NewEmployee'
 import { EditEmployee } from 'components/Pages/Employees/EditEmployee'
 import { Clients } from 'components/Pages/Clients'
 import { ViewClient } from 'components/Pages/Clients/ViewClient'
+import { NewClient } from 'components/Pages/Clients/NewClient'
 
 export const Layout = () => {
   const styles = useStyles()
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
+        <Route path='/clients/new' component={NewClient} />
         <Route path='/clients/:id' component={ViewClient} />
         <Route path='/clients' component={Clients} />
         <Route path='/employees/new' component={NewEmployee} />
@@ -36,6 +38,7 @@ export const Layout = () => {
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: 20,
+    paddingTop: 80,
     height: '100%',
     backgroundColor: theme.palette.background.default,
   },

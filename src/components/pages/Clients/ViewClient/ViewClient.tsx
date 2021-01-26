@@ -30,12 +30,12 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
     balance: 20000,
     plan: 'Plan 2',
     payment_period: 'Monthly',
-    initials: 'FM',
     civil: 'Single',
     gender: 'Male',
     address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
     contact: '09234545866',
     branch: 'Somewhere',
+    payment_mode: 'Installment',
     birthdate: new Date('10/03/1991'),
     end_date: new Date('09/06/2025'),
   })
@@ -78,7 +78,7 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
                     {`${client.lastname}, ${client.firstname} ${client.middlename}`}
                   </Typography>
                   <Typography variant='subtitle1' color='textSecondary'>
-                    {client.plan}
+                    {client.plan + ' - ' + client.payment_mode}
                   </Typography>
 
                   <Grid item xs={1}>
@@ -110,6 +110,9 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
                       alt='User Logo'
                     />
                   </IconButton>
+                  <Typography variant='subtitle1' color='textSecondary'>
+                    {client.code}
+                  </Typography>
                 </Grid>
               </Grid>
             </CardContent>
@@ -119,7 +122,7 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
                 {detail('Period ', client.payment_period)}
                 {detail('Balance', 'Php ' + client.balance)}
                 {detail('Branch', client.branch)}
-                {detail('End', client.end_date?.toLocaleDateString())}
+                {detail('Ended', client.end_date?.toLocaleDateString())}
               </Grid>
             </CardContent>
             <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>

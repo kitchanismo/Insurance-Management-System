@@ -10,8 +10,10 @@ import Grid from '@material-ui/core/Grid'
 
 import { MyDrawer } from 'components/Common/MyDrawer'
 import GlobalContext from 'contexts/globalContext'
+import useScrollTrigger from '@material-ui/core/useScrollTrigger'
+import Slide from '@material-ui/core/Slide'
 
-export const Nav: React.FC = () => {
+export const Nav: React.FC = (props) => {
   const ctx = React.useContext(GlobalContext)
   const history = useHistory()
   const [isActive, setIsActive] = React.useState(false)
@@ -49,34 +51,51 @@ export const Nav: React.FC = () => {
     ctx?.setTitle(title)
   }
 
+  interface Props {
+    window?: () => Window
+    children: React.ReactElement
+  }
+
+  function HideOnScroll(props: Props) {
+    const { children, window } = props
+    const trigger = useScrollTrigger({ target: window ? window() : undefined })
+
+    return (
+      <Slide appear={false} direction='down' in={!trigger}>
+        {children}
+      </Slide>
+    )
+  }
+
   return (
-    <AppBar
-      style={{
-        background:
-          'linear-gradient(to left, #e91e63, #df0077, #d0008b, #ba119e, #9c27b0)',
-      }}
-      position='sticky'
-    >
-      <MyDrawer onToggle={onToggle} isActive={isActive}></MyDrawer>
-      <Toolbar>
-        <Grid container xs={12} justify='center'>
-          <Grid container xs={1} sm={5} md={4} justify='flex-start'>
-            <IconButton
-              onClick={() => onToggle()}
-              edge='start'
-              color='inherit'
-              aria-label='menu'
-            >
-              <Menu />
-            </IconButton>
+    <HideOnScroll {...props}>
+      <AppBar
+        style={{
+          background:
+            'linear-gradient(to left, #e91e63, #df0077, #d0008b, #ba119e, #9c27b0)',
+        }}
+      >
+        <MyDrawer onToggle={onToggle} isActive={isActive}></MyDrawer>
+        <Toolbar>
+          <Grid container xs={12} justify='center'>
+            <Grid container xs={1} sm={5} md={4} justify='flex-start'>
+              <IconButton
+                onClick={() => onToggle()}
+                edge='start'
+                color='inherit'
+                aria-label='menu'
+              >
+                <Menu />
+              </IconButton>
+            </Grid>
+            <Grid container xs={11} sm={5} md={4} justify='flex-end'>
+              <Typography style={{ paddingTop: 8 }} variant='h6'>
+                {ctx?.title}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid container xs={11} sm={5} md={4} justify='flex-end'>
-            <Typography style={{ paddingTop: 8 }} variant='h6'>
-              {ctx?.title}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Toolbar>
-    </AppBar>
+        </Toolbar>
+      </AppBar>
+    </HideOnScroll>
   )
 }

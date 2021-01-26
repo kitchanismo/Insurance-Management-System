@@ -59,7 +59,7 @@ export const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <MyAvatar
-              onClick={() => () => history.push('/employees/' + employee.id)}
+              onClick={() => history.push('/employees/' + employee.id)}
             />
           </Grid>
         </Grid>

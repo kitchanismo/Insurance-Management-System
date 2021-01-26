@@ -23,7 +23,7 @@ export const Clients: React.SFC<ClientsProps> = () => {
       payment_count: 4,
       plan: 'Plan 2',
       payment_period: 'Monthly',
-      initials: 'FM',
+      payment_mode: 'Installment',
     },
     {
       id: 2,
@@ -33,8 +33,8 @@ export const Clients: React.SFC<ClientsProps> = () => {
       lastname: 'Lae',
       payment_count: 3,
       plan: 'Plan 1',
+      payment_mode: 'Installment',
       payment_period: 'Quarterly',
-      initials: 'FM',
     },
   ]
   return (
@@ -55,7 +55,7 @@ export const Clients: React.SFC<ClientsProps> = () => {
       </Grid>
 
       <Fab
-        onClick={() => history.push('/employees/new')}
+        onClick={() => history.push('/clients/new')}
         className={styles.fab}
         color='primary'
         aria-label='add'

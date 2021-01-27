@@ -7,6 +7,7 @@ interface Payment {
   agency_manager?: string
   supervisor?: string
   sales_agent?: string
+  position: 'branch_manager' | 'agency_manager' | 'supervisor' | 'sales_agent'
 }
 
 export default Payment

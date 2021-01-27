@@ -8,6 +8,7 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
+import Radio from '@material-ui/core/Radio'
 import DateFnsUtils from '@date-io/date-fns/build'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
@@ -24,6 +25,7 @@ export interface MyFormProps<T> {
   state: [T, React.Dispatch<React.SetStateAction<T>>]
   onSubmit: (data: T) => Promise<any>
   validator?: {}
+  radioButtonDefaultValue?: string
   children?: (props: RenderProps) => JSX.Element
 }
 
@@ -32,13 +34,18 @@ export interface InputProps {
   name: string
   placeholder?: string
   type?: string | 'text'
-  label: string
+  label?: string
   isMultiline?: boolean
   onTogglePassword?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+export interface OptionProps {
+  name?: string
+  value: any
+}
+
 export interface SelectProps extends InputProps {
-  options: string[]
+  options: OptionProps[]
 }
 
 export interface RenderProps {
@@ -47,12 +54,17 @@ export interface RenderProps {
   myDateTimePicker: (input: InputProps) => JSX.Element
   myButton: (text?: string) => JSX.Element
   mySelect: (select: SelectProps) => JSX.Element
+  myRadio: (input: InputProps) => JSX.Element
 }
 
 export function MyForm<T>(props: MyFormProps<T>) {
   const [data, setData] = props.state
 
   const [isDisable, setIsDisable] = React.useState<boolean>(false)
+
+  const [selectedValue, setSelectedValue] = React.useState(
+    props.radioButtonDefaultValue ?? '',
+  )
 
   const [errors, setErrors] = React.useState<any>(null)
 
@@ -70,6 +82,10 @@ export function MyForm<T>(props: MyFormProps<T>) {
     error.details.forEach((item) => (_errors[item.path[0]] = item.message))
 
     return _errors
+  }
+
+  const onChangeRadio = (e: any) => {
+    setSelectedValue(e.target.value)
   }
 
   const onSubmit = (e: any) => {
@@ -172,7 +188,7 @@ export function MyForm<T>(props: MyFormProps<T>) {
             format='MM/dd/yyyy'
             margin='none'
             label={input.label}
-            value={input.value}
+            value={input.value ?? null}
             onChange={(date) =>
               setData({
                 ...data,
@@ -188,17 +204,28 @@ export function MyForm<T>(props: MyFormProps<T>) {
     )
   }
 
-  const mySelect = (select: SelectProps) => {
-    const error = errors && errors[select.name]
+  const myRadio = (input: InputProps) => {
     return (
-      <Grid item xs={12} key={select.name}>
+      <Radio
+        checked={selectedValue === input.value}
+        onChange={onChangeRadio}
+        value={input.value}
+        name={input.name}
+      />
+    )
+  }
+
+  const mySelect = (select: SelectProps) => {
+    const error = errors && errors[select.name ?? select.value]
+    return (
+      <Grid item xs={12} key={select.name ?? select.value}>
         <FormControl fullWidth variant='outlined' error={!!error}>
           <InputLabel id={select.label}>{select.label}</InputLabel>
           <Select
             labelId={select.label}
-            id={select.name}
-            name={select.name}
-            value={select.value === null ? '' : select.value}
+            id={select.name ?? select.value}
+            name={select.name ?? select.value}
+            value={select.value || null}
             onChange={(e: any) => {
               const { value, name } = e.target
               setData({
@@ -208,8 +235,10 @@ export function MyForm<T>(props: MyFormProps<T>) {
             }}
             labelWidth={60}
           >
-            {select.options.map((option, index) => (
-              <MenuItem value={option}>{option}</MenuItem>
+            {select.options.map((option) => (
+              <MenuItem value={option.value}>
+                {option.name ?? option.value}
+              </MenuItem>
             ))}
           </Select>
           <FormHelperText>{error}</FormHelperText>
@@ -244,6 +273,7 @@ export function MyForm<T>(props: MyFormProps<T>) {
           mySelect,
           myDateTimePicker,
           myButton,
+          myRadio,
         } as RenderProps)}
       </Grid>
     </form>

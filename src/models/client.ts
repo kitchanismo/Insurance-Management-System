@@ -19,7 +19,7 @@ interface Client extends Profile {
   is_delete?: boolean
   end_date?: Date
   branch?: string
-  insured_employee?: Employee
+  insured_employee?: string
   created_at?: Date
 }
 

@@ -5,33 +5,25 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import GlobalContext from 'contexts/globalContext'
 import { MyForm, MyFormProps, InputProps } from 'components/Common/MyForm'
-import Client from 'models/client'
+import Profile from 'models/profile'
 
 export interface ClientStepOneProps {
-  onNext: () => void
-  state: [Client, React.Dispatch<React.SetStateAction<Client>>]
-  onContinue: (client: Client) => Promise<void>
+  state: [Profile, React.Dispatch<React.SetStateAction<Profile>>]
+  onContinue: (profile: Profile) => Promise<void>
 }
 
 export const ClientStepOne: React.SFC<ClientStepOneProps> = ({
-  state: [client, setClient],
-  onNext,
+  state: [profile, setProfile],
+
   onContinue,
 }) => {
   const ctx = useContext(GlobalContext)
 
   const history = useHistory()
 
-  const onSubmit = async (data: Client) => {
-    await onContinue(data)
-    ctx?.setAlert({ message: 'Successfully added', type: 'success' })
-    onNext()
-    return Promise.resolve()
-  }
-
-  const formProps: MyFormProps<Client> = {
-    state: [client, setClient],
-    onSubmit,
+  const formProps: MyFormProps<Profile> = {
+    state: [profile, setProfile],
+    onSubmit: onContinue,
   }
 
   return (
@@ -40,47 +32,56 @@ export const ClientStepOne: React.SFC<ClientStepOneProps> = ({
         <>
           {myInput({
             label: 'Firstname',
-            value: client.firstname,
+            value: profile.firstname,
             name: 'firstname',
           })}
           {myInput({
             label: 'Middlename',
-            value: client.middlename,
+            value: profile.middlename,
             name: 'middlename',
           })}
           {myInput({
             label: 'Lastname',
-            value: client.lastname,
+            value: profile.lastname,
             name: 'lastname',
           })}
           {myInput({
             label: 'Contact Number',
-            value: client.contact,
+            value: profile.contact,
             name: 'contact',
           })}
 
           {myInput({
             label: 'Address',
-            value: client.address,
+            value: profile.address,
             name: 'address',
             isMultiline: true,
           })}
           {mySelect({
             label: 'Gender',
-            value: client.gender,
+            value: profile.gender,
             name: 'gender',
-            options: ['Male', 'Female', 'Other'],
+            options: [
+              { value: 'Male' },
+              { value: 'Female' },
+              { value: 'Other' },
+            ],
           })}
+
           {mySelect({
             label: 'Civil Status',
-            value: client.civil,
+            value: profile.civil,
             name: 'civil',
-            options: ['Single', 'Married', 'Widowed'],
+            options: [
+              { value: 'Single' },
+              { value: 'Married' },
+              { value: 'Widowed' },
+            ],
           })}
 
           {myDateTimePicker({
             label: 'Birthdate',
-            value: client.birthdate,
+            value: profile.birthdate,
             name: 'birthdate',
           })}
 

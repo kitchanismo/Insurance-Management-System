@@ -17,86 +17,80 @@ import Radio from '@material-ui/core/Radio'
 
 export interface ClientStepTwoProps {
   onBack: () => void
-  state: [Client, React.Dispatch<React.SetStateAction<Client>>]
+  onSubmit: (transaction: Client & Payment) => Promise<void>
+  state: [
+    Client & Payment,
+    React.Dispatch<React.SetStateAction<Client & Payment>>,
+  ]
 }
 
 export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
-  state: [client, setClient],
+  state: [transaction, setTransaction],
   onBack,
+  onSubmit,
 }) => {
-  const ctx = useContext(GlobalContext)
-
-  const [selectedValue, setSelectedValue] = React.useState('')
-
-  const [payment, setPayment] = useState<Payment>()
-
-  const formData: Client & Payment = { ...payment, ...client }
-
-  const onSubmit = async (data: Client & Payment) => {
-    ctx?.setAlert({ message: 'Successfully added', type: 'success' })
-    return Promise.resolve()
-  }
-
   const formProps: MyFormProps<Client & Payment> = {
-    state: [formData, setClient],
+    state: [transaction, setTransaction],
     onSubmit,
+    radioButtonDefaultValue: transaction.position,
   }
 
-  const onChangeRadio = (e: any) => {
-    setSelectedValue(e.target.value)
-  }
   return (
     <MyForm {...formProps}>
-      {({ myInput, mySelect, myButton }) => (
+      {({ myRadio, mySelect, myButton }) => (
         <>
           {mySelect({
             label: 'Plan',
-            value: formData.plan,
+            value: transaction.plan,
             name: 'plan',
             options: [
-              'Plan 1',
-              'Plan 2',
-              'Plan 3',
-              'Plan 4',
-              'Plan 5',
-              'Plan 6',
-              'Plan 7',
-              'Plan 8',
+              { value: 'Plan 1' },
+              { value: 'Plan 2' },
+              { value: 'Plan 3' },
+              { value: 'Plan 4' },
+              { value: 'Plan 5' },
+              { value: 'Plan 6' },
+              { value: 'Plan 7' },
+              { value: 'Plan 8' },
             ],
           })}
           {mySelect({
             label: 'Payment Mode',
-            value: formData.payment_mode,
+            value: transaction.payment_mode,
             name: 'payment_mode',
-            options: ['Installment', 'Fullpayment'],
+            options: [{ value: 'Installment' }, { value: 'Fullpayment' }],
           })}
 
-          {formData.payment_mode && formData.plan && (
+          {transaction.payment_mode && transaction.plan && (
             <>
-              {formData.payment_mode === 'Installment' &&
+              {transaction.payment_mode === 'Installment' &&
                 mySelect({
                   label: 'Payment Period',
-                  value: formData.payment_period,
+                  value: transaction.payment_period,
                   name: 'payment_period',
                   options: [
-                    'Monthly',
-                    'Quarterly',
-                    'Semi-Annually',
-                    'Annually',
+                    { value: 'Monthly' },
+                    { value: 'Quarterly' },
+                    { value: 'Semi-Annually' },
+                    { value: 'Annually' },
                   ],
                 })}
 
               <Grid style={{ paddingLeft: 15 }} direction='column'>
-                <Typography component='h6' variant='subtitle1'>
-                  {client.payment_mode === 'Installment'
-                    ? 'Downpayment'
-                    : 'Lumpsum Price'}
-                </Typography>
-                <Typography color='error' variant='subtitle1'>
-                  {client.payment_mode === 'Installment'
-                    ? 'Php 388.00'
-                    : 'Php 23,280.00'}
-                </Typography>
+                {transaction.payment_period && (
+                  <>
+                    <Typography component='h6' variant='subtitle1'>
+                      {transaction.payment_mode === 'Installment'
+                        ? 'Downpayment'
+                        : 'Lumpsum Price'}
+                    </Typography>
+                    <Typography color='error' variant='subtitle1'>
+                      {transaction.payment_mode === 'Installment'
+                        ? 'Php 388.00'
+                        : 'Php 23,280.00'}
+                    </Typography>
+                  </>
+                )}
                 <Divider
                   style={{ marginRight: 15, marginTop: 10, marginBottom: 10 }}
                 ></Divider>
@@ -113,9 +107,12 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                   <Grid item xs={10}>
                     {mySelect({
                       label: 'Branch Manager',
-                      value: formData.branch_manager,
+                      value: transaction.branch_manager,
                       name: 'branch_manager',
-                      options: ['John Smith', 'Juan Dela Cruz'],
+                      options: [
+                        { value: 1, name: 'John Doe' },
+                        { value: 2, name: 'John Smith' },
+                      ],
                     })}
                   </Grid>
                   <Grid
@@ -125,22 +122,19 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                     justify='center'
                     alignItems='center'
                   >
-                    <Radio
-                      checked={selectedValue === 'bm'}
-                      onChange={onChangeRadio}
-                      value='bm'
-                      name='radio-button-demo'
-                      inputProps={{ 'aria-label': 'Branch Manager' }}
-                    />
+                    {myRadio({ value: 'branch_manager', name: 'position' })}
                   </Grid>
                 </>
                 <>
                   <Grid item xs={10}>
                     {mySelect({
                       label: 'Agency Manager',
-                      value: formData.agency_manager,
+                      value: transaction.agency_manager,
                       name: 'agency_manager',
-                      options: ['John Smith', 'Juan Dela Cruz'],
+                      options: [
+                        { value: 3, name: 'John Joe' },
+                        { value: 4, name: 'John Witch' },
+                      ],
                     })}
                   </Grid>
                   <Grid
@@ -150,22 +144,19 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                     justify='center'
                     alignItems='center'
                   >
-                    <Radio
-                      checked={selectedValue === 'am'}
-                      onChange={onChangeRadio}
-                      value='am'
-                      name='radio-button-demo'
-                      inputProps={{ 'aria-label': 'Agency Manager' }}
-                    />
+                    {myRadio({ value: 'agency_manager', name: 'position' })}
                   </Grid>
                 </>
                 <>
                   <Grid item xs={10}>
                     {mySelect({
                       label: 'Supervisor',
-                      value: formData.supervisor,
+                      value: transaction.supervisor,
                       name: 'supervisor',
-                      options: ['John Smith', 'Juan Dela Cruz'],
+                      options: [
+                        { value: 5, name: 'John Doex' },
+                        { value: 6, name: 'John Smithx' },
+                      ],
                     })}
                   </Grid>
                   <Grid
@@ -175,13 +166,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                     justify='center'
                     alignItems='center'
                   >
-                    <Radio
-                      checked={selectedValue === 'sv'}
-                      onChange={onChangeRadio}
-                      value='sv'
-                      name='radio-button-demo'
-                      inputProps={{ 'aria-label': 'Supervisor' }}
-                    />
+                    {myRadio({ value: 'supervisor', name: 'position' })}
                   </Grid>
                 </>
 
@@ -189,9 +174,12 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                   <Grid item xs={10}>
                     {mySelect({
                       label: 'Sales Agent',
-                      value: formData.sales_agent,
+                      value: transaction.sales_agent,
                       name: 'sales_agent',
-                      options: ['John Smith', 'Juan Dela Cruz'],
+                      options: [
+                        { value: 7, name: 'John Doex' },
+                        { value: 8, name: 'John Smithc' },
+                      ],
                     })}
                   </Grid>
                   <Grid
@@ -201,13 +189,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                     justify='center'
                     alignItems='center'
                   >
-                    <Radio
-                      checked={selectedValue === 'sa'}
-                      onChange={onChangeRadio}
-                      value='sa'
-                      name='radio-button-demo'
-                      inputProps={{ 'aria-label': 'Sales Agent' }}
-                    />
+                    {myRadio({ value: 'sales_agent', name: 'position' })}
                   </Grid>
                 </>
               </Grid>

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import GlobalContext from 'contexts/globalContext'
-import validator from '../validator'
+import validator from '../../../../validators/saveEmployeeValidator'
 import { MyForm, MyFormProps } from 'components/Common/MyForm'
 import Employee from 'models/employee'
 
@@ -24,8 +24,6 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
     civil: 'Single',
     birthdate: new Date('10/03/1991'),
     position: 'Branch Manager',
-    branch: null,
-    team: null,
   })
 
   const onSubmit = async (data: Employee) => {
@@ -71,17 +69,27 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
             name: 'address',
             isMultiline: true,
           })}
+
           {mySelect({
             label: 'Gender',
             value: employee.gender,
             name: 'gender',
-            options: ['Male', 'Female', 'Other'],
+            options: [
+              { value: 'Male' },
+              { value: 'Female' },
+              { value: 'Other' },
+            ],
           })}
+
           {mySelect({
             label: 'Civil Status',
             value: employee.civil,
             name: 'civil',
-            options: ['Single', 'Married', 'Widowed'],
+            options: [
+              { value: 'Single' },
+              { value: 'Married' },
+              { value: 'Widowed' },
+            ],
           })}
 
           {mySelect({
@@ -89,11 +97,10 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
             value: employee.position,
             name: 'position',
             options: [
-              'Sales Agent',
-              'Branch Manager',
-              'Agency Manager',
-              'Supervisor',
-              'Admin',
+              { value: 'Sales Agent' },
+              { value: 'Branch Manager' },
+              { value: 'Agency Manager' },
+              { value: 'Supervisor' },
             ],
           })}
 
@@ -101,14 +108,14 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
             label: 'Branch',
             value: employee.branch,
             name: 'branch',
-            options: ['CEBU', 'MAKATI', 'MANILA'],
+            options: [{ value: 'Cebu' }, { value: 'Manila' }],
           })}
 
           {mySelect({
             label: 'Team',
             value: employee.team,
             name: 'team',
-            options: ['ABC', '123', 'XYZ'],
+            options: [{ value: 'ABC' }],
           })}
 
           {myDateTimePicker({

@@ -1,8 +1,7 @@
 import Joi from 'joi'
-import Employee from 'models/employee'
-import { lettersOnly, notNull, alphaNumeric } from 'utils/helper'
+import { lettersOnly, notNull } from 'utils/helper'
 
-export default {
+const saveEmployeeValidator = {
   firstname: lettersOnly('Firstname').min(1).max(50),
   middlename: lettersOnly('Middlename').min(1).max(50),
   lastname: lettersOnly('Lastname').min(1).max(50),
@@ -14,4 +13,6 @@ export default {
   contact: Joi.optional(),
   address: Joi.optional(),
   birthdate: Joi.optional(),
-} as Employee
+}
+
+export default saveEmployeeValidator

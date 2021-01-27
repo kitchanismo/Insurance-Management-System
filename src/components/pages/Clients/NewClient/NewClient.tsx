@@ -7,6 +7,7 @@ import GlobalContext from 'contexts/globalContext'
 import { MyForm, MyFormProps, InputProps } from 'components/Common/MyForm'
 import Profile from 'models/profile'
 import Client from 'models/client'
+import Payment from 'models/payment'
 import { ClientStepOne } from './ClientStepOne'
 import { ClientStepTwo } from './ClientStepTwo'
 
@@ -19,20 +20,11 @@ export const NewClient: React.SFC<NewClientProps> = () => {
 
   const [isNext, setIsNext] = React.useState(false)
 
-  const [client, setClient] = React.useState<Profile>({
-    firstname: '',
-    middlename: '',
-    lastname: '',
-    address: '',
-    contact: '',
-    gender: null,
-    civil: null,
-    birthdate: null,
-  })
+  const [profile, setProfile] = React.useState<Profile>({})
 
-  const toggleNext = () => {
-    setIsNext((isNext) => !isNext)
-  }
+  const [transaction, setTransaction] = React.useState<Client & Payment>({
+    position: 'sales_agent',
+  })
 
   const header = (title: string, subtitle: string) => {
     return (
@@ -47,9 +39,20 @@ export const NewClient: React.SFC<NewClientProps> = () => {
     )
   }
 
-  const onContinue = async (client: Client) => {
-    console.log('this', client)
-    setClient(client)
+  const onContinue = async (profile: Profile) => {
+    console.log('profile', profile)
+    setProfile(profile)
+    setIsNext((isNext) => !isNext)
+  }
+
+  const onSubmit = async (transaction: Client & Payment) => {
+    const insured_employee = transaction[transaction.position] ?? ''
+
+    const data: Client & Payment = { ...transaction, insured_employee }
+
+    setTransaction(data)
+
+    console.log(data)
   }
 
   return (
@@ -57,14 +60,14 @@ export const NewClient: React.SFC<NewClientProps> = () => {
       {!isNext && header('Step 1', 'Personal Details')}
       {isNext && header('Step 2', 'Plan Details')}
       {!isNext && (
-        <ClientStepOne
-          onContinue={onContinue}
-          onNext={toggleNext}
-          state={[client, setClient]}
-        />
+        <ClientStepOne onContinue={onContinue} state={[profile, setProfile]} />
       )}
       {isNext && (
-        <ClientStepTwo onBack={toggleNext} state={[client, setClient]} />
+        <ClientStepTwo
+          onBack={() => setIsNext((isNext) => !isNext)}
+          onSubmit={onSubmit}
+          state={[transaction, setTransaction]}
+        />
       )}
     </>
   )

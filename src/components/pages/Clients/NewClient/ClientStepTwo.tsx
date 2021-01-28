@@ -1,19 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React from 'react'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import GlobalContext from 'contexts/globalContext'
-import { MyForm, MyFormProps, InputProps } from 'components/Common/MyForm'
+import { MyForm, MyFormProps } from 'components/Common/MyForm'
 import Client from 'models/client'
-import Employee from 'models/employee'
 import Payment from 'models/payment'
 import Divider from '@material-ui/core/Divider'
-import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormLabel from '@material-ui/core/FormLabel'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import Radio from '@material-ui/core/Radio'
+import validator from 'validators/saveTransactionValidator'
 
 export interface ClientStepTwoProps {
   onBack: () => void
@@ -32,6 +25,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
   const formProps: MyFormProps<Client & Payment> = {
     state: [transaction, setTransaction],
     onSubmit,
+    validator,
     radioButtonDefaultValue: transaction.position,
   }
 
@@ -84,7 +78,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                         ? 'Downpayment'
                         : 'Lumpsum Price'}
                     </Typography>
-                    <Typography color='error' variant='subtitle1'>
+                    <Typography color='primary' variant='subtitle1'>
                       {transaction.payment_mode === 'Installment'
                         ? 'Php 388.00'
                         : 'Php 23,280.00'}

@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import GlobalContext from 'contexts/globalContext'
 import { MyForm, MyFormProps, InputProps } from 'components/Common/MyForm'
 import Profile from 'models/profile'
+import validator from 'validators/saveProfileValidator'
 
 export interface ClientStepOneProps {
   state: [Profile, React.Dispatch<React.SetStateAction<Profile>>]
@@ -14,7 +15,6 @@ export interface ClientStepOneProps {
 
 export const ClientStepOne: React.SFC<ClientStepOneProps> = ({
   state: [profile, setProfile],
-
   onContinue,
 }) => {
   const ctx = useContext(GlobalContext)
@@ -24,6 +24,7 @@ export const ClientStepOne: React.SFC<ClientStepOneProps> = ({
   const formProps: MyFormProps<Profile> = {
     state: [profile, setProfile],
     onSubmit: onContinue,
+    validator,
   }
 
   return (

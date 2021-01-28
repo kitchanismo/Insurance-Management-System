@@ -20,7 +20,12 @@ export const NewClient: React.SFC<NewClientProps> = () => {
 
   const [isNext, setIsNext] = React.useState(false)
 
-  const [profile, setProfile] = React.useState<Profile>({})
+  const [profile, setProfile] = React.useState<Profile>({
+    firstname: 'dfdfd',
+    middlename: 'sddfdf',
+    lastname: 'dfdgfgf',
+    civil: 'Single',
+  })
 
   const [transaction, setTransaction] = React.useState<Client & Payment>({
     position: 'sales_agent',

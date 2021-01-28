@@ -13,6 +13,7 @@ import DateFnsUtils from '@date-io/date-fns/build'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import Divider from '@material-ui/core/Divider'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Visibility from '@material-ui/icons/Visibility'
 import {
@@ -76,6 +77,8 @@ export function MyForm<T>(props: MyFormProps<T>) {
     const { error } = schema.validate(_data)
 
     if (!error) return null
+
+    console.log('error:', error)
 
     const _errors: any = {}
 
@@ -225,12 +228,13 @@ export function MyForm<T>(props: MyFormProps<T>) {
             labelId={select.label}
             id={select.name ?? select.value}
             name={select.name ?? select.value}
-            value={select.value || null}
+            value={select.value || ''}
             onChange={(e: any) => {
-              const { value, name } = e.target
+              const { value } = e.target
+
               setData({
                 ...data,
-                [name]: value,
+                [select.name]: value !== 'clear' ? value : '',
               })
             }}
             labelWidth={60}
@@ -240,6 +244,8 @@ export function MyForm<T>(props: MyFormProps<T>) {
                 {option.name ?? option.value}
               </MenuItem>
             ))}
+            <Divider style={{ marginLeft: 15, marginRight: 15 }}></Divider>
+            <MenuItem value='clear'>Clear</MenuItem>
           </Select>
           <FormHelperText>{error}</FormHelperText>
         </FormControl>

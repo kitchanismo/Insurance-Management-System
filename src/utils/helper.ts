@@ -44,6 +44,7 @@ export const notNull = (label: string) => {
     .not('')
     .messages({
       'any.invalid': `"${label}" is required`,
+      'any.required': `"${label}" is required`,
     })
 }
 

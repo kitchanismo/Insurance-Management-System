@@ -1,4 +1,4 @@
-import React, { useRef, RefObject, MutableRefObject } from 'react'
+import React, { useContext } from 'react'
 import Joi from 'joi'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
@@ -20,7 +20,7 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers'
-import { endOfYesterday } from 'date-fns'
+import GlobalContext from 'contexts/globalContext'
 
 export interface MyFormProps<T> {
   state: [T, React.Dispatch<React.SetStateAction<T>>]
@@ -59,6 +59,8 @@ export interface RenderProps {
 }
 
 export function MyForm<T>(props: MyFormProps<T>) {
+  const ctx = useContext(GlobalContext)
+
   const [data, setData] = props.state
 
   const [isDisable, setIsDisable] = React.useState<boolean>(false)
@@ -77,8 +79,6 @@ export function MyForm<T>(props: MyFormProps<T>) {
     const { error } = schema.validate(_data)
 
     if (!error) return null
-
-    console.log('error:', error)
 
     const _errors: any = {}
 
@@ -104,6 +104,10 @@ export function MyForm<T>(props: MyFormProps<T>) {
     setIsDisable(true)
 
     if (hasErrors) {
+      ctx?.setAlert({
+        message: 'Fill out all the fields.',
+        type: 'error',
+      })
       setErrors(hasErrors)
       setIsDisable(false)
       return

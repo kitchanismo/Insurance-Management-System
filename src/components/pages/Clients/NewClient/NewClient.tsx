@@ -53,6 +53,14 @@ export const NewClient: React.SFC<NewClientProps> = () => {
   const onSubmit = async (transaction: Client & Payment) => {
     const insured_employee = transaction[transaction.position] ?? ''
 
+    if (!insured_employee) {
+      ctx?.setAlert({
+        message: 'Sales Agent is not present! Please select another employee.',
+        type: 'error',
+      })
+      return
+    }
+
     const data: Client & Payment = { ...transaction, insured_employee }
 
     setTransaction(data)

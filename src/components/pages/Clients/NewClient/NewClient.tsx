@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import GlobalContext from 'contexts/globalContext'
 import Profile from 'models/profile'
 import Client from 'models/client'
-import Payment from 'models/payment'
+import Commissioner from 'models/commissioner'
 import { ClientStepOne } from './ClientStepOne'
 import { ClientStepTwo } from './ClientStepTwo'
 import {
@@ -14,6 +14,8 @@ import {
   useStepper,
   MyStepperProps,
 } from 'components/Common/MyStepper'
+import { ClientStepThree } from './ClientStepThree'
+import { SettingsCellOutlined } from '@material-ui/icons'
 
 export interface NewClientProps {}
 
@@ -33,18 +35,20 @@ export const NewClient: React.SFC<NewClientProps> = () => {
     civil: 'Single',
   })
 
-  const [transaction, setTransaction] = React.useState<Client & Payment>({
+  const [commissioner, setCommissioner] = React.useState<Commissioner>({
     position: 'sales_agent',
   })
 
-  const onContinue = async (profile: Profile) => {
+  const [client, setClient] = React.useState<Client>({})
+
+  const onNextOne = async (profile: Profile) => {
     console.log('profile', profile)
     setProfile(profile)
     stepper.handleNext()
   }
 
-  const onSubmit = async (transaction: Client & Payment) => {
-    const insured_employee = transaction[transaction.position] ?? ''
+  const onNextTwo = async (commissioner: Commissioner) => {
+    const insured_employee = commissioner[commissioner.position] ?? ''
 
     if (!insured_employee) {
       ctx?.setAlert({
@@ -54,24 +58,44 @@ export const NewClient: React.SFC<NewClientProps> = () => {
       return
     }
 
-    const data: Client & Payment = { ...transaction, insured_employee }
+    setClient((client) => ({ ...client, insured_employee }))
 
-    setTransaction(data)
+    setCommissioner(commissioner)
 
-    console.log(data)
+    stepper.handleNext()
+
+    console.log(commissioner)
+  }
+
+  const onNextThree = async (client: Client) => {
+    setClient(client)
+
+    stepper.handleNext()
+
+    console.log({
+      client: { ...profile, ...client },
+      commissioner,
+    })
   }
 
   return (
     <>
       <MyStepper {...stepper} />
       {stepper.activeStep === 0 && (
-        <ClientStepOne onContinue={onContinue} state={[profile, setProfile]} />
+        <ClientStepOne onNext={onNextOne} state={[profile, setProfile]} />
       )}
       {stepper.activeStep === 1 && (
         <ClientStepTwo
           onBack={() => stepper.handleBack()}
-          onSubmit={onSubmit}
-          state={[transaction, setTransaction]}
+          onNext={onNextTwo}
+          state={[commissioner, setCommissioner]}
+        />
+      )}
+      {stepper.activeStep === 2 && (
+        <ClientStepThree
+          onBack={() => stepper.handleBack()}
+          onNext={onNextThree}
+          state={[client, setClient]}
         />
       )}
     </>

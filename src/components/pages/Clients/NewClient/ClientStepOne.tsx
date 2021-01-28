@@ -10,20 +10,18 @@ import validator from 'validators/saveProfileValidator'
 
 export interface ClientStepOneProps {
   state: [Profile, React.Dispatch<React.SetStateAction<Profile>>]
-  onContinue: (profile: Profile) => Promise<void>
+  onNext: (profile: Profile) => Promise<void>
 }
 
 export const ClientStepOne: React.SFC<ClientStepOneProps> = ({
   state: [profile, setProfile],
-  onContinue,
+  onNext,
 }) => {
-  const ctx = useContext(GlobalContext)
-
   const history = useHistory()
 
   const formProps: MyFormProps<Profile> = {
     state: [profile, setProfile],
-    onSubmit: onContinue,
+    onSubmit: onNext,
     validator,
   }
 
@@ -106,7 +104,7 @@ export const ClientStepOne: React.SFC<ClientStepOneProps> = ({
               </Button>
             </Grid>
             <Grid item xs={6}>
-              {myButton('CONTINUE')}
+              {myButton('NEXT')}
             </Grid>
           </Grid>
         </>

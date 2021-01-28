@@ -72,7 +72,7 @@ export const Nav: React.FC = (props) => {
       <AppBar
         style={{
           background:
-            'linear-gradient(to left, #e91e63, #df0077, #d0008b, #ba119e, #9c27b0)',
+            'linear-gradient(to right, #9c27b0, #9c27b0, #9c27b0, #9c27b0, #9c27b0, #a721aa, #b119a4, #ba119e, #cb0090, #d80081, #e20672, #e91e63)',
         }}
       >
         <MyDrawer onToggle={onToggle} isActive={isActive}></MyDrawer>

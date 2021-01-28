@@ -26,7 +26,7 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
 
   return (
     <MyForm {...formProps}>
-      {({ mySelect, myButton }) => (
+      {({ myInput, mySelect, myButton }) => (
         <>
           {mySelect({
             label: 'Plan',
@@ -113,7 +113,7 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
               </Button>
             </Grid>
             <Grid item xs={6}>
-              {myButton('SUBMIT')}
+              {myButton('PAY')}
             </Grid>
           </Grid>
         </>

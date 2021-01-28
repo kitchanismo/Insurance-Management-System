@@ -30,7 +30,12 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
     <MyForm {...formProps}>
       {({ myRadio, mySelect, myButton }) => (
         <>
-          <Grid style={{ paddingLeft: 10 }} spacing={2} container xs={12}>
+          <Grid
+            style={{ paddingLeft: 10, marginTop: 5 }}
+            spacing={2}
+            container
+            xs={12}
+          >
             <>
               <Grid item xs={10}>
                 {mySelect({

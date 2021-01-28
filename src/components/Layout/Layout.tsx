@@ -38,7 +38,7 @@ export const Layout = () => {
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: 20,
-    paddingTop: 80,
+    paddingTop: 75,
     height: '100%',
     backgroundColor: theme.palette.background.default,
   },

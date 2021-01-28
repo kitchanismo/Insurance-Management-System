@@ -23,9 +23,9 @@ export const NewClient: React.SFC<NewClientProps> = () => {
   const ctx = useContext(GlobalContext)
 
   const stepper = useStepper([
-    'CREATE PROFILE',
-    'SELECT COMMISSIONERS',
-    'SELECT A PLAN',
+    'Create Profile Account',
+    'Select All Commissioners',
+    'Select Plan And Payment',
   ])
 
   const [profile, setProfile] = React.useState<Profile>({

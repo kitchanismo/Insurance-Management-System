@@ -80,6 +80,7 @@ export const NewEmployee: React.SFC<NewUserProps> = () => {
             label: 'Civil Status',
             value: employee.civil,
             name: 'civil',
+            labelWidth: 80,
             options: [
               { value: 'Single' },
               { value: 'Married' },
@@ -91,6 +92,7 @@ export const NewEmployee: React.SFC<NewUserProps> = () => {
             label: 'Position',
             value: employee.position,
             name: 'position',
+            labelWidth: 55,
             options: [
               { value: 'Sales Agent' },
               { value: 'Branch Manager' },
@@ -103,6 +105,7 @@ export const NewEmployee: React.SFC<NewUserProps> = () => {
             label: 'Branch',
             value: employee.branch,
             name: 'branch',
+            labelWidth: 55,
             options: [{ value: 'Cebu' }, { value: 'Manila' }],
           })}
 
@@ -110,6 +113,7 @@ export const NewEmployee: React.SFC<NewUserProps> = () => {
             label: 'Team',
             value: employee.team,
             name: 'team',
+            labelWidth: 40,
             options: [{ value: 'ABC' }],
           })}
 

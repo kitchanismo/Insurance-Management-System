@@ -85,6 +85,7 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
             label: 'Civil Status',
             value: employee.civil,
             name: 'civil',
+            labelWidth: 80,
             options: [
               { value: 'Single' },
               { value: 'Married' },
@@ -96,6 +97,7 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
             label: 'Position',
             value: employee.position,
             name: 'position',
+            labelWidth: 55,
             options: [
               { value: 'Sales Agent' },
               { value: 'Branch Manager' },
@@ -108,6 +110,7 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
             label: 'Branch',
             value: employee.branch,
             name: 'branch',
+            labelWidth: 55,
             options: [{ value: 'Cebu' }, { value: 'Manila' }],
           })}
 
@@ -115,6 +118,7 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
             label: 'Team',
             value: employee.team,
             name: 'team',
+            labelWidth: 40,
             options: [{ value: 'ABC' }],
           })}
 

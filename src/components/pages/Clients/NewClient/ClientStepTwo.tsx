@@ -37,6 +37,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
             label: 'Plan',
             value: transaction.plan,
             name: 'plan',
+            labelWidth: 30,
             options: [
               { value: 'Plan 1' },
               { value: 'Plan 2' },
@@ -52,6 +53,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
             label: 'Payment Mode',
             value: transaction.payment_mode,
             name: 'payment_mode',
+            labelWidth: 110,
             options: [{ value: 'Installment' }, { value: 'Fullpayment' }],
           })}
 
@@ -62,6 +64,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                   label: 'Payment Period',
                   value: transaction.payment_period,
                   name: 'payment_period',
+                  labelWidth: 120,
                   options: [
                     { value: 'Monthly' },
                     { value: 'Quarterly' },
@@ -70,30 +73,38 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                   ],
                 })}
 
-              <Grid style={{ paddingLeft: 15 }} direction='column'>
-                {transaction.payment_period && (
+              <Grid style={{ paddingLeft: 10 }} direction='column'>
+                {transaction.payment_period &&
+                  transaction.payment_mode === 'Installment' && (
+                    <>
+                      <Typography component='h6' variant='subtitle1'>
+                        Downpayment
+                      </Typography>
+                      <Typography color='primary' variant='subtitle1'>
+                        Php 388.00
+                      </Typography>
+                    </>
+                  )}
+                {transaction.payment_mode === 'Fullpayment' && (
                   <>
                     <Typography component='h6' variant='subtitle1'>
-                      {transaction.payment_mode === 'Installment'
-                        ? 'Downpayment'
-                        : 'Lumpsum Price'}
+                      Lumpsum Price
                     </Typography>
                     <Typography color='primary' variant='subtitle1'>
-                      {transaction.payment_mode === 'Installment'
-                        ? 'Php 388.00'
-                        : 'Php 23,280.00'}
+                      Php 23,280.00
                     </Typography>
                   </>
                 )}
+
                 <Divider
                   style={{ marginRight: 15, marginTop: 10, marginBottom: 10 }}
                 ></Divider>
                 <Typography
-                  style={{ marginBottom: 10 }}
+                  style={{ marginBottom: 15 }}
                   component='h6'
                   variant='h6'
                 >
-                  TEAM
+                  COMMISSIONERS
                 </Typography>
               </Grid>
               <Grid style={{ paddingLeft: 10 }} spacing={2} container xs={12}>
@@ -103,6 +114,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                       label: 'Branch Manager',
                       value: transaction.branch_manager,
                       name: 'branch_manager',
+                      labelWidth: 120,
                       options: [
                         { value: 1, name: 'John Doe' },
                         { value: 2, name: 'John Smith' },
@@ -125,6 +137,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                       label: 'Agency Manager',
                       value: transaction.agency_manager,
                       name: 'agency_manager',
+                      labelWidth: 120,
                       options: [
                         { value: 3, name: 'John Joe' },
                         { value: 4, name: 'John Witch' },
@@ -147,6 +160,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                       label: 'Supervisor',
                       value: transaction.supervisor,
                       name: 'supervisor',
+                      labelWidth: 80,
                       options: [
                         { value: 5, name: 'John Doex' },
                         { value: 6, name: 'John Smithx' },
@@ -170,6 +184,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                       label: 'Sales Agent',
                       value: transaction.sales_agent,
                       name: 'sales_agent',
+                      labelWidth: 85,
                       options: [
                         { value: 7, name: 'John Doex' },
                         { value: 8, name: 'John Smithc' },

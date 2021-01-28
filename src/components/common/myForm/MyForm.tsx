@@ -47,6 +47,7 @@ export interface OptionProps {
 
 export interface SelectProps extends InputProps {
   options: OptionProps[]
+  labelWidth?: number
 }
 
 export interface RenderProps {
@@ -235,13 +236,17 @@ export function MyForm<T>(props: MyFormProps<T>) {
             value={select.value || ''}
             onChange={(e: any) => {
               const { value } = e.target
-
+              if (error && value !== 'clear') {
+                const _errors = { ...errors }
+                delete _errors[select.name]
+                setErrors(_errors)
+              }
               setData({
                 ...data,
                 [select.name]: value !== 'clear' ? value : '',
               })
             }}
-            labelWidth={60}
+            labelWidth={select.labelWidth ?? 60}
           >
             {select.options.map((option) => (
               <MenuItem value={option.value}>

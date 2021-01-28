@@ -73,6 +73,7 @@ export const ClientStepOne: React.SFC<ClientStepOneProps> = ({
             label: 'Civil Status',
             value: profile.civil,
             name: 'civil',
+            labelWidth: 80,
             options: [
               { value: 'Single' },
               { value: 'Married' },

@@ -3,6 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { Nav } from 'components/Common/MyNav'
 import { MyAlert } from 'components/Common/MyAlert'
 import { Layout } from 'components/Layout'
+import { ClientProvider } from 'providers/ClientProvicer'
 
 const App: React.FC = (props) => {
   return (
@@ -10,7 +11,9 @@ const App: React.FC = (props) => {
       <CssBaseline />
       <MyAlert />
       <Nav />
-      <Layout />
+      <ClientProvider>
+        <Layout />
+      </ClientProvider>
     </>
   )
 }

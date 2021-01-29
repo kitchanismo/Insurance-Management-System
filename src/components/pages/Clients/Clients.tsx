@@ -7,62 +7,17 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import { useHistory } from 'react-router-dom'
 import { ClientCard } from './ClientCard'
+import { useContext } from 'react'
+import ClientContext from 'contexts/clientContext'
 
 export interface ClientsProps {}
 
 export const Clients: React.SFC<ClientsProps> = () => {
+  const ctx = useContext(ClientContext)
+
   const styles = useStyles()
   const history = useHistory()
-  const clients: Partial<Client>[] = [
-    {
-      id: 1,
-      code: 'HEY-7634464',
-      firstname: 'Fidfdfdfdfdfdfdfr',
-      middlename: 'Mie',
-      lastname: 'Lase',
-      payment_count: 4,
-      plan: 'Plan 2',
-      payment_period: 'Monthly',
-      payment_mode: 'Installment',
-      balance: 10000,
-    },
-    {
-      id: 2,
-      code: 'HEY-7634464',
-      firstname: 'Fitm',
-      middlename: 'Mim',
-      lastname: 'Lae',
-      payment_count: 3,
-      plan: 'Plan 1',
-      payment_mode: 'Installment',
-      payment_period: 'Quarterly',
-      balance: 23280,
-    },
-    {
-      id: 3,
-      code: 'HEY-7634464',
-      firstname: 'Fitm',
-      middlename: 'Mim',
-      lastname: 'Lae',
-      payment_count: 3,
-      plan: 'Plan 1',
-      payment_mode: 'Installment',
-      payment_period: 'Quarterly',
-      balance: 20000,
-    },
-    {
-      id: 4,
-      code: 'HEY-7634464',
-      firstname: 'Fitm',
-      middlename: 'Mim',
-      lastname: 'Lae',
-      payment_count: 3,
-      plan: 'Plan 1',
-      payment_mode: 'Installment',
-      payment_period: 'Quarterly',
-      balance: 100,
-    },
-  ]
+
   return (
     <>
       <MySearchField style={{ marginBottom: 15 }} />
@@ -73,7 +28,7 @@ export const Clients: React.SFC<ClientsProps> = () => {
         justify='flex-start'
         alignItems='center'
       >
-        {clients.map((client) => (
+        {ctx?.clients.map((client) => (
           <Grid key={client.id} item xs={12}>
             <ClientCard key={client.id} client={client} />
           </Grid>

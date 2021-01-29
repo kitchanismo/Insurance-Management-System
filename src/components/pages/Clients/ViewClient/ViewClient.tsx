@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import GlobalContext from 'contexts/globalContext'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -10,39 +10,30 @@ import EditIcon from '@material-ui/icons/Edit'
 import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
 import userIcon from 'assets/profile-user.svg'
-import {
-  calculateAge,
-  getRemainingPayment,
-  getTotalCountPayment,
-} from 'utils/helper'
+import { calculateAge, getCountPaid, getTotalCountPayment } from 'utils/helper'
 
 import { MyCard } from 'components/Common/MyCard'
 import Client from 'models/client'
 import { Clients } from '../Clients'
+import ClientContext from 'contexts/clientContext'
 
 export interface ViewClientProps {}
 
 export const ViewClient: React.SFC<ViewClientProps> = () => {
   const history = useHistory()
-  const [client, setClient] = useState<Partial<Client>>({
-    id: 1,
-    code: 'HEY-7634464',
-    firstname: 'Fidfdfdfdfdfdfdfr',
-    middlename: 'Mie',
-    lastname: 'Lase',
-    payment_count: 4,
-    balance: 2000,
-    plan: 'Plan 2',
-    payment_period: 'Quarterly',
-    civil: 'Single',
-    gender: 'Male',
-    address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
-    contact: '09234545866',
-    branch: 'Somewhere',
-    payment_mode: 'Installment',
-    birthdate: new Date('10/03/1991'),
-    end_date: new Date('09/06/2025'),
-  })
+
+  const { id } = useParams<{ id: string }>()
+
+  const globalCtx = useContext(GlobalContext)
+
+  const clientCtx = useContext(ClientContext)
+
+  const [client, setClient] = useState<Client>()
+
+  useEffect(() => {
+    globalCtx?.setTitle('Client Details')
+    setClient(clientCtx?.clients.filter((client) => client.id === +id)[0])
+  }, [])
 
   const detail = (title: string, subtitle: any) => (
     <Grid container alignItems='center' direction='column' item xs={6}>
@@ -60,7 +51,7 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
       {client && (
         <>
           <MyCard
-            title='Client Details'
+            title={client.code}
             endIcon={
               <EditIcon
                 style={{ color: 'white', marginTop: 5 }}
@@ -90,7 +81,7 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
                       style={{ marginTop: 5 }}
                       size='small'
                       label={
-                        getRemainingPayment({
+                        getCountPaid({
                           balance: client.balance,
                           plan: client.plan,
                           payment_period: client.payment_period,
@@ -118,9 +109,6 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
                       alt='User Logo'
                     />
                   </IconButton>
-                  <Typography variant='subtitle1' color='textSecondary'>
-                    {client.code}
-                  </Typography>
                 </Grid>
               </Grid>
             </CardContent>

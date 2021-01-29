@@ -140,7 +140,7 @@ const plans = [
   },
 ]
 
-export const getRemainingPayment = (data: RemainingProps) => {
+export const getCountPaid = (data: RemainingProps) => {
   const plan = plans.filter((plan) => plan.plan === data.plan)[0]
 
   let downpayment = 0

@@ -106,3 +106,65 @@ export const getTotalCountPayment = (
 
   return period * 5
 }
+
+export interface RemainingProps {
+  balance?: number
+  plan?: 'Plan 1' | 'Plan 2' | 'Plan 3'
+  payment_period?: 'Monthly' | 'Quarterly' | 'Semi-Annually' | 'Annually'
+}
+
+const plans = [
+  {
+    price: 23280,
+    plan: 'Plan 1',
+    monthly: 388,
+    quarterly: 1164,
+    semiAnnually: 2328,
+    annually: 4656,
+  },
+  {
+    price: 32280,
+    plan: 'Plan 2',
+    monthly: 538,
+    quarterly: 1614,
+    semiAnnually: 3228,
+    annually: 6456,
+  },
+  {
+    price: 41280,
+    plan: 'Plan 3',
+    monthly: 688,
+    quarterly: 2064,
+    semiAnnually: 4128,
+    annually: 8256,
+  },
+]
+
+export const getRemainingPayment = (data: RemainingProps) => {
+  const plan = plans.filter((plan) => plan.plan === data.plan)[0]
+
+  let downpayment = 0
+
+  switch (data.payment_period) {
+    case 'Monthly':
+      downpayment = plan.monthly
+      break
+    case 'Quarterly':
+      downpayment = plan.quarterly
+      break
+    case 'Semi-Annually':
+      downpayment = plan.semiAnnually
+      break
+    case 'Annually':
+      downpayment = plan.annually
+      break
+    default:
+      downpayment = 0
+      break
+  }
+
+  return Math.floor(
+    getTotalCountPayment(data.payment_period || null) -
+      (data.balance || 0) / downpayment,
+  )
+}

@@ -10,7 +10,11 @@ import EditIcon from '@material-ui/icons/Edit'
 import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
 import userIcon from 'assets/profile-user.svg'
-import { calculateAge, getTotalCountPayment } from 'utils/helper'
+import {
+  calculateAge,
+  getRemainingPayment,
+  getTotalCountPayment,
+} from 'utils/helper'
 
 import { MyCard } from 'components/Common/MyCard'
 import Client from 'models/client'
@@ -27,9 +31,9 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
     middlename: 'Mie',
     lastname: 'Lase',
     payment_count: 4,
-    balance: 20000,
+    balance: 2000,
     plan: 'Plan 2',
-    payment_period: 'Monthly',
+    payment_period: 'Quarterly',
     civil: 'Single',
     gender: 'Male',
     address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
@@ -86,7 +90,11 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
                       style={{ marginTop: 5 }}
                       size='small'
                       label={
-                        client.payment_count +
+                        getRemainingPayment({
+                          balance: client.balance,
+                          plan: client.plan,
+                          payment_period: client.payment_period,
+                        }) +
                         '/' +
                         getTotalCountPayment(client.payment_period || null) +
                         ' Paid'

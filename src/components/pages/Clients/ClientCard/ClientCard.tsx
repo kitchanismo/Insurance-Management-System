@@ -13,11 +13,11 @@ import Avatar from '@material-ui/core/Avatar'
 import userIcon from 'assets/profile-user.svg'
 import Client from 'models/client'
 import { useHistory } from 'react-router-dom'
-import { getTotalCountPayment } from 'utils/helper'
+import { getRemainingPayment, getTotalCountPayment } from 'utils/helper'
 import { MyAvatar } from 'components/Common/MyAvatar'
 
 export interface ClientCardProps {
-  client: Partial<Client>
+  client: Client
 }
 
 export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
@@ -46,7 +46,11 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
                 style={{ marginTop: 5 }}
                 size='small'
                 label={
-                  client.payment_count +
+                  getRemainingPayment({
+                    balance: client.balance,
+                    plan: client.plan,
+                    payment_period: client.payment_period,
+                  }) +
                   '/' +
                   getTotalCountPayment(client.payment_period || null) +
                   ' Paid'

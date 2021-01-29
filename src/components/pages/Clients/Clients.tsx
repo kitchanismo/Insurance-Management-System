@@ -24,6 +24,7 @@ export const Clients: React.SFC<ClientsProps> = () => {
       plan: 'Plan 2',
       payment_period: 'Monthly',
       payment_mode: 'Installment',
+      balance: 10000,
     },
     {
       id: 2,
@@ -35,6 +36,7 @@ export const Clients: React.SFC<ClientsProps> = () => {
       plan: 'Plan 1',
       payment_mode: 'Installment',
       payment_period: 'Quarterly',
+      balance: 23280,
     },
     {
       id: 3,
@@ -46,6 +48,7 @@ export const Clients: React.SFC<ClientsProps> = () => {
       plan: 'Plan 1',
       payment_mode: 'Installment',
       payment_period: 'Quarterly',
+      balance: 20000,
     },
     {
       id: 4,
@@ -57,6 +60,7 @@ export const Clients: React.SFC<ClientsProps> = () => {
       plan: 'Plan 1',
       payment_mode: 'Installment',
       payment_period: 'Quarterly',
+      balance: 100,
     },
   ]
   return (

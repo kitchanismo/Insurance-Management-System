@@ -37,11 +37,6 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
               { value: 'Plan 1' },
               { value: 'Plan 2' },
               { value: 'Plan 3' },
-              { value: 'Plan 4' },
-              { value: 'Plan 5' },
-              { value: 'Plan 6' },
-              { value: 'Plan 7' },
-              { value: 'Plan 8' },
             ],
           })}
           {mySelect({

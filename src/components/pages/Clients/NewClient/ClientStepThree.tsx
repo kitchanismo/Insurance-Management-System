@@ -68,6 +68,22 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
                   ],
                 })}
 
+              <Grid
+                xs={12}
+                style={{
+                  marginBottom: 10,
+                  marginTop: 10,
+                  paddingRight: 8,
+                  paddingLeft: 8,
+                }}
+                direction='column'
+              >
+                {myInput({
+                  label: 'OR Number',
+                  name: 'or_number',
+                })}
+              </Grid>
+
               <Grid style={{ paddingLeft: 10 }} direction='column'>
                 {client.payment_period &&
                   client.payment_mode === 'Installment' && (

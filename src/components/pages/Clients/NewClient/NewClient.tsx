@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
@@ -15,12 +15,21 @@ import {
   MyStepperProps,
 } from 'components/Common/MyStepper'
 import { ClientStepThree } from './ClientStepThree'
-import { SettingsCellOutlined } from '@material-ui/icons'
+import Scroll from 'react-scroll'
 
 export interface NewClientProps {}
 
 export const NewClient: React.SFC<NewClientProps> = () => {
   const ctx = useContext(GlobalContext)
+
+  const scroll = Scroll.animateScroll
+
+  useEffect(() => {
+    ctx?.setTitle('Client Registration')
+    scroll.scrollToTop({ duration: 500 })
+  }, [])
+
+  const history = useHistory()
 
   const stepper = useStepper([
     'Create Profile Account',
@@ -28,12 +37,7 @@ export const NewClient: React.SFC<NewClientProps> = () => {
     'Select Plan And Payment',
   ])
 
-  const [profile, setProfile] = React.useState<Profile>({
-    firstname: 'dfdfd',
-    middlename: 'sddfdf',
-    lastname: 'dfdgfgf',
-    civil: 'Single',
-  })
+  const [profile, setProfile] = React.useState<Profile>({})
 
   const [commissioner, setCommissioner] = React.useState<Commissioner>({
     position: 'sales_agent',
@@ -42,6 +46,7 @@ export const NewClient: React.SFC<NewClientProps> = () => {
   const [client, setClient] = React.useState<Client>({})
 
   const onNextOne = async (profile: Profile) => {
+    scroll.scrollToTop({ duration: 500 })
     console.log('profile', profile)
     setProfile(profile)
     stepper.handleNext()
@@ -58,6 +63,8 @@ export const NewClient: React.SFC<NewClientProps> = () => {
       return
     }
 
+    scroll.scrollToTop({ duration: 500 })
+
     setClient((client) => ({ ...client, insured_employee }))
 
     setCommissioner(commissioner)
@@ -68,6 +75,8 @@ export const NewClient: React.SFC<NewClientProps> = () => {
   }
 
   const onNextThree = async (client: Client) => {
+    scroll.scrollToTop({ duration: 500 })
+
     setClient(client)
 
     stepper.handleNext()
@@ -76,6 +85,15 @@ export const NewClient: React.SFC<NewClientProps> = () => {
       client: { ...profile, ...client },
       commissioner,
     })
+  }
+
+  const onAddNew = () => {
+    stepper.handleReset()
+    setProfile({})
+    setCommissioner({
+      position: 'sales_agent',
+    })
+    setClient({})
   }
 
   return (
@@ -97,6 +115,38 @@ export const NewClient: React.SFC<NewClientProps> = () => {
           onNext={onNextThree}
           state={[client, setClient]}
         />
+      )}
+
+      {stepper.activeStep === 3 && (
+        <Grid container xs={12} direction='column' alignItems='center'>
+          <Typography component='h6' variant='subtitle1'>
+            All Step Completed!
+          </Typography>
+          <Grid spacing={2} item container xs={12}>
+            <Grid item xs={6}>
+              <Button
+                onClick={() => history.replace('/clients')}
+                style={{ paddingTop: 15, paddingBottom: 15, marginTop: 10 }}
+                fullWidth
+                variant='contained'
+                color='default'
+              >
+                CLIENT LIST
+              </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                onClick={onAddNew}
+                style={{ paddingTop: 15, paddingBottom: 15, marginTop: 10 }}
+                fullWidth
+                variant='contained'
+                color='primary'
+              >
+                ADD NEW
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
       )}
     </>
   )

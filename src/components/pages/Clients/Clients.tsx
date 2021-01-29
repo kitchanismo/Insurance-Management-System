@@ -36,6 +36,28 @@ export const Clients: React.SFC<ClientsProps> = () => {
       payment_mode: 'Installment',
       payment_period: 'Quarterly',
     },
+    {
+      id: 3,
+      code: 'HEY-7634464',
+      firstname: 'Fitm',
+      middlename: 'Mim',
+      lastname: 'Lae',
+      payment_count: 3,
+      plan: 'Plan 1',
+      payment_mode: 'Installment',
+      payment_period: 'Quarterly',
+    },
+    {
+      id: 4,
+      code: 'HEY-7634464',
+      firstname: 'Fitm',
+      middlename: 'Mim',
+      lastname: 'Lae',
+      payment_count: 3,
+      plan: 'Plan 1',
+      payment_mode: 'Installment',
+      payment_period: 'Quarterly',
+    },
   ]
   return (
     <>

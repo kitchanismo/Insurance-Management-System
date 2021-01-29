@@ -12,6 +12,7 @@ interface Client extends Profile {
   end_date?: Date
   branch?: string
   insured_employee?: string
+  years_to_pay?: number
   created_at?: Date
 }
 

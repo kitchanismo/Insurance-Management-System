@@ -7,16 +7,23 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import { useHistory } from 'react-router-dom'
 import { ClientCard } from './ClientCard'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import ClientContext from 'contexts/clientContext'
+import GlobalContext from 'contexts/globalContext'
 
 export interface ClientsProps {}
 
 export const Clients: React.SFC<ClientsProps> = () => {
-  const ctx = useContext(ClientContext)
+  const clientCtx = useContext(ClientContext)
+  const globalCtx = useContext(GlobalContext)
 
   const styles = useStyles()
   const history = useHistory()
+
+  useEffect(() => {
+    globalCtx?.setTitle('Client Management')
+    clientCtx?.onLoadClients()
+  }, [])
 
   return (
     <>
@@ -28,7 +35,7 @@ export const Clients: React.SFC<ClientsProps> = () => {
         justify='flex-start'
         alignItems='center'
       >
-        {ctx?.clients.map((client) => (
+        {clientCtx?.clients.map((client) => (
           <Grid key={client.id} item xs={12}>
             <ClientCard key={client.id} client={client} />
           </Grid>

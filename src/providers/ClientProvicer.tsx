@@ -1,4 +1,4 @@
-import useClientState from 'hooks/useClientState'
+import useClientState from 'apihooks/useClientState'
 import * as React from 'react'
 import ClientContext from '../contexts/clientContext'
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid'
@@ -10,10 +10,17 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 import Employee from 'models/employee'
 import { EmployeeCard } from './EmployeeCard'
 import { MySearchField } from 'components/Common/MySearchField'
+import GlobalContext from 'contexts/globalContext'
 
 export interface EmployeesProps {}
 
 export const Employees: React.SFC<EmployeesProps> = () => {
+  const globalCtx = useContext(GlobalContext)
+
+  useEffect(() => {
+    globalCtx?.setTitle('Employee Management')
+  }, [])
+
   const employees: Partial<Employee>[] = [
     {
       id: 1,

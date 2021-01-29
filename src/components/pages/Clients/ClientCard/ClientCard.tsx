@@ -1,5 +1,5 @@
 import { MyCard } from 'components/Common/MyCard'
-
+import React from 'react'
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
@@ -13,8 +13,8 @@ import Avatar from '@material-ui/core/Avatar'
 import userIcon from 'assets/profile-user.svg'
 import Client from 'models/client'
 import { useHistory } from 'react-router-dom'
-import { getCountPaid, getTotalCountPayment } from 'utils/helper'
 import { MyAvatar } from 'components/Common/MyAvatar'
+import ClientContext from 'contexts/clientContext'
 
 export interface ClientCardProps {
   client: Client
@@ -22,6 +22,8 @@ export interface ClientCardProps {
 
 export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
   const history = useHistory()
+
+  const clientCtx = React.useContext(ClientContext)
 
   return (
     <MyCard title={client.code} style={{ paddingBottom: 5 }}>
@@ -46,13 +48,9 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
                 style={{ marginTop: 5 }}
                 size='small'
                 label={
-                  getCountPaid({
-                    balance: client.balance,
-                    plan: client.plan,
-                    payment_period: client.payment_period,
-                  }) +
+                  clientCtx?.computeTotalPaid(client) +
                   '/' +
-                  getTotalCountPayment(client.payment_period || null) +
+                  clientCtx?.computeTotalPay(client) +
                   ' Paid'
                 }
                 variant='default'

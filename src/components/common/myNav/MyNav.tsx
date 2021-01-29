@@ -18,29 +18,6 @@ export const Nav: React.FC = (props) => {
   const history = useHistory()
   const [isActive, setIsActive] = React.useState(false)
 
-  React.useEffect(() => {
-    console.log(history)
-    const path = history.location.pathname.substring(1)
-
-    if (path.includes('employees')) {
-      if (path.includes('new')) {
-        ctx?.setTitle('Add New Employee')
-        return
-      }
-      if (path.includes('edit')) {
-        ctx?.setTitle('Edit Employee')
-        return
-      }
-      ctx?.setTitle('Employee Management')
-      return
-    }
-
-    if (path.includes('dashboard')) {
-      ctx?.setTitle('Dashboard')
-      return
-    }
-  }, [])
-
   const onToggle = (title?: string) => {
     setIsActive((isActive) => !isActive)
 

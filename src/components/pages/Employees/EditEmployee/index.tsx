@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { GlobalContext } from 'hooks/useGlobalState'
 import validator from '../../../../validators/saveEmployeeValidator'
-import MyForm, { MyFormProps } from 'components/common/Form'
+import MyForm, { MyFormProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
 
 export interface EditUserProps {}

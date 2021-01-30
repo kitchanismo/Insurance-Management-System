@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import Chip from '@material-ui/core/Chip'
 
-import MyCard from 'components/common/Card'
+import MyCard from 'components/common/MyCard'
 import MyAvatar from 'components/common/MyAvatar'
 import Employee from 'models/employee'
 

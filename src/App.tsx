@@ -1,7 +1,7 @@
 import React from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Nav from 'components/common/Nav'
-import MyAlert from 'components/common/Alert'
+import Nav from 'components/common/MyNav'
+import MyAlert from 'components/common/MyAlert'
 import Layout from 'components/layout'
 import { ClientProvider } from 'providers/ClientProvicer'
 

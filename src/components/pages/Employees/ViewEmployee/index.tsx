@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider'
 import userIcon from 'assets/profile-user.svg'
 import { calculateAge } from 'utils/helper'
 
-import { MyCard } from 'components/Common/MyCard'
+import MyCard from 'components/Common/MyCard'
 import Employee from 'models/employee'
 import { GlobalContext } from 'hooks/useGlobalState'
 
@@ -19,7 +19,7 @@ export interface ViewUserProps {
   title: string
 }
 
-export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
+const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   const [_, dispatch] = useContext(GlobalContext)!
 
   useEffect(() => {
@@ -170,3 +170,5 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
     </Grid>
   )
 }
+
+export default ViewEmployee

@@ -1,4 +1,3 @@
-import { Clients } from 'components/Pages/Clients'
 import Client from 'models/client'
 
 const plans = [

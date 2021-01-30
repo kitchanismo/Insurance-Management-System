@@ -6,7 +6,7 @@ import { GlobalContext } from 'hooks/useGlobalState'
 
 export interface MyAlertProps {}
 
-export const MyAlert: React.SFC<MyAlertProps> = () => {
+const MyAlert: React.SFC<MyAlertProps> = () => {
   const [state, dispatch] = useContext(GlobalContext)!
 
   return (
@@ -28,3 +28,5 @@ export const MyAlert: React.SFC<MyAlertProps> = () => {
     )
   )
 }
+
+export default MyAlert

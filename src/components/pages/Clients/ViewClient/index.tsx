@@ -15,7 +15,11 @@ import Client from 'models/client'
 import { ClientContext } from 'hooks/useClientState'
 import { GlobalContext } from 'hooks/useGlobalState'
 
-import { getClient, computeTotalPaid, computeTotalPay } from 'api/clientService'
+import {
+  getClient,
+  computeTotalCountPaid,
+  computeTotalCountToPay,
+} from 'api/clientService'
 
 export interface ViewClientProps {}
 
@@ -73,9 +77,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                       style={{ marginTop: 5 }}
                       size='small'
                       label={
-                        computeTotalPaid(client) +
-                        '/' +
-                        computeTotalPay(client) +
+                        computeTotalCountPaid(client, clientState.plans) +
                         ' Paid'
                       }
                       variant='default'

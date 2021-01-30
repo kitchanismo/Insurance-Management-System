@@ -17,7 +17,7 @@ export interface ClientsProps {}
 const Clients: React.SFC<ClientsProps> = () => {
   const [clientState, clientDispatch] = useContext(ClientContext)!
 
-  const [_, globalDispatch] = useContext(GlobalContext)!
+  const [globalState, globalDispatch] = useContext(GlobalContext)!
 
   const styles = useStyles()
   const history = useHistory()
@@ -25,8 +25,10 @@ const Clients: React.SFC<ClientsProps> = () => {
   useEffect(() => {
     globalDispatch({ type: 'setTitle', payload: 'Client Management' })
     clientDispatch({ type: 'setIsLoading', payload: true })
+    globalDispatch({ type: 'setIsLoading', payload: true })
     getClients().then((clients) => {
-      clientDispatch({ type: 'onLoad', payload: clients })
+      clientDispatch({ type: 'onLoadClients', payload: clients })
+      globalDispatch({ type: 'setIsLoading', payload: false })
     })
   }, [])
 
@@ -35,7 +37,13 @@ const Clients: React.SFC<ClientsProps> = () => {
 
   return (
     <>
-      <MySearchField style={{ marginBottom: 15 }} />
+      <MySearchField
+        onClick={() => {
+          clientDispatch({ type: 'onReloadPlans' })
+          console.log(clientState.onReloadPlans)
+        }}
+        style={{ marginBottom: 15 }}
+      />
       <Grid
         container
         spacing={2}

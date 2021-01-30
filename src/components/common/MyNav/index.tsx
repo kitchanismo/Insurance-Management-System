@@ -12,6 +12,7 @@ import MyDrawer from 'components/common/MyDrawer'
 import { GlobalContext } from 'hooks/useGlobalState'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import Slide from '@material-ui/core/Slide'
+import LinearProgress from '@material-ui/core/LinearProgress'
 
 const Nav: React.FC = (props) => {
   const [state, dispatch] = React.useContext(GlobalContext)!
@@ -42,7 +43,6 @@ const Nav: React.FC = (props) => {
       </Slide>
     )
   }
-
   return (
     <HideOnScroll {...props}>
       <AppBar
@@ -71,6 +71,7 @@ const Nav: React.FC = (props) => {
             </Grid>
           </Grid>
         </Toolbar>
+        <LinearProgress hidden={!state.isLoading} />
       </AppBar>
     </HideOnScroll>
   )

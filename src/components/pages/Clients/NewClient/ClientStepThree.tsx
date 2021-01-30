@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -6,6 +6,8 @@ import MyForm, { MyFormProps } from 'components/common/MyForm'
 import Client from 'models/client'
 import Commissioner from 'models/commissioner'
 import validator from 'validators/clientStepThreeValidator'
+import { getAmountToPay } from 'api/clientService'
+import { ClientContext } from 'hooks/useClientState'
 
 export interface ClientStepTwoProps {
   onBack: () => void
@@ -18,6 +20,13 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
   onBack,
   onNext,
 }) => {
+  const [clientState, clientDispatch] = useContext(ClientContext)!
+  const [amount, setAmount] = useState(0)
+
+  useEffect(() => {
+    setAmount(getAmountToPay(client, clientState.plans))
+  }, [client.payment_mode, client.payment_period])
+
   const formProps: MyFormProps<Client> = {
     state: [client, setClient],
     onSubmit: onNext,
@@ -26,7 +35,7 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
 
   return (
     <MyForm {...formProps}>
-      {({ myInput, mySelect, myButton }) => (
+      {({ myControlledInput, myInput, mySelect, myButton }) => (
         <>
           {mySelect({
             label: 'Plan',
@@ -65,42 +74,25 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
 
               <Grid
                 xs={12}
+                spacing={1}
                 style={{
                   marginBottom: 10,
-                  marginTop: 10,
-                  paddingRight: 8,
+                  marginTop: 5,
                   paddingLeft: 8,
                 }}
-                direction='column'
+                container
               >
-                {myInput({
-                  label: 'OR Number',
-                  name: 'or_number',
+                {myControlledInput({
+                  label: 'Amount',
+                  name: 'amount',
+                  value: amount,
                 })}
-              </Grid>
-
-              <Grid style={{ paddingLeft: 10 }} direction='column'>
-                {client.payment_period &&
-                  client.payment_mode === 'Installment' && (
-                    <>
-                      <Typography component='h6' variant='subtitle1'>
-                        Downpayment
-                      </Typography>
-                      <Typography color='primary' variant='subtitle1'>
-                        Php 388.00
-                      </Typography>
-                    </>
-                  )}
-                {client.payment_mode === 'Fullpayment' && (
-                  <>
-                    <Typography component='h6' variant='subtitle1'>
-                      Lumpsum Price
-                    </Typography>
-                    <Typography color='primary' variant='subtitle1'>
-                      Php 23,280.00
-                    </Typography>
-                  </>
-                )}
+                <Grid style={{ marginTop: 10 }} xs={12} item>
+                  {myInput({
+                    label: 'OR Number',
+                    name: 'or_number',
+                  })}
+                </Grid>
               </Grid>
             </>
           )}

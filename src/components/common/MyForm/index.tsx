@@ -57,6 +57,7 @@ export interface RenderProps {
   myButton: (text?: string) => JSX.Element
   mySelect: (select: SelectProps) => JSX.Element
   myRadio: (input: InputProps) => JSX.Element
+  myControlledInput: (input: InputProps) => JSX.Element
 }
 
 function MyForm<T>(props: MyFormProps<T>) {
@@ -145,6 +146,29 @@ function MyForm<T>(props: MyFormProps<T>) {
           type={input.type}
           error={!!error}
           helperText={error}
+        />
+      </Grid>
+    )
+  }
+
+  const myControlledInput = (input: InputProps) => {
+    const error = errors && errors[input.name]
+
+    return (
+      <Grid item xs={12} key={input.name}>
+        <TextField
+          value={input.value}
+          multiline={input.isMultiline}
+          fullWidth
+          name={input.name}
+          variant='outlined'
+          label={input.label}
+          type={input.type}
+          error={!!error}
+          helperText={error}
+          onChange={(e: any) =>
+            setData((data) => ({ ...data, [input.name]: e.target.value }))
+          }
         />
       </Grid>
     )
@@ -289,6 +313,7 @@ function MyForm<T>(props: MyFormProps<T>) {
       <Grid container spacing={2} direction='column'>
         {props.children?.({
           myInput,
+          myControlledInput,
           myInputPassword,
           mySelect,
           myDateTimePicker,

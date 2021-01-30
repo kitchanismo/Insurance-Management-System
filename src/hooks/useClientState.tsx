@@ -1,6 +1,8 @@
-import { createContext, Dispatch, useReducer } from 'react'
+import { createContext, Dispatch, useEffect, useReducer } from 'react'
 
 import Client from 'models/client'
+import Plan from 'models/plan'
+import { getPlans } from 'api/clientService'
 
 export const ClientContext = createContext<
   [state: ClientState, dispatch: Dispatch<ClientAction>] | null
@@ -8,17 +10,24 @@ export const ClientContext = createContext<
 
 export interface ClientState {
   clients: Client[]
+  plans: Plan[]
   isLoading: boolean
+  onReloadPlans: boolean
 }
 
 export type ClientAction =
-  | { type: 'toggleLoading' }
-  | { type: 'onLoad'; payload: Client[] }
+  | { type: 'toggleLoading' | 'onReloadPlans' }
+  | { type: 'onLoadClients'; payload: Client[] }
+  | { type: 'onLoadPlans'; payload: Plan[] }
   | { type: 'setIsLoading'; payload: boolean }
 
 const clientReducer = (state: ClientState, action: ClientAction) => {
   switch (action.type) {
-    case 'onLoad':
+    case 'onLoadPlans':
+      return { ...state, plans: action.payload }
+    case 'onReloadPlans':
+      return { ...state, onReloadPlans: !state.onReloadPlans }
+    case 'onLoadClients':
       return { ...state, clients: action.payload, isLoading: false }
     case 'setIsLoading':
       return { ...state, isLoading: action.payload }
@@ -30,12 +39,20 @@ const clientReducer = (state: ClientState, action: ClientAction) => {
 }
 
 const useClientState = () => {
-  const reducer = useReducer(clientReducer, {
+  const [state, dispatch] = useReducer(clientReducer, {
     clients: [],
+    plans: [],
     isLoading: false,
+    onReloadPlans: false,
   })
 
-  return reducer
+  useEffect(() => {
+    getPlans().then((plans) => {
+      dispatch({ type: 'onLoadPlans', payload: plans })
+    })
+  }, [state.onReloadPlans])
+
+  return { state, dispatch }
 }
 
 export default useClientState

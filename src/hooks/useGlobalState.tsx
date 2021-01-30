@@ -13,12 +13,14 @@ export interface GlobalState {
   alert: AlertProps | null
   title: string
   isDark: boolean
+  isLoading: boolean
 }
 
 export type GlobalAction =
   | { type: 'hideAlert' | 'toggleTheme' }
   | { type: 'setAlert'; payload: AlertProps | null }
   | { type: 'setTitle'; payload: string }
+  | { type: 'setIsLoading'; payload: boolean }
 
 const globalReducer = (state: GlobalState, action: GlobalAction) => {
   switch (action.type) {
@@ -28,6 +30,8 @@ const globalReducer = (state: GlobalState, action: GlobalAction) => {
       return { ...state, alert: null }
     case 'setTitle':
       return { ...state, title: action.payload }
+    case 'setIsLoading':
+      return { ...state, isLoading: action.payload }
     case 'toggleTheme':
       return { ...state, isDark: !state.isDark }
     default:
@@ -40,6 +44,7 @@ const useGlobalState = () => {
     alert: null,
     title: '',
     isDark: false,
+    isLoading: false,
   })
 
   return reducer

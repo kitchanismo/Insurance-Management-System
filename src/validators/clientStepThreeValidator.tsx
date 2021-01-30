@@ -4,6 +4,7 @@ import { lettersOnly, notNull } from 'utils/helper'
 const clientStepThreeValidator = {
   plan: notNull('Plan'),
   insured_employee: Joi.optional(),
+  amount: Joi.number().required().label('Amount'),
   payment_mode: notNull('Payment Mode'),
   or_number: notNull('OR Number'),
   payment_period: Joi.when('payment_mode', {

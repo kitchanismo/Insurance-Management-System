@@ -14,7 +14,7 @@ import userIcon from 'assets/profile-user.svg'
 import Client from 'models/client'
 import { useHistory } from 'react-router-dom'
 import { MyAvatar } from 'components/Common/MyAvatar'
-import ClientContext from 'contexts/clientContext'
+import { computeTotalPaid, computeTotalPay } from 'api/clientService'
 
 export interface ClientCardProps {
   client: Client
@@ -22,8 +22,6 @@ export interface ClientCardProps {
 
 export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
   const history = useHistory()
-
-  const { computeTotalPaid, computeTotalPay } = React.useContext(ClientContext)!
 
   return (
     <MyCard title={client.code} style={{ paddingBottom: 5 }}>

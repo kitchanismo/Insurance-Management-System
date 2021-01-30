@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import Alert from '@material-ui/lab/Alert'
-import GlobalContext from 'contexts/globalContext'
+import { GlobalContext } from 'hooks/useGlobalState'
 
 export interface MyAlertProps {}
 

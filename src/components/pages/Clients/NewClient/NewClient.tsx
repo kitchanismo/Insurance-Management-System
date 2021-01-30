@@ -3,19 +3,15 @@ import { useHistory } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import GlobalContext from 'contexts/globalContext'
 import Profile from 'models/profile'
 import Client from 'models/client'
 import Commissioner from 'models/commissioner'
 import { ClientStepOne } from './ClientStepOne'
 import { ClientStepTwo } from './ClientStepTwo'
-import {
-  MyStepper,
-  useStepper,
-  MyStepperProps,
-} from 'components/Common/MyStepper'
+import { MyStepper, useStepper } from 'components/Common/MyStepper'
 import { ClientStepThree } from './ClientStepThree'
 import Scroll from 'react-scroll'
+import { GlobalContext } from 'hooks/useGlobalState'
 
 export interface NewClientProps {}
 

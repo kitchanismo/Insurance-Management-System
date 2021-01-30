@@ -14,7 +14,7 @@ import Grid from '@material-ui/core/Grid/Grid'
 import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import GlobalContext from 'contexts/globalContext'
+import { GlobalContext } from 'hooks/useGlobalState'
 import { useHistory } from 'react-router-dom'
 
 export interface MyDrawerProps {

@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react'
-import GlobalContext from 'contexts/globalContext'
+
 import { useHistory, useParams } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
-import EditIcon from '@material-ui/icons/Edit'
 import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
 import userIcon from 'assets/profile-user.svg'
 import { calculateAge } from 'utils/helper'
-
 import { MyCard } from 'components/Common/MyCard'
 import Client from 'models/client'
-import { Clients } from '../Clients'
-import ClientContext from 'contexts/clientContext'
+import { ClientContext } from 'hooks/useClientState'
+import { GlobalContext } from 'hooks/useGlobalState'
+
+import { getClient, computeTotalPaid, computeTotalPay } from 'api/clientService'
 
 export interface ViewClientProps {}
 
@@ -24,17 +24,15 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
 
   const { id } = useParams<{ id: string }>()
 
-  const [state, dispatch] = useContext(GlobalContext)!
+  const [_, globalDispatch] = useContext(GlobalContext)!
 
-  const { getClient, computeTotalPaid, computeTotalPay } = useContext(
-    ClientContext,
-  )!
+  const [clientState] = useContext(ClientContext)!
 
   const [client, setClient] = useState<Client>()
 
   useEffect(() => {
-    dispatch({ type: 'setTitle', payload: 'Client Details' })
-    getClient(+id).then((client) => setClient(client))
+    globalDispatch({ type: 'setTitle', payload: 'Client Details' })
+    getClient(clientState.clients, +id).then((client) => setClient(client))
   }, [])
 
   const detail = (title: string, subtitle: any) => (

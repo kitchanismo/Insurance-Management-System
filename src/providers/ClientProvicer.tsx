@@ -1,11 +1,11 @@
 import useClientState from 'hooks/useClientState'
 import * as React from 'react'
-import ClientContext from '../contexts/clientContext'
+import { ClientContext } from 'hooks/useClientState'
 
 export const ClientProvider: React.FC = (props) => {
-  const clientState = useClientState()
+  const [state, dispatch] = useClientState()
   return (
-    <ClientContext.Provider value={{ ...clientState }}>
+    <ClientContext.Provider value={[state, dispatch]}>
       {props.children}
     </ClientContext.Provider>
   )

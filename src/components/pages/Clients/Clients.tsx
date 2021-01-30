@@ -8,26 +8,30 @@ import AddIcon from '@material-ui/icons/Add'
 import { useHistory } from 'react-router-dom'
 import { ClientCard } from './ClientCard'
 import { useContext, useEffect } from 'react'
-import ClientContext from 'contexts/clientContext'
-import GlobalContext from 'contexts/globalContext'
+import { getClients } from 'api/clientService'
+import { ClientContext } from 'hooks/useClientState'
+import { GlobalContext } from 'hooks/useGlobalState'
 
 export interface ClientsProps {}
 
 const Clients: React.SFC<ClientsProps> = () => {
-  const { onLoadClients, clients, isLoading } = useContext(ClientContext)!
-  // const { setTitle } = useContext(GlobalContext)!
+  const [clientState, clientDispatch] = useContext(ClientContext)!
 
-  const [state, dispatch] = useContext(GlobalContext)!
+  const [_, globalDispatch] = useContext(GlobalContext)!
 
   const styles = useStyles()
   const history = useHistory()
 
   useEffect(() => {
-    dispatch({ type: 'setTitle', payload: 'Client Management' })
-    onLoadClients()
+    globalDispatch({ type: 'setTitle', payload: 'Client Management' })
+    clientDispatch({ type: 'setIsLoading', payload: true })
+    getClients().then((clients) => {
+      clientDispatch({ type: 'onLoad', payload: clients })
+    })
   }, [])
 
-  if (isLoading) return <h4>Loading...</h4>
+  if (clientState.isLoading && !clientState.clients.length)
+    return <h4>Loading...</h4>
 
   return (
     <>
@@ -39,7 +43,7 @@ const Clients: React.SFC<ClientsProps> = () => {
         justify='flex-start'
         alignItems='center'
       >
-        {clients.map((client) => (
+        {clientState.clients.map((client) => (
           <Grid key={client.id} item xs={12}>
             <ClientCard key={client.id} client={client} />
           </Grid>

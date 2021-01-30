@@ -20,7 +20,7 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers'
-import GlobalContext from 'contexts/globalContext'
+import { GlobalContext } from 'hooks/useGlobalState'
 
 export interface MyFormProps<T> {
   state: [T, React.Dispatch<React.SetStateAction<T>>]

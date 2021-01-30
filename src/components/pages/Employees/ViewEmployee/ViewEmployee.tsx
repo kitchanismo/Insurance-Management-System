@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-import GlobalContext from 'contexts/globalContext'
 import { useHistory } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -14,6 +13,7 @@ import { calculateAge } from 'utils/helper'
 
 import { MyCard } from 'components/Common/MyCard'
 import Employee from 'models/employee'
+import { GlobalContext } from 'hooks/useGlobalState'
 
 export interface ViewUserProps {
   title: string

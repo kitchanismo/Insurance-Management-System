@@ -1,4 +1,4 @@
-import GlobalContext from 'contexts/globalContext'
+import { GlobalContext } from 'hooks/useGlobalState'
 import React, { useContext, useEffect } from 'react'
 
 export interface DashboardProps {}

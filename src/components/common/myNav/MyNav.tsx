@@ -9,7 +9,7 @@ import Menu from '@material-ui/icons/Menu'
 import Grid from '@material-ui/core/Grid'
 
 import { MyDrawer } from 'components/Common/MyDrawer'
-import GlobalContext from 'contexts/globalContext'
+import { GlobalContext } from 'hooks/useGlobalState'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import Slide from '@material-ui/core/Slide'
 

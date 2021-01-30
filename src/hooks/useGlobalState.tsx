@@ -1,6 +1,13 @@
-import { GlobalProps, AlertProps } from '../contexts/globalContext'
+import { useReducer, Dispatch, createContext } from 'react'
 
-import { useReducer, useState } from 'react'
+export interface AlertProps {
+  message: string
+  type: 'success' | 'info' | 'warning' | 'error' | undefined
+}
+
+export const GlobalContext = createContext<
+  [state: GlobalState, dispatch: Dispatch<GlobalAction>] | null
+>(null)
 
 export interface GlobalState {
   alert: AlertProps | null

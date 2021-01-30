@@ -1,5 +1,5 @@
 import React from 'react'
-import { GlobalAction, GlobalState } from 'apihooks/useGlobalState'
+import { GlobalAction, GlobalState } from 'hooks/useGlobalState'
 
 export interface AlertProps {
   message: string

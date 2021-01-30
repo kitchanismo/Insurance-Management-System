@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@material-ui/core/styles'
 import * as React from 'react'
 import GlobalContext from '../contexts/globalContext'
-import useGlobalState from '../apihooks/useGlobalState'
+import useGlobalState from '../hooks/useGlobalState'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 export const GlobalProvider: React.FC = (props) => {

@@ -9,10 +9,9 @@ export interface GlobalState {
 }
 
 export type GlobalAction =
+  | { type: 'hideAlert' | 'toggleTheme' }
   | { type: 'setAlert'; payload: AlertProps | null }
-  | { type: 'hideAlert' }
   | { type: 'setTitle'; payload: string }
-  | { type: 'toggleTheme' }
 
 const globalReducer = (state: GlobalState, action: GlobalAction) => {
   switch (action.type) {

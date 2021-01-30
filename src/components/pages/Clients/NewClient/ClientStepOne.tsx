@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import MyForm, { MyFormProps } from 'components/Common/MyForm'
+import MyForm, { MyFormProps } from 'components/common/MyForm'
 import Profile from 'models/profile'
 import validator from 'validators/saveProfileValidator'
 

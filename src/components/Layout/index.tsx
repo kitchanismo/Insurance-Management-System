@@ -3,14 +3,14 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import Container from '@material-ui/core/Container'
-import Dashboard from 'components/Pages/Dashboard'
-import Employees from 'components/Pages/Employees'
-import ViewEmployee from 'components/Pages/Employees/ViewEmployee'
-import NewEmployee from 'components/Pages/Employees/NewEmployee'
-import EditEmployee from 'components/Pages/Employees/EditEmployee'
-import Clients from 'components/Pages/Clients'
-import ViewClient from 'components/Pages/Clients/ViewClient'
-import NewClient from 'components/Pages/Clients/NewClient'
+import Dashboard from 'components/pages/Dashboard'
+import Employees from 'components/pages/Employees'
+import ViewEmployee from 'components/pages/Employees/ViewEmployee'
+import NewEmployee from 'components/pages/Employees/NewEmployee'
+import EditEmployee from 'components/pages/Employees/EditEmployee'
+import Clients from 'components/pages/Clients'
+import ViewClient from 'components/pages/Clients/ViewClient'
+import NewClient from 'components/pages/Clients/NewClient'
 
 const Layout = () => {
   const styles = useStyles()

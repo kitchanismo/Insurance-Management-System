@@ -1,4 +1,4 @@
-import MySearchField from 'components/Common/MySearchField'
+import MySearchField from 'components/common/MySearchField'
 import Client from 'models/client'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 

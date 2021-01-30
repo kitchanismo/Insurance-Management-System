@@ -1,4 +1,4 @@
-import MyCard from 'components/Common/MyCard'
+import MyCard from 'components/common/MyCard'
 import React from 'react'
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
@@ -13,7 +13,7 @@ import Avatar from '@material-ui/core/Avatar'
 import userIcon from 'assets/profile-user.svg'
 import Client from 'models/client'
 import { useHistory } from 'react-router-dom'
-import MyAvatar from 'components/Common/MyAvatar'
+import MyAvatar from 'components/common/MyAvatar'
 import { computeTotalPaid, computeTotalPay } from 'api/clientService'
 
 export interface ClientCardProps {

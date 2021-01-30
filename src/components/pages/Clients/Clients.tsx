@@ -25,6 +25,8 @@ export const Clients: React.SFC<ClientsProps> = () => {
     clientCtx?.onLoadClients()
   }, [])
 
+  if (clientCtx?.isLoading) return <h4>Loading...</h4>
+
   return (
     <>
       <MySearchField style={{ marginBottom: 15 }} />

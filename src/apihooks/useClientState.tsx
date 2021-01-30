@@ -31,8 +31,13 @@ const plans = [
 
 const useClientState = () => {
   const [clients, setClients] = useState<Client[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const getClient = async (id: number) => {
+    const client = clients.filter((client) => client.id === id)[0]
+    return Promise.resolve(client)
+  }
 
-  const onLoadClients = () => {
+  const onLoadClients = async () => {
     const clients: Client[] = [
       {
         id: 1,
@@ -95,8 +100,13 @@ const useClientState = () => {
         end_date: new Date('09/06/2025'),
       },
     ]
-    setClients(clients)
-    console.log('hit clients')
+
+    setIsLoading(true)
+    setTimeout(() => {
+      setClients(clients)
+      console.log('hit clients')
+      setIsLoading(false)
+    }, 3000)
   }
 
   const computeTotalPay = (client: Client) => {
@@ -156,9 +166,11 @@ const useClientState = () => {
 
   return {
     clients,
+    isLoading: isLoading && !clients.length,
     computeTotalPay,
     computeTotalPaid,
     onLoadClients,
+    getClient,
   } as ClientProps
 }
 

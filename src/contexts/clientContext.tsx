@@ -5,7 +5,9 @@ export interface ClientProps {
   clients: Client[]
   computeTotalPaid: (client: Client) => number
   computeTotalPay: (client: Client) => number
-  onLoadClients: () => void
+  getClient: (id: number) => Promise<Client>
+  onLoadClients: () => Promise<void>
+  isLoading: boolean
 }
 
 const ClientContext = React.createContext<ClientProps | null>(null)

@@ -32,7 +32,7 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
 
   useEffect(() => {
     globalCtx?.setTitle('Client Details')
-    setClient(clientCtx?.clients.filter((client) => client.id === +id)[0])
+    clientCtx?.getClient(+id).then((client) => setClient(client))
   }, [])
 
   const detail = (title: string, subtitle: any) => (

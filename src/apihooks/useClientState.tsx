@@ -125,15 +125,12 @@ const useClientState = () => {
       case 'Annually':
         period = 1
         break
-      case null:
-        period = 0
-        break
       default:
         period = 0
         break
     }
 
-    return period * (client.years_to_pay || 0)
+    return period * client.years_to_pay!
   }
 
   const computeTotalPaid = (client: Client) => {
@@ -159,9 +156,7 @@ const useClientState = () => {
         break
     }
 
-    return (
-      computeTotalPay(client) - Math.ceil((client.balance || 0) / downpayment)
-    )
+    return computeTotalPay(client) - Math.ceil(client.balance! / downpayment)
   }
 
   return {

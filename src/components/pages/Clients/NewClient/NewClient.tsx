@@ -20,12 +20,12 @@ import Scroll from 'react-scroll'
 export interface NewClientProps {}
 
 export const NewClient: React.SFC<NewClientProps> = () => {
-  const ctx = useContext(GlobalContext)
+  const { setTitle, setAlert } = useContext(GlobalContext)!
 
   const scroll = Scroll.animateScroll
 
   useEffect(() => {
-    ctx?.setTitle('Client Registration')
+    setTitle('Client Registration')
     scroll.scrollToTop({ duration: 500 })
   }, [])
 
@@ -56,7 +56,7 @@ export const NewClient: React.SFC<NewClientProps> = () => {
     const insured_employee = commissioner[commissioner.position] ?? ''
 
     if (!insured_employee) {
-      ctx?.setAlert({
+      setAlert({
         message: 'Sales Agent is not present! Please select another employee.',
         type: 'error',
       })

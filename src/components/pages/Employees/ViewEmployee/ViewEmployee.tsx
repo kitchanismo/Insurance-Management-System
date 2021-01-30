@@ -20,14 +20,14 @@ export interface ViewUserProps {
 }
 
 export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
-  const ctx = useContext(GlobalContext)
+  const { setTitle } = useContext(GlobalContext)!
 
   useEffect(() => {
-    ctx?.setTitle('View Employee')
+    setTitle('View Employee')
   }, [])
 
   const history = useHistory()
-  const [employee, setEmployee] = useState<Partial<Employee> | null>(null)
+  const [employee, setEmployee] = useState<Employee>()
 
   useEffect(() => {
     setEmployee({
@@ -41,7 +41,6 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
       address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
       contact: '09234545866',
       status: 'active',
-
       birthdate: new Date('10/03/1991'),
     })
   }, [])

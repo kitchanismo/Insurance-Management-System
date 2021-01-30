@@ -284,7 +284,7 @@ export function MyForm<T>(props: MyFormProps<T>) {
   return (
     <form onSubmit={onSubmit}>
       <Grid container spacing={2} direction='column'>
-        {props.children?.call(null, {
+        {props.children?.({
           myInput,
           myInputPassword,
           mySelect,

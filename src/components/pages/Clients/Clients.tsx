@@ -14,18 +14,18 @@ import GlobalContext from 'contexts/globalContext'
 export interface ClientsProps {}
 
 export const Clients: React.SFC<ClientsProps> = () => {
-  const clientCtx = useContext(ClientContext)
-  const globalCtx = useContext(GlobalContext)
+  const { onLoadClients, clients, isLoading } = useContext(ClientContext)!
+  const { setTitle } = useContext(GlobalContext)!
 
   const styles = useStyles()
   const history = useHistory()
 
   useEffect(() => {
-    globalCtx?.setTitle('Client Management')
-    clientCtx?.onLoadClients()
+    setTitle('Client Management')
+    onLoadClients()
   }, [])
 
-  if (clientCtx?.isLoading) return <h4>Loading...</h4>
+  if (isLoading) return <h4>Loading...</h4>
 
   return (
     <>
@@ -37,7 +37,7 @@ export const Clients: React.SFC<ClientsProps> = () => {
         justify='flex-start'
         alignItems='center'
       >
-        {clientCtx?.clients.map((client) => (
+        {clients.map((client) => (
           <Grid key={client.id} item xs={12}>
             <ClientCard key={client.id} client={client} />
           </Grid>

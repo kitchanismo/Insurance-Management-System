@@ -15,10 +15,10 @@ import GlobalContext from 'contexts/globalContext'
 export interface EmployeesProps {}
 
 export const Employees: React.SFC<EmployeesProps> = () => {
-  const globalCtx = useContext(GlobalContext)
+  const { setTitle } = useContext(GlobalContext)!
 
   useEffect(() => {
-    globalCtx?.setTitle('Employee Management')
+    setTitle('Employee Management')
   }, [])
 
   const employees: Partial<Employee>[] = [

@@ -23,7 +23,7 @@ export interface ClientCardProps {
 export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
   const history = useHistory()
 
-  const clientCtx = React.useContext(ClientContext)
+  const { computeTotalPaid, computeTotalPay } = React.useContext(ClientContext)!
 
   return (
     <MyCard title={client.code} style={{ paddingBottom: 5 }}>
@@ -48,9 +48,9 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
                 style={{ marginTop: 5 }}
                 size='small'
                 label={
-                  clientCtx?.computeTotalPaid(client) +
+                  computeTotalPaid(client) +
                   '/' +
-                  clientCtx?.computeTotalPay(client) +
+                  computeTotalPay(client) +
                   ' Paid'
                 }
                 variant='default'

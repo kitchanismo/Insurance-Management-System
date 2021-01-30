@@ -4,10 +4,10 @@ import React, { useContext, useEffect } from 'react'
 export interface DashboardProps {}
 
 export const Dashboard: React.SFC<DashboardProps> = () => {
-  const globalCtx = useContext(GlobalContext)
+  const { setTitle } = useContext(GlobalContext)!
 
   useEffect(() => {
-    globalCtx?.setTitle('Employee Management')
+    setTitle('Employee Management')
   }, [])
   return <h3>Dashboard</h3>
 }

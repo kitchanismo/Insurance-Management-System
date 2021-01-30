@@ -24,15 +24,17 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
 
   const { id } = useParams<{ id: string }>()
 
-  const globalCtx = useContext(GlobalContext)
+  const { setTitle } = useContext(GlobalContext)!
 
-  const clientCtx = useContext(ClientContext)
+  const { getClient, computeTotalPaid, computeTotalPay } = useContext(
+    ClientContext,
+  )!
 
   const [client, setClient] = useState<Client>()
 
   useEffect(() => {
-    globalCtx?.setTitle('Client Details')
-    clientCtx?.getClient(+id).then((client) => setClient(client))
+    setTitle('Client Details')
+    getClient(+id).then((client) => setClient(client))
   }, [])
 
   const detail = (title: string, subtitle: any) => (
@@ -81,9 +83,9 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
                       style={{ marginTop: 5 }}
                       size='small'
                       label={
-                        clientCtx?.computeTotalPaid(client) +
+                        computeTotalPaid(client) +
                         '/' +
-                        clientCtx?.computeTotalPay(client) +
+                        computeTotalPay(client) +
                         ' Paid'
                       }
                       variant='default'

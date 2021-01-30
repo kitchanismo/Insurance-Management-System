@@ -60,15 +60,7 @@ export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
     <Grid container xs={12}>
       {employee && (
         <>
-          <MyCard
-            title='Employee Details'
-            endIcon={
-              <EditIcon
-                style={{ color: 'white', marginTop: 5 }}
-                onClick={() => history.push('/employees/edit/' + employee.id)}
-              />
-            }
-          >
+          <MyCard title='Employee Details'>
             <CardContent>
               <Grid container xs={12} justify='space-between'>
                 <Grid

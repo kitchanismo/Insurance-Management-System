@@ -52,15 +52,7 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
     <Grid container xs={12}>
       {client && (
         <>
-          <MyCard
-            title={client.code}
-            endIcon={
-              <EditIcon
-                style={{ color: 'white', marginTop: 5 }}
-                onClick={() => history.push('/clients/edit/' + client.id)}
-              />
-            }
-          >
+          <MyCard title={client.code}>
             <CardContent>
               <Grid container xs={12} justify='space-between'>
                 <Grid

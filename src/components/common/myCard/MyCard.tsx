@@ -5,7 +5,6 @@ import Card, { CardProps } from '@material-ui/core/Card'
 
 export interface MyCardProps extends CardProps {
   title: any
-  endIcon?: JSX.Element
 }
 
 export const MyCard: React.FC<MyCardProps> = ({ title, ...props }) => {

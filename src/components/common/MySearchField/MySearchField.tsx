@@ -22,7 +22,7 @@ export const MySearchField: React.SFC<MySearchFieldProps> = ({
   return (
     <FormControl fullWidth variant='outlined'>
       <InputLabel htmlFor='outlined-adornment-password'>
-        {label ?? 'Search...'}
+        {label || 'Search...'}
       </InputLabel>
       <OutlinedInput
         {...props}

@@ -3,7 +3,7 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import Container from '@material-ui/core/Container'
-import Dashboard from 'components/pages/Dashboard'
+import Dashboard from 'components/pages/Dash'
 import Employees from 'components/pages/Employees'
 import ViewEmployee from 'components/pages/Employees/ViewEmployee'
 import NewEmployee from 'components/pages/Employees/NewEmployee'

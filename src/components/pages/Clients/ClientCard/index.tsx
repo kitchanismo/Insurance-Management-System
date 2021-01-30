@@ -1,4 +1,4 @@
-import MyCard from 'components/common/MyCard'
+import MyCard from 'components/common/Card'
 import React from 'react'
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'

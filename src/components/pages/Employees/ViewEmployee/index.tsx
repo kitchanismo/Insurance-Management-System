@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider'
 import userIcon from 'assets/profile-user.svg'
 import { calculateAge } from 'utils/helper'
 
-import MyCard from 'components/common/MyCard'
+import MyCard from 'components/common/Card'
 import Employee from 'models/employee'
 import { GlobalContext } from 'hooks/useGlobalState'
 

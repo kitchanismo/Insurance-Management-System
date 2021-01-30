@@ -20,10 +20,10 @@ export interface ViewUserProps {
 }
 
 export const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
-  const { setTitle } = useContext(GlobalContext)!
+  const [_, dispatch] = useContext(GlobalContext)!
 
   useEffect(() => {
-    setTitle('View Employee')
+    dispatch({ type: 'setTitle', payload: 'View Employee' })
   }, [])
 
   const history = useHistory()

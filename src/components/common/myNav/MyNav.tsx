@@ -14,7 +14,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import Slide from '@material-ui/core/Slide'
 
 export const Nav: React.FC = (props) => {
-  const ctx = React.useContext(GlobalContext)
+  const [state, dispatch] = React.useContext(GlobalContext)!
   const history = useHistory()
   const [isActive, setIsActive] = React.useState(false)
 
@@ -24,8 +24,7 @@ export const Nav: React.FC = (props) => {
     if (!title) {
       return
     }
-
-    ctx?.setTitle(title)
+    dispatch({ type: 'setTitle', payload: title })
   }
 
   interface Props {
@@ -67,7 +66,7 @@ export const Nav: React.FC = (props) => {
             </Grid>
             <Grid container xs={11} sm={5} md={4} justify='flex-end'>
               <Typography style={{ paddingTop: 8 }} variant='h6'>
-                {ctx?.title}
+                {state.title}
               </Typography>
             </Grid>
           </Grid>

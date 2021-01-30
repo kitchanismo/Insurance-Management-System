@@ -27,7 +27,7 @@ export const MyDrawer: React.FC<MyDrawerProps> = (props) => {
 
   const history = useHistory()
 
-  const ctx = React.useContext(GlobalContext)
+  const [state, dispatch] = React.useContext(GlobalContext)!
 
   const menus = [
     { name: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
@@ -77,8 +77,8 @@ export const MyDrawer: React.FC<MyDrawerProps> = (props) => {
         style={{ marginLeft: 10, marginTop: 10 }}
         control={
           <Switch
-            checked={ctx?.isDark}
-            onChange={() => ctx?.setIsDark((isDark) => !isDark)}
+            checked={state.isDark}
+            onChange={() => dispatch({ type: 'toggleTheme' })}
             name='checkedA'
             inputProps={{ 'aria-label': 'secondary checkbox' }}
           />

@@ -5,14 +5,14 @@ import useGlobalState from '../apihooks/useGlobalState'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 export const GlobalProvider: React.FC = (props) => {
-  const useGlobal = useGlobalState()
+  const [state, dispatch] = useGlobalState()
 
   const theme = createMuiTheme({
     overrides: {
       MuiCssBaseline: {
         '@global': {
           body: {
-            backgroundColor: useGlobal.isDark ? '#303030' : '#fafafa',
+            backgroundColor: state.isDark ? '#303030' : '#fafafa',
           },
         },
       },
@@ -22,7 +22,7 @@ export const GlobalProvider: React.FC = (props) => {
     },
 
     palette: {
-      type: useGlobal.isDark ? 'dark' : 'light',
+      type: state.isDark ? 'dark' : 'light',
       primary: {
         main: '#9C27B0',
       },
@@ -35,7 +35,7 @@ export const GlobalProvider: React.FC = (props) => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <GlobalContext.Provider value={{ ...useGlobal }}>
+        <GlobalContext.Provider value={[state, dispatch]}>
           {props.children}
         </GlobalContext.Provider>
       </ThemeProvider>

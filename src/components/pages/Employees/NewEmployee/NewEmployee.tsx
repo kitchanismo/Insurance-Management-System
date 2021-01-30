@@ -11,7 +11,7 @@ import { EmployeesProps } from '../Employees'
 export interface NewUserProps {}
 
 export const NewEmployee: React.SFC<NewUserProps> = () => {
-  const { setAlert } = useContext(GlobalContext)!
+  const [_, dispatch] = useContext(GlobalContext)!
 
   const history = useHistory()
 
@@ -25,7 +25,10 @@ export const NewEmployee: React.SFC<NewUserProps> = () => {
 
   const onSubmit = async (data: Employee) => {
     console.log(data)
-    setAlert({ message: 'Successfully added', type: 'success' })
+    dispatch({
+      type: 'setAlert',
+      payload: { message: 'Successfully added', type: 'success' },
+    })
     return Promise.resolve()
   }
 

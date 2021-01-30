@@ -24,7 +24,7 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
 
   const { id } = useParams<{ id: string }>()
 
-  const { setTitle } = useContext(GlobalContext)!
+  const [state, dispatch] = useContext(GlobalContext)!
 
   const { getClient, computeTotalPaid, computeTotalPay } = useContext(
     ClientContext,
@@ -33,7 +33,7 @@ export const ViewClient: React.SFC<ViewClientProps> = () => {
   const [client, setClient] = useState<Client>()
 
   useEffect(() => {
-    setTitle('Client Details')
+    dispatch({ type: 'setTitle', payload: 'Client Details' })
     getClient(+id).then((client) => setClient(client))
   }, [])
 

@@ -15,13 +15,15 @@ export interface ClientsProps {}
 
 const Clients: React.SFC<ClientsProps> = () => {
   const { onLoadClients, clients, isLoading } = useContext(ClientContext)!
-  const { setTitle } = useContext(GlobalContext)!
+  // const { setTitle } = useContext(GlobalContext)!
+
+  const [state, dispatch] = useContext(GlobalContext)!
 
   const styles = useStyles()
   const history = useHistory()
 
   useEffect(() => {
-    setTitle('Client Management')
+    dispatch({ type: 'setTitle', payload: 'Client Management' })
     onLoadClients()
   }, [])
 

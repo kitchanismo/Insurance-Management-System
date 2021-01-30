@@ -7,23 +7,22 @@ import GlobalContext from 'contexts/globalContext'
 export interface MyAlertProps {}
 
 export const MyAlert: React.SFC<MyAlertProps> = () => {
-  const ctx = useContext(GlobalContext)
+  const [state, dispatch] = useContext(GlobalContext)!
 
   return (
-    ctx &&
-    ctx.alert && (
+    state.alert && (
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={!!ctx?.alert}
+        open={!!state.alert}
         autoHideDuration={3000}
-        onClose={() => ctx.setAlert(null)}
+        onClose={() => dispatch({ type: 'hideAlert' })}
       >
         <Alert
           variant='filled'
-          onClose={() => ctx.setAlert(null)}
-          severity={ctx.alert.type}
+          onClose={() => dispatch({ type: 'hideAlert' })}
+          severity={state.alert.type}
         >
-          {ctx.alert.message}
+          {state.alert.message}
         </Alert>
       </Snackbar>
     )

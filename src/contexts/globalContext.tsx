@@ -1,4 +1,5 @@
 import React from 'react'
+import { GlobalAction, GlobalState } from 'apihooks/useGlobalState'
 
 export interface AlertProps {
   message: string
@@ -14,6 +15,8 @@ export interface GlobalProps {
   setTitle: React.Dispatch<React.SetStateAction<string>>
 }
 
-const GlobalContext = React.createContext<GlobalProps | null>(null)
+const GlobalContext = React.createContext<
+  [state: GlobalState, dispatch: React.Dispatch<GlobalAction>] | null
+>(null)
 
 export default GlobalContext

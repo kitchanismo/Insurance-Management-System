@@ -60,7 +60,7 @@ export interface RenderProps {
 }
 
 export function MyForm<T>(props: MyFormProps<T>) {
-  const ctx = useContext(GlobalContext)
+  const [state, dispatch] = useContext(GlobalContext)!
 
   const [data, setData] = props.state
 
@@ -107,9 +107,12 @@ export function MyForm<T>(props: MyFormProps<T>) {
     setIsDisable(true)
 
     if (hasErrors) {
-      ctx?.setAlert({
-        message: 'Fill out all the fields.',
-        type: 'error',
+      dispatch({
+        type: 'setAlert',
+        payload: {
+          message: 'Fill out all the fields.',
+          type: 'error',
+        },
       })
       setErrors(hasErrors)
       setIsDisable(false)

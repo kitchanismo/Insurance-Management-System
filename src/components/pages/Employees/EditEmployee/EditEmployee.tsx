@@ -10,7 +10,7 @@ import Employee from 'models/employee'
 export interface EditUserProps {}
 
 export const EditEmployee: React.SFC<EditUserProps> = () => {
-  const { setAlert } = useContext(GlobalContext)!
+  const [_, dispatch] = useContext(GlobalContext)!
 
   const history = useHistory()
 
@@ -28,7 +28,11 @@ export const EditEmployee: React.SFC<EditUserProps> = () => {
 
   const onSubmit = async (data: Employee) => {
     console.log(data)
-    setAlert({ message: 'Successfully added', type: 'success' })
+    dispatch({
+      type: 'setAlert',
+      payload: { message: 'Successfully added', type: 'success' },
+    })
+
     return Promise.resolve()
   }
 

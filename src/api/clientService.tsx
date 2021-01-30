@@ -99,7 +99,7 @@ export const getClients = async () => {
   return new Promise<Client[]>(function (resolve, reject) {
     setTimeout(() => {
       resolve(clients)
-    }, 3000)
+    }, 1000)
   })
 }
 

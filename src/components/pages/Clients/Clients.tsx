@@ -13,7 +13,7 @@ import GlobalContext from 'contexts/globalContext'
 
 export interface ClientsProps {}
 
-export const Clients: React.SFC<ClientsProps> = () => {
+const Clients: React.SFC<ClientsProps> = () => {
   const { onLoadClients, clients, isLoading } = useContext(ClientContext)!
   const { setTitle } = useContext(GlobalContext)!
 
@@ -55,6 +55,8 @@ export const Clients: React.SFC<ClientsProps> = () => {
     </>
   )
 }
+
+export { Clients }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

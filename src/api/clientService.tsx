@@ -114,7 +114,7 @@ export const getClients = async () => {
 
 export const getAmountToPay = (client: Client, plans: Plan[]) => {
   const plan = plans.filter((plan) => plan.plan === client.plan)[0]
-  console.log('here', client)
+
   if (client.payment_mode === 'Fullpayment') {
     return plan.price
   }

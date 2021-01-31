@@ -12,6 +12,7 @@ import MyStepper, { useStepper } from 'components/common/MyStepper'
 import { ClientStepThree } from './ClientStepThree'
 import Scroll from 'react-scroll'
 import { GlobalContext } from 'hooks/useGlobalState'
+import Payment from 'models/payment'
 
 export interface NewClientProps {}
 
@@ -39,7 +40,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
     position: 'sales_agent',
   })
 
-  const [client, setClient] = React.useState<Client>({})
+  const [client, setClient] = React.useState<Client & Payment>({})
 
   const onNextOne = async (profile: Profile) => {
     scroll.scrollToTop({ duration: 500 })
@@ -75,15 +76,18 @@ const NewClient: React.SFC<NewClientProps> = () => {
     console.log(commissioner)
   }
 
-  const onNextThree = async (client: Client) => {
+  const onNextThree = async (client: Client & Payment) => {
     scroll.scrollToTop({ duration: 500 })
 
     setClient(client)
 
     stepper.handleNext()
 
+    const { amount, or_number, ...rest } = client
+
     console.log({
-      client: { ...profile, ...client },
+      payment: { amount, or_number },
+      client: { ...profile, ...rest },
       commissioner,
     })
   }

@@ -100,7 +100,7 @@ export const getPlans = async () => {
   return new Promise<Plan[]>(function (resolve, reject) {
     setTimeout(() => {
       resolve(plans)
-    }, 2000)
+    }, 1000)
   })
 }
 
@@ -108,13 +108,13 @@ export const getClients = async () => {
   return new Promise<Client[]>(function (resolve, reject) {
     setTimeout(() => {
       resolve(clients)
-    }, 5000)
+    }, 1000)
   })
 }
 
 export const getAmountToPay = (client: Client, plans: Plan[]) => {
   const plan = plans.filter((plan) => plan.plan === client.plan)[0]
-
+  console.log('here', client)
   if (client.payment_mode === 'Fullpayment') {
     return plan.price
   }

@@ -37,6 +37,7 @@ export interface InputProps {
   type?: string | 'text'
   label?: string
   isMultiline?: boolean
+  onChange?: (e: React.FormEvent) => void
   onTogglePassword?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -166,9 +167,7 @@ function MyForm<T>(props: MyFormProps<T>) {
           type={input.type}
           error={!!error}
           helperText={error}
-          onChange={(e: any) =>
-            setData((data) => ({ ...data, [input.name]: e.target.value }))
-          }
+          onChange={input.onChange}
         />
       </Grid>
     )

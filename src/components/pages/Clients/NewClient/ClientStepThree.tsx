@@ -2,17 +2,21 @@ import { useContext, useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import MyForm, { MyFormProps } from 'components/common/MyForm'
+import MyForm, { MyFormProps, OptionProps } from 'components/common/MyForm'
 import Client from 'models/client'
 import Commissioner from 'models/commissioner'
 import validator from 'validators/clientStepThreeValidator'
 import { getAmountToPay } from 'api/clientService'
 import { ClientContext } from 'hooks/useClientState'
+import Payment from 'models/payment'
 
 export interface ClientStepTwoProps {
   onBack: () => void
-  onNext: (client: Client) => Promise<void>
-  state: [Client, React.Dispatch<React.SetStateAction<Client>>]
+  onNext: (client: Client & Payment) => Promise<void>
+  state: [
+    Client & Payment,
+    React.Dispatch<React.SetStateAction<Client & Payment>>,
+  ]
 }
 
 export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
@@ -21,13 +25,25 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
   onNext,
 }) => {
   const [clientState, clientDispatch] = useContext(ClientContext)!
-  const [amount, setAmount] = useState(0)
+  const [planOptions, setPlanOptions] = useState<OptionProps[] | []>([])
 
   useEffect(() => {
-    setAmount(getAmountToPay(client, clientState.plans))
-  }, [client.payment_mode, client.payment_period])
+    if (client.payment_mode && client.plan) {
+      setClient((client) => ({
+        ...client,
+        amount: '' + getAmountToPay(client, clientState.plans) ?? '',
+      }))
+    }
+  }, [client.payment_mode, client.payment_period, client.plan])
 
-  const formProps: MyFormProps<Client> = {
+  useEffect(() => {
+    const options: OptionProps[] = clientState.plans.map((plan) => ({
+      value: plan.plan,
+    }))
+    setPlanOptions(options)
+  }, [clientState.plans])
+
+  const formProps: MyFormProps<Client & Payment> = {
     state: [client, setClient],
     onSubmit: onNext,
     validator,
@@ -42,11 +58,7 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
             value: client.plan,
             name: 'plan',
             labelWidth: 30,
-            options: [
-              { value: 'Plan 1' },
-              { value: 'Plan 2' },
-              { value: 'Plan 3' },
-            ],
+            options: planOptions,
           })}
           {mySelect({
             label: 'Payment Mode',
@@ -85,7 +97,12 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
                 {myControlledInput({
                   label: 'Amount',
                   name: 'amount',
-                  value: amount,
+                  value: client.amount,
+                  onChange: (e: any) =>
+                    setClient((client) => ({
+                      ...client,
+                      amount: e.target.value,
+                    })),
                 })}
                 <Grid style={{ marginTop: 10 }} xs={12} item>
                   {myInput({

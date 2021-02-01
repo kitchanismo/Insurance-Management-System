@@ -1,7 +1,7 @@
 import React from 'react'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
-import ArrowBack from '@material-ui/icons/ArrowBack'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import EmployeesIcon from '@material-ui/icons/People'
 import ClientIcon from '@material-ui/icons/SupervisedUserCircle'
 import ListItem from '@material-ui/core/ListItem'
@@ -60,7 +60,11 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
   )
 
   return (
-    <Drawer anchor='left' open={props.isActive}>
+    <Drawer
+      anchor='left'
+      open={props.isActive}
+      ModalProps={{ onBackdropClick: () => props.onToggle() }}
+    >
       <Grid container justify='flex-end'>
         <IconButton
           onClick={() => props.onToggle()}
@@ -68,7 +72,7 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
           color='inherit'
           aria-label='menu'
         >
-          <ArrowBack />
+          <ChevronLeftIcon />
         </IconButton>
       </Grid>
       {list()}
@@ -78,7 +82,7 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
         control={
           <Switch
             checked={state.isDark}
-            onChange={() => dispatch({ type: 'toggleTheme' })}
+            onChange={() => dispatch({ type: 'TOGGLE_THEME' })}
             name='checkedA'
             inputProps={{ 'aria-label': 'secondary checkbox' }}
           />

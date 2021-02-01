@@ -35,7 +35,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
   const [client, setClient] = useState<Client>()
 
   useEffect(() => {
-    globalDispatch({ type: 'setTitle', payload: 'Client Details' })
+    globalDispatch({ type: 'SET_TITLE', payload: 'Client Details' })
     getClient(clientState.clients, +id).then((client) => setClient(client))
   }, [])
 
@@ -108,7 +108,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                 {detail('Period ', client.payment_period)}
                 {detail('Balance', 'Php ' + client.balance)}
                 {detail('Branch', client.branch)}
-                {detail('Ended', client.end_date?.toLocaleDateString())}
+                {detail('Insured', client.created_at?.toLocaleDateString())}
               </Grid>
             </CardContent>
             <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>

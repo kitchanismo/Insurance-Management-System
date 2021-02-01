@@ -15,11 +15,11 @@ const MyAlert: React.SFC<MyAlertProps> = () => {
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={!!state.alert}
         autoHideDuration={3000}
-        onClose={() => dispatch({ type: 'hideAlert' })}
+        onClose={() => dispatch({ type: 'HIDE_ALERT' })}
       >
         <Alert
           variant='filled'
-          onClose={() => dispatch({ type: 'hideAlert' })}
+          onClose={() => dispatch({ type: 'HIDE_ALERT' })}
           severity={state.alert.type}
         >
           {state.alert.message}

@@ -17,11 +17,10 @@ interface Client extends Profile {
   payment_count?: number
   payment_period?: 'Monthly' | 'Quarterly' | 'Semi-Annually' | 'Annually'
   is_delete?: boolean
-  end_date?: Date
-  branch?: string
-  insured_employee?: string
-  years_to_pay?: number
   created_at?: Date
+  branch?: string
+  insured_employee?: number
+  years_to_pay?: number
 }
 
 export default Client

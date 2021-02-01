@@ -23,7 +23,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   const [_, dispatch] = useContext(GlobalContext)!
 
   useEffect(() => {
-    dispatch({ type: 'setTitle', payload: 'View Employee' })
+    dispatch({ type: 'SET_TITLE', payload: 'View Employee' })
   }, [])
 
   const history = useHistory()

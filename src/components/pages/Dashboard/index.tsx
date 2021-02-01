@@ -7,7 +7,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
   const [state, dispatch] = useContext(GlobalContext)!
 
   useEffect(() => {
-    dispatch({ type: 'setTitle', payload: 'Dashboard' })
+    dispatch({ type: 'SET_TITLE', payload: 'Dashboard' })
   }, [])
   return <h3>Dashboard</h3>
 }

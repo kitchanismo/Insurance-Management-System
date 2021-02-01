@@ -18,9 +18,10 @@ const clients: Client[] = [
     contact: '09234545866',
     branch: 'Somewhere',
     payment_mode: 'Fullpayment',
+    insured_employee: 1,
     years_to_pay: 5,
     birthdate: new Date('10/03/1991'),
-    end_date: new Date('09/06/2025'),
+    created_at: new Date('09/06/2020'),
   },
   {
     id: 2,
@@ -36,11 +37,12 @@ const clients: Client[] = [
     gender: 'Male',
     address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
     contact: '09234545866',
+    insured_employee: 1,
     branch: 'Somewhere',
     years_to_pay: 5,
     payment_mode: 'Installment',
     birthdate: new Date('10/03/1991'),
-    end_date: new Date('09/06/2025'),
+    created_at: new Date('09/06/2020'),
   },
   {
     id: 3,
@@ -56,11 +58,12 @@ const clients: Client[] = [
     gender: 'Male',
     address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
     contact: '09234545866',
+    insured_employee: 2,
     branch: 'Somewhere',
     years_to_pay: 5,
     payment_mode: 'Installment',
     birthdate: new Date('10/03/1991'),
-    end_date: new Date('09/06/2025'),
+    created_at: new Date('09/06/2020'),
   },
 ]
 
@@ -114,7 +117,6 @@ export const getAmountToPay = (client: Client, plans: Plan[]) => {
   switch (client.payment_period) {
     case 'Monthly':
       return plan.price / (12 * client.years_to_pay!)
-
     case 'Quarterly':
       return plan.price / (4 * client.years_to_pay!)
     case 'Semi-Annually':

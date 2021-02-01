@@ -110,7 +110,7 @@ function MyForm<T>(props: MyFormProps<T>) {
 
     if (hasErrors) {
       dispatch({
-        type: 'setAlert',
+        type: 'SET_ALERT',
         payload: {
           message: 'Fill out all the fields.',
           type: 'error',

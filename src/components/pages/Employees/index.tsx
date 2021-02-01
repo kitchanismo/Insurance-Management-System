@@ -24,11 +24,11 @@ const Employees: React.SFC<EmployeesProps> = () => {
   const styles = useStyles()
 
   useEffect(() => {
-    globalDispatch({ type: 'setTitle', payload: 'Employee Management' })
-    globalDispatch({ type: 'setIsLoading', payload: true })
+    globalDispatch({ type: 'SET_TITLE', payload: 'Employee Management' })
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
     getEmployees().then((employees) => {
       employeeDispatch({ type: 'ON_LOAD_EMPLOYEES', payload: employees })
-      globalDispatch({ type: 'setIsLoading', payload: false })
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
     })
   }, [])
 

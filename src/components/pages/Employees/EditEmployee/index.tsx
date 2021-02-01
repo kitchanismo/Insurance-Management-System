@@ -29,7 +29,7 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
   const onSubmit = async (data: Employee) => {
     console.log(data)
     dispatch({
-      type: 'setAlert',
+      type: 'SET_ALERT',
       payload: { message: 'Successfully added', type: 'success' },
     })
 

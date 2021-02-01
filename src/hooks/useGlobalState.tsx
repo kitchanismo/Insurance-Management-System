@@ -17,22 +17,22 @@ export interface GlobalState {
 }
 
 export type GlobalAction =
-  | { type: 'hideAlert' | 'toggleTheme' }
-  | { type: 'setAlert'; payload: AlertProps | null }
-  | { type: 'setTitle'; payload: string }
-  | { type: 'setIsLoading'; payload: boolean }
+  | { type: 'HIDE_ALERT' | 'TOGGLE_THEME' }
+  | { type: 'SET_ALERT'; payload: AlertProps | null }
+  | { type: 'SET_TITLE'; payload: string }
+  | { type: 'SET_IS_LOADING'; payload: boolean }
 
 const globalReducer = (state: GlobalState, action: GlobalAction) => {
   switch (action.type) {
-    case 'setAlert':
+    case 'SET_ALERT':
       return { ...state, alert: action.payload }
-    case 'hideAlert':
+    case 'HIDE_ALERT':
       return { ...state, alert: null }
-    case 'setTitle':
+    case 'SET_TITLE':
       return { ...state, title: action.payload }
-    case 'setIsLoading':
+    case 'SET_IS_LOADING':
       return { ...state, isLoading: action.payload }
-    case 'toggleTheme':
+    case 'TOGGLE_THEME':
       return { ...state, isDark: !state.isDark }
     default:
       return state

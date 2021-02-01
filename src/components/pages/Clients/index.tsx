@@ -23,12 +23,12 @@ const Clients: React.SFC<ClientsProps> = () => {
   const history = useHistory()
 
   useEffect(() => {
-    globalDispatch({ type: 'setTitle', payload: 'Client Management' })
-    clientDispatch({ type: 'setIsLoading', payload: true })
-    globalDispatch({ type: 'setIsLoading', payload: true })
+    globalDispatch({ type: 'SET_TITLE', payload: 'Client Management' })
+    clientDispatch({ type: 'SET_IS_LOADING', payload: true })
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
     getClients().then((clients) => {
-      clientDispatch({ type: 'onLoadClients', payload: clients })
-      globalDispatch({ type: 'setIsLoading', payload: false })
+      clientDispatch({ type: 'ON_LOAD_CLIENTS', payload: clients })
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
     })
   }, [])
 
@@ -39,8 +39,7 @@ const Clients: React.SFC<ClientsProps> = () => {
     <>
       <MySearchField
         onClick={() => {
-          clientDispatch({ type: 'onReloadPlans' })
-          console.log(clientState.onReloadPlans)
+          clientDispatch({ type: 'ON_RELOAD_PLANS' })
         }}
         style={{ marginBottom: 15 }}
       />

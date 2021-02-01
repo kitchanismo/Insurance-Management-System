@@ -12,22 +12,22 @@ export interface ClientState {
 }
 
 export type ClientAction =
-  | { type: 'toggleLoading' | 'onReloadPlans' }
-  | { type: 'onLoadClients'; payload: Client[] }
-  | { type: 'onLoadPlans'; payload: Plan[] }
-  | { type: 'setIsLoading'; payload: boolean }
+  | { type: 'TOGGLE_LOADING' | 'ON_RELOAD_PLANS' }
+  | { type: 'ON_LOAD_CLIENTS'; payload: Client[] }
+  | { type: 'ON_LOAD_PLANS'; payload: Plan[] }
+  | { type: 'SET_IS_LOADING'; payload: boolean }
 
 const clientReducer = (state: ClientState, action: ClientAction) => {
   switch (action.type) {
-    case 'onLoadPlans':
+    case 'ON_LOAD_PLANS':
       return { ...state, plans: action.payload }
-    case 'onReloadPlans':
+    case 'ON_RELOAD_PLANS':
       return { ...state, onReloadPlans: !state.onReloadPlans }
-    case 'onLoadClients':
+    case 'ON_LOAD_CLIENTS':
       return { ...state, clients: action.payload, isLoading: false }
-    case 'setIsLoading':
+    case 'SET_IS_LOADING':
       return { ...state, isLoading: action.payload }
-    case 'toggleLoading':
+    case 'TOGGLE_LOADING':
       return { ...state, isLoading: !state.isLoading }
     default:
       return state
@@ -44,7 +44,7 @@ const useClientState = () => {
 
   useEffect(() => {
     getPlans().then((plans) => {
-      dispatch({ type: 'onLoadPlans', payload: plans })
+      dispatch({ type: 'ON_LOAD_PLANS', payload: plans })
     })
   }, [state.onReloadPlans])
 

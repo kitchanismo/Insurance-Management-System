@@ -22,7 +22,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
   const scroll = Scroll.animateScroll
 
   useEffect(() => {
-    dispatch({ type: 'setTitle', payload: 'Client Registration' })
+    dispatch({ type: 'SET_TITLE', payload: 'Client Registration' })
     scroll.scrollToTop({ duration: 500 })
   }, [])
 
@@ -50,11 +50,11 @@ const NewClient: React.SFC<NewClientProps> = () => {
   }
 
   const onNextTwo = async (commissioner: Commissioner) => {
-    const insured_employee = commissioner[commissioner.position] ?? ''
+    const insured_employee = commissioner[commissioner.position] ?? 0
 
     if (!insured_employee) {
       dispatch({
-        type: 'setAlert',
+        type: 'SET_ALERT',
         payload: {
           message:
             'Sales Agent is not present! Please select another employee.',
@@ -67,7 +67,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
 
     scroll.scrollToTop({ duration: 500 })
 
-    setClient((client) => ({ ...client, insured_employee }))
+    setClient((client) => ({ ...client, insured_employee: +insured_employee }))
 
     setCommissioner(commissioner)
 

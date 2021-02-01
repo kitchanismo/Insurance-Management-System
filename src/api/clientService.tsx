@@ -68,26 +68,18 @@ const plans: Plan[] = [
   {
     price: 23280,
     plan: 'Plan 1',
-    monthly: 388,
-    quarterly: 1164,
-    semiAnnually: 2328,
-    annually: 4656,
   },
   {
     price: 32280,
     plan: 'Plan 2',
-    monthly: 538,
-    quarterly: 1614,
-    semiAnnually: 3228,
-    annually: 6456,
   },
   {
     price: 41280,
     plan: 'Plan 3',
-    monthly: 688,
-    quarterly: 2064,
-    semiAnnually: 4128,
-    annually: 8256,
+  },
+  {
+    price: 50280,
+    plan: 'Plan 4',
   },
 ]
 
@@ -119,27 +111,20 @@ export const getAmountToPay = (client: Client, plans: Plan[]) => {
     return plan.price
   }
 
-  let amount = 0
-
   switch (client.payment_period) {
     case 'Monthly':
-      amount = plan.monthly
-      break
+      return plan.price / (12 * client.years_to_pay!)
+
     case 'Quarterly':
-      amount = plan.quarterly
-      break
+      return plan.price / (4 * client.years_to_pay!)
     case 'Semi-Annually':
-      amount = plan.semiAnnually
+      return plan.price / (2 * client.years_to_pay!)
       break
     case 'Annually':
-      amount = plan.annually
-      break
+      return plan.price / client.years_to_pay!
     default:
-      amount = 0
-      break
+      return 0
   }
-
-  return amount
 }
 
 export const computeTotalCountToPay = (client: Client) => {

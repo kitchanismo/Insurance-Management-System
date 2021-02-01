@@ -7,7 +7,6 @@ import AddIcon from '@material-ui/icons/Add'
 
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 
-import Employee from 'models/employee'
 import EmployeeCard from './EmployeeCard'
 import MySearchField from 'components/common/MySearchField'
 import { GlobalContext } from 'hooks/useGlobalState'
@@ -20,16 +19,19 @@ const Employees: React.SFC<EmployeesProps> = () => {
   const [_, globalDispatch] = useContext(GlobalContext)!
   const [employeeState, employeeDispatch] = useContext(EmployeeContext)!
 
-  useEffect(() => {
-    globalDispatch({ type: 'setTitle', payload: 'Employee Management' })
-    getEmployees().then((employees) =>
-      employeeDispatch({ type: 'ON_LOAD_EMPLOYEES', payload: employees }),
-    )
-  }, [])
-
   const history = useHistory()
 
   const styles = useStyles()
+
+  useEffect(() => {
+    globalDispatch({ type: 'setTitle', payload: 'Employee Management' })
+    globalDispatch({ type: 'setIsLoading', payload: true })
+    getEmployees().then((employees) => {
+      employeeDispatch({ type: 'ON_LOAD_EMPLOYEES', payload: employees })
+      globalDispatch({ type: 'setIsLoading', payload: false })
+    })
+  }, [])
+
   return (
     <>
       <MySearchField style={{ marginBottom: 15 }} />

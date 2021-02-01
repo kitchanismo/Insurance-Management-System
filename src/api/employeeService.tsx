@@ -3,9 +3,9 @@ import Employee from 'models/employee'
 const employees: Employee[] = [
   {
     id: 1,
-    firstname: 'Ftname',
-    middlename: 'Mee',
-    lastname: 'ame',
+    firstname: 'Firstname',
+    middlename: 'Middlename',
+    lastname: 'Lastname',
     position: 'Agency Manager',
     status: 'deactive',
   },

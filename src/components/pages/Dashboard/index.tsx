@@ -9,7 +9,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
   useEffect(() => {
     dispatch({ type: 'SET_TITLE', payload: 'Dashboard' })
   }, [])
-  return <h3>Dashboard</h3>
+  return <h3>Under Construction</h3>
 }
 
 export default Dashboard

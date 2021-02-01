@@ -40,7 +40,9 @@ const NewClient: React.SFC<NewClientProps> = () => {
     position: 'sales_agent',
   })
 
-  const [client, setClient] = React.useState<Client & Payment>({})
+  const [client, setClient] = React.useState<Client & Payment>({
+    years_to_pay: 5,
+  })
 
   const onNextOne = async (profile: Profile) => {
     scroll.scrollToTop({ duration: 500 })

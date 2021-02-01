@@ -5,9 +5,9 @@ const clients: Client[] = [
   {
     id: 1,
     code: 'HEY-7634464',
-    firstname: 'Fidfdfdfdfdfdfdfr',
-    middlename: 'Miesds',
-    lastname: 'Lasedfdf',
+    firstname: 'Firstname',
+    middlename: 'Middlename',
+    lastname: 'Lastname',
     payment_count: 4,
     balance: 0,
     plan: 'Plan 1',
@@ -26,9 +26,9 @@ const clients: Client[] = [
   {
     id: 2,
     code: 'HEY-7634554',
-    firstname: 'Fidfdfdfdfdfdfdfr',
-    middlename: 'Mie',
-    lastname: 'Lase',
+    firstname: 'Firstname',
+    middlename: 'Middlename',
+    lastname: 'Lastname',
     payment_count: 4,
     balance: 20000,
     plan: 'Plan 1',
@@ -47,9 +47,9 @@ const clients: Client[] = [
   {
     id: 3,
     code: 'HEY-7654554',
-    firstname: 'Fidfdfdfdfdfdfdfr',
-    middlename: 'Mie',
-    lastname: 'Lase',
+    firstname: 'Firstname',
+    middlename: 'Middlename',
+    lastname: 'Lastname',
     payment_count: 4,
     balance: 0,
     plan: 'Plan 3',
@@ -113,6 +113,8 @@ export const getAmountToPay = (client: Client, plans: Plan[]) => {
   if (client.payment_mode === 'Fullpayment') {
     return plan.price
   }
+
+  console.log('years', client)
 
   switch (client.payment_period) {
     case 'Monthly':

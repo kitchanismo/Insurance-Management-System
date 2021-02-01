@@ -29,6 +29,7 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
 
   useEffect(() => {
     if (client.payment_mode && client.plan) {
+      console.log(getAmountToPay(client, clientState.plans))
       setClient((client) => ({
         ...client,
         amount: '' + getAmountToPay(client, clientState.plans) ?? '',

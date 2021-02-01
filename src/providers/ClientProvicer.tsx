@@ -1,6 +1,9 @@
-import useClientState from 'hooks/useClientState'
-import * as React from 'react'
-import { ClientContext } from 'hooks/useClientState'
+import useClientState, { ClientState, ClientAction } from 'hooks/useClientState'
+import { Dispatch, createContext } from 'react'
+
+export const ClientContext = createContext<
+  [state: ClientState, dispatch: Dispatch<ClientAction>] | null
+>(null)
 
 export const ClientProvider: React.FC = (props) => {
   const { state, dispatch } = useClientState()

@@ -14,7 +14,7 @@ import userIcon from 'assets/profile-user.svg'
 import Client from 'models/client'
 import { useHistory } from 'react-router-dom'
 import MyAvatar from 'components/common/MyAvatar'
-import { ClientContext } from 'hooks/useClientState'
+import { ClientContext } from 'providers/ClientProvicer'
 
 import {
   computeTotalCountPaid,

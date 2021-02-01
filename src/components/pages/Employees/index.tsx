@@ -11,51 +11,21 @@ import Employee from 'models/employee'
 import EmployeeCard from './EmployeeCard'
 import MySearchField from 'components/common/MySearchField'
 import { GlobalContext } from 'hooks/useGlobalState'
+import { EmployeeContext } from 'providers/EmployeeProvider'
+import { getEmployees } from 'api/employeeService'
 
 export interface EmployeesProps {}
 
 const Employees: React.SFC<EmployeesProps> = () => {
-  const [state, dispatch] = useContext(GlobalContext)!
+  const [_, globalDispatch] = useContext(GlobalContext)!
+  const [employeeState, employeeDispatch] = useContext(EmployeeContext)!
 
   useEffect(() => {
-    dispatch({ type: 'setTitle', payload: 'Employee Management' })
+    globalDispatch({ type: 'setTitle', payload: 'Employee Management' })
+    getEmployees().then((employees) =>
+      employeeDispatch({ type: 'ON_LOAD_EMPLOYEES', payload: employees }),
+    )
   }, [])
-
-  const employees: Partial<Employee>[] = [
-    {
-      id: 1,
-      firstname: 'Ftname',
-      middlename: 'Mee',
-      lastname: 'ame',
-      position: 'Agency Manager',
-      status: 'deactive',
-    },
-    {
-      id: 2,
-      firstname: 'Firstname',
-      middlename: 'Middlename',
-      lastname: 'Lastname',
-      position: 'Sales Agent',
-      status: 'active',
-    },
-    {
-      id: 3,
-      firstname: 'Firstname',
-      middlename: 'Middlename',
-      lastname: 'Lastname',
-      position: 'Branch Manager',
-      status: 'deceased',
-    },
-
-    {
-      id: 4,
-      firstname: 'Firstname',
-      middlename: 'Middlename',
-      lastname: 'Lastname',
-      position: 'Supervisor',
-      status: 'active',
-    },
-  ]
 
   const history = useHistory()
 
@@ -71,7 +41,7 @@ const Employees: React.SFC<EmployeesProps> = () => {
         justify='flex-start'
         alignItems='center'
       >
-        {employees.map((employee) => (
+        {employeeState.employees.map((employee) => (
           <Grid key={employee.id} item xs={12}>
             <EmployeeCard employee={employee} />
           </Grid>

@@ -9,8 +9,8 @@ import { useHistory } from 'react-router-dom'
 import ClientCard from './ClientCard'
 import { useContext, useEffect } from 'react'
 import { getClients } from 'api/clientService'
-import { ClientContext } from 'hooks/useClientState'
 import { GlobalContext } from 'hooks/useGlobalState'
+import { ClientContext } from 'providers/ClientProvicer'
 
 export interface ClientsProps {}
 

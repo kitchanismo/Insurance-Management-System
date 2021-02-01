@@ -4,10 +4,6 @@ import Client from 'models/client'
 import Plan from 'models/plan'
 import { getPlans } from 'api/clientService'
 
-export const ClientContext = createContext<
-  [state: ClientState, dispatch: Dispatch<ClientAction>] | null
->(null)
-
 export interface ClientState {
   clients: Client[]
   plans: Plan[]

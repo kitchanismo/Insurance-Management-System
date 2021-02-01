@@ -4,6 +4,7 @@ import Nav from 'components/common/MyNav'
 import MyAlert from 'components/common/MyAlert'
 import Layout from 'components/layout'
 import { ClientProvider } from 'providers/ClientProvicer'
+import { EmployeeProvider } from 'providers/EmployeeProvider'
 
 const App: React.FC = (props) => {
   return (
@@ -11,9 +12,11 @@ const App: React.FC = (props) => {
       <CssBaseline />
       <MyAlert />
       <Nav />
-      <ClientProvider>
-        <Layout />
-      </ClientProvider>
+      <EmployeeProvider>
+        <ClientProvider>
+          <Layout />
+        </ClientProvider>
+      </EmployeeProvider>
     </>
   )
 }

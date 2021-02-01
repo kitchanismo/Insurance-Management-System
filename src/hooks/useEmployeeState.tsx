@@ -6,15 +6,22 @@ export interface EmployeeState {
   isLoading: boolean
 }
 
-export type EmployeeAction = {
-  type: 'ON_LOAD_EMPLOYEES'
-  payload: Employee[]
-}
+export type EmployeeAction =
+  | {
+      type: 'ON_LOAD_EMPLOYEES'
+      payload: Employee[]
+    }
+  | {
+      type: 'SET_IS_LOADING'
+      payload: boolean
+    }
 
 const reducer = (state: EmployeeState, action: EmployeeAction) => {
   switch (action.type) {
     case 'ON_LOAD_EMPLOYEES':
       return { ...state, employees: action.payload, isLoading: false }
+    case 'SET_IS_LOADING':
+      return { ...state, isLoading: action.payload }
     default:
       return state
   }

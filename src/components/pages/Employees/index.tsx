@@ -12,6 +12,7 @@ import MySearchField from 'components/common/MySearchField'
 import { GlobalContext } from 'hooks/useGlobalState'
 import { EmployeeContext } from 'providers/EmployeeProvider'
 import { getEmployees } from 'api/employeeService'
+import MySkeletonCard from 'components/common/MySkeletonCards'
 
 export interface EmployeesProps {}
 
@@ -26,29 +27,34 @@ const Employees: React.SFC<EmployeesProps> = () => {
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Employee Management' })
     globalDispatch({ type: 'SET_IS_LOADING', payload: true })
+    employeeDispatch({ type: 'SET_IS_LOADING', payload: true })
     getEmployees().then((employees) => {
       employeeDispatch({ type: 'ON_LOAD_EMPLOYEES', payload: employees })
       globalDispatch({ type: 'SET_IS_LOADING', payload: false })
     })
   }, [])
 
+  const isLoading = employeeState.isLoading && !employeeState.employees.length
+
   return (
     <>
       <MySearchField style={{ marginBottom: 15 }} />
-
-      <Grid
-        container
-        spacing={2}
-        direction='column'
-        justify='flex-start'
-        alignItems='center'
-      >
-        {employeeState.employees.map((employee) => (
-          <Grid key={employee.id} item xs={12}>
-            <EmployeeCard employee={employee} />
-          </Grid>
-        ))}
-      </Grid>
+      {isLoading && <MySkeletonCard />}
+      {!isLoading && (
+        <Grid
+          container
+          spacing={2}
+          direction='column'
+          justify='flex-start'
+          alignItems='center'
+        >
+          {employeeState.employees.map((employee) => (
+            <Grid key={employee.id} item xs={12}>
+              <EmployeeCard employee={employee} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
       <Fab
         onClick={() => history.push('/employees/new')}

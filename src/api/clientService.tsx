@@ -103,7 +103,7 @@ export const getClients = async () => {
   return new Promise<Client[]>(function (resolve, reject) {
     setTimeout(() => {
       resolve(clients)
-    }, 1000)
+    }, 3000)
   })
 }
 
@@ -113,8 +113,6 @@ export const getAmountToPay = (client: Client, plans: Plan[]) => {
   if (client.payment_mode === 'Fullpayment') {
     return plan.price
   }
-
-  console.log('years', client)
 
   switch (client.payment_period) {
     case 'Monthly':

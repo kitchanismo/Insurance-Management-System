@@ -40,6 +40,6 @@ export const getEmployees = async () => {
   return new Promise<Employee[]>(function (resolve, reject) {
     setTimeout(() => {
       resolve(employees)
-    }, 1000)
+    }, 3000)
   })
 }

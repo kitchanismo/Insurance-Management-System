@@ -11,6 +11,7 @@ import { useContext, useEffect } from 'react'
 import { getClients } from 'api/clientService'
 import { GlobalContext } from 'hooks/useGlobalState'
 import { ClientContext } from 'providers/ClientProvicer'
+import MySkeletonCard from 'components/common/MySkeletonCards'
 
 export interface ClientsProps {}
 
@@ -32,8 +33,7 @@ const Clients: React.SFC<ClientsProps> = () => {
     })
   }, [])
 
-  if (clientState.isLoading && !clientState.clients.length)
-    return <h4>Loading...</h4>
+  const isLoading = clientState.isLoading && !clientState.clients.length
 
   return (
     <>
@@ -43,19 +43,22 @@ const Clients: React.SFC<ClientsProps> = () => {
         }}
         style={{ marginBottom: 15 }}
       />
-      <Grid
-        container
-        spacing={2}
-        direction='column'
-        justify='flex-start'
-        alignItems='center'
-      >
-        {clientState.clients.map((client) => (
-          <Grid key={client.id} item xs={12}>
-            <ClientCard key={client.id} client={client} />
-          </Grid>
-        ))}
-      </Grid>
+      {isLoading && <MySkeletonCard />}
+      {!isLoading && (
+        <Grid
+          container
+          spacing={2}
+          direction='column'
+          justify='flex-start'
+          alignItems='center'
+        >
+          {clientState.clients.map((client) => (
+            <Grid key={client.id} item xs={12}>
+              <ClientCard key={client.id} client={client} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
       <Fab
         onClick={() => history.push('/clients/new')}

@@ -14,6 +14,7 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Divider from '@material-ui/core/Divider'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Visibility from '@material-ui/icons/Visibility'
 import {
@@ -300,6 +301,21 @@ function MyForm<T>(props: MyFormProps<T>) {
           type='submit'
           variant='contained'
           color='primary'
+          startIcon={
+            isDisable && (
+              <CircularProgress
+                color='primary'
+                size={24}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  marginTop: -12,
+                  marginLeft: -12,
+                }}
+              />
+            )
+          }
         >
           {text ?? 'SUBMIT'}
         </Button>

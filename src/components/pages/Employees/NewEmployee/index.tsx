@@ -9,7 +9,7 @@ import { GlobalContext } from 'hooks/useGlobalState'
 import validator from '../../../../validators/saveEmployeeValidator'
 import MyForm, { MyFormProps, InputProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
-import { postImage } from 'api/employeeService'
+import { postImage, saveEmployee } from 'api/employeeService'
 
 export interface NewUserProps {}
 
@@ -24,35 +24,49 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
 
   const [employee, setEmployee] = React.useState<Employee>({
     firstname: 'dfdf',
-    middlename: '',
-    lastname: '',
-    address: '',
-    contact: '',
+    middlename: 'dfd',
+    lastname: 'fg',
+    address: 'fgf',
+    contact: 'fgg',
+    gender: 'Male',
+    civil: 'Single',
+    branch: 'Cebu',
+    position: 'Sales Agent',
   })
 
-  const onSubmit = async (data: Employee) => {
-    //console.log(data)
-    const formData = new FormData()
-    formData.append('file', data?.image as any)
-    formData.append('upload_preset', 'wlttlc0c')
-    formData.append('cloud_name', 'kitchanismo')
+  const onSubmit = async (employee: Employee) => {
+    dispatch({ type: 'SET_IS_LOADING', payload: true })
 
-    postImage(formData)
-      .then((res) => {
+    if (!employee?.image?.size) {
+      delete employee.image
+      return saveEmployee(employee).then(() => {
         dispatch({
           type: 'SET_ALERT',
           payload: { message: 'Successfully added', type: 'success' },
         })
-        console.log(res.data)
+        dispatch({ type: 'SET_IS_LOADING', payload: false })
       })
-      .catch((error) =>
+    }
+
+    return postImage(employee?.image!)
+      .then((res) => {
+        employee.imageUrl = res.data.url
+        delete employee.image
+        return saveEmployee(employee).then(() => {
+          dispatch({
+            type: 'SET_ALERT',
+            payload: { message: 'Successfully added', type: 'success' },
+          })
+          dispatch({ type: 'SET_IS_LOADING', payload: false })
+        })
+      })
+      .catch((error) => {
         dispatch({
           type: 'SET_ALERT',
           payload: { message: 'Error', type: error.message },
-        }),
-      )
-
-    return Promise.resolve()
+        })
+        dispatch({ type: 'SET_IS_LOADING', payload: false })
+      })
   }
 
   const formProps: MyFormProps<Employee> = {

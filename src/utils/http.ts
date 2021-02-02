@@ -4,10 +4,10 @@ import createAuthRefreshInterceptor from 'axios-auth-refresh'
 
 //intercept requests
 axios.interceptors.request.use((config) => {
-  //config.baseURL =
-  // process.env.NODE_ENV === 'development' ? apiUrlDev : apiUrlProd
+  config.baseURL =
+    process.env.NODE_ENV === 'development' ? apiUrlDev : apiUrlProd
 
-  // config.withCredentials = true
+  config.withCredentials = true
   return config
 })
 
@@ -40,5 +40,5 @@ export default {
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
-  axios,
+  axios: axios.create(),
 }

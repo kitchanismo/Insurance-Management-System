@@ -14,6 +14,7 @@ const saveEmployeeValidator = {
   address: Joi.optional(),
   birthdate: Joi.optional(),
   image: Joi.optional(),
+  imageUrl: Joi.optional(),
 }
 
 export default saveEmployeeValidator

@@ -36,6 +36,14 @@ const employees: Employee[] = [
     status: 'active',
   },
 ]
+export const saveEmployee = async (employee: Employee) => {
+  return new Promise<Employee>(function (resolve, reject) {
+    setTimeout(() => {
+      console.log(employee)
+      resolve(employee)
+    }, 3000)
+  })
+}
 
 export const getEmployees = async () => {
   return new Promise<Employee[]>(function (resolve, reject) {
@@ -45,7 +53,12 @@ export const getEmployees = async () => {
   })
 }
 
-export const postImage = async (formData: FormData) => {
+export const postImage = async (image: Blob) => {
+  const formData = new FormData()
+
+  formData.append('file', image!)
+  formData.append('upload_preset', 'wlttlc0c')
+  formData.append('cloud_name', 'kitchanismo')
   return http.axios.post(
     'https://api.cloudinary.com/v1_1/kitchanismo/image/upload',
     formData,

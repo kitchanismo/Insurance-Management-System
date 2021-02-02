@@ -1,16 +1,24 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import Grid from '@material-ui/core/Grid'
 import { GlobalContext } from 'hooks/useGlobalState'
 import validator from '../../../../validators/saveEmployeeValidator'
 import MyForm, { MyFormProps, InputProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
+import { postImage } from 'api/employeeService'
 
 export interface NewUserProps {}
 
 const NewEmployee: React.SFC<NewUserProps> = () => {
   const [_, dispatch] = useContext(GlobalContext)!
+
+  const [imageFile, setImageFile] = React.useState<HTMLImageElement | null>(
+    null,
+  )
 
   const history = useHistory()
 
@@ -23,11 +31,27 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
   })
 
   const onSubmit = async (data: Employee) => {
-    console.log(data)
-    dispatch({
-      type: 'SET_ALERT',
-      payload: { message: 'Successfully added', type: 'success' },
-    })
+    //console.log(data)
+    const formData = new FormData()
+    formData.append('file', data?.image as any)
+    formData.append('upload_preset', 'wlttlc0c')
+    formData.append('cloud_name', 'kitchanismo')
+
+    postImage(formData)
+      .then((res) => {
+        dispatch({
+          type: 'SET_ALERT',
+          payload: { message: 'Successfully added', type: 'success' },
+        })
+        console.log(res.data)
+      })
+      .catch((error) =>
+        dispatch({
+          type: 'SET_ALERT',
+          payload: { message: 'Error', type: error.message },
+        }),
+      )
+
     return Promise.resolve()
   }
 
@@ -124,6 +148,45 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
             value: employee.birthdate,
             name: 'birthdate',
           })}
+
+          <Grid
+            container
+            style={{
+              paddingLeft: 15,
+              paddingRight: 15,
+              marginBottom: 10,
+            }}
+            alignItems='center'
+            justify='space-between'
+            xs={12}
+          >
+            <Typography variant='subtitle1'>
+              {imageFile?.name || 'Select Photo'}
+            </Typography>
+            <>
+              <input
+                accept='image/*'
+                style={{
+                  display: 'none',
+                }}
+                name='image'
+                id='icon-button-file'
+                type='file'
+                onChange={(e: any) => {
+                  setImageFile(e.target.files[0])
+                }}
+              />
+              <label htmlFor='icon-button-file'>
+                <IconButton
+                  color='primary'
+                  aria-label='upload picture'
+                  component='span'
+                >
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+            </>
+          </Grid>
 
           <Grid
             style={{ paddingLeft: 18, paddingTop: 10, paddingBottom: 5 }}

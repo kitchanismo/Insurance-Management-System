@@ -8,6 +8,11 @@ const GlobalProvider: React.FC = (props) => {
 
   const theme = createMuiTheme({
     overrides: {
+      MuiButton: {
+        root: {
+          borderRadius: 30,
+        },
+      },
       MuiCssBaseline: {
         '@global': {
           body: {

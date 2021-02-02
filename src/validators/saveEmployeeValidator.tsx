@@ -13,6 +13,7 @@ const saveEmployeeValidator = {
   contact: Joi.optional(),
   address: Joi.optional(),
   birthdate: Joi.optional(),
+  image: Joi.optional(),
 }
 
 export default saveEmployeeValidator

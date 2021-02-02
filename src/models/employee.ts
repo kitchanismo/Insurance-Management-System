@@ -11,6 +11,7 @@ interface Employee extends Profile {
   commission_amount?: number
   is_darkmode?: boolean
   created_at?: Date
+  image?: HTMLImageElement
 }
 
 export default Employee

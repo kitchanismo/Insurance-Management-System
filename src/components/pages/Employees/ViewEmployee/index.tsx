@@ -92,6 +92,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
           style={{
             marginLeft: 0,
             padding: 0,
+            paddingBottom: 10,
             WebkitOverflowScrolling: 'touch',
             overflowX: 'auto',
             flexWrap: 'nowrap',
@@ -202,7 +203,6 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
                 paddingLeft: 18,
                 paddingTop: 10,
                 paddingBottom: 5,
-                marginTop: 10,
               }}
               container
               xs={12}

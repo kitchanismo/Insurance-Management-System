@@ -1,4 +1,5 @@
 import Employee from 'models/employee'
+import http from 'utils/http'
 
 const employees: Employee[] = [
   {
@@ -42,4 +43,11 @@ export const getEmployees = async () => {
       resolve(employees)
     }, 3000)
   })
+}
+
+export const postImage = async (formData: FormData) => {
+  return http.axios.post(
+    'https://api.cloudinary.com/v1_1/kitchanismo/image/upload',
+    formData,
+  )
 }

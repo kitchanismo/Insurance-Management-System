@@ -20,6 +20,7 @@ import {
   computeTotalCountPaid,
   computeTotalCountToPay,
 } from 'api/clientService'
+import { capitalize } from 'utils/helper'
 
 export interface ClientCardProps {
   client: Client
@@ -59,7 +60,12 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
             </Grid>
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
-            <MyAvatar onClick={() => history.push('/clients/' + client.id)} />
+            <MyAvatar
+              text={
+                capitalize(client.lastname!) + capitalize(client.firstname!)
+              }
+              onClick={() => history.push('/clients/' + client.id)}
+            />
           </Grid>
         </Grid>
       </CardContent>

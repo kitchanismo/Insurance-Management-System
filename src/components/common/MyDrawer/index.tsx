@@ -4,6 +4,7 @@ import List from '@material-ui/core/List'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import EmployeesIcon from '@material-ui/icons/People'
 import ClientIcon from '@material-ui/icons/SupervisedUserCircle'
+import ExitIcon from '@material-ui/icons/ExitToApp'
 import ListItem from '@material-ui/core/ListItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -55,6 +56,26 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
             />
           </ListItem>
         ))}
+        <Divider
+          style={{
+            marginTop: 10,
+            marginLeft: 10,
+            marginRight: 10,
+          }}
+        ></Divider>
+        <ListItem style={{ paddingLeft: 0 }} button>
+          <ListItemIcon style={{ paddingLeft: 20 }}>
+            <ExitIcon />
+          </ListItemIcon>
+
+          <ListItemText
+            primary='Logout'
+            onClick={() => {
+              props.onToggle()
+              dispatch({ type: 'SET_IS_AUTHENTIC_USER', payload: false })
+            }}
+          />
+        </ListItem>
       </List>
     </>
   )

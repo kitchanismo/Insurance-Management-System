@@ -14,6 +14,7 @@ export interface GlobalState {
   title: string
   isDark: boolean
   isLoading: boolean
+  isAuthenticUser: boolean
 }
 
 export type GlobalAction =
@@ -21,6 +22,7 @@ export type GlobalAction =
   | { type: 'SET_ALERT'; payload: AlertProps | null }
   | { type: 'SET_TITLE'; payload: string }
   | { type: 'SET_IS_LOADING'; payload: boolean }
+  | { type: 'SET_IS_AUTHENTIC_USER'; payload: boolean }
 
 const globalReducer = (state: GlobalState, action: GlobalAction) => {
   switch (action.type) {
@@ -34,6 +36,8 @@ const globalReducer = (state: GlobalState, action: GlobalAction) => {
       return { ...state, isLoading: action.payload }
     case 'TOGGLE_THEME':
       return { ...state, isDark: !state.isDark }
+    case 'SET_IS_AUTHENTIC_USER':
+      return { ...state, isAuthenticUser: action.payload }
     default:
       return state
   }
@@ -43,8 +47,9 @@ const useGlobalState = () => {
   const reducer = useReducer(globalReducer, {
     alert: null,
     title: '',
-    isDark: true,
+    isDark: false,
     isLoading: false,
+    isAuthenticUser: false,
   })
 
   return reducer

@@ -21,6 +21,8 @@ import {
   computeTotalCountToPay,
 } from 'api/clientService'
 import MySkeletonCard from 'components/common/MySkeletonCard'
+import MyAvatar from 'components/common/MyAvatar'
+import { capitalize } from 'utils/helper'
 
 export interface ViewClientProps {}
 
@@ -99,13 +101,12 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                   justify='center'
                   alignItems='center'
                 >
-                  <IconButton aria-label='play/pause'>
-                    <img
-                      style={{ width: 100 }}
-                      src={userIcon}
-                      alt='User Logo'
-                    />
-                  </IconButton>
+                  <MyAvatar
+                    text={
+                      capitalize(client.lastname!) +
+                      capitalize(client.firstname!)
+                    }
+                  />
                 </Grid>
               </Grid>
             </CardContent>

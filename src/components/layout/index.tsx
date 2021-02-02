@@ -11,24 +11,24 @@ import EditEmployee from 'components/pages/Employees/EditEmployee'
 import Clients from 'components/pages/Clients'
 import ViewClient from 'components/pages/Clients/ViewClient'
 import NewClient from 'components/pages/Clients/NewClient'
+import SignIn from 'components/pages/Auth/SignIn'
+import AuthRoute from 'components/common/MyAuthRoute'
 
 const Layout = () => {
   const styles = useStyles()
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
-        <Route path='/clients/new' component={NewClient} />
-        <Route path='/clients/:id' component={ViewClient} />
-        <Route path='/clients' component={Clients} />
-        <Route path='/employees/new' component={NewEmployee} />
-        <Route path='/employees/edit/:id' component={EditEmployee} />
-        <Route
-          path='/employees/:id'
-          render={(props) => <ViewEmployee title='View User' {...props} />}
-        />
-        <Route path='/employees' component={Employees} />
-        <Route path='/' component={Dashboard} />
-        <Redirect from='/' exact to='/dashboard' />
+        <AuthRoute path='/clients/new' component={NewClient} />
+        <AuthRoute path='/clients/:id' component={ViewClient} />
+        <AuthRoute path='/clients' component={Clients} />
+        <AuthRoute path='/employees/new' component={NewEmployee} />
+        <AuthRoute path='/employees/edit/:id' component={EditEmployee} />
+        <AuthRoute path='/employees/:id' component={ViewEmployee} />
+        <AuthRoute path='/employees' component={Employees} />
+        <AuthRoute path='/dashboard' component={Dashboard} />
+        <Route path='/' component={SignIn} />
+        <Redirect from='/' exact to='/signin' />
         <Redirect to='/not-found' />
       </Switch>
     </Container>

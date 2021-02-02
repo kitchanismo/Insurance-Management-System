@@ -106,7 +106,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
                   style={{ width: 230 }}
                   avatar={
                     <Avatar className={styles.avatar} aria-label='clients'>
-                      <Typography color='textPrimary' variant='h6'>
+                      <Typography color='inherit' variant='h6'>
                         {capitalize(client.lastname!) +
                           capitalize(client.firstname!)}
                       </Typography>
@@ -165,13 +165,12 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
                     justify='center'
                     alignItems='center'
                   >
-                    <IconButton aria-label='play/pause'>
-                      <img
-                        style={{ width: 100 }}
-                        src={userIcon}
-                        alt='User Logo'
-                      />
-                    </IconButton>
+                    <MyAvatar
+                      text={
+                        capitalize(employee.lastname!) +
+                        capitalize(employee.firstname!)
+                      }
+                    />
                   </Grid>
                 </Grid>
               </CardContent>

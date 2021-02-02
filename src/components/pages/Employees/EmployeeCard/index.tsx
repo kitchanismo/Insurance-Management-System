@@ -14,6 +14,7 @@ import Chip from '@material-ui/core/Chip'
 import MyCard from 'components/common/MyCard'
 import MyAvatar from 'components/common/MyAvatar'
 import Employee from 'models/employee'
+import { capitalize } from 'utils/helper'
 
 export interface EmployeesProps {
   employee: Partial<Employee>
@@ -34,7 +35,7 @@ const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
             xs={7}
             justify='flex-start'
           >
-            <Typography component='h6' variant='h6'>
+            <Typography component='h3' variant='h6'>
               {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
@@ -59,6 +60,9 @@ const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <MyAvatar
+              text={
+                capitalize(employee.lastname!) + capitalize(employee.firstname!)
+              }
               onClick={() => history.push('/employees/' + employee.id)}
             />
           </Grid>

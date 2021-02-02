@@ -11,7 +11,7 @@ import { useContext, useEffect } from 'react'
 import { getClients } from 'api/clientService'
 import { GlobalContext } from 'hooks/useGlobalState'
 import { ClientContext } from 'providers/ClientProvicer'
-import MySkeletonCard from 'components/common/MySkeletonCards'
+import MySkeletonCards from 'components/common/MySkeletonCards'
 
 export interface ClientsProps {}
 
@@ -43,7 +43,7 @@ const Clients: React.SFC<ClientsProps> = () => {
         }}
         style={{ marginBottom: 15 }}
       />
-      {isLoading && <MySkeletonCard />}
+      {isLoading && <MySkeletonCards />}
       {!isLoading && (
         <Grid
           container

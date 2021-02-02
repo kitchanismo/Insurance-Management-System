@@ -53,6 +53,27 @@ export const getEmployees = async () => {
   })
 }
 
+export const getEmployee = async () => {
+  return new Promise<Employee>(function (resolve, reject) {
+    setTimeout(() => {
+      const employee: Employee = {
+        id: 1,
+        firstname: 'Firstname',
+        middlename: 'Middlename',
+        lastname: 'Lastname',
+        position: 'Branch Manager',
+        civil: 'Single',
+        gender: 'Male',
+        address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
+        contact: '09234545866',
+        status: 'active',
+        birthdate: new Date('10/03/1991'),
+      }
+      resolve(employee)
+    }, 3000)
+  })
+}
+
 export const postImage = async (image: Blob) => {
   const formData = new FormData()
 

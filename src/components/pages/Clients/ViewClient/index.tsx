@@ -20,6 +20,7 @@ import {
   computeTotalCountPaid,
   computeTotalCountToPay,
 } from 'api/clientService'
+import MySkeletonCard from 'components/common/MySkeletonCard'
 
 export interface ViewClientProps {}
 
@@ -33,10 +34,15 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
   const [clientState] = useContext(ClientContext)!
 
   const [client, setClient] = useState<Client>()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
     globalDispatch({ type: 'SET_TITLE', payload: 'Client Details' })
-    getClient(clientState.clients, +id).then((client) => setClient(client))
+    getClient(clientState.clients, +id).then((client) => {
+      setClient(client)
+      setIsLoading(false)
+    })
   }, [])
 
   const detail = (title: string, subtitle: any) => (
@@ -52,7 +58,8 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
 
   return (
     <Grid container xs={12}>
-      {client && (
+      {isLoading && !client && <MySkeletonCard />}
+      {client && !isLoading && (
         <>
           <MyCard title={client.code}>
             <CardContent>

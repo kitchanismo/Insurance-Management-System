@@ -77,3 +77,8 @@ export const getNumberWithOrdinal = (num: number) => {
     v = num % 100
   return num + (s[(v - 20) % 10] || s[v] || s[0])
 }
+
+export const capitalize = (s: string) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase()
+}

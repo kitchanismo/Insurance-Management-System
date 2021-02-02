@@ -4,7 +4,7 @@ import Skeleton from '@material-ui/lab/Skeleton'
 
 export interface MySkeletonCardProps {}
 
-const MySkeletonCards: React.SFC<MySkeletonCardProps> = () => {
+const MySkeletonCard: React.SFC<MySkeletonCardProps> = () => {
   const card = () => {
     return (
       <Paper style={{ marginBottom: 20 }}>
@@ -26,18 +26,17 @@ const MySkeletonCards: React.SFC<MySkeletonCardProps> = () => {
             />
           </Grid>
         </Grid>
-        <Skeleton animation='wave' variant='rect' height={70} />
+        <Skeleton animation='wave' variant='rect' height={285} />
       </Paper>
     )
   }
   return (
     <>
-      <Grid container xs={12} direction='column'>
-        {card()}
+      <Grid style={{ marginBottom: 20 }} container xs={12} direction='column'>
         {card()}
       </Grid>
     </>
   )
 }
 
-export default MySkeletonCards
+export default MySkeletonCard

@@ -88,7 +88,11 @@ const plans: Plan[] = [
 
 export const getClient = async (clients: Client[], id: number) => {
   const client = clients.filter((client) => client.id === id)[0]
-  return Promise.resolve(client)
+  return new Promise<Client>(function (resolve, reject) {
+    setTimeout(() => {
+      resolve(client)
+    }, 3000)
+  })
 }
 
 export const getPlans = async () => {

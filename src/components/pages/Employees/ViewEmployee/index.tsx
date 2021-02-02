@@ -6,12 +6,16 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
+import Card from '@material-ui/core/Card'
+import Avatar from '@material-ui/core/Avatar'
+import CardHeader from '@material-ui/core/CardHeader'
 import EditIcon from '@material-ui/icons/Edit'
 import Chip from '@material-ui/core/Chip'
 import FaceIcon from '@material-ui/icons/Face'
 import Divider from '@material-ui/core/Divider'
 import userIcon from 'assets/profile-user.svg'
-import { calculateAge } from 'utils/helper'
+import { calculateAge, capitalize } from 'utils/helper'
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 
 import MyCard from 'components/common/MyCard'
 import ClientCard from 'components/pages/Clients/ClientCard'
@@ -20,6 +24,10 @@ import Employee from 'models/employee'
 import { GlobalContext } from 'hooks/useGlobalState'
 import { ClientContext } from 'providers/ClientProvicer'
 import Client from 'models/client'
+import MyAvatar from 'components/common/MyAvatar'
+import { getClients } from 'api/clientService'
+import { getEmployee } from 'api/employeeService'
+import MySkeletonCard from 'components/common/MySkeletonCard'
 
 export interface ViewUserProps {
   title: string
@@ -27,31 +35,24 @@ export interface ViewUserProps {
 
 const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   const history = useHistory()
+  const styles = useStyles()
   const [_, dispatch] = useContext(GlobalContext)!
 
-  const [clientState, clientDispatch] = useContext(ClientContext)!
+  const [clients, setClients] = useState<Client[]>([])
+
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
+    getClients().then((clients) => {
+      setClients(clients)
+      setIsLoading(false)
+    })
+    getEmployee().then((employee) => setEmployee(employee))
     dispatch({ type: 'SET_TITLE', payload: 'View Employee' })
   }, [])
 
   const [employee, setEmployee] = useState<Employee>()
-
-  useEffect(() => {
-    setEmployee({
-      id: 1,
-      firstname: 'Firstname',
-      middlename: 'Middlename',
-      lastname: 'Lastname',
-      position: 'Branch Manager',
-      civil: 'Single',
-      gender: 'Male',
-      address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
-      contact: '09234545866',
-      status: 'active',
-      birthdate: new Date('10/03/1991'),
-    })
-  }, [])
 
   const detail = (title: string, subtitle: any) => (
     <Grid container alignItems='center' direction='column' item xs={6}>
@@ -87,27 +88,34 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
           xs={12}
           justify='flex-start'
           direction='row'
-          spacing={2}
+          spacing={1}
           alignItems='center'
           style={{
             marginLeft: 0,
             padding: 0,
-            paddingBottom: 10,
+            paddingBottom: 5,
             WebkitOverflowScrolling: 'touch',
             overflowX: 'auto',
             flexWrap: 'nowrap',
           }}
         >
           {clients.map((client) => (
-            <Grid key={client.id} item xs={12}>
-              <Chip
-                icon={<FaceIcon />}
-                label={client.firstname}
-                clickable
-                onClick={() => history.push('/clients/' + client.id)}
-                variant='outlined'
-                color='default'
-              />
+            <Grid item xs={12}>
+              <Card>
+                <CardHeader
+                  style={{ width: 230 }}
+                  avatar={
+                    <Avatar className={styles.avatar} aria-label='clients'>
+                      <Typography color='textPrimary' variant='h6'>
+                        {capitalize(client.lastname!) +
+                          capitalize(client.firstname!)}
+                      </Typography>
+                    </Avatar>
+                  }
+                  title={`${client.lastname}, ${client.firstname}`}
+                  subheader={client.code}
+                />
+              </Card>
             </Grid>
           ))}
         </Grid>
@@ -118,7 +126,8 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   return (
     <>
       <Grid container xs={12}>
-        {employee && (
+        {isLoading && !employee && <MySkeletonCard />}
+        {!isLoading && employee && (
           <>
             <MyCard title='Employee Details'>
               <CardContent>
@@ -197,7 +206,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
                 </Grid>
               </CardContent>
             </MyCard>
-            {renderClients(clientState.clients)}
+            {renderClients(clients)}
             <Grid
               style={{
                 paddingLeft: 18,
@@ -238,5 +247,13 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
     </>
   )
 }
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    avatar: {
+      backgroundColor: theme.palette.secondary.main,
+    },
+  }),
+)
 
 export default ViewEmployee

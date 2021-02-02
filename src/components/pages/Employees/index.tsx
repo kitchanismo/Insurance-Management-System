@@ -12,7 +12,7 @@ import MySearchField from 'components/common/MySearchField'
 import { GlobalContext } from 'hooks/useGlobalState'
 import { EmployeeContext } from 'providers/EmployeeProvider'
 import { getEmployees } from 'api/employeeService'
-import MySkeletonCard from 'components/common/MySkeletonCards'
+import MySkeletonCards from 'components/common/MySkeletonCards'
 
 export interface EmployeesProps {}
 
@@ -39,7 +39,7 @@ const Employees: React.SFC<EmployeesProps> = () => {
   return (
     <>
       <MySearchField style={{ marginBottom: 15 }} />
-      {isLoading && <MySkeletonCard />}
+      {isLoading && <MySkeletonCards />}
       {!isLoading && (
         <Grid
           container

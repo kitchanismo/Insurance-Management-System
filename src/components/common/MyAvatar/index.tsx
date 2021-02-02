@@ -3,12 +3,18 @@ import userIcon from 'assets/profile-user.svg'
 
 export interface MyAvatarProps {
   onClick?: () => void
+  width?: number
+  height?: number
 }
 
-const MyAvatar: React.SFC<MyAvatarProps> = ({ onClick }) => {
+const MyAvatar: React.SFC<MyAvatarProps> = ({ onClick, width, height }) => {
   return (
     <IconButton onClick={onClick}>
-      <img style={{ width: 100 }} src={userIcon} alt='User Logo' />
+      <img
+        style={{ width: width || 100, height }}
+        src={userIcon}
+        alt='User Logo'
+      />
     </IconButton>
   )
 }

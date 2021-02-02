@@ -43,7 +43,7 @@ const useGlobalState = () => {
   const reducer = useReducer(globalReducer, {
     alert: null,
     title: '',
-    isDark: false,
+    isDark: true,
     isLoading: false,
   })
 

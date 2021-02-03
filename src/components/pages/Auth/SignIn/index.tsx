@@ -38,7 +38,7 @@ const SignIn: React.SFC<SignInProps> = () => {
 
   return (
     <Grid
-      style={{ height: '85vh', paddingTop: 20, paddingBottom: 20 }}
+      style={{ minHeight: 450 }}
       justify='space-between'
       container
       direction='column'
@@ -49,6 +49,7 @@ const SignIn: React.SFC<SignInProps> = () => {
         direction='row'
         container
         justify='center'
+        alignItems='flex-start'
       >
         <h1>Logo</h1>
       </Grid>

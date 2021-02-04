@@ -7,19 +7,19 @@ export interface MySkeletonMiniCardsProps {}
 const MySkeletonMiniCards: React.SFC<MySkeletonMiniCardsProps> = () => {
   const card = () => {
     return (
-      <Paper style={{ marginBottom: 20 }}>
-        <Grid style={{ paddingTop: 20, marginBottom: 20 }} container xs={12}>
-          <Grid item xs={6}>
+      <Paper style={{ padding: 15, width: 230 }}>
+        <Grid container xs={12}>
+          <Grid item container justify='center' xs={3}>
             <Skeleton
               animation='wave'
               variant='circle'
-              width={100}
-              height={100}
+              width={40}
+              height={40}
             />
           </Grid>
-          <Grid item xs={6} container justify='center'>
+          <Grid item xs={9} container justify='flex-start'>
             <Skeleton animation='wave' variant='text' width={150} />
-            <Skeleton animation='wave' variant='text' width={150} />
+            <Skeleton animation='wave' variant='text' width={100} />
           </Grid>
         </Grid>
       </Paper>
@@ -27,7 +27,22 @@ const MySkeletonMiniCards: React.SFC<MySkeletonMiniCardsProps> = () => {
   }
   return (
     <>
-      <Grid container xs={12} direction='column'>
+      <Grid
+        style={{
+          marginLeft: 5,
+          marginTop: 15,
+          padding: 0,
+          paddingBottom: 5,
+          WebkitOverflowScrolling: 'touch',
+          overflowX: 'auto',
+          flexWrap: 'nowrap',
+        }}
+        container
+        xs={12}
+        justify='flex-start'
+        direction='row'
+        spacing={1}
+      >
         {card()}
       </Grid>
     </>

@@ -32,7 +32,7 @@ const MySkeletonCard: React.SFC<MySkeletonCardProps> = () => {
   }
   return (
     <>
-      <Grid style={{ marginBottom: 20 }} container xs={12} direction='column'>
+      <Grid container xs={12} direction='column'>
         {card()}
       </Grid>
     </>

@@ -12,13 +12,14 @@ import { capitalize } from 'utils/helper'
 import CommissionersForm from './TransactionForm'
 import TransactionModel from 'models/transaction'
 import { GlobalContext } from 'hooks/useGlobalState'
+import MySkeletonMiniCards from 'components/common/MySkeletonMiniCards'
 
 export interface TransactionProps {}
 
 const Transaction: React.SFC<TransactionProps> = () => {
   const [clientState, clientDispatch] = useContext(ClientContext)!
 
-  const [_, globalDispatch] = useContext(GlobalContext)!
+  const [globalState, globalDispatch] = useContext(GlobalContext)!
 
   const [transaction, setTransaction] = useState<TransactionModel>({
     position: 'sales_agent',
@@ -26,6 +27,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
   })
 
   useEffect(() => {
+    clientDispatch({ type: 'SET_IS_LOADING', payload: true })
     globalDispatch({ type: 'SET_TITLE', payload: 'ENCODE TRANSACTION' })
     getClients().then((clients) => {
       clientDispatch({ type: 'ON_LOAD_CLIENTS', payload: clients })
@@ -95,27 +97,33 @@ const Transaction: React.SFC<TransactionProps> = () => {
     })
   }
 
+  const isLoading = clientState.isLoading && !clientState.clients.length
+
   return (
     <Grid container direction='column' xs={12}>
       <MySearchField labelWidth={140} label='Client Name / Code' />
-      <MyMiniCards
-        onSelected={handleSelected}
-        style={{ marginTop: 10 }}
-        items={clientState.clients}
-      >
-        {({ renderCards, item }) => (
-          <>
-            {renderCards({
-              title: `${item.lastname}, ${item.firstname}`,
-              subtitle: item.code!,
-              initials: `${capitalize(item.lastname!)}${capitalize(
-                item.firstname!,
-              )}`,
-              item,
-            })}
-          </>
-        )}
-      </MyMiniCards>
+      {isLoading && <MySkeletonMiniCards></MySkeletonMiniCards>}
+
+      {!isLoading && (
+        <MyMiniCards
+          onSelected={handleSelected}
+          style={{ marginTop: 10 }}
+          items={clientState.clients}
+        >
+          {({ renderCards, item }) => (
+            <>
+              {renderCards({
+                title: `${item.lastname}, ${item.firstname}`,
+                subtitle: item.code!,
+                initials: `${capitalize(item.lastname!)}${capitalize(
+                  item.firstname!,
+                )}`,
+                item,
+              })}
+            </>
+          )}
+        </MyMiniCards>
+      )}
       <Divider style={{ margin: 20 }}></Divider>
       <Grid xs={12} container justify='space-between'>
         <Grid item xs={8}>

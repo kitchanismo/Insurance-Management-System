@@ -29,6 +29,7 @@ import { getClients } from 'api/clientService'
 import { getEmployee } from 'api/employeeService'
 import MySkeletonCard from 'components/common/MySkeletonCard'
 import MyMiniCards from 'components/common/MyMiniCards'
+import MySkeletonMiniCards from 'components/common/MySkeletonMiniCards'
 
 export interface ViewUserProps {
   title: string
@@ -105,7 +106,23 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   return (
     <>
       <Grid container xs={12}>
-        {isLoading && !employee && <MySkeletonCard />}
+        {isLoading && !employee && (
+          <>
+            <MySkeletonCard />
+            <Grid
+              container
+              style={{ marginBottom: 10 }}
+              xs={12}
+              justify='space-between'
+            >
+              <Typography variant='subtitle1'>Recent Clients</Typography>
+              <Link component='button' variant='body1'>
+                View All({clients.length})
+              </Link>
+              <MySkeletonMiniCards />
+            </Grid>
+          </>
+        )}
         {!isLoading && employee && (
           <>
             <MyCard title='Employee Details'>

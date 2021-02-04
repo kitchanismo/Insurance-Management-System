@@ -1,5 +1,4 @@
 import MySearchField from 'components/common/MySearchField'
-import Client from 'models/client'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 
 import Grid from '@material-ui/core/Grid'
@@ -7,11 +6,12 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import { useHistory } from 'react-router-dom'
 import ClientCard from './ClientCard'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getClients } from 'api/clientService'
 import { GlobalContext } from 'hooks/useGlobalState'
 import { ClientContext } from 'providers/ClientProvicer'
 import MySkeletonCards from 'components/common/MySkeletonCards'
+import MyChips from 'components/common/MyChips'
 
 export interface ClientsProps {}
 
@@ -43,6 +43,9 @@ const Clients: React.SFC<ClientsProps> = () => {
         }}
         style={{ marginBottom: 15 }}
       />
+      <Grid style={{ marginBottom: 10 }} spacing={1} container xs={12}>
+        <MyChips active='All' chips={['All', 'Lapse', 'Near']}></MyChips>
+      </Grid>
       {isLoading && <MySkeletonCards />}
       {!isLoading && (
         <Grid

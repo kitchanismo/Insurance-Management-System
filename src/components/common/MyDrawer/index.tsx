@@ -4,6 +4,8 @@ import List from '@material-ui/core/List'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import EmployeesIcon from '@material-ui/icons/People'
 import ClientIcon from '@material-ui/icons/SupervisedUserCircle'
+import SettingsIcon from '@material-ui/icons/Settings'
+import PaymentIcon from '@material-ui/icons/Payment'
 import ExitIcon from '@material-ui/icons/ExitToApp'
 import ListItem from '@material-ui/core/ListItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
@@ -38,6 +40,16 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
       icon: <EmployeesIcon />,
     },
     { name: 'Client Management', path: '/clients', icon: <ClientIcon /> },
+    {
+      name: 'Encode Transaction',
+      path: '/clients/transaction',
+      icon: <PaymentIcon />,
+    },
+    {
+      name: 'Settings',
+      path: '/settings',
+      icon: <SettingsIcon />,
+    },
   ]
 
   const list = () => (
@@ -67,7 +79,6 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
           <ListItemIcon style={{ paddingLeft: 20 }}>
             <ExitIcon />
           </ListItemIcon>
-
           <ListItemText
             primary='Logout'
             onClick={() => {
@@ -97,19 +108,6 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
         </IconButton>
       </Grid>
       {list()}
-      <Divider style={{ marginLeft: 10, marginRight: 10 }}></Divider>
-      <FormControlLabel
-        style={{ marginLeft: 10, marginTop: 10 }}
-        control={
-          <Switch
-            checked={state.isDark}
-            onChange={() => dispatch({ type: 'TOGGLE_THEME' })}
-            name='checkedA'
-            inputProps={{ 'aria-label': 'secondary checkbox' }}
-          />
-        }
-        label='Dark Mode'
-      />
     </Drawer>
   )
 }

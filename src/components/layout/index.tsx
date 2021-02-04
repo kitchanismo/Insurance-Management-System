@@ -14,12 +14,14 @@ import NewClient from 'components/pages/Clients/NewClient'
 import SignIn from 'components/pages/Auth/SignIn'
 import AuthRoute from 'components/common/MyAuthRoute'
 import Transaction from 'components/pages/Clients/Transaction'
+import Settings from 'components/pages/Settings'
 
 const Layout = () => {
   const styles = useStyles()
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
+        <AuthRoute path='/settings' component={Settings} />
         <AuthRoute path='/clients/new' component={NewClient} />
         <AuthRoute path='/clients/transaction' component={Transaction} />
         <AuthRoute path='/clients/:id' component={ViewClient} />

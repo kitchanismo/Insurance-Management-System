@@ -13,6 +13,7 @@ import ViewClient from 'components/pages/Clients/ViewClient'
 import NewClient from 'components/pages/Clients/NewClient'
 import SignIn from 'components/pages/Auth/SignIn'
 import AuthRoute from 'components/common/MyAuthRoute'
+import Transaction from 'components/pages/Clients/Transaction'
 
 const Layout = () => {
   const styles = useStyles()
@@ -20,6 +21,7 @@ const Layout = () => {
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
         <AuthRoute path='/clients/new' component={NewClient} />
+        <AuthRoute path='/clients/transaction' component={Transaction} />
         <AuthRoute path='/clients/:id' component={ViewClient} />
         <AuthRoute path='/clients' component={Clients} />
         <AuthRoute path='/employees/new' component={NewEmployee} />

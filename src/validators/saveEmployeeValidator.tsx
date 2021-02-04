@@ -1,4 +1,5 @@
 import Joi from 'joi'
+import Employee from 'models/employee'
 import { lettersOnly, notNull } from 'utils/helper'
 
 const saveEmployeeValidator = {
@@ -9,12 +10,6 @@ const saveEmployeeValidator = {
   civil: notNull('Civil Status'),
   gender: notNull('Gender'),
   branch: notNull('Branch'),
-  team: Joi.optional(),
-  contact: Joi.optional(),
-  address: Joi.optional(),
-  birthdate: Joi.optional(),
-  image: Joi.optional(),
-  imageUrl: Joi.optional(),
 }
 
 export default saveEmployeeValidator

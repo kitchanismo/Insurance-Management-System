@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, memo } from 'react'
 import Joi from 'joi'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
@@ -60,7 +60,44 @@ export interface RenderProps {
   mySelect: (select: SelectProps) => JSX.Element
   myRadio: (input: InputProps) => JSX.Element
   myControlledInput: (input: InputProps) => JSX.Element
+  MyButtonMemo: React.MemoExoticComponent<
+    (props: { text?: string }) => JSX.Element
+  >
 }
+
+const MyButtonMemo = (isDisable: boolean) =>
+  memo((props: { text?: string }) => {
+    console.log('hit memo')
+    return (
+      <Grid item xs={12}>
+        <Button
+          disabled={isDisable}
+          style={{ paddingTop: 15, paddingBottom: 15 }}
+          fullWidth
+          type='submit'
+          variant='contained'
+          color='primary'
+          startIcon={
+            isDisable && (
+              <CircularProgress
+                color='primary'
+                size={24}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  marginTop: -12,
+                  marginLeft: -12,
+                }}
+              />
+            )
+          }
+        >
+          {props.text ?? 'SUBMIT'}
+        </Button>
+      </Grid>
+    )
+  })
 
 function MyForm<T>(props: MyFormProps<T>) {
   const [state, dispatch] = useContext(GlobalContext)!
@@ -78,6 +115,7 @@ function MyForm<T>(props: MyFormProps<T>) {
   const onValidate = (_data: T) => {
     const schema = Joi.object(props.validator).options({
       abortEarly: false,
+      allowUnknown: true,
     })
 
     const { error } = schema.validate(_data)
@@ -334,6 +372,7 @@ function MyForm<T>(props: MyFormProps<T>) {
           myDateTimePicker,
           myButton,
           myRadio,
+          MyButtonMemo: MyButtonMemo(isDisable),
         } as RenderProps)}
       </Grid>
     </form>

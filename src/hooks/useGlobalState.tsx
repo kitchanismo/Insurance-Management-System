@@ -49,7 +49,7 @@ const useGlobalState = () => {
     title: '',
     isDark: false,
     isLoading: false,
-    isAuthenticUser: false,
+    isAuthenticUser: true,
   })
 
   return reducer

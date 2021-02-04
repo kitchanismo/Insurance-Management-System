@@ -28,6 +28,7 @@ import MyAvatar from 'components/common/MyAvatar'
 import { getClients } from 'api/clientService'
 import { getEmployee } from 'api/employeeService'
 import MySkeletonCard from 'components/common/MySkeletonCard'
+import MyMiniCards from 'components/common/MyMiniCards'
 
 export interface ViewUserProps {
   title: string
@@ -83,42 +84,20 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
             View All({clients.length})
           </Link>
         </Grid>
-        <Grid
-          container
-          xs={12}
-          justify='flex-start'
-          direction='row'
-          spacing={1}
-          alignItems='center'
-          style={{
-            marginLeft: 0,
-            padding: 0,
-            paddingBottom: 5,
-            WebkitOverflowScrolling: 'touch',
-            overflowX: 'auto',
-            flexWrap: 'nowrap',
-          }}
-        >
-          {clients.map((client) => (
-            <Grid item xs={12}>
-              <Card>
-                <CardHeader
-                  style={{ width: 230 }}
-                  avatar={
-                    <Avatar className={styles.avatar} aria-label='clients'>
-                      <Typography color='inherit' variant='h6'>
-                        {capitalize(client.lastname!) +
-                          capitalize(client.firstname!)}
-                      </Typography>
-                    </Avatar>
-                  }
-                  title={`${client.lastname}, ${client.firstname}`}
-                  subheader={client.code}
-                />
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+        <MyMiniCards items={clients}>
+          {({ renderCards, item }) => (
+            <>
+              {renderCards({
+                item,
+                title: `${item.lastname}, ${item.firstname}`,
+                subtitle: item.code!,
+                initials: `${capitalize(item.lastname!)}${capitalize(
+                  item.firstname!,
+                )}`,
+              })}
+            </>
+          )}
+        </MyMiniCards>
       </>
     )
   }

@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import { getAmountToPay, getClients } from 'api/clientService'
 import MyMiniCards from 'components/common/MyMiniCards'
 import MySearchField from 'components/common/MySearchField'
+import MyAvatar from 'components/common/MyAvatar'
 import Client from 'models/client'
 import { ClientContext } from 'providers/ClientProvicer'
 import { useContext, useEffect, useState } from 'react'
@@ -25,6 +26,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
   })
 
   useEffect(() => {
+    globalDispatch({ type: 'SET_TITLE', payload: 'ENCODE TRANSACTION' })
     getClients().then((clients) => {
       clientDispatch({ type: 'ON_LOAD_CLIENTS', payload: clients })
     })
@@ -115,17 +117,34 @@ const Transaction: React.SFC<TransactionProps> = () => {
         )}
       </MyMiniCards>
       <Divider style={{ margin: 20 }}></Divider>
-      <Typography component='h6' variant='h6'>
-        {transaction.id
-          ? `${transaction?.lastname}, ${transaction?.firstname}`
-          : 'No Selected'}
-      </Typography>
-      <Typography variant='subtitle2' color='textSecondary'>
-        {transaction.id ? transaction?.code : ''}
-      </Typography>
-      <Typography variant='subtitle2' color='textSecondary'>
-        {transaction.id ? transaction?.plan : ''}
-      </Typography>
+      <Grid xs={12} container justify='space-between'>
+        <Grid item xs={8}>
+          <Typography component='h6' variant='h6'>
+            {transaction.id
+              ? `${transaction?.lastname}, ${transaction?.firstname} ${transaction?.middlename}`
+              : 'No Selected'}
+          </Typography>
+          <Typography variant='subtitle2' color='textSecondary'>
+            {transaction.id ? transaction?.code : ''}
+          </Typography>
+          <Typography variant='subtitle2' color='textSecondary'>
+            {transaction.id ? transaction?.plan : ''}
+          </Typography>
+          <Typography variant='subtitle2' color='textSecondary'>
+            {transaction.id ? transaction?.payment_period : ''}
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          {transaction.id ? (
+            <MyAvatar
+              text={`${capitalize(transaction?.lastname!)}${capitalize(
+                transaction?.firstname!,
+              )}`}
+            />
+          ) : null}
+        </Grid>
+      </Grid>
+
       <Divider style={{ margin: 20 }}></Divider>
       <CommissionersForm
         onSubmit={handleSubmit}

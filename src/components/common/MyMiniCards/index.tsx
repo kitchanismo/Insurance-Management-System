@@ -98,7 +98,7 @@ const useStyles = (isDark: boolean) =>
       headerSelected: {
         width: 230,
         backgroundColor: !isDark
-          ? theme.palette.grey[200]
+          ? theme.palette.grey[300]
           : theme.palette.grey[700],
       },
       header: {

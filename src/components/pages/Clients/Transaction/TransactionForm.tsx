@@ -30,7 +30,7 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
       {({ myRadio, mySelect, myButton, myControlledInput, myInput }) => (
         <>
           <Grid
-            style={{ paddingLeft: 10, marginTop: 5 }}
+            style={{ paddingLeft: 10, marginTop: 5, marginBottom: 10 }}
             spacing={2}
             container
             xs={12}

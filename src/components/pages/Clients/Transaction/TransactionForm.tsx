@@ -25,6 +25,13 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
     radioButtonDefaultValue: transaction.position,
   }
 
+  const labelMode =
+    transaction.payment_mode !== 'Installment'
+      ? transaction.payment_mode === 'Fullpayment'
+        ? 'Balance'
+        : 'Amount'
+      : 'Amount'
+
   return (
     <MyForm {...formProps}>
       {({ myRadio, mySelect, myButton, myControlledInput, myInput }) => (
@@ -39,11 +46,11 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
               label: 'Payment Mode',
               value: transaction.payment_mode,
               name: 'payment_mode',
-              labelWidth: 120,
+              labelWidth: 110,
               options: [{ value: 'Installment' }, { value: 'Fullpayment' }],
             })}
             {myControlledInput({
-              label: 'Amount',
+              label: labelMode,
               value: transaction.amount,
               name: 'amount',
               onChange: (e: any) =>

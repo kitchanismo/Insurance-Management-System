@@ -22,17 +22,7 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
 
   const history = useHistory()
 
-  const [employee, setEmployee] = React.useState<Employee>({
-    firstname: 'dfdf',
-    middlename: 'dfd',
-    lastname: 'fg',
-    address: 'fgf',
-    contact: 'fgg',
-    gender: 'Male',
-    civil: 'Single',
-    branch: 'Cebu',
-    position: 'Sales Agent',
-  })
+  const [employee, setEmployee] = React.useState<Employee>({})
 
   const onSubmit = async (employee: Employee) => {
     dispatch({ type: 'SET_IS_LOADING', payload: true })

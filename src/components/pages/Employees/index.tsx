@@ -13,6 +13,7 @@ import { GlobalContext } from 'hooks/useGlobalState'
 import { EmployeeContext } from 'providers/EmployeeProvider'
 import { getEmployees } from 'api/employeeService'
 import MySkeletonCards from 'components/common/MySkeletonCards'
+import MyChips from 'components/common/MyChips'
 
 export interface EmployeesProps {}
 
@@ -36,9 +37,20 @@ const Employees: React.SFC<EmployeesProps> = () => {
 
   const isLoading = employeeState.isLoading && !employeeState.employees.length
 
+  const chips = [
+    'All',
+    'Branch Manager',
+    'Agency Manager',
+    'Supervisor',
+    'Sales Agent',
+  ]
+
   return (
     <>
       <MySearchField style={{ marginBottom: 15 }} />
+
+      <MyChips active='All' chips={chips}></MyChips>
+
       {isLoading && <MySkeletonCards />}
       {!isLoading && (
         <Grid

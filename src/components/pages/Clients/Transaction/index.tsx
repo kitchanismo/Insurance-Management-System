@@ -30,15 +30,27 @@ const Transaction: React.SFC<TransactionProps> = () => {
     clientDispatch({ type: 'SET_IS_LOADING', payload: true })
     globalDispatch({ type: 'SET_TITLE', payload: 'ENCODE TRANSACTION' })
     getClients().then((clients) => {
-      clientDispatch({ type: 'ON_LOAD_CLIENTS', payload: clients })
+      clientDispatch({ type: 'ON_LOAD_CLIENTS_INSTALLMENT', payload: clients })
     })
   }, [])
 
   useEffect(() => {
     if (transaction.id) {
+      let amount: number = 0
+
+      switch (transaction.payment_mode) {
+        case 'Installment':
+          amount = getAmountToPay(transaction, clientState.plans)
+          break
+        case 'Fullpayment':
+          amount = transaction?.balance!
+          break
+        default:
+          break
+      }
       setTransaction((transaction) => ({
         ...transaction,
-        amount: '' + getAmountToPay(transaction, clientState.plans),
+        amount: amount.toString(),
       }))
     }
   }, [transaction.payment_mode, transaction.id])
@@ -125,39 +137,47 @@ const Transaction: React.SFC<TransactionProps> = () => {
         </MyMiniCards>
       )}
       <Divider style={{ margin: 20 }}></Divider>
-      <Grid xs={12} container justify='space-between'>
-        <Grid item xs={8}>
+      {!transaction.id && (
+        <Grid container xs={12} justify='center'>
           <Typography component='h6' variant='h6'>
-            {transaction.id
-              ? `${transaction?.lastname}, ${transaction?.firstname} ${transaction?.middlename}`
-              : 'No Selected'}
-          </Typography>
-          <Typography variant='subtitle2' color='textSecondary'>
-            {transaction.id ? transaction?.code : ''}
-          </Typography>
-          <Typography variant='subtitle2' color='textSecondary'>
-            {transaction.id ? transaction?.plan : ''}
-          </Typography>
-          <Typography variant='subtitle2' color='textSecondary'>
-            {transaction.id ? transaction?.payment_period : ''}
+            No Selected Client
           </Typography>
         </Grid>
-        <Grid item xs={4}>
-          {transaction.id ? (
+      )}
+      {transaction.id && (
+        <Grid xs={12} container justify='space-between'>
+          <Grid item xs={8}>
+            <Typography component='h6' variant='h6'>
+              {`${transaction?.lastname}, ${transaction?.firstname} ${transaction?.middlename}`}
+            </Typography>
+            <Typography variant='subtitle2' color='textSecondary'>
+              {transaction?.code}
+            </Typography>
+            <Typography variant='subtitle2' color='textSecondary'>
+              {transaction?.plan}
+            </Typography>
+            <Typography variant='subtitle2' color='textSecondary'>
+              {transaction?.payment_period}
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
             <MyAvatar
               text={`${capitalize(transaction?.lastname!)}${capitalize(
                 transaction?.firstname!,
               )}`}
             />
-          ) : null}
+          </Grid>
         </Grid>
-      </Grid>
+      )}
 
       <Divider style={{ margin: 20 }}></Divider>
-      <CommissionersForm
-        onSubmit={handleSubmit}
-        state={[transaction, setTransaction]}
-      />
+
+      {!isLoading && (
+        <CommissionersForm
+          onSubmit={handleSubmit}
+          state={[transaction, setTransaction]}
+        />
+      )}
     </Grid>
   )
 }

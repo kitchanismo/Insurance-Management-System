@@ -43,9 +43,9 @@ const Clients: React.SFC<ClientsProps> = () => {
         }}
         style={{ marginBottom: 15 }}
       />
-      <Grid style={{ marginBottom: 10 }} spacing={1} container xs={12}>
-        <MyChips active='All' chips={['All', 'Lapse', 'Near']}></MyChips>
-      </Grid>
+
+      <MyChips active='All' chips={['All', 'Lapse', 'Near']}></MyChips>
+
       {isLoading && <MySkeletonCards />}
       {!isLoading && (
         <Grid

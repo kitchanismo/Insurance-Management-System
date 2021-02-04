@@ -14,6 +14,7 @@ export interface ClientState {
 export type ClientAction =
   | { type: 'TOGGLE_LOADING' | 'ON_RELOAD_PLANS' }
   | { type: 'ON_LOAD_CLIENTS'; payload: Client[] }
+  | { type: 'ON_LOAD_CLIENTS_INSTALLMENT'; payload: Client[] }
   | { type: 'ON_LOAD_PLANS'; payload: Plan[] }
   | { type: 'SET_IS_LOADING'; payload: boolean }
 
@@ -25,6 +26,11 @@ const clientReducer = (state: ClientState, action: ClientAction) => {
       return { ...state, onReloadPlans: !state.onReloadPlans }
     case 'ON_LOAD_CLIENTS':
       return { ...state, clients: action.payload, isLoading: false }
+    case 'ON_LOAD_CLIENTS_INSTALLMENT':
+      const clients = action.payload.filter(
+        (client) => client.payment_mode === 'Installment',
+      )
+      return { ...state, clients, isLoading: false }
     case 'SET_IS_LOADING':
       return { ...state, isLoading: action.payload }
     case 'TOGGLE_LOADING':

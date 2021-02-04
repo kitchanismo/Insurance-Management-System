@@ -34,9 +34,27 @@ const MyChips: React.SFC<MyChipsProps> = ({
   }
   return (
     <>
-      {chips.map((chip) => (
-        <>{renderChips(chip)}</>
-      ))}
+      <Grid
+        style={{
+          marginLeft: 0,
+          padding: 0,
+          marginBottom: 10,
+          paddingBottom: 5,
+          WebkitOverflowScrolling: 'touch',
+          overflowX: 'auto',
+          flexWrap: 'nowrap',
+        }}
+        container
+        xs={12}
+        justify='flex-start'
+        direction='row'
+        spacing={1}
+        alignItems='center'
+      >
+        {chips.map((chip) => (
+          <>{renderChips(chip)}</>
+        ))}
+      </Grid>
     </>
   )
 }

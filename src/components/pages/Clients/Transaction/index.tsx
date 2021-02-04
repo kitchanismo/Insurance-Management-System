@@ -172,7 +172,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
 
       <Divider style={{ margin: 20 }}></Divider>
 
-      {!isLoading && (
+      {!isLoading && transaction.id && (
         <CommissionersForm
           onSubmit={handleSubmit}
           state={[transaction, setTransaction]}

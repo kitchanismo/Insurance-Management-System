@@ -10,11 +10,14 @@ import validator from '../../../../validators/saveEmployeeValidator'
 import MyForm, { MyFormProps, InputProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
 import { postImage, saveEmployee } from 'api/employeeService'
+import { EmployeeContext } from 'providers/EmployeeProvider'
 
 export interface NewUserProps {}
 
 const NewEmployee: React.SFC<NewUserProps> = () => {
   const [_, dispatch] = useContext(GlobalContext)!
+
+  const [employeeState, employeeDispatch] = useContext(EmployeeContext)!
 
   const [imageFile, setImageFile] = React.useState<HTMLImageElement | null>(
     null,
@@ -29,7 +32,8 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
 
     if (!employee?.image?.size) {
       delete employee.image
-      return saveEmployee(employee).then(() => {
+      return saveEmployee(employee).then((_employee) => {
+        employeeDispatch({ type: 'ON_ADD_EMPLOYEE', payload: _employee })
         dispatch({
           type: 'SET_ALERT',
           payload: { message: 'Successfully added', type: 'success' },

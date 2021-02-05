@@ -145,7 +145,12 @@ const Transaction: React.SFC<TransactionProps> = () => {
         </Grid>
       )}
       {transaction.id && (
-        <Grid xs={12} container justify='space-between'>
+        <Grid
+          style={{ paddingLeft: 10, paddingRight: 10 }}
+          xs={12}
+          container
+          justify='space-between'
+        >
           <Grid item xs={8}>
             <Typography component='h6' variant='h6'>
               {`${transaction?.lastname}, ${transaction?.firstname} ${transaction?.middlename}`}

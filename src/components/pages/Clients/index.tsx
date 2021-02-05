@@ -35,6 +35,8 @@ const Clients: React.SFC<ClientsProps> = () => {
 
   const isLoading = clientState.isLoading && !clientState.clients.length
 
+  const chips = ['All', 'Lapse', 'Near', 'Installment', 'Fullpayment']
+
   return (
     <>
       <MySearchField
@@ -44,7 +46,7 @@ const Clients: React.SFC<ClientsProps> = () => {
         style={{ marginBottom: 15 }}
       />
 
-      <MyChips active='All' chips={['All', 'Lapse', 'Near']}></MyChips>
+      <MyChips active='All' chips={chips}></MyChips>
 
       {isLoading && <MySkeletonCards />}
       {!isLoading && (

@@ -16,12 +16,14 @@ import AuthRoute from 'components/common/MyAuthRoute'
 import Transaction from 'components/pages/Clients/Transaction'
 import Settings from 'components/pages/Settings'
 import EditClient from 'components/pages/Clients/EditClient'
+import PaymentHistory from 'components/pages/Payments'
 
 const Layout = () => {
   const styles = useStyles()
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
+        <AuthRoute path='/payments' component={PaymentHistory} />
         <AuthRoute path='/settings' component={Settings} />
         <AuthRoute path='/clients/new' component={NewClient} />
         <AuthRoute path='/clients/transaction' component={Transaction} />

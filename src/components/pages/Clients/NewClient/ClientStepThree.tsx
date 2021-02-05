@@ -31,7 +31,7 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
     if (client.payment_mode && client.plan) {
       setClient((client) => ({
         ...client,
-        amount: '' + getAmountToPay(client, clientState.plans) ?? '',
+        amount: getAmountToPay(client, clientState.plans) ?? 0,
       }))
     }
   }, [client.payment_mode, client.payment_period, client.plan])

@@ -6,10 +6,6 @@ export interface AlertProps {
   type: 'success' | 'info' | 'warning' | 'error' | undefined
 }
 
-export const GlobalContext = createContext<
-  [state: GlobalState, dispatch: Dispatch<GlobalAction>] | null
->(null)
-
 export interface GlobalState {
   alert: AlertProps | null
   title: string

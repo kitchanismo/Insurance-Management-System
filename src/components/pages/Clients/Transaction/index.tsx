@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from 'react'
 import { capitalize } from 'utils/helper'
 import CommissionersForm from './TransactionForm'
 import TransactionModel from 'models/transaction'
-import { GlobalContext } from 'hooks/useGlobalState'
+import { GlobalContext } from 'providers'
 import MySkeletonMiniCards from 'components/common/MySkeletonMiniCards'
 
 export interface TransactionProps {}
@@ -23,7 +23,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
 
   const [transaction, setTransaction] = useState<TransactionModel>({
     position: 'sales_agent',
-    amount: '0',
+    amount: 0,
   })
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
       }
       setTransaction((transaction) => ({
         ...transaction,
-        amount: amount.toString(),
+        amount,
       }))
     }
   }, [transaction.payment_mode, transaction.id])

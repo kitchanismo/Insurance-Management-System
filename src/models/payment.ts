@@ -1,6 +1,8 @@
 interface Payment {
-  amount?: string
+  id?: number
+  amount?: number
   or_number?: string
+  client?: number
 }
 
 export default Payment

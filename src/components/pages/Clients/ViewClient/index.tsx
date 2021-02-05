@@ -13,7 +13,7 @@ import { calculateAge } from 'utils/helper'
 import MyCard from 'components/common/MyCard'
 import Client from 'models/client'
 import { ClientContext } from 'providers/ClientProvicer'
-import { GlobalContext } from 'hooks/useGlobalState'
+import { GlobalContext } from 'providers'
 
 import {
   getClient,

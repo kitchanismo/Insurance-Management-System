@@ -4,8 +4,9 @@ import List from '@material-ui/core/List'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import EmployeesIcon from '@material-ui/icons/People'
 import ClientIcon from '@material-ui/icons/SupervisedUserCircle'
+import PaymentIcon from '@material-ui/icons/Receipt'
 import SettingsIcon from '@material-ui/icons/Settings'
-import PaymentIcon from '@material-ui/icons/Payment'
+import TransactionIcon from '@material-ui/icons/Payment'
 import ExitIcon from '@material-ui/icons/ExitToApp'
 import ListItem from '@material-ui/core/ListItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
@@ -14,10 +15,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import IconButton from '@material-ui/core/IconButton'
 import Divider from '@material-ui/core/Divider'
 import Grid from '@material-ui/core/Grid/Grid'
-import Switch from '@material-ui/core/Switch'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import { GlobalContext } from 'hooks/useGlobalState'
+import { GlobalContext } from 'providers'
 import { useHistory } from 'react-router-dom'
 
 export interface MyDrawerProps {
@@ -43,6 +42,11 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
     {
       name: 'Encode Transaction',
       path: '/clients/transaction',
+      icon: <TransactionIcon />,
+    },
+    {
+      name: 'Payment History',
+      path: '/payments',
       icon: <PaymentIcon />,
     },
     {

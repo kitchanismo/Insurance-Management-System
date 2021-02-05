@@ -21,7 +21,7 @@ import MyCard from 'components/common/MyCard'
 import ClientCard from 'components/pages/Clients/ClientCard'
 
 import Employee from 'models/employee'
-import { GlobalContext } from 'hooks/useGlobalState'
+import { GlobalContext } from 'providers'
 import { ClientContext } from 'providers/ClientProvicer'
 import Client from 'models/client'
 import MyAvatar from 'components/common/MyAvatar'

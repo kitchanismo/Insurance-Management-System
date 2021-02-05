@@ -1,7 +1,14 @@
 import { ThemeProvider } from '@material-ui/core/styles'
-import * as React from 'react'
-import useGlobalState, { GlobalContext } from '../hooks/useGlobalState'
+import { createContext, Dispatch } from 'react'
+import useGlobalState, {
+  GlobalState,
+  GlobalAction,
+} from '../hooks/useGlobalState'
 import { createMuiTheme } from '@material-ui/core/styles'
+
+export const GlobalContext = createContext<
+  [state: GlobalState, dispatch: Dispatch<GlobalAction>] | null
+>(null)
 
 const GlobalProvider: React.FC = (props) => {
   const [state, dispatch] = useGlobalState()

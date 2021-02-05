@@ -5,7 +5,7 @@ import MyAlert from 'components/common/MyAlert'
 import Layout from 'components/layout'
 import { ClientProvider } from 'providers/ClientProvicer'
 import { EmployeeProvider } from 'providers/EmployeeProvider'
-import { GlobalContext } from 'hooks/useGlobalState'
+import { GlobalContext } from 'providers'
 
 const App: React.FC = (props) => {
   const [state] = useContext(GlobalContext)!

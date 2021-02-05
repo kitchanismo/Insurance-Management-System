@@ -140,6 +140,18 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
             options: [{ value: 'ABC' }],
           })}
 
+          {mySelect({
+            label: 'Status',
+            value: employee.status,
+            name: 'status',
+            labelWidth: 40,
+            options: [
+              { value: 'active', name: 'Active' },
+              { value: 'deactive', name: 'Deactive' },
+              { value: 'deceased', name: 'Deceased' },
+            ],
+          })}
+
           {myDateTimePicker({
             label: 'Birthdate',
             value: employee.birthdate,

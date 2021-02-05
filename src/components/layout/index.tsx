@@ -42,7 +42,7 @@ const Layout = () => {
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: 20,
-    paddingTop: 75,
+    paddingTop: 80,
     height: '100%',
     backgroundColor: theme.palette.background.default,
   },

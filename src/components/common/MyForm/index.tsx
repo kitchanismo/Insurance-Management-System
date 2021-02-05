@@ -204,7 +204,11 @@ function MyForm<T>(props: MyFormProps<T>) {
           type={input.type}
           error={!!error}
           helperText={error}
-          onChange={input.onChange}
+          onChange={(e) =>
+            input.onChange
+              ? input.onChange(e)
+              : setData((data) => ({ ...data, [input.name]: e.target.value }))
+          }
         />
       </Grid>
     )

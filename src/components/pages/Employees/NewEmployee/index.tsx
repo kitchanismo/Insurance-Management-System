@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
@@ -15,7 +15,7 @@ import { EmployeeContext } from 'providers/EmployeeProvider'
 export interface NewUserProps {}
 
 const NewEmployee: React.SFC<NewUserProps> = () => {
-  const [_, dispatch] = useContext(GlobalContext)!
+  const [_, globalDispatch] = useContext(GlobalContext)!
 
   const [employeeState, employeeDispatch] = useContext(EmployeeContext)!
 
@@ -23,22 +23,26 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
     null,
   )
 
+  useEffect(() => {
+    globalDispatch({ type: 'SET_TITLE', payload: 'Employee Registration' })
+  }, [])
+
   const history = useHistory()
 
   const [employee, setEmployee] = React.useState<Employee>({})
 
   const onSubmit = async (employee: Employee) => {
-    dispatch({ type: 'SET_IS_LOADING', payload: true })
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
 
     if (!employee?.image?.size) {
       delete employee.image
       return saveEmployee(employee).then((_employee) => {
         employeeDispatch({ type: 'ON_ADD_EMPLOYEE', payload: _employee })
-        dispatch({
+        globalDispatch({
           type: 'SET_ALERT',
           payload: { message: 'Successfully added', type: 'success' },
         })
-        dispatch({ type: 'SET_IS_LOADING', payload: false })
+        globalDispatch({ type: 'SET_IS_LOADING', payload: false })
       })
     }
 
@@ -47,19 +51,19 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
         employee.imageUrl = res.data.url
         delete employee.image
         return saveEmployee(employee).then(() => {
-          dispatch({
+          globalDispatch({
             type: 'SET_ALERT',
             payload: { message: 'Successfully added', type: 'success' },
           })
-          dispatch({ type: 'SET_IS_LOADING', payload: false })
+          globalDispatch({ type: 'SET_IS_LOADING', payload: false })
         })
       })
       .catch((error) => {
-        dispatch({
+        globalDispatch({
           type: 'SET_ALERT',
           payload: { message: 'Error', type: error.message },
         })
-        dispatch({ type: 'SET_IS_LOADING', payload: false })
+        globalDispatch({ type: 'SET_IS_LOADING', payload: false })
       })
   }
 

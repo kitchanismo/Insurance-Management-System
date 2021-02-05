@@ -98,11 +98,6 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
                   label: 'Amount',
                   name: 'amount',
                   value: client.amount,
-                  onChange: (e: any) =>
-                    setClient((client) => ({
-                      ...client,
-                      amount: e.target.value,
-                    })),
                 })}
                 <Grid style={{ marginTop: 10 }} xs={12} item>
                   {myInput({

@@ -1,34 +1,42 @@
-import React, { useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { GlobalContext } from 'hooks/useGlobalState'
 import validator from '../../../../validators/saveEmployeeValidator'
 import MyForm, { MyFormProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
+import { EmployeeContext } from 'providers/EmployeeProvider'
+import { getEmployees } from 'api/employeeService'
 
 export interface EditUserProps {}
 
 const EditEmployee: React.SFC<EditUserProps> = () => {
-  const [_, dispatch] = useContext(GlobalContext)!
+  const [_, globalDispatch] = useContext(GlobalContext)!
+
+  const [employeeState, employeeDispatch] = useContext(EmployeeContext)!
 
   const history = useHistory()
 
+  const { id } = useParams<{ id: string }>()
+
   const [employee, setEmployee] = React.useState<Employee>({
-    firstname: 'sds',
-    middlename: 'dfdf',
-    lastname: 'fgf',
-    address: 'fgf',
-    contact: 'fgfg',
-    gender: 'Male',
-    civil: 'Single',
-    birthdate: new Date('10/03/1991'),
-    position: 'Branch Manager',
+    address: '',
+    firstname: '',
+    middlename: '',
+    lastname: '',
+    contact: '',
   })
+
+  useEffect(() => {
+    globalDispatch({ type: 'SET_TITLE', payload: 'EDIT EMPLOYEE' })
+    employeeDispatch({ type: 'ON_GET_EMPLOYEE', payload: +id })
+    setEmployee(employeeState.employee)
+  }, [employeeState.employee])
 
   const onSubmit = async (data: Employee) => {
     console.log(data)
-    dispatch({
+    globalDispatch({
       type: 'SET_ALERT',
       payload: { message: 'Successfully added', type: 'success' },
     })
@@ -44,30 +52,36 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
 
   return (
     <MyForm {...formProps}>
-      {({ myInput, mySelect, myDateTimePicker, myButton }) => (
+      {({
+        myInput,
+        mySelect,
+        myDateTimePicker,
+        myButton,
+        myControlledInput,
+      }) => (
         <>
-          {myInput({
+          {myControlledInput({
             label: 'Firstname',
             value: employee.firstname,
             name: 'firstname',
           })}
-          {myInput({
+          {myControlledInput({
             label: 'Middlename',
             value: employee.middlename,
             name: 'middlename',
           })}
-          {myInput({
+          {myControlledInput({
             label: 'Lastname',
             value: employee.lastname,
             name: 'lastname',
           })}
-          {myInput({
+          {myControlledInput({
             label: 'Contact Number',
             value: employee.contact,
             name: 'contact',
           })}
 
-          {myInput({
+          {myControlledInput({
             label: 'Address',
             value: employee.address,
             name: 'address',

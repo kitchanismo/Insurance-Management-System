@@ -53,8 +53,6 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
               label: labelMode,
               value: transaction.amount,
               name: 'amount',
-              onChange: (e: any) =>
-                setTransaction({ ...transaction, amount: e.target.value }),
             })}
             {myInput({
               label: 'OR Number',

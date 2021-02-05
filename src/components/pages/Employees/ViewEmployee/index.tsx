@@ -67,6 +67,10 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
     </Grid>
   )
 
+  const handleSelected = (client: Client) => {
+    history.push('/clients/' + client.id)
+  }
+
   const renderClients = (clients: Client[]) => {
     return (
       <>
@@ -85,7 +89,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
             View All({clients.length})
           </Link>
         </Grid>
-        <MyMiniCards items={clients}>
+        <MyMiniCards onSelected={handleSelected} items={clients}>
           {({ renderCards, item }) => (
             <>
               {renderCards({

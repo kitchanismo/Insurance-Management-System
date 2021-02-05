@@ -1,5 +1,6 @@
 import { useReducer } from 'react'
 import Employee from 'models/employee'
+import { produce } from 'immer'
 
 export interface EmployeeState {
   employees: Employee[]
@@ -28,24 +29,28 @@ export type EmployeeAction =
 const reducer = (state: EmployeeState, action: EmployeeAction) => {
   switch (action.type) {
     case 'ON_LOAD_EMPLOYEES':
-      return { ...state, employees: action.payload, isLoading: false }
+      state.employees = action.payload
+      state.isLoading = false
+      break
     case 'ON_ADD_EMPLOYEE':
-      return { ...state, employees: [...state.employees, action.payload] }
+      state.employees = [...state.employees, action.payload]
+      break
     case 'ON_GET_EMPLOYEE':
-      const employee = state.employees.filter(
+      state.employee = state.employees.filter(
         (employee) => employee.id === action.payload,
       )[0]
-      console.log('reducer:', employee)
-      return { ...state, employee }
+      break
     case 'SET_IS_LOADING':
-      return { ...state, isLoading: action.payload }
+      state.isLoading = action.payload
+      break
     default:
       return state
   }
+  return state
 }
 
 const useEmployeeState = () => {
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, dispatch] = useReducer(produce(reducer), {
     employees: [],
     isLoading: false,
     employee: {},

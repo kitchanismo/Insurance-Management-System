@@ -1,4 +1,5 @@
 import { createContext, Dispatch, useEffect, useReducer } from 'react'
+import { produce } from 'immer'
 
 import Client from 'models/client'
 import Plan from 'models/plan'
@@ -21,27 +22,35 @@ export type ClientAction =
 const clientReducer = (state: ClientState, action: ClientAction) => {
   switch (action.type) {
     case 'ON_LOAD_PLANS':
-      return { ...state, plans: action.payload }
+      state.plans = action.payload
+      break
     case 'ON_RELOAD_PLANS':
-      return { ...state, onReloadPlans: !state.onReloadPlans }
+      state.onReloadPlans = !state.onReloadPlans
+      break
     case 'ON_LOAD_CLIENTS':
-      return { ...state, clients: action.payload, isLoading: false }
+      state.clients = action.payload
+      state.isLoading = false
+      break
     case 'ON_LOAD_CLIENTS_INSTALLMENT':
-      const clients = action.payload.filter(
+      state.clients = action.payload.filter(
         (client) => client.payment_mode === 'Installment',
       )
-      return { ...state, clients, isLoading: false }
+      state.isLoading = false
+      break
     case 'SET_IS_LOADING':
-      return { ...state, isLoading: action.payload }
+      state.isLoading = action.payload
+      break
     case 'TOGGLE_LOADING':
-      return { ...state, isLoading: !state.isLoading }
+      state.isLoading = !state.isLoading
+      break
     default:
       return state
   }
+  return state
 }
 
 const useClientState = () => {
-  const [state, dispatch] = useReducer(clientReducer, {
+  const [state, dispatch] = useReducer(produce(clientReducer), {
     clients: [],
     plans: [],
     isLoading: false,

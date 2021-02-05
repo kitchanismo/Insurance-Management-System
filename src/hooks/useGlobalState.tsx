@@ -1,4 +1,5 @@
 import { useReducer, Dispatch, createContext } from 'react'
+import { produce } from 'immer'
 
 export interface AlertProps {
   message: string
@@ -27,24 +28,31 @@ export type GlobalAction =
 const globalReducer = (state: GlobalState, action: GlobalAction) => {
   switch (action.type) {
     case 'SET_ALERT':
-      return { ...state, alert: action.payload }
+      state.alert = action.payload
+      break
     case 'HIDE_ALERT':
-      return { ...state, alert: null }
+      state.alert = null
+      break
     case 'SET_TITLE':
-      return { ...state, title: action.payload }
+      state.title = action.payload
+      break
     case 'SET_IS_LOADING':
-      return { ...state, isLoading: action.payload }
+      state.isLoading = action.payload
+      break
     case 'TOGGLE_THEME':
-      return { ...state, isDark: !state.isDark }
+      state.isDark = !state.isDark
+      break
     case 'SET_IS_AUTHENTIC_USER':
-      return { ...state, isAuthenticUser: action.payload }
+      state.isAuthenticUser = action.payload
+      break
     default:
       return state
   }
+  return state
 }
 
 const useGlobalState = () => {
-  const reducer = useReducer(globalReducer, {
+  const reducer = useReducer(produce(globalReducer), {
     alert: null,
     title: '',
     isDark: false,

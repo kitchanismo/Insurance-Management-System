@@ -15,6 +15,7 @@ import SignIn from 'components/pages/Auth/SignIn'
 import AuthRoute from 'components/common/MyAuthRoute'
 import Transaction from 'components/pages/Clients/Transaction'
 import Settings from 'components/pages/Settings'
+import EditClient from 'components/pages/Clients/EditClient'
 
 const Layout = () => {
   const styles = useStyles()
@@ -24,6 +25,7 @@ const Layout = () => {
         <AuthRoute path='/settings' component={Settings} />
         <AuthRoute path='/clients/new' component={NewClient} />
         <AuthRoute path='/clients/transaction' component={Transaction} />
+        <AuthRoute path='/clients/edit/:id' component={EditClient} />
         <AuthRoute path='/clients/:id' component={ViewClient} />
         <AuthRoute path='/clients' component={Clients} />
         <AuthRoute path='/employees/new' component={NewEmployee} />

@@ -28,7 +28,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
 
   useEffect(() => {
     clientDispatch({ type: 'SET_IS_LOADING', payload: true })
-    globalDispatch({ type: 'SET_TITLE', payload: 'ENCODE TRANSACTION' })
+    globalDispatch({ type: 'SET_TITLE', payload: 'Encode Transaction' })
     getClients().then((clients) => {
       clientDispatch({ type: 'ON_LOAD_CLIENTS_INSTALLMENT', payload: clients })
     })

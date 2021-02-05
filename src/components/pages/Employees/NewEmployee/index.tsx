@@ -29,7 +29,9 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
 
   const history = useHistory()
 
-  const [employee, setEmployee] = React.useState<Employee>({})
+  const [employee, setEmployee] = React.useState<Employee>({
+    status: 'deactive',
+  })
 
   const onSubmit = async (employee: Employee) => {
     globalDispatch({ type: 'SET_IS_LOADING', payload: true })

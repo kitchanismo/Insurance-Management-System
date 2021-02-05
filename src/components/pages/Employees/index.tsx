@@ -43,6 +43,9 @@ const Employees: React.SFC<EmployeesProps> = () => {
     'Agency Manager',
     'Supervisor',
     'Sales Agent',
+    'Active',
+    'Deactive',
+    'Deceased',
   ]
 
   return (

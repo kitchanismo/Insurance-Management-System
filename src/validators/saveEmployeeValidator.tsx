@@ -7,6 +7,7 @@ const saveEmployeeValidator = {
   middlename: lettersOnly('Middlename').min(1).max(50),
   lastname: lettersOnly('Lastname').min(1).max(50),
   position: notNull('Position'),
+  status: notNull('Status'),
   civil: notNull('Civil Status'),
   gender: notNull('Gender'),
   branch: notNull('Branch'),

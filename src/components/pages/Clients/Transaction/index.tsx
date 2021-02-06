@@ -1,7 +1,7 @@
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
-import { getAmountToPay, getClients } from 'api/clientService'
+import { getAmountToPay, getClients } from 'services/clientService'
 import MyMiniCards from 'components/common/MyMiniCards'
 import MySearchField from 'components/common/MySearchField'
 import MyAvatar from 'components/common/MyAvatar'

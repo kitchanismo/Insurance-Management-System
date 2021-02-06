@@ -7,7 +7,7 @@ import validator from '../../../../validators/saveEmployeeValidator'
 import MyForm, { MyFormProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
 import { EmployeeContext } from 'providers/EmployeeProvider'
-import { getEmployees } from 'api/employeeService'
+import { getEmployees } from 'services/employeeService'
 
 export interface EditUserProps {}
 

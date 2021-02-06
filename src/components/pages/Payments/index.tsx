@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import MyChips from 'components/common/MyChips'
 import MySearchField from 'components/common/MySearchField'
 import { PaymentContext } from 'providers/PaymentProvider'
-import { getPayments } from 'api/paymentService'
+import { getPayments } from 'services/paymentService'
 import PaymentCard from './PaymentCard'
 
 export interface PaymentHistoryProps {}

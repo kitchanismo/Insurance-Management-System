@@ -6,7 +6,7 @@ import MyForm, { MyFormProps, OptionProps } from 'components/common/MyForm'
 import Client from 'models/client'
 import Commissioner from 'models/commissioner'
 import validator from 'validators/clientStepThreeValidator'
-import { getAmountToPay } from 'api/clientService'
+import { getAmountToPay } from 'services/clientService'
 import { ClientContext } from 'providers/ClientProvider'
 import Payment from 'models/payment'
 

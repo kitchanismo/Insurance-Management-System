@@ -1,7 +1,7 @@
 import Grid from '@material-ui/core/Grid'
 import MyForm, { MyFormProps } from 'components/common/MyForm'
 import User from 'models/user'
-import { onSignIn } from 'api/authService'
+import { onSignIn } from 'services/authService'
 import validator from 'validators/signInValidator'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 

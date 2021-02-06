@@ -11,7 +11,7 @@ import EmployeeCard from './EmployeeCard'
 import MySearchField from 'components/common/MySearchField'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { EmployeeContext } from 'providers/EmployeeProvider'
-import { getEmployees } from 'api/employeeService'
+import { getEmployees } from 'services/employeeService'
 import MySkeletonCards from 'components/common/MySkeletonCards'
 import MyChips from 'components/common/MyChips'
 

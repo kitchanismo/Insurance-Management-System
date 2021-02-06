@@ -19,7 +19,7 @@ import { ClientContext } from 'providers/ClientProvider'
 import {
   computeTotalCountPaid,
   computeTotalCountToPay,
-} from 'api/clientService'
+} from 'services/clientService'
 import { capitalize } from 'utils/helper'
 
 export interface ClientCardProps {

@@ -9,7 +9,7 @@ import { GlobalContext } from 'providers/GlobalProvider'
 import validator from '../../../../validators/saveEmployeeValidator'
 import MyForm, { MyFormProps, InputProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
-import { postImage, saveEmployee } from 'api/employeeService'
+import { postImage, saveEmployee } from 'services/employeeService'
 import { EmployeeContext } from 'providers/EmployeeProvider'
 
 export interface NewUserProps {}

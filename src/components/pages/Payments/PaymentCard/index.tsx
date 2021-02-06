@@ -40,9 +40,10 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
             />
           </Grid>
           <Grid style={{ marginTop: 20 }} item container xs={12}>
-            <Grid item xs={3}></Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}></Grid>
+            <Grid item xs={4}>
               <Button
+                style={{ padding: 10 }}
                 onClick={() => history.push('/payments/' + payment.id)}
                 variant='contained'
                 fullWidth
@@ -51,7 +52,7 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
                 Details
               </Button>
             </Grid>
-            <Grid item xs={3}></Grid>
+            <Grid item xs={4}></Grid>
           </Grid>
         </Grid>
       </CardContent>

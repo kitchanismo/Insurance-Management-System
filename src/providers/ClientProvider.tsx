@@ -2,7 +2,7 @@ import { createContext, Dispatch, useEffect, useReducer } from 'react'
 import { produce } from 'immer'
 import Client from 'models/client'
 import Plan from 'models/plan'
-import { getPlans } from 'api/clientService'
+import { getPlans } from 'services/clientService'
 
 export const ClientContext = createContext<
   [state: ClientState, dispatch: Dispatch<ClientAction>] | null

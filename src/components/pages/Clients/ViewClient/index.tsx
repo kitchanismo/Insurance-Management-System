@@ -19,7 +19,7 @@ import {
   getClient,
   computeTotalCountPaid,
   computeTotalCountToPay,
-} from 'api/clientService'
+} from 'services/clientService'
 import MySkeletonCard from 'components/common/MySkeletonCard'
 import MyAvatar from 'components/common/MyAvatar'
 import { capitalize } from 'utils/helper'

@@ -133,7 +133,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
             <Grid item xs={6}>
               <Button
                 onClick={() => history.replace('/clients')}
-                style={{ paddingTop: 15, paddingBottom: 15, marginTop: 10 }}
+                style={{ marginTop: 10 }}
                 fullWidth
                 variant='contained'
                 color='default'
@@ -144,7 +144,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
             <Grid item xs={6}>
               <Button
                 onClick={onAddNew}
-                style={{ paddingTop: 15, paddingBottom: 15, marginTop: 10 }}
+                style={{ marginTop: 10 }}
                 fullWidth
                 variant='contained'
                 color='primary'

@@ -67,6 +67,8 @@ const GlobalProvider: React.FC = (props) => {
       MuiButton: {
         root: {
           borderRadius: 30,
+          paddingTop: 15,
+          paddingBottom: 15,
         },
       },
       MuiCssBaseline: {

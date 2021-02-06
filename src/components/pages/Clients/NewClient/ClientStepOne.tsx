@@ -93,7 +93,6 @@ export const ClientStepOne: React.SFC<ClientStepOneProps> = ({
             <Grid item xs={6}>
               <Button
                 onClick={() => history.goBack()}
-                style={{ paddingTop: 15, paddingBottom: 15 }}
                 fullWidth
                 variant='contained'
                 color='default'

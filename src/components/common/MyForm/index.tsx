@@ -336,7 +336,6 @@ function MyForm<T>(props: MyFormProps<T>) {
       <Grid item xs={12}>
         <Button
           disabled={isDisable}
-          style={{ paddingTop: 15, paddingBottom: 15 }}
           fullWidth
           type='submit'
           variant='contained'

@@ -119,7 +119,6 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
             <Grid item xs={6}>
               <Button
                 onClick={() => onBack()}
-                style={{ paddingTop: 15, paddingBottom: 15 }}
                 fullWidth
                 variant='contained'
                 color='default'

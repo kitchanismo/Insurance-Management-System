@@ -2,7 +2,7 @@ import { createContext, Dispatch, useEffect, useReducer } from 'react'
 import { produce } from 'immer'
 import Client from 'models/client'
 import Plan from 'models/plan'
-import { getPlans } from 'services/clientService'
+import clientService from 'services/clientService'
 
 export const ClientContext = createContext<
   [state: ClientState, dispatch: Dispatch<ClientAction>] | null
@@ -15,7 +15,7 @@ interface ClientState {
   onReloadPlans: boolean
 }
 
-type ClientAction =
+export type ClientAction =
   | { type: 'TOGGLE_LOADING' | 'ON_RELOAD_PLANS' }
   | { type: 'ON_LOAD_CLIENTS'; payload: Client[] }
   | { type: 'ON_LOAD_CLIENTS_INSTALLMENT'; payload: Client[] }
@@ -60,10 +60,10 @@ export const ClientProvider: React.FC = (props) => {
     onReloadPlans: false,
   })
 
+  const { getPlans } = clientService(dispatch)
+
   useEffect(() => {
-    getPlans().then((plans) => {
-      dispatch({ type: 'ON_LOAD_PLANS', payload: plans })
-    })
+    getPlans()
   }, [state.onReloadPlans])
 
   return (

@@ -11,7 +11,7 @@ import { ClientStepTwo } from './ClientStepTwo'
 import MyStepper, { useStepper } from 'components/common/MyStepper'
 import { ClientStepThree } from './ClientStepThree'
 import Scroll from 'react-scroll'
-import { GlobalContext } from 'providers'
+import { GlobalContext } from 'providers/GlobalProvider'
 import Payment from 'models/payment'
 
 export interface NewClientProps {}

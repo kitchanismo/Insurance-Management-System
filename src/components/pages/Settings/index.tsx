@@ -4,7 +4,7 @@ import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import MyCard from 'components/common/MyCard'
 import { useContext } from 'react'
-import { GlobalContext } from 'providers'
+import { GlobalContext } from 'providers/GlobalProvider'
 
 export interface SettingsProps {}
 

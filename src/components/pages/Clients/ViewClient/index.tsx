@@ -12,8 +12,8 @@ import userIcon from 'assets/profile-user.svg'
 import { calculateAge } from 'utils/helper'
 import MyCard from 'components/common/MyCard'
 import Client from 'models/client'
-import { ClientContext } from 'providers/ClientProvicer'
-import { GlobalContext } from 'providers'
+import { ClientContext } from 'providers/ClientProvider'
+import { GlobalContext } from 'providers/GlobalProvider'
 
 import {
   getClient,

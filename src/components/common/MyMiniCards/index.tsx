@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import { useState, useContext } from 'react'
 
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
-import { GlobalContext } from 'providers'
+import { GlobalContext } from 'providers/GlobalProvider'
 
 interface RenderProps<T> {
   renderCards: (props: RenderCardsProps<T>) => JSX.Element

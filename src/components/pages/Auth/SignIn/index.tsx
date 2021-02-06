@@ -7,7 +7,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 
 import { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { GlobalContext } from 'providers'
+import { GlobalContext } from 'providers/GlobalProvider'
 
 export interface SignInProps {}
 

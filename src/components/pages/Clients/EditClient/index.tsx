@@ -5,8 +5,8 @@ import validator from 'validators/saveProfileValidator'
 import Profile from 'models/profile'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import { ClientContext } from 'providers/ClientProvicer'
-import { GlobalContext } from 'providers'
+import { ClientContext } from 'providers/ClientProvider'
+import { GlobalContext } from 'providers/GlobalProvider'
 
 export interface EditClientProps {}
 

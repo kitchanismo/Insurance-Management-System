@@ -9,7 +9,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 
 import EmployeeCard from './EmployeeCard'
 import MySearchField from 'components/common/MySearchField'
-import { GlobalContext } from 'providers'
+import { GlobalContext } from 'providers/GlobalProvider'
 import { EmployeeContext } from 'providers/EmployeeProvider'
 import { getEmployees } from 'api/employeeService'
 import MySkeletonCards from 'components/common/MySkeletonCards'

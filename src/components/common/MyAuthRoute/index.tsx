@@ -1,4 +1,4 @@
-import { GlobalContext } from 'providers'
+import { GlobalContext } from 'providers/GlobalProvider'
 
 import React, { useContext } from 'react'
 import { Route, Redirect, RouteProps } from 'react-router-dom'

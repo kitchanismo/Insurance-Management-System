@@ -16,7 +16,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Divider from '@material-ui/core/Divider'
 import Grid from '@material-ui/core/Grid/Grid'
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import { GlobalContext } from 'providers'
+import { GlobalContext } from 'providers/GlobalProvider'
 import { useHistory } from 'react-router-dom'
 
 export interface MyDrawerProps {

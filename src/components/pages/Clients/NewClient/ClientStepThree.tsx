@@ -7,7 +7,7 @@ import Client from 'models/client'
 import Commissioner from 'models/commissioner'
 import validator from 'validators/clientStepThreeValidator'
 import { getAmountToPay } from 'api/clientService'
-import { ClientContext } from 'providers/ClientProvicer'
+import { ClientContext } from 'providers/ClientProvider'
 import Payment from 'models/payment'
 
 export interface ClientStepTwoProps {

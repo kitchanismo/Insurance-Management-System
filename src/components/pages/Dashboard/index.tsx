@@ -1,4 +1,4 @@
-import { GlobalContext } from 'providers'
+import { GlobalContext } from 'providers/GlobalProvider'
 import React, { useContext, useEffect } from 'react'
 
 export interface DashboardProps {}

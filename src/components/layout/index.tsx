@@ -17,23 +17,29 @@ import Transaction from 'components/pages/Clients/Transaction'
 import Settings from 'components/pages/Settings'
 import EditClient from 'components/pages/Clients/EditClient'
 import PaymentHistory from 'components/pages/Payments'
+import PaymentView from 'components/pages/Payments/PaymentView'
 
 const Layout = () => {
   const styles = useStyles()
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
+        <AuthRoute path='/payments/:id' component={PaymentView} />
         <AuthRoute path='/payments' component={PaymentHistory} />
+
         <AuthRoute path='/settings' component={Settings} />
+
         <AuthRoute path='/clients/new' component={NewClient} />
         <AuthRoute path='/clients/transaction' component={Transaction} />
         <AuthRoute path='/clients/edit/:id' component={EditClient} />
         <AuthRoute path='/clients/:id' component={ViewClient} />
         <AuthRoute path='/clients' component={Clients} />
+
         <AuthRoute path='/employees/new' component={NewEmployee} />
         <AuthRoute path='/employees/edit/:id' component={EditEmployee} />
         <AuthRoute path='/employees/:id' component={ViewEmployee} />
         <AuthRoute path='/employees' component={Employees} />
+
         <AuthRoute path='/dashboard' component={Dashboard} />
         <Route path='/' component={SignIn} />
         <Redirect from='/' exact to='/signin' />

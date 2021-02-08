@@ -1,4 +1,6 @@
+import Branch from 'models/branch'
 import Employee from 'models/employee'
+import Position from 'models/position'
 import http from 'utils/http'
 
 const employees: Employee[] = [
@@ -12,8 +14,9 @@ const employees: Employee[] = [
     gender: 'Male',
     civil: 'Single',
     status: 'deactive',
+    branch: 1,
     birthdate: new Date('10/03/1991'),
-    position: 'Agency Manager',
+    position: 2,
   },
   {
     id: 2,
@@ -25,8 +28,9 @@ const employees: Employee[] = [
     gender: 'Male',
     civil: 'Single',
     status: 'active',
+    branch: 1,
     birthdate: new Date('10/03/1991'),
-    position: 'Branch Manager',
+    position: 1,
   },
   {
     id: 3,
@@ -38,8 +42,9 @@ const employees: Employee[] = [
     gender: 'Male',
     civil: 'Single',
     status: 'active',
+    branch: 2,
     birthdate: new Date('10/03/1991'),
-    position: 'Sales Agent',
+    position: 1,
   },
 
   {
@@ -52,9 +57,22 @@ const employees: Employee[] = [
     gender: 'Male',
     civil: 'Single',
     status: 'deceased',
+    branch: 2,
     birthdate: new Date('10/03/1991'),
-    position: 'Supervisor',
+    position: 3,
   },
+]
+
+const branches: Branch[] = [
+  { name: 'SM Manila', id: 1 },
+  { name: 'SM Bacolod', id: 2 },
+]
+
+const positions: Position[] = [
+  { id: 1, name: 'Branch Manager' },
+  { id: 2, name: 'Agency Manager' },
+  { id: 3, name: 'Supervisor' },
+  { id: 4, name: 'Sales Agent' },
 ]
 export const saveEmployee = async (employee: Employee) => {
   return new Promise<Employee>(function (resolve, reject) {
@@ -73,6 +91,22 @@ export const getEmployees = async () => {
   })
 }
 
+export const getBranches = async () => {
+  return new Promise<Branch[]>(function (resolve, reject) {
+    setTimeout(() => {
+      resolve(branches)
+    }, 4000)
+  })
+}
+
+export const getPositions = async () => {
+  return new Promise<Position[]>(function (resolve, reject) {
+    setTimeout(() => {
+      resolve(positions)
+    }, 4000)
+  })
+}
+
 export const getEmployee = async () => {
   return new Promise<Employee>(function (resolve, reject) {
     setTimeout(() => {
@@ -81,9 +115,10 @@ export const getEmployee = async () => {
         firstname: 'Firstname',
         middlename: 'Middlename',
         lastname: 'Lastname',
-        position: 'Branch Manager',
+        position: 1,
         civil: 'Single',
         gender: 'Male',
+        branch: 1,
         address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
         contact: '09234545866',
         status: 'active',

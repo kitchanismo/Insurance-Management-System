@@ -1,10 +1,11 @@
 import Joi from 'joi'
+import { NumberSchema } from 'joi'
 import Profile from './profile'
 
 //to give types in validator object
 interface Employee extends Profile {
-  position?: 'Sales Agent' | 'Branch Manager' | 'Agency Manager' | 'Supervisor'
-  branch?: string
+  position?: number
+  branch?: number
   team?: string
   status?: 'active' | 'deactive' | 'deceased'
   is_delete?: boolean

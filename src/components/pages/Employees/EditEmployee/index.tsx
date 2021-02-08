@@ -29,7 +29,7 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
   })
 
   useEffect(() => {
-    globalDispatch({ type: 'SET_TITLE', payload: 'EDIT EMPLOYEE' })
+    globalDispatch({ type: 'SET_TITLE', payload: 'Edit Employee' })
     employeeDispatch({ type: 'ON_GET_EMPLOYEE', payload: +id })
     setEmployee(employeeState.employee)
   }, [employeeState.employee])
@@ -116,20 +116,21 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
             value: employee.position,
             name: 'position',
             labelWidth: 55,
-            options: [
-              { value: 'Sales Agent' },
-              { value: 'Branch Manager' },
-              { value: 'Agency Manager' },
-              { value: 'Supervisor' },
-            ],
+            options: employeeState.positions.map((position) => ({
+              value: position.id,
+              name: position.name,
+            })),
           })}
 
           {mySelect({
             label: 'Branch',
-            value: employee.branch,
+            value: employee.branch + '',
             name: 'branch',
             labelWidth: 55,
-            options: [{ value: 'Cebu' }, { value: 'Manila' }],
+            options: employeeState.branches.map((branch) => ({
+              value: branch.id,
+              name: branch.name,
+            })),
           })}
 
           {mySelect({

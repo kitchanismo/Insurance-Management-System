@@ -5,24 +5,13 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import CardContent from '@material-ui/core/CardContent'
-import IconButton from '@material-ui/core/IconButton'
-import Card from '@material-ui/core/Card'
-import Avatar from '@material-ui/core/Avatar'
-import CardHeader from '@material-ui/core/CardHeader'
-import EditIcon from '@material-ui/icons/Edit'
 import Chip from '@material-ui/core/Chip'
-import FaceIcon from '@material-ui/icons/Face'
 import Divider from '@material-ui/core/Divider'
-import userIcon from 'assets/profile-user.svg'
 import { calculateAge, capitalize } from 'utils/helper'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
-
 import MyCard from 'components/common/MyCard'
-import ClientCard from 'components/pages/Clients/ClientCard'
-
 import Employee from 'models/employee'
 import { GlobalContext } from 'providers/GlobalProvider'
-import { ClientContext } from 'providers/ClientProvider'
 import Client from 'models/client'
 import MyAvatar from 'components/common/MyAvatar'
 import { getClients } from 'services/clientService'
@@ -30,6 +19,7 @@ import { getEmployee } from 'services/employeeService'
 import MySkeletonCard from 'components/common/MySkeletonCard'
 import MyMiniCards from 'components/common/MyMiniCards'
 import MySkeletonMiniCards from 'components/common/MySkeletonMiniCards'
+import { EmployeeContext } from 'providers/EmployeeProvider'
 
 export interface ViewUserProps {
   title: string
@@ -39,6 +29,9 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   const history = useHistory()
   const styles = useStyles()
   const [_, dispatch] = useContext(GlobalContext)!
+  const [employeeState] = useContext(EmployeeContext)!
+
+  const [employee, setEmployee] = useState<Employee>()
 
   const [clients, setClients] = useState<Client[]>([])
 
@@ -54,8 +47,6 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
     dispatch({ type: 'SET_TITLE', payload: 'View Employee' })
   }, [])
 
-  const [employee, setEmployee] = useState<Employee>()
-
   const detail = (title: string, subtitle: any) => (
     <Grid container alignItems='center' direction='column' item xs={6}>
       <Typography component='h6' variant='h6'>
@@ -70,6 +61,14 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   const handleSelected = (client: Client) => {
     history.push('/clients/' + client.id)
   }
+
+  const branch = employeeState.branches.filter(
+    (branch) => branch.id === employee?.branch,
+  )[0]
+
+  const position = employeeState.positions.filter(
+    (position) => position.id === employee?.position,
+  )[0]
 
   const renderClients = (clients: Client[]) => {
     return (
@@ -144,7 +143,10 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
                       {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
                     </Typography>
                     <Typography variant='subtitle1' color='textSecondary'>
-                      {employee.position}
+                      {position?.name}
+                    </Typography>
+                    <Typography variant='subtitle1' color='textSecondary'>
+                      {branch?.name}
                     </Typography>
                     <Grid item xs={1}>
                       <Chip

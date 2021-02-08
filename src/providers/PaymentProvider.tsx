@@ -12,7 +12,7 @@ interface PaymentState {
 
 type PaymentAction = { type: 'ON_LOAD_PAYMENTS'; payload: Payment[] }
 
-const paymentReducer = (state: PaymentState, action: PaymentAction) => {
+const reducer = (state: PaymentState, action: PaymentAction) => {
   switch (action.type) {
     case 'ON_LOAD_PAYMENTS':
       state.payments = action.payload
@@ -25,7 +25,7 @@ const paymentReducer = (state: PaymentState, action: PaymentAction) => {
 }
 
 export const PaymentProvider: React.FC = (props) => {
-  const [state, dispatch] = useReducer(produce(paymentReducer), {
+  const [state, dispatch] = useReducer(produce(reducer), {
     payments: [],
   })
   return (

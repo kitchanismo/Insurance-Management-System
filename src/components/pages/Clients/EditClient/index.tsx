@@ -27,7 +27,7 @@ const EditClient: React.SFC<EditClientProps> = () => {
   })
 
   useEffect(() => {
-    globalDispatch({ type: 'SET_TITLE', payload: 'EDIT CLIENT PROFILE' })
+    globalDispatch({ type: 'SET_TITLE', payload: 'Edit Client Profile' })
     const profile = clientState.clients.filter(
       (client) => client.id === +params.id,
     )[0]

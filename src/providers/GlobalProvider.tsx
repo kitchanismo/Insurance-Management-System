@@ -27,7 +27,7 @@ type GlobalAction =
   | { type: 'SET_IS_LOADING'; payload: boolean }
   | { type: 'SET_IS_AUTHENTIC_USER'; payload: boolean }
 
-const globalReducer = (state: GlobalState, action: GlobalAction) => {
+const reducer = (state: GlobalState, action: GlobalAction) => {
   switch (action.type) {
     case 'SET_ALERT':
       state.alert = action.payload
@@ -54,7 +54,7 @@ const globalReducer = (state: GlobalState, action: GlobalAction) => {
 }
 
 const GlobalProvider: React.FC = (props) => {
-  const [state, dispatch] = useReducer(produce(globalReducer), {
+  const [state, dispatch] = useReducer(produce(reducer), {
     alert: null,
     title: '',
     isDark: false,

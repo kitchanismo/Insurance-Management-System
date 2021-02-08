@@ -1,11 +1,16 @@
-import { Dispatch, createContext, useReducer } from 'react'
+import { Dispatch, createContext, useReducer, useEffect } from 'react'
 import Employee from 'models/employee'
 import { produce } from 'immer'
+import Branch from 'models/branch'
+import { getBranches, getPositions } from 'services/employeeService'
+import Position from 'models/position'
 
 interface EmployeeState {
   employees: Employee[]
   isLoading: boolean
   employee: Employee
+  branches: Branch[]
+  positions: Position[]
 }
 
 type EmployeeAction =
@@ -25,9 +30,23 @@ type EmployeeAction =
       type: 'SET_IS_LOADING'
       payload: boolean
     }
+  | {
+      type: 'ON_LOAD_BRANCHES'
+      payload: Branch[]
+    }
+  | {
+      type: 'ON_LOAD_POSITIONS'
+      payload: Position[]
+    }
 
 const reducer = (state: EmployeeState, action: EmployeeAction) => {
   switch (action.type) {
+    case 'ON_LOAD_BRANCHES':
+      state.branches = action.payload
+      break
+    case 'ON_LOAD_POSITIONS':
+      state.positions = action.payload
+      break
     case 'ON_LOAD_EMPLOYEES':
       state.employees = action.payload
       state.isLoading = false
@@ -58,7 +77,18 @@ export const EmployeeProvider: React.FC = (props) => {
     employees: [],
     isLoading: false,
     employee: {},
+    branches: [],
+    positions: [],
   })
+
+  useEffect(() => {
+    getBranches().then((branches) =>
+      dispatch({ type: 'ON_LOAD_BRANCHES', payload: branches }),
+    )
+    getPositions().then((positions) =>
+      dispatch({ type: 'ON_LOAD_POSITIONS', payload: positions }),
+    )
+  }, [])
 
   return (
     <EmployeeContext.Provider value={[state, dispatch]}>

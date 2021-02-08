@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import CardContent from '@material-ui/core/CardContent'
@@ -15,13 +15,23 @@ import MyCard from 'components/common/MyCard'
 import MyAvatar from 'components/common/MyAvatar'
 import Employee from 'models/employee'
 import { capitalize } from 'utils/helper'
+import { EmployeeContext } from 'providers/EmployeeProvider'
 
 export interface EmployeesProps {
   employee: Partial<Employee>
 }
 
 const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
+  const [state] = useContext(EmployeeContext)!
   const history = useHistory()
+
+  const branch = state.branches.filter(
+    (branch) => branch.id === employee.branch,
+  )[0]
+
+  const position = state.positions.filter(
+    (position) => position.id === employee.position,
+  )[0]
 
   return (
     <MyCard title={employee.firstname} style={{ paddingBottom: 5 }}>
@@ -39,7 +49,10 @@ const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
               {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {employee.position}
+              {position?.name}
+            </Typography>
+            <Typography variant='subtitle1' color='textSecondary'>
+              {branch?.name}
             </Typography>
 
             <Grid item xs={1}>

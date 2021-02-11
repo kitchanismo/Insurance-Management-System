@@ -14,6 +14,7 @@ import MyCard from 'components/common/MyCard'
 import Client from 'models/client'
 import { ClientContext } from 'providers/ClientProvider'
 import { GlobalContext } from 'providers/GlobalProvider'
+import { EmployeeContext } from 'providers/EmployeeProvider'
 
 import {
   getClient,
@@ -34,6 +35,8 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
   const [_, globalDispatch] = useContext(GlobalContext)!
 
   const [clientState] = useContext(ClientContext)!
+
+  const [employeeState] = useContext(EmployeeContext)!
 
   const [client, setClient] = useState<Client>()
   const [isLoading, setIsLoading] = useState(false)
@@ -57,6 +60,10 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
       </Typography>
     </Grid>
   )
+
+  const branch = employeeState.branches.filter(
+    (branch) => branch.id === client?.branch,
+  )[0]
 
   return (
     <Grid container xs={12}>
@@ -115,7 +122,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
               <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
                 {detail('Period ', client.payment_period)}
                 {detail('Balance', 'Php ' + client.balance)}
-                {detail('Branch', client.branch)}
+                {detail('Branch', branch.name)}
                 {detail('Insured', client.created_at?.toLocaleDateString())}
               </Grid>
             </CardContent>

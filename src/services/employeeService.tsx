@@ -75,11 +75,9 @@ const positions: Position[] = [
   { id: 4, name: 'Sales Agent' },
 ]
 export const saveEmployee = async (employee: Employee) => {
-  return new Promise<Employee>(function (resolve, reject) {
-    setTimeout(() => {
-      console.log(employee)
-      resolve(employee)
-    }, 3000)
+  return http.post('/employees', employee).then((result) => {
+    console.log(result)
+    return employee
   })
 }
 

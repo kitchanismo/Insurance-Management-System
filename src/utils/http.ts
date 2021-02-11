@@ -7,7 +7,7 @@ axios.interceptors.request.use((config) => {
   config.baseURL =
     process.env.NODE_ENV === 'development' ? apiUrlDev : apiUrlProd
 
-  config.withCredentials = true
+  // config.withCredentials = true
   return config
 })
 
@@ -22,18 +22,18 @@ axios.interceptors.response.use(
   },
 )
 
-createAuthRefreshInterceptor(
-  axios,
-  (failedRequest) => {
-    return axios.get('/auth/refresh-token').then(({ data }) => {
-      return Promise.resolve()
-    })
-  },
-  {
-    statusCodes: [403],
-    pauseInstanceWhileRefreshing: true,
-  },
-)
+// createAuthRefreshInterceptor(
+//   axios,
+//   (failedRequest) => {
+//     return axios.get('/auth/refresh-token').then(({ data }) => {
+//       return Promise.resolve()
+//     })
+//   },
+//   {
+//     statusCodes: [403],
+//     pauseInstanceWhileRefreshing: true,
+//   },
+// )
 
 export default {
   get: axios.get,

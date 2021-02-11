@@ -52,9 +52,9 @@ const NewClient: React.SFC<NewClientProps> = () => {
   }
 
   const onNextTwo = async (commissioner: Commissioner) => {
-    const insured_employee = commissioner[commissioner.position] ?? 0
+    const employee = commissioner[commissioner.position] ?? 0
 
-    if (!insured_employee) {
+    if (!employee) {
       dispatch({
         type: 'SET_ALERT',
         payload: {
@@ -69,7 +69,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
 
     scroll.scrollToTop({ duration: 500 })
 
-    setClient((client) => ({ ...client, insured_employee: +insured_employee }))
+    setClient((client) => ({ ...client, employee: +employee }))
 
     setCommissioner(commissioner)
 

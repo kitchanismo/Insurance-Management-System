@@ -18,8 +18,8 @@ interface Client extends Profile {
   payment_period?: 'Monthly' | 'Quarterly' | 'Semi-Annually' | 'Annually'
   is_delete?: boolean
   created_at?: Date
-  branch?: string
-  insured_employee?: number
+  branch?: number
+  employee?: number
   years_to_pay?: number
 }
 

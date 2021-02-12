@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import Pagination from '@material-ui/lab/Pagination'
 import Grid from '@material-ui/core/Grid'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
@@ -11,9 +12,10 @@ import EmployeeCard from './EmployeeCard'
 import MySearchField from 'components/common/MySearchField'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { EmployeeContext } from 'providers/EmployeeProvider'
-import { getEmployees } from 'services/employeeService'
+import { getEmployees, GetEmployeesProps } from 'services/employeeService'
 import MySkeletonCards from 'components/common/MySkeletonCards'
-import MyChips from 'components/common/MyChips'
+import MyChips, { MyChip } from 'components/common/MyChips'
+import Scroll from 'react-scroll'
 
 export interface EmployeesProps {}
 
@@ -21,38 +23,77 @@ const Employees: React.SFC<EmployeesProps> = () => {
   const [_, globalDispatch] = useContext(GlobalContext)!
   const [employeeState, employeeDispatch] = useContext(EmployeeContext)!
 
+  const scroll = Scroll.animateScroll
+
   const history = useHistory()
+
+  const [page, setPage] = useState(1)
+
+  const [chip, setChip] = useState<MyChip>({ value: '', name: 'All' })
 
   const styles = useStyles()
 
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Employee Management' })
+    onLoad({ page })
+  }, [])
+
+  const onLoad = ({ page, category, search }: GetEmployeesProps) => {
     globalDispatch({ type: 'SET_IS_LOADING', payload: true })
     employeeDispatch({ type: 'SET_IS_LOADING', payload: true })
-    getEmployees().then((employees) => {
-      employeeDispatch({ type: 'ON_LOAD_EMPLOYEES', payload: employees })
-      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
-    })
-  }, [])
+    employeeDispatch({ type: 'SET_TOTAL', payload: 0 })
+    getEmployees({ page, category, search }).then(
+      ({ employees, pages, total }) => {
+        employeeDispatch({
+          type: 'ON_LOAD_EMPLOYEES',
+          payload: { employees, pages, total },
+        })
+        globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+        scroll.scrollToTop({ duration: 1000 })
+      },
+    )
+  }
+
+  const onFilter = (chip: MyChip) => {
+    onLoad({ page: 1, category: chip.value })
+    setChip(chip)
+    setPage(1)
+  }
+
+  const onPage = (e: any, page: number) => {
+    setPage(page)
+    onLoad({ page, category: chip.value })
+  }
+
+  const onSearch = (search: string) => {
+    onLoad({ page: 1, search })
+    setChip({ value: '', name: 'All' })
+    setPage(1)
+  }
 
   const isLoading = employeeState.isLoading && !employeeState.employees.length
 
-  const chips = [
-    'All',
-    'Branch Manager',
-    'Agency Manager',
-    'Supervisor',
-    'Sales Agent',
-    'Active',
-    'Deactive',
-    'Deceased',
+  const chips: MyChip[] = [
+    { value: '', name: 'All' },
+    { value: 1, name: 'Branch Manager' },
+    { value: 2, name: 'Agency Manager' },
+    { value: 3, name: 'Supervisor' },
+    { value: 4, name: 'Sales Agent' },
+    { value: 'active', name: 'Active' },
+    { value: 'deactive', name: 'Deactive' },
+    { value: 'deceased', name: 'Deceased' },
   ]
 
   return (
     <>
-      <MySearchField style={{ marginBottom: 15 }} />
+      <MySearchField onSearch={onSearch} style={{ marginBottom: 5 }} />
 
-      <MyChips active='All' chips={chips}></MyChips>
+      <MyChips
+        count={employeeState.total}
+        active={chip}
+        onChipSelected={onFilter}
+        chips={chips}
+      />
 
       {isLoading && <MySkeletonCards />}
       {!isLoading && (
@@ -68,6 +109,14 @@ const Employees: React.SFC<EmployeesProps> = () => {
               <EmployeeCard employee={employee} />
             </Grid>
           ))}
+          <Pagination
+            style={{ marginTop: 15, marginBottom: 15 }}
+            variant='outlined'
+            color='primary'
+            count={employeeState.pages}
+            page={page}
+            onChange={onPage}
+          />
         </Grid>
       )}
 
@@ -87,7 +136,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     fab: {
       position: 'fixed',
-      bottom: 20,
+      bottom: 60,
       right: 20,
     },
   }),

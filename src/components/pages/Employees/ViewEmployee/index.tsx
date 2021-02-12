@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Link from '@material-ui/core/Link'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -28,23 +28,21 @@ export interface ViewUserProps {
 const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   const history = useHistory()
   const styles = useStyles()
+  const params = useParams<{ id: string }>()
   const [_, dispatch] = useContext(GlobalContext)!
   const [employeeState] = useContext(EmployeeContext)!
 
   const [employee, setEmployee] = useState<Employee>()
 
-  const [clients, setClients] = useState<Client[]>([])
-
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    dispatch({ type: 'SET_TITLE', payload: 'View Employee' })
     setIsLoading(true)
-    getClients().then((clients) => {
-      setClients(clients)
+    getEmployee(params.id).then((employee) => {
+      setEmployee(employee)
       setIsLoading(false)
     })
-    getEmployee().then((employee) => setEmployee(employee))
-    dispatch({ type: 'SET_TITLE', payload: 'View Employee' })
   }, [])
 
   const detail = (title: string, subtitle: any) => (
@@ -93,9 +91,9 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
             <>
               {renderCards({
                 item,
-                title: `${item.lastname}, ${item.firstname}`,
+                title: `${item.profile?.lastname}, ${item.profile?.firstname}`,
                 subtitle: item.code!,
-                initials: `${capitalize(item.lastname!)}${capitalize(
+                initials: `${capitalize(item.profile?.lastname!)}${capitalize(
                   item.firstname!,
                 )}`,
               })}
@@ -109,7 +107,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   return (
     <>
       <Grid container xs={12}>
-        {isLoading && !employee && (
+        {isLoading && (
           <>
             <MySkeletonCard />
             <Grid
@@ -120,7 +118,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
             >
               <Typography variant='subtitle1'>Recent Clients</Typography>
               <Link component='button' variant='body1'>
-                View All({clients.length})
+                View All({employee?.clients?.length})
               </Link>
               <MySkeletonMiniCards />
             </Grid>
@@ -207,7 +205,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
                 </Grid>
               </CardContent>
             </MyCard>
-            {renderClients(clients)}
+            {renderClients(employee.clients!)}
             <Grid
               style={{
                 paddingLeft: 18,

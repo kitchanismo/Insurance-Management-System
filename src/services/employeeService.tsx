@@ -81,12 +81,45 @@ export const saveEmployee = async (employee: Employee) => {
   })
 }
 
-export const getEmployees = async () => {
-  return new Promise<Employee[]>(function (resolve, reject) {
-    setTimeout(() => {
-      resolve(employees)
-    }, 3000)
-  })
+export interface GetEmployeesProps {
+  search?: string
+  category?: string
+  page: number
+}
+
+export const getEmployees = async (props: GetEmployeesProps) => {
+  return http
+    .get(
+      `/employees?page=${props.page}&search=${props.search || ''}&category=${
+        props.category || ''
+      }`,
+    )
+    .then(({ data }) => {
+      console.log('total', data.total)
+      const employees: Employee[] = data.items.map((item: any) => ({
+        ...item.profile,
+        id: item.id,
+        branch: item.branch.id,
+        position: item.position.id,
+        status: item.status,
+      }))
+      return { employees, pages: data.pages, total: data.count }
+    })
+}
+
+export const getFilteredEmployees = async (category: string) => {
+  return http
+    .get(`/employees?page=${1}&category=${category}`)
+    .then(({ data }) => {
+      const employees: Employee[] = data.items.map((item: any) => ({
+        id: item.id,
+        ...item.profile,
+        branch: item.branch.id,
+        position: item.position.id,
+        status: item.status,
+      }))
+      return employees
+    })
 }
 
 export const getBranches = async () => {
@@ -105,25 +138,17 @@ export const getPositions = async () => {
   })
 }
 
-export const getEmployee = async () => {
-  return new Promise<Employee>(function (resolve, reject) {
-    setTimeout(() => {
-      const employee: Employee = {
-        id: 1,
-        firstname: 'Firstname',
-        middlename: 'Middlename',
-        lastname: 'Lastname',
-        position: 1,
-        civil: 'Single',
-        gender: 'Male',
-        branch: 1,
-        address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
-        contact: '09234545866',
-        status: 'active',
-        birthdate: new Date('10/03/1991'),
-      }
-      resolve(employee)
-    }, 3000)
+export const getEmployee = async (id: string) => {
+  return http.get('/employees/' + id).then(({ data }) => {
+    const employee: Employee = {
+      id: data.id,
+      ...data.profile,
+      branch: data.branch.id,
+      position: data.position.id,
+      status: data.status,
+      clients: data.clients,
+    }
+    return employee
   })
 }
 

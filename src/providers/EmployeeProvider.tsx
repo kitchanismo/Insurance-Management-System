@@ -11,6 +11,8 @@ interface EmployeeState {
   employee: Employee
   branches: Branch[]
   positions: Position[]
+  pages: number
+  total: number
 }
 
 type EmployeeAction =
@@ -24,7 +26,7 @@ type EmployeeAction =
     }
   | {
       type: 'ON_LOAD_EMPLOYEES'
-      payload: Employee[]
+      payload: { employees: Employee[]; pages?: number; total?: number }
     }
   | {
       type: 'SET_IS_LOADING'
@@ -38,6 +40,14 @@ type EmployeeAction =
       type: 'ON_LOAD_POSITIONS'
       payload: Position[]
     }
+  | {
+      type: 'SET_PAGES'
+      payload: number
+    }
+  | {
+      type: 'SET_TOTAL'
+      payload: number
+    }
 
 const reducer = (state: EmployeeState, action: EmployeeAction) => {
   switch (action.type) {
@@ -48,7 +58,9 @@ const reducer = (state: EmployeeState, action: EmployeeAction) => {
       state.positions = action.payload
       break
     case 'ON_LOAD_EMPLOYEES':
-      state.employees = action.payload
+      state.employees = action.payload.employees
+      state.pages = action.payload.pages!
+      state.total = action.payload.total!
       state.isLoading = false
       break
     case 'ON_ADD_EMPLOYEE':
@@ -61,6 +73,12 @@ const reducer = (state: EmployeeState, action: EmployeeAction) => {
       break
     case 'SET_IS_LOADING':
       state.isLoading = action.payload
+      break
+    case 'SET_PAGES':
+      state.pages = action.payload
+      break
+    case 'SET_TOTAL':
+      state.total = action.payload
       break
     default:
       return state
@@ -79,6 +97,8 @@ export const EmployeeProvider: React.FC = (props) => {
     employee: {},
     branches: [],
     positions: [],
+    pages: 0,
+    total: 0,
   })
 
   useEffect(() => {

@@ -11,7 +11,7 @@ import { getClients } from 'services/clientService'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { ClientContext } from 'providers/ClientProvider'
 import MySkeletonCards from 'components/common/MySkeletonCards'
-import MyChips from 'components/common/MyChips'
+import MyChips, { MyChip } from 'components/common/MyChips'
 
 export interface ClientsProps {}
 
@@ -35,7 +35,12 @@ const Clients: React.SFC<ClientsProps> = () => {
 
   const isLoading = clientState.isLoading && !clientState.clients.length
 
-  const chips = ['All', 'Lapse', 'Near', 'Installment', 'Fullpayment']
+  const chips: MyChip[] = [
+    { value: '', name: 'All' },
+    { value: 'lapse', name: 'Lapse' },
+    { value: 'near', name: 'Installment' },
+    { value: 'fullpayment', name: 'Fullpayment' },
+  ]
 
   return (
     <>
@@ -46,7 +51,7 @@ const Clients: React.SFC<ClientsProps> = () => {
         style={{ marginBottom: 15 }}
       />
 
-      <MyChips active='All' chips={chips}></MyChips>
+      <MyChips active={chips[0]} chips={chips}></MyChips>
 
       {isLoading && <MySkeletonCards />}
       {!isLoading && (

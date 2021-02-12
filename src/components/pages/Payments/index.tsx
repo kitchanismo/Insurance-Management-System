@@ -17,12 +17,16 @@ const PaymentHistory: React.SFC<PaymentHistoryProps> = () => {
     })
   }, [])
 
-  const chips = ['All', 'No commission', 'With Commission']
+  const chips = [
+    { value: '', name: 'All' },
+    { value: 'no', name: 'No commission' },
+    { value: 'with', name: 'With Commission' },
+  ]
 
   return (
     <>
       <MySearchField style={{ marginBottom: 15 }} />
-      <MyChips active='All' chips={chips}></MyChips>
+      <MyChips active={chips[0]} chips={chips}></MyChips>
       <Grid
         container
         spacing={2}

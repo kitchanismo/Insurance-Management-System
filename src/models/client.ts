@@ -21,6 +21,7 @@ interface Client extends Profile {
   branch?: number
   employee?: number
   years_to_pay?: number
+  profile?: Profile
 }
 
 export default Client

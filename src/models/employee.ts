@@ -16,7 +16,7 @@ interface Employee extends Profile {
   is_darkmode?: boolean
   created_at?: Date
   image?: Blob
-  imageUrl?: string
+  image_url?: string
   clients?: Client[]
 }
 

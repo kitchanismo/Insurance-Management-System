@@ -2,8 +2,8 @@ import Employee from 'models/employee'
 import http from 'utils/http'
 
 export const saveEmployee = async (employee: Employee) => {
-  return http.post('/employees', employee).then((result) => {
-    return employee
+  return http.post('/employees', employee).then(({ data }) => {
+    return data
   })
 }
 
@@ -45,16 +45,4 @@ export const getEmployee = async (id: string) => {
     }
     return employee
   })
-}
-
-export const postImage = async (image: Blob) => {
-  const formData = new FormData()
-
-  formData.append('file', image!)
-  formData.append('upload_preset', 'wlttlc0c')
-  formData.append('cloud_name', 'kitchanismo')
-  return http.axios.post(
-    'https://api.cloudinary.com/v1_1/kitchanismo/image/upload',
-    formData,
-  )
 }

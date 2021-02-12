@@ -9,8 +9,9 @@ import { GlobalContext } from 'providers/GlobalProvider'
 import validator from '../../../../validators/saveEmployeeValidator'
 import MyForm, { MyFormProps, InputProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
-import { postImage, saveEmployee } from 'services/employeeService'
+import { saveEmployee } from 'services/employeeService'
 import { EmployeeContext } from 'providers/EmployeeProvider'
+import { postImage } from 'services/imageService'
 
 export interface NewUserProps {}
 
@@ -36,37 +37,17 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
   const onSubmit = async (employee: Employee) => {
     globalDispatch({ type: 'SET_IS_LOADING', payload: true })
 
-    if (!employee?.image?.size) {
+    return postImage(employee?.image!, (image_url: string) => {
+      employee.image_url = image_url
       delete employee.image
-      return saveEmployee(employee).then((_employee) => {
-        employeeDispatch({ type: 'ON_ADD_EMPLOYEE', payload: _employee })
+      return saveEmployee(employee).then(() => {
         globalDispatch({
           type: 'SET_ALERT',
           payload: { message: 'Successfully added', type: 'success' },
         })
         globalDispatch({ type: 'SET_IS_LOADING', payload: false })
       })
-    }
-
-    return postImage(employee?.image!)
-      .then((res) => {
-        employee.imageUrl = res.data.url
-        delete employee.image
-        return saveEmployee(employee).then(() => {
-          globalDispatch({
-            type: 'SET_ALERT',
-            payload: { message: 'Successfully added', type: 'success' },
-          })
-          globalDispatch({ type: 'SET_IS_LOADING', payload: false })
-        })
-      })
-      .catch((error) => {
-        globalDispatch({
-          type: 'SET_ALERT',
-          payload: { message: 'Error', type: error.message },
-        })
-        globalDispatch({ type: 'SET_IS_LOADING', payload: false })
-      })
+    })
   }
 
   const formProps: MyFormProps<Employee> = {

@@ -93,13 +93,13 @@ const Employees: React.SFC<EmployeesProps> = () => {
 
   const chips: MyChip[] = [
     { value: '', name: 'All' },
+    { value: 'active', name: 'Active' },
+    { value: 'deactive', name: 'Deactive' },
+    { value: 'deceased', name: 'Deceased' },
     { value: 1, name: 'Branch Manager' },
     { value: 2, name: 'Agency Manager' },
     { value: 3, name: 'Supervisor' },
     { value: 4, name: 'Sales Agent' },
-    { value: 'active', name: 'Active' },
-    { value: 'deactive', name: 'Deactive' },
-    { value: 'deceased', name: 'Deceased' },
   ]
 
   return (

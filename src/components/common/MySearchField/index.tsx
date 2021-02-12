@@ -7,6 +7,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 import { useState } from 'react'
+import { AnyCnameRecord } from 'dns'
 
 export interface MySearchFieldProps extends OutlinedInputProps {
   label?: string
@@ -19,6 +20,12 @@ const MySearchField: React.SFC<MySearchFieldProps> = ({
   ...props
 }) => {
   const [value, setValue] = useState('')
+
+  const handlePress = (event: any) => {
+    if (event.key === 'Enter') {
+      onSearch?.call(null, value)
+    }
+  }
   return (
     <FormControl fullWidth variant='outlined'>
       <InputLabel htmlFor='outlined-adornment-password'>
@@ -31,7 +38,8 @@ const MySearchField: React.SFC<MySearchFieldProps> = ({
         type='text'
         labelWidth={props.labelWidth ? props.labelWidth : 65}
         value={value}
-        onChange={({ target }) => setValue(target.value)}
+        onKeyPress={handlePress}
+        onChange={(event) => setValue(event.target.value)}
         endAdornment={
           <InputAdornment position='end'>
             <IconButton

@@ -1,6 +1,7 @@
 import { Plan } from 'models/plan'
 import Employee from 'models/employee'
 import Profile from './profile'
+import Branch from './branch'
 
 interface Client extends Profile {
   plan?: Plan
@@ -11,10 +12,11 @@ interface Client extends Profile {
   payment_period?: 'Monthly' | 'Quarterly' | 'Semi-Annually' | 'Annually'
   is_delete?: boolean
   created_at?: Date
-  branch?: number
   employee?: number
   years_to_pay?: number
   profile?: Profile
+  branch?: Branch
+  next_payment?: Date
 }
 
 export default Client

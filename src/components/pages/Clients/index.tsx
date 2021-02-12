@@ -5,7 +5,7 @@ import Pagination from '@material-ui/lab/Pagination'
 import Grid from '@material-ui/core/Grid'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import ClientCard from './ClientCard'
 import { useContext, useEffect, useState } from 'react'
 import { getClients, ClientProps } from 'services/clientService'
@@ -13,6 +13,7 @@ import { GlobalContext } from 'providers/GlobalProvider'
 import { ClientContext } from 'providers/ClientProvider'
 import MySkeletonCards from 'components/common/MySkeletonCards'
 import MyChips, { MyChip } from 'components/common/MyChips'
+import qs from 'query-string'
 import Scroll from 'react-scroll'
 
 export interface ClientsProps {}
@@ -24,6 +25,8 @@ const Clients: React.SFC<ClientsProps> = () => {
 
   const styles = useStyles()
 
+  const location = useLocation()
+
   const scroll = Scroll.animateScroll
 
   const history = useHistory()
@@ -34,7 +37,14 @@ const Clients: React.SFC<ClientsProps> = () => {
 
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Client Management' })
-    onLoad({ page })
+    const { page, category, search } = qs.parse(location.search)
+    const currentPage = !!page ? +page : 1
+    setPage(currentPage)
+    onLoad({
+      page: currentPage,
+      category: (category as string) || '',
+      search: (search as string) || '',
+    })
   }, [])
 
   const onLoad = ({ page, category, search }: ClientProps) => {
@@ -55,18 +65,25 @@ const Clients: React.SFC<ClientsProps> = () => {
     setChip(chip)
     setPage(1)
     onLoad({ page: 1, category: chip.value })
+    if (chip.value) {
+      history.push('/clients?category=' + chip.value)
+      return
+    }
+    history.push('/clients')
   }
 
   const onPage = (e: any, page: number) => {
     clientDispatch({ type: 'SET_TOTAL', payload: 0 })
     setPage(page)
     onLoad({ page, category: chip.value })
+    history.push('/clients?page=' + page)
   }
 
   const onSearch = (search: string) => {
     setChip({ value: '', name: 'All' })
     setPage(1)
     onLoad({ page: 1, search })
+    history.push('/clients?search=' + search)
   }
 
   const isLoading = clientState.isLoading && !clientState.clients.length

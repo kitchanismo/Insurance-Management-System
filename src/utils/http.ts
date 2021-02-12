@@ -5,7 +5,7 @@ import createAuthRefreshInterceptor from 'axios-auth-refresh'
 //intercept requests
 axios.interceptors.request.use((config) => {
   config.baseURL =
-    process.env.NODE_ENV === 'development' ? apiUrlMobile : apiUrlProd
+    process.env.NODE_ENV === 'development' ? apiUrlDev : apiUrlProd
 
   // config.withCredentials = true
   return config

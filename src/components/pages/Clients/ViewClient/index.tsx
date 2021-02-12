@@ -34,17 +34,14 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
 
   const [_, globalDispatch] = useContext(GlobalContext)!
 
-  const [clientState] = useContext(ClientContext)!
-
-  const [employeeState] = useContext(EmployeeContext)!
-
   const [client, setClient] = useState<Client>()
+
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     setIsLoading(true)
-    globalDispatch({ type: 'SET_TITLE', payload: 'Client Details' })
-    getClient(clientState.clients, +id).then((client) => {
+    globalDispatch({ type: 'SET_TITLE', payload: 'View Client' })
+    getClient(+id).then((client) => {
       setClient(client)
       setIsLoading(false)
     })
@@ -61,13 +58,9 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
     </Grid>
   )
 
-  const branch = employeeState.branches.filter(
-    (branch) => branch.id === client?.branch,
-  )[0]
-
   return (
     <Grid container xs={12}>
-      {isLoading && !client && <MySkeletonCard />}
+      {isLoading && <MySkeletonCard />}
       {client && !isLoading && (
         <>
           <MyCard title={client.code}>
@@ -85,7 +78,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                     {`${client.lastname}, ${client.firstname} ${client.middlename}`}
                   </Typography>
                   <Typography variant='subtitle1' color='textSecondary'>
-                    {client.plan + ' - ' + client.payment_mode}
+                    {client.plan?.name! + ' - ' + client.payment_mode}
                   </Typography>
 
                   <Grid item xs={1}>
@@ -93,8 +86,18 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                       style={{ marginTop: 5 }}
                       size='small'
                       label={computeTotalCountPaid(client) + ' Paid'}
-                      variant='default'
                       color='secondary'
+                      variant='outlined'
+                    />
+                    <Chip
+                      style={{ marginTop: 5 }}
+                      size='small'
+                      label={
+                        new Date(client.next_payment!).toLocaleDateString() +
+                        ' Lapse'
+                      }
+                      color='secondary'
+                      variant='outlined'
                     />
                   </Grid>
                 </Grid>
@@ -119,8 +122,11 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
               <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
                 {detail('Period ', client.payment_period)}
                 {detail('Balance', 'Php ' + client.balance)}
-                {detail('Branch', branch.name)}
-                {detail('Insured', client.created_at?.toLocaleDateString())}
+                {detail('Branch', client?.branch?.name!)}
+                {detail(
+                  'Insured',
+                  new Date(client.created_at!).toLocaleDateString(),
+                )}
               </Grid>
             </CardContent>
             <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>

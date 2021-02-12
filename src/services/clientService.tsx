@@ -2,71 +2,6 @@ import Client from 'models/client'
 import Plan from 'models/plan'
 import http from 'utils/http'
 
-const clients: Client[] = [
-  {
-    id: 1,
-    code: 'HEY-7634464',
-    firstname: 'Firstname',
-    middlename: 'Middlename',
-    lastname: 'Lastname',
-    payment_count: 4,
-    balance: 5000,
-    plan: { id: 3, name: 'Plan 3', price: 343435 },
-    payment_period: 'Quarterly',
-    civil: 'Single',
-    gender: 'Male',
-    address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
-    contact: '09234545866',
-    branch: 1,
-    payment_mode: 'Fullpayment',
-    employee: 1,
-    years_to_pay: 5,
-    birthdate: new Date('10/03/1991'),
-    created_at: new Date('09/06/2020'),
-  },
-  {
-    id: 2,
-    code: 'HEY-7634554',
-    firstname: 'Firstname',
-    middlename: 'Middlename',
-    lastname: 'Lastname',
-    payment_count: 4,
-    balance: 20000,
-    plan: { id: 3, name: 'Plan 3', price: 343435 },
-    payment_period: 'Monthly',
-    civil: 'Single',
-    gender: 'Male',
-    address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
-    contact: '09234545866',
-    employee: 1,
-    branch: 2,
-    years_to_pay: 5,
-    payment_mode: 'Installment',
-    birthdate: new Date('10/03/1991'),
-    created_at: new Date('09/06/2020'),
-  },
-  {
-    id: 3,
-    code: 'HEY-7654554',
-    firstname: 'Firstname',
-    middlename: 'Middlename',
-    lastname: 'Lastname',
-    payment_count: 4,
-    balance: 1000,
-    plan: { id: 3, name: 'Plan 3', price: 343435 },
-    payment_period: 'Monthly',
-    civil: 'Single',
-    gender: 'Male',
-    address: 'Somewhere ssdsdsd sdfdfdfdf sfdfdff',
-    contact: '09234545866',
-    employee: 2,
-    branch: 1,
-    years_to_pay: 5,
-    payment_mode: 'Installment',
-    birthdate: new Date('10/03/1991'),
-    created_at: new Date('09/06/2020'),
-  },
-]
 export const plans: Plan[] = [
   {
     id: 1,
@@ -110,11 +45,14 @@ export const plans: Plan[] = [
   },
 ]
 
-export const getClient = async (clients: Client[], id: number) => {
-  const client = clients.filter((client) => client.id === id)[0]
-  return new Promise<Client>(function (resolve, reject) {
-    resolve(client)
-  })
+export const getClient = async (id: number) => {
+  return http.get('/clients/' + id).then(
+    ({ data }) =>
+      ({
+        ...data.profile,
+        ...data,
+      } as Client),
+  )
 }
 
 export const getPlans = async () => {
@@ -139,16 +77,16 @@ export const getClients = async (props: ClientProps) => {
     .then(({ data }) => {
       const clients: Client[] = data.items.map((item: any) => ({
         ...item.profile,
-        id: item.id,
-        code: item.code,
-        branch: item.branch.id,
-        balance: item.balance,
-        plan: item.plan,
-        payment_period: item.payment_period,
-        payment_mode: item.payment_mode,
-        employee: item.employee.id,
-        years_to_pay: item.years_to_pay,
-        created_at: item.created_at,
+        ...item,
+        // code: item.code,
+        // balance: item.balance,
+        // plan: item.plan,
+        // payment_period: item.payment_period,
+        // payment_mode: item.payment_mode,
+        // employee: item.employee.id,
+        // years_to_pay: item.years_to_pay,
+        // next_payment: item.next_payment,
+        // created_at: item.created_at,
       }))
       return { clients, pages: data.pages, total: data.count }
     })

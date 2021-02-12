@@ -51,8 +51,17 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
                 style={{ marginTop: 5 }}
                 size='small'
                 label={computeTotalCountPaid(client) + ' Paid'}
-                variant='default'
                 color='secondary'
+                variant='outlined'
+              />
+              <Chip
+                style={{ marginTop: 5 }}
+                size='small'
+                label={
+                  new Date(client.next_payment!).toLocaleDateString() + ' Lapse'
+                }
+                color='secondary'
+                variant='outlined'
               />
             </Grid>
           </Grid>

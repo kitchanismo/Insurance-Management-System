@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import Pagination from '@material-ui/lab/Pagination'
 import Grid from '@material-ui/core/Grid'
@@ -16,6 +16,7 @@ import { getEmployees, GetEmployeesProps } from 'services/employeeService'
 import MySkeletonCards from 'components/common/MySkeletonCards'
 import MyChips, { MyChip } from 'components/common/MyChips'
 import Scroll from 'react-scroll'
+import qs from 'query-string'
 
 export interface EmployeesProps {}
 
@@ -27,6 +28,8 @@ const Employees: React.SFC<EmployeesProps> = () => {
 
   const history = useHistory()
 
+  const location = useLocation()
+
   const [page, setPage] = useState(1)
 
   const [chip, setChip] = useState<MyChip>({ value: '', name: 'All' })
@@ -35,7 +38,14 @@ const Employees: React.SFC<EmployeesProps> = () => {
 
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Employee Management' })
-    onLoad({ page })
+    const { page, category, search } = qs.parse(location.search)
+    const currentPage = !!page ? +page : 1
+    setPage(currentPage)
+    onLoad({
+      page: currentPage,
+      category: (category as string) || '',
+      search: (search as string) || '',
+    })
   }, [])
 
   const onLoad = ({ page, category, search }: GetEmployeesProps) => {
@@ -58,18 +68,25 @@ const Employees: React.SFC<EmployeesProps> = () => {
     setChip(chip)
     setPage(1)
     onLoad({ page: 1, category: chip.value })
+    if (chip.value) {
+      history.push('/employees?category=' + chip.value)
+      return
+    }
+    history.push('/employees')
   }
 
   const onPage = (e: any, page: number) => {
     employeeDispatch({ type: 'SET_TOTAL', payload: 0 })
     setPage(page)
     onLoad({ page, category: chip.value })
+    history.push('/employees?page=' + page)
   }
 
   const onSearch = (search: string) => {
     setChip({ value: '', name: 'All' })
     setPage(1)
     onLoad({ page: 1, search })
+    history.push('/employees?search=' + search)
   }
 
   const isLoading = employeeState.isLoading && !employeeState.employees.length

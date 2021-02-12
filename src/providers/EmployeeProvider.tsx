@@ -2,7 +2,7 @@ import { Dispatch, createContext, useReducer, useEffect } from 'react'
 import Employee from 'models/employee'
 import { produce } from 'immer'
 import Branch from 'models/branch'
-import { getBranches, getPositions } from 'services/employeeService'
+import { getBranches } from 'services/employeeService'
 import Position from 'models/position'
 
 interface EmployeeState {
@@ -96,7 +96,12 @@ export const EmployeeProvider: React.FC = (props) => {
     isLoading: false,
     employee: {},
     branches: [],
-    positions: [],
+    positions: [
+      { id: 1, name: 'Branch Manager' },
+      { id: 2, name: 'Agency Manager' },
+      { id: 3, name: 'Supervisor' },
+      { id: 4, name: 'Sales Agent' },
+    ],
     pages: 0,
     total: 0,
   })
@@ -104,9 +109,6 @@ export const EmployeeProvider: React.FC = (props) => {
   useEffect(() => {
     getBranches().then((branches) =>
       dispatch({ type: 'ON_LOAD_BRANCHES', payload: branches }),
-    )
-    getPositions().then((positions) =>
-      dispatch({ type: 'ON_LOAD_POSITIONS', payload: positions }),
     )
   }, [])
 

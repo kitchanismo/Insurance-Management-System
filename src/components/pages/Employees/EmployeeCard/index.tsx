@@ -25,14 +25,6 @@ const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
   const [state] = useContext(EmployeeContext)!
   const history = useHistory()
 
-  const branch = state.branches.filter(
-    (branch) => branch.id === employee.branch,
-  )[0]
-
-  const position = state.positions.filter(
-    (position) => position.id === employee.position,
-  )[0]
-
   return (
     <MyCard title={employee.firstname} style={{ paddingBottom: 5 }}>
       <CardContent>
@@ -49,10 +41,10 @@ const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
               {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {position?.name}
+              {employee?.position?.name}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {branch?.name}
+              {employee?.branch?.name}
             </Typography>
 
             <Grid item xs={1}>
@@ -60,7 +52,7 @@ const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
                 style={{ marginTop: 5 }}
                 size='small'
                 label={employee.status}
-                variant='default'
+                variant='outlined'
                 color={
                   employee.status !== 'active'
                     ? employee.status === 'deactive'

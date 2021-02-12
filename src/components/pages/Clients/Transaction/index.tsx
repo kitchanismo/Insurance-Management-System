@@ -29,8 +29,11 @@ const Transaction: React.SFC<TransactionProps> = () => {
   useEffect(() => {
     clientDispatch({ type: 'SET_IS_LOADING', payload: true })
     globalDispatch({ type: 'SET_TITLE', payload: 'Encode Transaction' })
-    getClients().then((clients) => {
-      clientDispatch({ type: 'ON_LOAD_CLIENTS_INSTALLMENT', payload: clients })
+    getClients({ page: 1 }).then(({ clients, pages, total }) => {
+      clientDispatch({
+        type: 'ON_LOAD_CLIENTS',
+        payload: { clients, pages, total },
+      })
     })
   }, [])
 
@@ -40,7 +43,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
 
       switch (transaction.payment_mode) {
         case 'Installment':
-          amount = getAmountToPay(transaction, clientState.plans)
+          amount = getAmountToPay(transaction)
           break
         case 'Fullpayment':
           amount = transaction?.balance!

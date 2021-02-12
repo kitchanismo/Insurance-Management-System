@@ -31,14 +31,14 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
     if (client.payment_mode && client.plan) {
       setClient((client) => ({
         ...client,
-        amount: getAmountToPay(client, clientState.plans) ?? 0,
+        amount: getAmountToPay(client) ?? 0,
       }))
     }
   }, [client.payment_mode, client.payment_period, client.plan])
 
   useEffect(() => {
     const options: OptionProps[] = clientState.plans.map((plan) => ({
-      value: plan.plan,
+      value: plan.name,
     }))
     setPlanOptions(options)
   }, [clientState.plans])

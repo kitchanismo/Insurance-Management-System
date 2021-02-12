@@ -1,5 +1,6 @@
 import Client from 'models/client'
 import Plan from 'models/plan'
+import http from 'utils/http'
 
 const clients: Client[] = [
   {
@@ -10,7 +11,7 @@ const clients: Client[] = [
     lastname: 'Lastname',
     payment_count: 4,
     balance: 5000,
-    plan: 'Plan 1',
+    plan: { id: 3, name: 'Plan 3', price: 343435 },
     payment_period: 'Quarterly',
     civil: 'Single',
     gender: 'Male',
@@ -31,7 +32,7 @@ const clients: Client[] = [
     lastname: 'Lastname',
     payment_count: 4,
     balance: 20000,
-    plan: 'Plan 1',
+    plan: { id: 3, name: 'Plan 3', price: 343435 },
     payment_period: 'Monthly',
     civil: 'Single',
     gender: 'Male',
@@ -52,7 +53,7 @@ const clients: Client[] = [
     lastname: 'Lastname',
     payment_count: 4,
     balance: 1000,
-    plan: 'Plan 3',
+    plan: { id: 3, name: 'Plan 3', price: 343435 },
     payment_period: 'Monthly',
     civil: 'Single',
     gender: 'Male',
@@ -66,68 +67,108 @@ const clients: Client[] = [
     created_at: new Date('09/06/2020'),
   },
 ]
-
-const plans: Plan[] = [
+export const plans: Plan[] = [
   {
+    id: 1,
     price: 23280,
-    plan: 'Plan 1',
+    name: 'Plan 1',
   },
   {
+    id: 2,
     price: 32280,
-    plan: 'Plan 2',
+    name: 'Plan 2',
   },
   {
+    id: 3,
     price: 41280,
-    plan: 'Plan 3',
+    name: 'Plan 3',
   },
   {
+    id: 4,
     price: 50280,
-    plan: 'Plan 4',
+    name: 'Plan 4',
+  },
+  {
+    id: 5,
+    price: 65280,
+    name: 'Plan 5',
+  },
+  {
+    id: 6,
+    price: 83280,
+    name: 'Plan 6',
+  },
+  {
+    id: 7,
+    price: 95280,
+    name: 'Plan 7',
+  },
+  {
+    id: 8,
+    price: 173280,
+    name: 'Plan 8',
   },
 ]
 
 export const getClient = async (clients: Client[], id: number) => {
   const client = clients.filter((client) => client.id === id)[0]
   return new Promise<Client>(function (resolve, reject) {
-    setTimeout(() => {
-      resolve(client)
-    }, 3000)
+    resolve(client)
   })
 }
 
 export const getPlans = async () => {
   return new Promise<Plan[]>(function (resolve, reject) {
-    setTimeout(() => {
-      resolve(plans)
-    }, 1000)
+    resolve(plans)
   })
 }
 
-export const getClients = async () => {
-  return new Promise<Client[]>(function (resolve, reject) {
-    setTimeout(() => {
-      resolve(clients)
-    }, 3000)
-  })
+export interface ClientProps {
+  search?: string
+  category?: string
+  page: number
 }
 
-export const getAmountToPay = (client: Client, plans: Plan[]) => {
-  const plan = plans.filter((plan) => plan.plan === client.plan)[0]
+export const getClients = async (props: ClientProps) => {
+  return http
+    .get(
+      `/clients?page=${props.page}&search=${props.search || ''}&category=${
+        props.category || ''
+      }`,
+    )
+    .then(({ data }) => {
+      const clients: Client[] = data.items.map((item: any) => ({
+        ...item.profile,
+        id: item.id,
+        code: item.code,
+        branch: item.branch.id,
+        balance: item.balance,
+        plan: item.plan,
+        payment_period: item.payment_period,
+        payment_mode: item.payment_mode,
+        employee: item.employee.id,
+        years_to_pay: item.years_to_pay,
+        created_at: item.created_at,
+      }))
+      return { clients, pages: data.pages, total: data.count }
+    })
+}
 
+export const getAmountToPay = (client: Client) => {
   if (client.payment_mode === 'Fullpayment') {
-    return plan.price
+    return client.plan?.price!
   }
 
   switch (client.payment_period) {
     case 'Monthly':
-      return plan.price / (12 * client.years_to_pay!)
+      return client.plan?.price! / (12 * client.years_to_pay!)
     case 'Quarterly':
-      return plan.price / (4 * client.years_to_pay!)
+      return client.plan?.price! / (4 * client.years_to_pay!)
     case 'Semi-Annually':
-      return plan.price / (2 * client.years_to_pay!)
+      return client.plan?.price! / (2 * client.years_to_pay!)
       break
     case 'Annually':
-      return plan.price / client.years_to_pay!
+      return client.plan?.price! / client.years_to_pay!
     default:
       return 0
   }
@@ -157,9 +198,9 @@ export const computeTotalCountToPay = (client: Client) => {
   return period * client.years_to_pay!
 }
 
-export const computeTotalCountPaid = (client: Client, plans: Plan[]) => {
+export const computeTotalCountPaid = (client: Client) => {
   if (!plans.length) return '?'
-  const amount = getAmountToPay(client, plans)
+  const amount = getAmountToPay(client)
   const totalCountPaid = computeTotalCountToPay(client)
   return (
     totalCountPaid - Math.ceil(client.balance! / amount) + '/' + totalCountPaid

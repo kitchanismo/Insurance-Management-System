@@ -1,11 +1,11 @@
 import axios, { AxiosError } from 'axios'
-import { apiUrlProd, apiUrlDev } from 'configs/index.json'
+import { apiUrlProd, apiUrlDev, apiUrlMobile } from 'configs/index.json'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 
 //intercept requests
 axios.interceptors.request.use((config) => {
   config.baseURL =
-    process.env.NODE_ENV === 'development' ? apiUrlDev : apiUrlProd
+    process.env.NODE_ENV === 'development' ? apiUrlMobile : apiUrlProd
 
   // config.withCredentials = true
   return config

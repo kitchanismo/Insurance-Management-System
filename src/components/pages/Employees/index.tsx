@@ -41,7 +41,6 @@ const Employees: React.SFC<EmployeesProps> = () => {
   const onLoad = ({ page, category, search }: GetEmployeesProps) => {
     globalDispatch({ type: 'SET_IS_LOADING', payload: true })
     employeeDispatch({ type: 'SET_IS_LOADING', payload: true })
-    employeeDispatch({ type: 'SET_TOTAL', payload: 0 })
     getEmployees({ page, category, search }).then(
       ({ employees, pages, total }) => {
         employeeDispatch({
@@ -55,20 +54,22 @@ const Employees: React.SFC<EmployeesProps> = () => {
   }
 
   const onFilter = (chip: MyChip) => {
-    onLoad({ page: 1, category: chip.value })
+    employeeDispatch({ type: 'SET_TOTAL', payload: 0 })
     setChip(chip)
     setPage(1)
+    onLoad({ page: 1, category: chip.value })
   }
 
   const onPage = (e: any, page: number) => {
+    employeeDispatch({ type: 'SET_TOTAL', payload: 0 })
     setPage(page)
     onLoad({ page, category: chip.value })
   }
 
   const onSearch = (search: string) => {
-    onLoad({ page: 1, search })
     setChip({ value: '', name: 'All' })
     setPage(1)
+    onLoad({ page: 1, search })
   }
 
   const isLoading = employeeState.isLoading && !employeeState.employees.length
@@ -114,6 +115,7 @@ const Employees: React.SFC<EmployeesProps> = () => {
             variant='outlined'
             color='primary'
             count={employeeState.pages}
+            siblingCount={0}
             page={page}
             onChange={onPage}
           />

@@ -95,7 +95,6 @@ export const getEmployees = async (props: GetEmployeesProps) => {
       }`,
     )
     .then(({ data }) => {
-      console.log('total', data.total)
       const employees: Employee[] = data.items.map((item: any) => ({
         ...item.profile,
         id: item.id,

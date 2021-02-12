@@ -92,10 +92,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                     <Chip
                       style={{ marginTop: 5 }}
                       size='small'
-                      label={
-                        computeTotalCountPaid(client, clientState.plans) +
-                        ' Paid'
-                      }
+                      label={computeTotalCountPaid(client) + ' Paid'}
                       variant='default'
                       color='secondary'
                     />

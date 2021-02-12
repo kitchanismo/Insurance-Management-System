@@ -28,7 +28,6 @@ export interface ClientCardProps {
 
 export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
   const history = useHistory()
-  const [clientState, clientDispatch] = useContext(ClientContext)!
   return (
     <MyCard title={client.code} style={{ paddingBottom: 5 }}>
       <CardContent>
@@ -45,15 +44,13 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
               {`${client.lastname}, ${client.firstname} ${client.middlename}`}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {client.plan + ' - ' + client.payment_mode}
+              {client.plan?.name! + ' - ' + client.payment_mode}
             </Typography>
             <Grid item xs={1}>
               <Chip
                 style={{ marginTop: 5 }}
                 size='small'
-                label={
-                  computeTotalCountPaid(client, clientState.plans) + ' Paid'
-                }
+                label={computeTotalCountPaid(client) + ' Paid'}
                 variant='default'
                 color='secondary'
               />

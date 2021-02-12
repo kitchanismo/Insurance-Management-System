@@ -1,5 +1,6 @@
 export interface Plan {
-  plan:
+  id: number
+  name:
     | 'Plan 1'
     | 'Plan 2'
     | 'Plan 3'

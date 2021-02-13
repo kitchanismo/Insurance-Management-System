@@ -43,6 +43,7 @@ export const getEmployeesByBranch = (id: number) => {
 
 export const getEmployee = async (id: string) => {
   return http.get('/employees/' + id).then(({ data }) => {
+    //order is important
     const employee: Employee = {
       ...data.profile,
       id: data.id,

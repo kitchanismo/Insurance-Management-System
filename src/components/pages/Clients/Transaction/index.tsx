@@ -1,7 +1,7 @@
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
-import { getAmountToPay, getClients } from 'services/clientService'
+import { getAmountToPay, getLapsedClients } from 'services/clientService'
 import MyMiniCards from 'components/common/MyMiniCards'
 import MySearchField from 'components/common/MySearchField'
 import MyAvatar from 'components/common/MyAvatar'
@@ -13,6 +13,8 @@ import CommissionersForm from './TransactionForm'
 import TransactionModel from 'models/transaction'
 import { GlobalContext } from 'providers/GlobalProvider'
 import MySkeletonMiniCards from 'components/common/MySkeletonMiniCards'
+import { getEmployees } from 'services/employeeService'
+import Employee from 'models/employee'
 
 export interface TransactionProps {}
 
@@ -20,6 +22,8 @@ const Transaction: React.SFC<TransactionProps> = () => {
   const [clientState, clientDispatch] = useContext(ClientContext)!
 
   const [globalState, globalDispatch] = useContext(GlobalContext)!
+
+  const [employees, setEmployees] = useState<Employee[]>([])
 
   const [transaction, setTransaction] = useState<TransactionModel>({
     position: 'sales_agent',
@@ -29,12 +33,13 @@ const Transaction: React.SFC<TransactionProps> = () => {
   useEffect(() => {
     clientDispatch({ type: 'SET_IS_LOADING', payload: true })
     globalDispatch({ type: 'SET_TITLE', payload: 'Encode Transaction' })
-    getClients({ page: 1 }).then(({ clients, pages, total }) => {
+    getLapsedClients().then((clients) => {
       clientDispatch({
         type: 'ON_LOAD_CLIENTS',
-        payload: { clients, pages, total },
+        payload: { clients },
       })
     })
+    getEmployees().then((employees) => setEmployees(employees))
   }, [])
 
   useEffect(() => {
@@ -62,6 +67,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
     setTransaction((transaction) => ({
       ...transaction,
       ...client,
+      created_at: new Date(Date.now()),
     }))
   }
 
@@ -97,6 +103,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
       agency_manager,
       supervisor,
       sales_agent,
+      created_at,
     } = transaction
 
     console.log({
@@ -108,7 +115,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
       agency_manager,
       supervisor,
       sales_agent,
-      created_at: new Date(Date.now()).toLocaleDateString(),
+      created_at,
     })
   }
 
@@ -160,18 +167,14 @@ const Transaction: React.SFC<TransactionProps> = () => {
               {transaction?.code}
             </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-              {transaction?.plan}
+              {transaction?.plan?.name!}
             </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
               {transaction?.payment_period}
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <MyAvatar
-              text={`${capitalize(transaction?.lastname!)}${capitalize(
-                transaction?.firstname!,
-              )}`}
-            />
+            <MyAvatar src={transaction.image_url} />
           </Grid>
         </Grid>
       )}
@@ -180,6 +183,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
 
       {!isLoading && transaction.id && (
         <CommissionersForm
+          employees={employees}
           onSubmit={handleSubmit}
           state={[transaction, setTransaction]}
         />

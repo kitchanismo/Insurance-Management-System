@@ -87,7 +87,6 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
                     { value: 'Annually' },
                   ],
                 })}
-
               <Grid
                 xs={12}
                 spacing={1}

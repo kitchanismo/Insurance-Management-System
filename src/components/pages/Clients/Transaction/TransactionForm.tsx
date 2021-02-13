@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import MyForm, { MyFormProps, RenderProps } from 'components/common/MyForm'
 import Client from 'models/client'
 import Commissioner from 'models/commissioner'
 import validator from 'validators/clientTransactionValidator'
 import Transaction from 'models/transaction'
+import Employee from 'models/employee'
 
 export interface ClientStepTwoProps {
   onSubmit: (transaction: Transaction) => Promise<void>
@@ -12,11 +13,13 @@ export interface ClientStepTwoProps {
     Transaction,
     React.Dispatch<React.SetStateAction<Transaction & Client>>,
   ]
+  employees: Employee[]
 }
 
 export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
   state: [transaction, setTransaction],
   onSubmit,
+  employees,
 }) => {
   const formProps: MyFormProps<Transaction> = {
     state: [transaction, setTransaction],
@@ -24,6 +27,14 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
     validator,
     radioButtonDefaultValue: transaction.position,
   }
+
+  const employeeOptions = (id: number) =>
+    employees
+      .filter((employee) => employee.position?.id === id)
+      .map((employee) => ({
+        value: employee.id,
+        name: `${employee.profile?.lastname}, ${employee.profile?.firstname}`,
+      }))
 
   const labelMode =
     transaction.payment_mode !== 'Installment'
@@ -34,7 +45,14 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
 
   return (
     <MyForm {...formProps}>
-      {({ myRadio, mySelect, myButton, myControlledInput, myInput }) => (
+      {({
+        myRadio,
+        mySelect,
+        myButton,
+        myControlledInput,
+        myInput,
+        myDateTimePicker,
+      }) => (
         <>
           <Grid
             style={{ paddingLeft: 10, marginTop: 5, marginBottom: 10 }}
@@ -67,10 +85,7 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
                   value: transaction.branch_manager,
                   name: 'branch_manager',
                   labelWidth: 120,
-                  options: [
-                    { value: 1, name: 'John Doe' },
-                    { value: 2, name: 'John Smith' },
-                  ],
+                  options: employeeOptions(1),
                 })}
               </Grid>
               <Grid container item xs={2} justify='center' alignItems='center'>
@@ -84,10 +99,7 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
                   value: transaction.agency_manager,
                   name: 'agency_manager',
                   labelWidth: 120,
-                  options: [
-                    { value: 3, name: 'John Joe' },
-                    { value: 4, name: 'John Witch' },
-                  ],
+                  options: employeeOptions(2),
                 })}
               </Grid>
               <Grid container item xs={2} justify='center' alignItems='center'>
@@ -101,10 +113,7 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
                   value: transaction.supervisor,
                   name: 'supervisor',
                   labelWidth: 80,
-                  options: [
-                    { value: 5, name: 'John Doex' },
-                    { value: 6, name: 'John Smithx' },
-                  ],
+                  options: employeeOptions(3),
                 })}
               </Grid>
               <Grid container item xs={2} justify='center' alignItems='center'>
@@ -119,18 +128,20 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
                   value: transaction.sales_agent,
                   name: 'sales_agent',
                   labelWidth: 85,
-                  options: [
-                    { value: 7, name: 'John Doex' },
-                    { value: 8, name: 'John Smithc' },
-                  ],
+                  options: employeeOptions(4),
                 })}
               </Grid>
               <Grid container item xs={2} justify='center' alignItems='center'>
                 {myRadio({ value: 'sales_agent', name: 'position' })}
               </Grid>
             </>
+            {myDateTimePicker({
+              label: 'Insure Date',
+              value: transaction.created_at,
+              name: 'created_at',
+            })}
+            {myButton()}
           </Grid>
-          {myButton()}
         </>
       )}
     </MyForm>

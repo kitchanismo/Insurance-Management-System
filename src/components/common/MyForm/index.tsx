@@ -22,6 +22,7 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers'
 import { GlobalContext } from 'providers/GlobalProvider'
+import { DateRange } from '@material-ui/icons'
 
 export interface MyFormProps<T> {
   state: [T, React.Dispatch<React.SetStateAction<T>>]
@@ -256,6 +257,8 @@ function MyForm<T>(props: MyFormProps<T>) {
   }
 
   const myDateTimePicker = (input: InputProps) => {
+    const error = errors && errors[input.name]
+
     return (
       <Grid item xs={12} key={input.name}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -266,14 +269,16 @@ function MyForm<T>(props: MyFormProps<T>) {
             variant='dialog'
             format='MM/dd/yyyy'
             margin='none'
+            error={!!error}
+            helperText={error}
             label={input.label}
             value={input.value ?? null}
-            onChange={(date) =>
+            onChange={(date) => {
               setData({
                 ...data,
                 [input.name]: date?.toLocaleDateString(),
               })
-            }
+            }}
             KeyboardButtonProps={{
               'aria-label': 'change date',
             }}

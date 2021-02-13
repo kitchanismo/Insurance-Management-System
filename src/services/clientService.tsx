@@ -67,7 +67,7 @@ export const getPlans = async () => {
 export interface ClientProps {
   search?: string
   category?: string
-  page: number
+  page?: number
 }
 
 export const saveClient = (transaction: any) => {
@@ -79,26 +79,26 @@ export const saveClient = (transaction: any) => {
 export const getClients = async (props: ClientProps) => {
   return http
     .get(
-      `/clients?page=${props.page}&search=${props.search || ''}&category=${
-        props.category || ''
-      }`,
+      `/clients?page=${props.page || ''}&search=${
+        props.search || ''
+      }&category=${props.category || ''}`,
     )
     .then(({ data }) => {
       const clients: Client[] = data.items.map((item: any) => ({
         ...item.profile,
         ...item,
-        // code: item.code,
-        // balance: item.balance,
-        // plan: item.plan,
-        // payment_period: item.payment_period,
-        // payment_mode: item.payment_mode,
-        // employee: item.employee.id,
-        // years_to_pay: item.years_to_pay,
-        // next_payment: item.next_payment,
-        // created_at: item.created_at,
       }))
       return { clients, pages: data.pages, total: data.count }
     })
+}
+
+export const getLapsedClients = async () => {
+  return http.get(`/clients?category=lapse`).then(({ data }) =>
+    data.map((client: any) => ({
+      ...client.profile,
+      ...client,
+    })),
+  )
 }
 
 export const getAmountToPay = (client: Client) => {

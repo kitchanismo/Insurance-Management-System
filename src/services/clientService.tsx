@@ -1,4 +1,7 @@
+import Branch from 'models/branch'
 import Client from 'models/client'
+import Commissioner from 'models/commissioner'
+import Payment from 'models/payment'
 import Plan from 'models/plan'
 import http from 'utils/http'
 
@@ -65,6 +68,12 @@ export interface ClientProps {
   search?: string
   category?: string
   page: number
+}
+
+export const saveClient = (transaction: any) => {
+  return http.post('/clients', transaction).then(({ data }) => {
+    return data
+  })
 }
 
 export const getClients = async (props: ClientProps) => {

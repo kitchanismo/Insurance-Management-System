@@ -87,6 +87,13 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
             name: 'address',
             isMultiline: true,
           })}
+
+          {myDateTimePicker({
+            label: 'Birthdate',
+            value: employee.birthdate,
+            name: 'birthdate',
+          })}
+
           {mySelect({
             label: 'Gender',
             value: employee.gender,
@@ -129,20 +136,6 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
               value: branch.id,
               name: branch.name,
             })),
-          })}
-
-          {mySelect({
-            label: 'Team',
-            value: employee.team,
-            name: 'team',
-            labelWidth: 40,
-            options: [{ value: 'ABC' }],
-          })}
-
-          {myDateTimePicker({
-            label: 'Birthdate',
-            value: employee.birthdate,
-            name: 'birthdate',
           })}
 
           <Grid

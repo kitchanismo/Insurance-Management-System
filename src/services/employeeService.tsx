@@ -13,11 +13,15 @@ export interface GetEmployeesProps {
   page: number
 }
 
-export const getEmployees = async (props: GetEmployeesProps) => {
+export const getEmployees = async (props?: GetEmployeesProps) => {
+  if (!props) {
+    return http.get('/employees').then(({ data }) => data)
+  }
+
   return http
     .get(
-      `/employees?page=${props.page}&search=${props.search || ''}&category=${
-        props.category || ''
+      `/employees?page=${props?.page}&search=${props?.search || ''}&category=${
+        props?.category || ''
       }`,
     )
     .then(({ data }) => {
@@ -31,6 +35,10 @@ export const getEmployees = async (props: GetEmployeesProps) => {
 
 export const getBranches = async () => {
   return http.get('/branches').then(({ data }) => data)
+}
+
+export const getEmployeesByBranch = (id: number) => {
+  return http.get(`/branches/${id}/employees`).then(({ data }) => data)
 }
 
 export const getEmployee = async (id: string) => {

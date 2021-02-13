@@ -16,6 +16,8 @@ interface Client extends Profile {
   years_to_pay?: number
   profile?: Profile
   branch?: Branch
+  image?: Blob
+  image_url?: string
   next_payment?: Date
 }
 

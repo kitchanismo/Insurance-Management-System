@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -7,17 +7,21 @@ import Client from 'models/client'
 import Commissioner from 'models/commissioner'
 import Divider from '@material-ui/core/Divider'
 import validator from 'validators/clientStepTwoValidator'
+import { getEmployees } from 'services/employeeService'
+import Employee from 'models/employee'
 
 export interface ClientStepTwoProps {
   onBack: () => void
   onNext: (commissioner: Commissioner) => Promise<void>
   state: [Commissioner, React.Dispatch<React.SetStateAction<Commissioner>>]
+  employees: Employee[]
 }
 
 export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
   state: [commissioner, setCommissioner],
   onBack,
   onNext,
+  employees,
 }) => {
   const formProps: MyFormProps<Commissioner> = {
     state: [commissioner, setCommissioner],
@@ -25,6 +29,14 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
     validator,
     radioButtonDefaultValue: commissioner.position,
   }
+
+  const employeeOptions = (id: number) =>
+    employees
+      .filter((employee) => employee.position?.id === id)
+      .map((employee) => ({
+        value: employee.id,
+        name: `${employee.profile?.lastname}, ${employee.profile?.firstname}`,
+      }))
 
   return (
     <MyForm {...formProps}>
@@ -43,10 +55,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                   value: commissioner.branch_manager,
                   name: 'branch_manager',
                   labelWidth: 120,
-                  options: [
-                    { value: 1, name: 'John Doe' },
-                    { value: 2, name: 'John Smith' },
-                  ],
+                  options: employeeOptions(1),
                 })}
               </Grid>
               <Grid container item xs={2} justify='center' alignItems='center'>
@@ -60,10 +69,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                   value: commissioner.agency_manager,
                   name: 'agency_manager',
                   labelWidth: 120,
-                  options: [
-                    { value: 3, name: 'John Joe' },
-                    { value: 4, name: 'John Witch' },
-                  ],
+                  options: employeeOptions(2),
                 })}
               </Grid>
               <Grid container item xs={2} justify='center' alignItems='center'>
@@ -77,10 +83,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                   value: commissioner.supervisor,
                   name: 'supervisor',
                   labelWidth: 80,
-                  options: [
-                    { value: 5, name: 'John Doex' },
-                    { value: 6, name: 'John Smithx' },
-                  ],
+                  options: employeeOptions(3),
                 })}
               </Grid>
               <Grid container item xs={2} justify='center' alignItems='center'>
@@ -95,10 +98,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                   value: commissioner.sales_agent,
                   name: 'sales_agent',
                   labelWidth: 85,
-                  options: [
-                    { value: 7, name: 'John Doex' },
-                    { value: 8, name: 'John Smithc' },
-                  ],
+                  options: employeeOptions(4),
                 })}
               </Grid>
               <Grid container item xs={2} justify='center' alignItems='center'>

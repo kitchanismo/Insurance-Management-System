@@ -122,6 +122,8 @@ function MyForm<T>(props: MyFormProps<T>) {
 
     if (!error) return null
 
+    console.log(error)
+
     const _errors: any = {}
 
     error.details.forEach((item) => (_errors[item.path[0]] = item.message))

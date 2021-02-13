@@ -18,6 +18,7 @@ interface Employee extends Profile {
   image?: Blob
   image_url?: string
   clients?: Client[]
+  profile?: Profile
 }
 
 export default Employee

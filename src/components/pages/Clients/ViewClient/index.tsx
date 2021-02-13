@@ -85,18 +85,18 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                     <Chip
                       style={{ marginTop: 5 }}
                       size='small'
-                      label={computeTotalCountPaid(client) + ' Paid'}
-                      color='secondary'
-                      variant='outlined'
-                    />
-                    <Chip
-                      style={{ marginTop: 5 }}
-                      size='small'
                       label={
                         new Date(client.next_payment!).toLocaleDateString() +
                         ' Lapse'
                       }
-                      color='secondary'
+                      color='default'
+                      variant='outlined'
+                    />
+                    <Chip
+                      style={{ marginTop: 10 }}
+                      size='small'
+                      label={computeTotalCountPaid(client) + ' Paid'}
+                      color='default'
                       variant='outlined'
                     />
                   </Grid>

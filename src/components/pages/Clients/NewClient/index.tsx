@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
@@ -13,17 +13,24 @@ import { ClientStepThree } from './ClientStepThree'
 import Scroll from 'react-scroll'
 import { GlobalContext } from 'providers/GlobalProvider'
 import Payment from 'models/payment'
+import { postImage } from 'services/imageService'
+import { saveClient } from 'services/clientService'
+import { getEmployees } from 'services/employeeService'
+import Employee from 'models/employee'
 
 export interface NewClientProps {}
 
 const NewClient: React.SFC<NewClientProps> = () => {
-  const [state, dispatch] = useContext(GlobalContext)!
+  const [globalState, globalDispatch] = useContext(GlobalContext)!
 
   const scroll = Scroll.animateScroll
 
+  const [employees, setEmployees] = useState<Employee[]>([])
+
   useEffect(() => {
-    dispatch({ type: 'SET_TITLE', payload: 'Client Registration' })
+    globalDispatch({ type: 'SET_TITLE', payload: 'Client Registration' })
     scroll.scrollToTop({ duration: 500 })
+    getEmployees().then((employees) => setEmployees(employees))
   }, [])
 
   const history = useHistory()
@@ -52,10 +59,10 @@ const NewClient: React.SFC<NewClientProps> = () => {
   }
 
   const onNextTwo = async (commissioner: Commissioner) => {
-    const employee = commissioner[commissioner.position] ?? 0
+    const insured_employee = commissioner[commissioner.position] ?? 0
 
-    if (!employee) {
-      dispatch({
+    if (!insured_employee) {
+      globalDispatch({
         type: 'SET_ALERT',
         payload: {
           message:
@@ -69,7 +76,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
 
     scroll.scrollToTop({ duration: 500 })
 
-    setClient((client) => ({ ...client, employee: +employee }))
+    setClient((client) => ({ ...client, insured_employee }))
 
     setCommissioner(commissioner)
 
@@ -81,17 +88,42 @@ const NewClient: React.SFC<NewClientProps> = () => {
   const onNextThree = async (client: Client & Payment) => {
     scroll.scrollToTop({ duration: 500 })
 
-    setClient(client)
+    const transaction = {
+      ...profile,
+      ...client,
+      ...commissioner,
+      branch: getBranchId(+commissioner?.branch_manager!),
+      created_at: new Date(Date.now()),
+    }
 
-    stepper.handleNext()
+    return postImage(transaction?.image!, (image_url: string) => {
+      transaction.image_url = image_url
+      delete transaction.image
 
-    const { amount, or_number, ...rest } = client
-
-    console.log({
-      payment: { amount, or_number },
-      client: { ...profile, ...rest },
-      commissioner,
+      return saveClient(transaction)
+        .then(() => {
+          globalDispatch({
+            type: 'SET_ALERT',
+            payload: { message: 'Successfully added', type: 'success' },
+          })
+          globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+          stepper.handleNext()
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            globalDispatch({
+              type: 'SET_ALERT',
+              payload: { message: error.response.data.error, type: 'error' },
+            })
+          }
+          globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+        })
     })
+  }
+
+  const getBranchId = (employeeId: number) => {
+    return employees.filter((employee) => employee.id === employeeId)[0].branch
+      ?.id
   }
 
   const onAddNew = () => {
@@ -100,7 +132,9 @@ const NewClient: React.SFC<NewClientProps> = () => {
     setCommissioner({
       position: 'sales_agent',
     })
-    setClient({})
+    setClient({
+      years_to_pay: 5,
+    })
   }
 
   return (
@@ -111,6 +145,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
       )}
       {stepper.activeStep === 1 && (
         <ClientStepTwo
+          employees={employees}
           onBack={() => stepper.handleBack()}
           onNext={onNextTwo}
           state={[commissioner, setCommissioner]}

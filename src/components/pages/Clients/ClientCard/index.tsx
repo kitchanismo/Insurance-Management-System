@@ -51,7 +51,8 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
                 style={{ marginTop: 5 }}
                 size='small'
                 label={
-                  new Date(client.next_payment!).toLocaleDateString() + ' Lapse'
+                  new Date(client.next_payment!).toLocaleDateString() +
+                  ' Lapsed'
                 }
                 color='default'
                 variant='outlined'
@@ -67,9 +68,7 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <MyAvatar
-              text={
-                capitalize(client.lastname!) + capitalize(client.firstname!)
-              }
+              src={client?.image_url}
               onClick={() => history.push('/clients/' + client.id)}
             />
           </Grid>

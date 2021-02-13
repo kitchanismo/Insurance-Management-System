@@ -44,12 +44,15 @@ export const getEmployeesByBranch = (id: number) => {
 export const getEmployee = async (id: string) => {
   return http.get('/employees/' + id).then(({ data }) => {
     const employee: Employee = {
-      id: data.id,
       ...data.profile,
+      id: data.id,
       branch: data.branch.id,
       position: data.position.id,
       status: data.status,
-      clients: data.clients,
+      clients: data.clients.map((client: any) => ({
+        ...client.profile,
+        ...client,
+      })),
     }
     return employee
   })

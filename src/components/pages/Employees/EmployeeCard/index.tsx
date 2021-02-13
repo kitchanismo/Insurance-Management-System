@@ -65,9 +65,7 @@ const EmployeeCard: React.SFC<EmployeesProps> = ({ employee }) => {
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <MyAvatar
-              text={
-                capitalize(employee.lastname!) + capitalize(employee.firstname!)
-              }
+              src={employee.image_url}
               onClick={() => history.push('/employees/' + employee.id)}
             />
           </Grid>

@@ -37,12 +37,11 @@ const Clients: React.SFC<ClientsProps> = () => {
 
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Client Management' })
-    const { page, category, search } = qs.parse(location.search)
+    const { page, search } = qs.parse(location.search)
     const currentPage = !!page ? +page : 1
     setPage(currentPage)
     onLoad({
       page: currentPage,
-      category: (category as string) || '',
       search: (search as string) || '',
     })
   }, [])
@@ -65,11 +64,6 @@ const Clients: React.SFC<ClientsProps> = () => {
     setChip(chip)
     setPage(1)
     onLoad({ page: 1, category: chip.value })
-    if (chip.value) {
-      history.push('/clients?category=' + chip.value)
-      return
-    }
-    history.push('/clients')
   }
 
   const onPage = (e: any, page: number) => {
@@ -90,7 +84,7 @@ const Clients: React.SFC<ClientsProps> = () => {
 
   const chips: MyChip[] = [
     { value: '', name: 'All' },
-    { value: 'lapse', name: 'Lapse' },
+    { value: 'lapse', name: 'Lapsed' },
     { value: 'near', name: 'Near' },
     { value: 'installment', name: 'Installment' },
     { value: 'fullpayment', name: 'Fullpayment' },

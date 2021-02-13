@@ -38,12 +38,11 @@ const Employees: React.SFC<EmployeesProps> = () => {
 
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Employee Management' })
-    const { page, category, search } = qs.parse(location.search)
+    const { page, search } = qs.parse(location.search)
     const currentPage = !!page ? +page : 1
     setPage(currentPage)
     onLoad({
       page: currentPage,
-      category: (category as string) || '',
       search: (search as string) || '',
     })
   }, [])
@@ -68,11 +67,6 @@ const Employees: React.SFC<EmployeesProps> = () => {
     setChip(chip)
     setPage(1)
     onLoad({ page: 1, category: chip.value })
-    if (chip.value) {
-      history.push('/employees?category=' + chip.value)
-      return
-    }
-    history.push('/employees')
   }
 
   const onPage = (e: any, page: number) => {

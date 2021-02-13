@@ -16,7 +16,7 @@ interface RenderProps<T> {
 interface RenderCardsProps<T> {
   title: string
   subtitle: string
-  initials: string
+  src?: string
   item?: T
 }
 
@@ -38,23 +38,18 @@ function MyMiniCards<T>({
 
   const [selectedItem, setSelectedItem] = useState<T>()
 
-  const renderCards = ({
-    initials,
-    title,
-    subtitle,
-    item,
-  }: RenderCardsProps<T>) => {
+  const renderCards = ({ src, title, subtitle, item }: RenderCardsProps<T>) => {
     return (
       <CardHeader
         className={
           selectedItem === item ? styles.headerSelected : styles.header
         }
         avatar={
-          <Avatar className={styles.avatar} aria-label='clients'>
-            <Typography color='inherit' variant='h6'>
-              {initials}
-            </Typography>
-          </Avatar>
+          <Avatar
+            className={styles.avatar}
+            src={src}
+            aria-label='clients'
+          ></Avatar>
         }
         title={title}
         subheader={subtitle}

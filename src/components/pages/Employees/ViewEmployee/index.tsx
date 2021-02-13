@@ -91,11 +91,9 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
             <>
               {renderCards({
                 item,
-                title: `${item.profile?.lastname}, ${item.profile?.firstname}`,
+                title: `${item.lastname}, ${item.firstname}`,
                 subtitle: item.code!,
-                initials: `${capitalize(item.profile?.lastname!)}${capitalize(
-                  item.firstname!,
-                )}`,
+                src: item.image_url,
               })}
             </>
           )}
@@ -165,12 +163,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
                     justify='center'
                     alignItems='center'
                   >
-                    <MyAvatar
-                      text={
-                        capitalize(employee.lastname!) +
-                        capitalize(employee.firstname!)
-                      }
-                    />
+                    <MyAvatar src={employee.image_url} />
                   </Grid>
                 </Grid>
               </CardContent>

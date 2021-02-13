@@ -87,7 +87,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                       size='small'
                       label={
                         new Date(client.next_payment!).toLocaleDateString() +
-                        ' Lapse'
+                        ' Lapsed'
                       }
                       color='default'
                       variant='outlined'
@@ -108,12 +108,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                   justify='center'
                   alignItems='center'
                 >
-                  <MyAvatar
-                    text={
-                      capitalize(client.lastname!) +
-                      capitalize(client.firstname!)
-                    }
-                  />
+                  <MyAvatar src={client.image_url} />
                 </Grid>
               </Grid>
             </CardContent>

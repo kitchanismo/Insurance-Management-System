@@ -26,7 +26,7 @@ const MyChips: React.SFC<MyChipsProps> = ({
       <Grid item>
         <Badge
           invisible={active.value !== chip.value}
-          badgeContent={count}
+          badgeContent={count! >= 100 ? '99+' : count}
           color='primary'
         >
           <Chip

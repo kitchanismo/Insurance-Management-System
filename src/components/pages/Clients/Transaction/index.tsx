@@ -130,9 +130,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
               {renderCards({
                 title: `${item.lastname}, ${item.firstname}`,
                 subtitle: item.code!,
-                initials: `${capitalize(item.lastname!)}${capitalize(
-                  item.firstname!,
-                )}`,
+                src: item.image_url,
                 item,
               })}
             </>

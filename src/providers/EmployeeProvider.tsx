@@ -106,11 +106,11 @@ export const EmployeeProvider: React.FC = (props) => {
     total: 0,
   })
 
-  //  useEffect(() => {
-  //   getBranches().then((branches) =>
-  //     dispatch({ type: 'ON_LOAD_BRANCHES', payload: branches }),
-  //   )
-  // }, [])
+  useEffect(() => {
+    getBranches().then((branches) =>
+      dispatch({ type: 'ON_LOAD_BRANCHES', payload: branches }),
+    )
+  }, [])
 
   return (
     <EmployeeContext.Provider value={[state, dispatch]}>

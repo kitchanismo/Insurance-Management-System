@@ -49,6 +49,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
 
   const [client, setClient] = React.useState<Client & Payment>({
     years_to_pay: 5,
+    created_at: new Date(Date.now()),
   })
 
   const onNextOne = async (profile: Profile) => {
@@ -93,7 +94,6 @@ const NewClient: React.SFC<NewClientProps> = () => {
       ...client,
       ...commissioner,
       branch: getBranchId(+commissioner?.branch_manager!),
-      created_at: new Date(Date.now()),
     }
 
     return postImage(transaction?.image!, (image_url: string) => {

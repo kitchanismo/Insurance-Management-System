@@ -9,7 +9,6 @@ const clientTransactionValidator = {
   amount: Joi.number().positive().not(0).required().label('Amount'),
   payment_mode: notNull('Payment Mode'),
   or_number: notNull('OR Number'),
-  created_at: notNull('Insure Date'),
 }
 
 export default clientTransactionValidator

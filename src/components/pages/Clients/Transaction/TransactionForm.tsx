@@ -45,14 +45,7 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
 
   return (
     <MyForm {...formProps}>
-      {({
-        myRadio,
-        mySelect,
-        myButton,
-        myControlledInput,
-        myInput,
-        myDateTimePicker,
-      }) => (
+      {({ myRadio, mySelect, myButton, myControlledInput, myInput }) => (
         <>
           <Grid
             style={{ paddingLeft: 10, marginTop: 5, marginBottom: 10 }}
@@ -135,11 +128,7 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
                 {myRadio({ value: 'sales_agent', name: 'position' })}
               </Grid>
             </>
-            {myDateTimePicker({
-              label: 'Insure Date',
-              value: transaction.created_at,
-              name: 'created_at',
-            })}
+
             {myButton()}
           </Grid>
         </>

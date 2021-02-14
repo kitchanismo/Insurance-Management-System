@@ -1,4 +1,5 @@
 import Payment from 'models/payment'
+import http from 'utils/http'
 
 const payments: Payment[] = [
   {
@@ -45,4 +46,8 @@ export const getPayments = () => {
       resolve(payments)
     }, 3000)
   })
+}
+
+export const savePayments = (payment: any) => {
+  return http.post('/payments', payment).then(({ data }) => data)
 }

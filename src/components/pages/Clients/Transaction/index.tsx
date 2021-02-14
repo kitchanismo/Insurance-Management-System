@@ -15,6 +15,7 @@ import { GlobalContext } from 'providers/GlobalProvider'
 import MySkeletonMiniCards from 'components/common/MySkeletonMiniCards'
 import { getEmployees } from 'services/employeeService'
 import Employee from 'models/employee'
+import { savePayments } from 'services/paymentService'
 
 export interface TransactionProps {}
 
@@ -67,7 +68,6 @@ const Transaction: React.SFC<TransactionProps> = () => {
     setTransaction((transaction) => ({
       ...transaction,
       ...client,
-      created_at: new Date(Date.now()),
     }))
   }
 
@@ -106,7 +106,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
       created_at,
     } = transaction
 
-    console.log({
+    const payment = {
       client: id,
       insured_employee,
       amount,
@@ -116,6 +116,16 @@ const Transaction: React.SFC<TransactionProps> = () => {
       supervisor,
       sales_agent,
       created_at,
+    }
+
+    return savePayments(payment).then((data) => {
+      globalDispatch({
+        type: 'SET_ALERT',
+        payload: {
+          message: 'Successfully save!',
+          type: 'success',
+        },
+      })
     })
   }
 

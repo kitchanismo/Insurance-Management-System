@@ -55,7 +55,13 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
 
   return (
     <MyForm {...formProps}>
-      {({ myControlledInput, myInput, mySelect, myButton }) => (
+      {({
+        myControlledInput,
+        myInput,
+        mySelect,
+        myButton,
+        myDateTimePicker,
+      }) => (
         <>
           {mySelect({
             label: 'Plan',
@@ -109,6 +115,11 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
                   })}
                 </Grid>
               </Grid>
+              {myDateTimePicker({
+                label: 'Insure Date',
+                value: client.created_at,
+                name: 'created_at',
+              })}
             </>
           )}
 

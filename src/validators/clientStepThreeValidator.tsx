@@ -11,6 +11,7 @@ const clientStepThreeValidator = {
     then: Joi.valid(null),
     otherwise: notNull('Payment Period'),
   }),
+  created_at: notNull('Insure Date'),
 }
 
 export default clientStepThreeValidator

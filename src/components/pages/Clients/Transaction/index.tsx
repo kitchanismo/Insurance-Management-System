@@ -1,21 +1,27 @@
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
-import { getAmountToPay, getLapsedClients } from 'services/clientService'
+import {
+  getAmountToPay,
+  getLapsedClients,
+  getClients,
+} from 'services/clientService'
 import MyMiniCards from 'components/common/MyMiniCards'
 import MySearchField from 'components/common/MySearchField'
 import MyAvatar from 'components/common/MyAvatar'
 import Client from 'models/client'
 import { ClientContext } from 'providers/ClientProvider'
 import { useContext, useEffect, useState } from 'react'
-import { capitalize } from 'utils/helper'
 import CommissionersForm from './TransactionForm'
 import TransactionModel from 'models/transaction'
 import { GlobalContext } from 'providers/GlobalProvider'
 import MySkeletonMiniCards from 'components/common/MySkeletonMiniCards'
 import { getEmployees } from 'services/employeeService'
 import Employee from 'models/employee'
-import { savePayments } from 'services/paymentService'
+import {
+  getRecentCommissionerByClient,
+  savePayments,
+} from 'services/paymentService'
 
 export interface TransactionProps {}
 
@@ -40,6 +46,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
         payload: { clients },
       })
     })
+
     getEmployees().then((employees) => setEmployees(employees))
   }, [])
 
@@ -61,6 +68,25 @@ const Transaction: React.SFC<TransactionProps> = () => {
         ...transaction,
         amount,
       }))
+
+      getRecentCommissionerByClient(transaction.id).then((employees: any) => {
+        const getCommissioner = (id: number) =>
+          employees.filter((employee: any) => employee.positionId === id)[0]?.id
+
+        //radio btn must be controlled input to work
+        // const position = employees.filter(
+        //   (employee: any) => employee.is_insured,
+        // )[0].position
+
+        setTransaction((transaction) => ({
+          ...transaction,
+          branch_manager: getCommissioner(1),
+          agency_manager: getCommissioner(2),
+          supervisor: getCommissioner(3),
+          sales_agent: getCommissioner(4),
+          ///position,
+        }))
+      })
     }
   }, [transaction.payment_mode, transaction.id])
 
@@ -129,11 +155,25 @@ const Transaction: React.SFC<TransactionProps> = () => {
     })
   }
 
+  const onSearch = (search: string) => {
+    getClients({ page: 1, search }).then(({ clients, pages, total }) => {
+      clientDispatch({
+        type: 'ON_LOAD_CLIENTS',
+        payload: { clients, pages, total },
+      })
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+    })
+  }
+
   const isLoading = clientState.isLoading && !clientState.clients.length
 
   return (
     <Grid container direction='column' xs={12}>
-      <MySearchField labelWidth={140} label='Client Name / Code' />
+      <MySearchField
+        onSearch={onSearch}
+        labelWidth={140}
+        label='Client Name / Code'
+      />
       {isLoading && <MySkeletonMiniCards></MySkeletonMiniCards>}
 
       {!isLoading && (

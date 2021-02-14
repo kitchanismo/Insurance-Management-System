@@ -51,3 +51,7 @@ export const getPayments = () => {
 export const savePayments = (payment: any) => {
   return http.post('/payments', payment).then(({ data }) => data)
 }
+
+export const getRecentCommissionerByClient = (id: number) => {
+  return http.get('/commissions/client/' + id).then(({ data }) => data)
+}

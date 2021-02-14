@@ -64,6 +64,9 @@ const Clients: React.SFC<ClientsProps> = () => {
     setChip(chip)
     setPage(1)
     onLoad({ page: 1, category: chip.value })
+    if (!!chip.value) {
+      history.push('/clients')
+    }
   }
 
   const onPage = (e: any, page: number) => {

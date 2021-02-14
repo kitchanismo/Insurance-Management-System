@@ -41,9 +41,6 @@ function MyMiniCards<T>({
   const renderCards = ({ src, title, subtitle, item }: RenderCardsProps<T>) => {
     return (
       <CardHeader
-        className={
-          selectedItem === item ? styles.headerSelected : styles.header
-        }
         avatar={
           <Avatar
             className={styles.avatar}
@@ -71,6 +68,10 @@ function MyMiniCards<T>({
       {items.map((item, index) => (
         <Grid item xs={12} key={index}>
           <Card
+            style={{ minHeight: 92, display: 'flex', alignItems: 'center' }}
+            className={
+              selectedItem === item ? styles.headerSelected : styles.header
+            }
             onClick={() => {
               onSelected?.(item)
               setSelectedItem(item)
@@ -103,6 +104,7 @@ const useStyles = (isDark: boolean) =>
         marginLeft: 0,
         padding: 0,
         paddingBottom: 5,
+
         WebkitOverflowScrolling: 'touch',
         overflowX: 'auto',
         flexWrap: 'nowrap',

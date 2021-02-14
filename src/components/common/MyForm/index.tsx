@@ -371,7 +371,12 @@ function MyForm<T>(props: MyFormProps<T>) {
 
   return (
     <form onSubmit={onSubmit}>
-      <Grid container spacing={2} direction='column'>
+      <Grid
+        style={{ pointerEvents: isDisable ? 'none' : 'all' }}
+        container
+        spacing={2}
+        direction='column'
+      >
         {props.children?.({
           myInput,
           myControlledInput,

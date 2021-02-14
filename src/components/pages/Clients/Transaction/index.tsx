@@ -135,7 +135,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
           {({ renderCards, item }) => (
             <>
               {renderCards({
-                title: `${item.lastname}, ${item.firstname}`,
+                title: `${item?.lastname}, ${item?.firstname} ${item?.middlename}`,
                 subtitle: item.code!,
                 src: item.image_url,
                 item,

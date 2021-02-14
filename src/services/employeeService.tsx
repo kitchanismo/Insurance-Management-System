@@ -58,3 +58,9 @@ export const getEmployee = async (id: string) => {
     return employee
   })
 }
+
+export const updateEmployee = (employee: Employee) => {
+  return http.put('/employees/' + employee.id, employee).then(({ data }) => {
+    return data
+  })
+}

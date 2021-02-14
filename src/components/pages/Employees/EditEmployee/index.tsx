@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
@@ -7,7 +7,11 @@ import validator from '../../../../validators/saveEmployeeValidator'
 import MyForm, { MyFormProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
 import { EmployeeContext } from 'providers/EmployeeProvider'
-import { getEmployees } from 'services/employeeService'
+import { getEmployee, updateEmployee } from 'services/employeeService'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import PhotoCamera from '@material-ui/icons/PhotoCamera'
+import { postImage } from 'services/imageService'
 
 export interface EditUserProps {}
 
@@ -18,9 +22,13 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
 
   const history = useHistory()
 
-  const { id } = useParams<{ id: string }>()
+  const params = useParams<{ id: string }>()
 
-  const [employee, setEmployee] = React.useState<Employee>({
+  const [isLoading, setIsLoading] = useState(false)
+
+  const [imageFile, setImageFile] = useState<HTMLImageElement | null>(null)
+
+  const [employee, setEmployee] = useState<Employee>({
     address: '',
     firstname: '',
     middlename: '',
@@ -30,18 +38,38 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
 
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Edit Employee' })
-    employeeDispatch({ type: 'ON_GET_EMPLOYEE', payload: +id })
-    setEmployee(employeeState.employee)
-  }, [employeeState.employee])
-
-  const onSubmit = async (data: Employee) => {
-    console.log(data)
-    globalDispatch({
-      type: 'SET_ALERT',
-      payload: { message: 'Successfully added', type: 'success' },
+    setIsLoading(true)
+    getEmployee(params.id).then((employee) => {
+      setEmployee(employee)
+      setIsLoading(false)
     })
+  }, [])
 
-    return Promise.resolve()
+  const onSubmit = async (employee: Employee) => {
+    return postImage(employee?.image!, (image_url: string) => {
+      delete employee.image
+
+      return updateEmployee({
+        ...employee,
+        image_url: !!image_url ? image_url : employee.image_url,
+      })
+        .then(() => {
+          globalDispatch({
+            type: 'SET_ALERT',
+            payload: { message: 'Successfully added', type: 'success' },
+          })
+          globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            globalDispatch({
+              type: 'SET_ALERT',
+              payload: { message: error.response.data.error, type: 'error' },
+            })
+          }
+          globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+        })
+    })
   }
 
   const formProps: MyFormProps<Employee> = {
@@ -52,13 +80,7 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
 
   return (
     <MyForm {...formProps}>
-      {({
-        myInput,
-        mySelect,
-        myDateTimePicker,
-        myButton,
-        myControlledInput,
-      }) => (
+      {({ mySelect, myDateTimePicker, myButton, myControlledInput }) => (
         <>
           {myControlledInput({
             label: 'Firstname',
@@ -86,6 +108,12 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
             value: employee.address,
             name: 'address',
             isMultiline: true,
+          })}
+
+          {myDateTimePicker({
+            label: 'Birthdate',
+            value: employee.birthdate,
+            name: 'birthdate',
           })}
 
           {mySelect({
@@ -134,14 +162,6 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
           })}
 
           {mySelect({
-            label: 'Team',
-            value: employee.team,
-            name: 'team',
-            labelWidth: 40,
-            options: [{ value: 'ABC' }],
-          })}
-
-          {mySelect({
             label: 'Status',
             value: employee.status,
             name: 'status',
@@ -153,11 +173,44 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
             ],
           })}
 
-          {myDateTimePicker({
-            label: 'Birthdate',
-            value: employee.birthdate,
-            name: 'birthdate',
-          })}
+          <Grid
+            container
+            style={{
+              paddingLeft: 15,
+              paddingRight: 15,
+              marginBottom: 10,
+            }}
+            alignItems='center'
+            justify='space-between'
+            xs={12}
+          >
+            <Typography variant='subtitle1'>
+              {imageFile?.name || 'Select Photo'}
+            </Typography>
+            <>
+              <input
+                accept='image/*'
+                style={{
+                  display: 'none',
+                }}
+                name='image'
+                id='icon-button-file'
+                type='file'
+                onChange={(e: any) => {
+                  setImageFile(e.target.files[0])
+                }}
+              />
+              <label htmlFor='icon-button-file'>
+                <IconButton
+                  color='primary'
+                  aria-label='upload picture'
+                  component='span'
+                >
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+            </>
+          </Grid>
 
           <Grid
             style={{ paddingLeft: 18, paddingTop: 10, paddingBottom: 5 }}

@@ -3,6 +3,7 @@ import Client from 'models/client'
 import Commissioner from 'models/commissioner'
 import Payment from 'models/payment'
 import Plan from 'models/plan'
+import Profile from 'models/profile'
 import http from 'utils/http'
 
 export const plans: Plan[] = [
@@ -72,6 +73,12 @@ export interface ClientProps {
 
 export const saveClient = (transaction: any) => {
   return http.post('/clients', transaction).then(({ data }) => {
+    return data
+  })
+}
+
+export const updateClient = (profile: Profile) => {
+  return http.put('/clients/' + profile.id, profile).then(({ data }) => {
     return data
   })
 }

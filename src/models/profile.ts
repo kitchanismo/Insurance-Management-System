@@ -10,4 +10,6 @@ export default interface Profile {
   address?: string
   birthdate?: Date
   contact?: string
+  image?: Blob
+  image_url?: string
 }

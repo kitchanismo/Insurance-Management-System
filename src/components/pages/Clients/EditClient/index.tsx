@@ -7,6 +7,11 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import { ClientContext } from 'providers/ClientProvider'
 import { GlobalContext } from 'providers/GlobalProvider'
+import IconButton from '@material-ui/core/IconButton'
+import PhotoCamera from '@material-ui/icons/PhotoCamera'
+import Typography from '@material-ui/core/Typography'
+import { postImage } from 'services/imageService'
+import { updateClient } from 'services/clientService'
 
 export interface EditClientProps {}
 
@@ -17,6 +22,8 @@ const EditClient: React.SFC<EditClientProps> = () => {
   const [_, globalDispatch] = useContext(GlobalContext)!
 
   const [clientState, clientDispatch] = useContext(ClientContext)!
+
+  const [imageFile, setImageFile] = useState<HTMLImageElement | null>(null)
 
   const [profile, setProfile] = useState<Profile>({
     firstname: '',
@@ -35,7 +42,30 @@ const EditClient: React.SFC<EditClientProps> = () => {
   }, [])
 
   const onSubmit = async (profile: Profile) => {
-    console.log(profile)
+    return postImage(profile?.image!, (image_url: string) => {
+      delete profile.image
+
+      return updateClient({
+        ...profile,
+        image_url: !!image_url ? image_url : profile.image_url,
+      })
+        .then(() => {
+          globalDispatch({
+            type: 'SET_ALERT',
+            payload: { message: 'Successfully added', type: 'success' },
+          })
+          globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            globalDispatch({
+              type: 'SET_ALERT',
+              payload: { message: error.response.data.error, type: 'error' },
+            })
+          }
+          globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+        })
+    })
   }
 
   const formProps: MyFormProps<Profile> = {
@@ -103,6 +133,45 @@ const EditClient: React.SFC<EditClientProps> = () => {
             value: profile.birthdate,
             name: 'birthdate',
           })}
+
+          <Grid
+            container
+            style={{
+              paddingLeft: 15,
+              paddingRight: 15,
+              marginBottom: 10,
+            }}
+            alignItems='center'
+            justify='space-between'
+            xs={12}
+          >
+            <Typography variant='subtitle1'>
+              {imageFile?.name || 'Select Photo'}
+            </Typography>
+            <>
+              <input
+                accept='image/*'
+                style={{
+                  display: 'none',
+                }}
+                name='image'
+                id='icon-button-file'
+                type='file'
+                onChange={(e: any) => {
+                  setImageFile(e.target.files[0])
+                }}
+              />
+              <label htmlFor='icon-button-file'>
+                <IconButton
+                  color='primary'
+                  aria-label='upload picture'
+                  component='span'
+                >
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+            </>
+          </Grid>
 
           <Grid
             style={{ paddingLeft: 18, paddingTop: 10, paddingBottom: 5 }}

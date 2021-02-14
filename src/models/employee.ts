@@ -15,8 +15,6 @@ interface Employee extends Profile {
   commission_amount?: number
   is_darkmode?: boolean
   created_at?: Date
-  image?: Blob
-  image_url?: string
   clients?: Client[]
   profile?: Profile
 }

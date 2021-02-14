@@ -1,5 +1,5 @@
 {
-    "apiUrlProd": "https://kitchan-contacts.herokuapp.com/api/",
+    "apiUrlProd": "https://psy-insurance.herokuapp.com/api/",
     "apiUrlDev": "http://localhost:5000/api/",
     "apiUrlMobile": "http://192.168.9.101:5000/api/"
 }

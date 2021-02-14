@@ -204,7 +204,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
       )}
       {transaction.id && (
         <Grid
-          style={{ paddingLeft: 10, paddingRight: 10 }}
+          style={{ paddingLeft: 10, paddingRight: 20 }}
           xs={12}
           container
           justify='space-between'

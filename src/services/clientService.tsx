@@ -100,7 +100,7 @@ export const getClients = async (props: ClientProps) => {
 }
 
 export const getLapsedClients = async () => {
-  return http.get(`/clients?category=lapse`).then(({ data }) =>
+  return http.get(`/clients/lapse`).then(({ data }) =>
     data.map((client: any) => ({
       ...client.profile,
       ...client,

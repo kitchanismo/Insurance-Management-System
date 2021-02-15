@@ -13,7 +13,13 @@ export interface PaymentCardProps {
 
 const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
   const history = useHistory()
+
   const client = payment.client
+  const created_at = new Date(payment?.created_at!)
+  const hasCommission =
+    new Date(created_at.setFullYear(created_at.getFullYear() + 1)) >=
+    new Date(Date.now())
+
   const fullname = `${client?.lastname}, ${client?.firstname} ${client?.middlename}`
   return (
     <MyCard title={payment.or_number} style={{ paddingBottom: 5 }}>
@@ -23,20 +29,21 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
             {fullname}
           </Typography>
           <Typography variant='subtitle1' color='textSecondary'>
-            {'Php ' + payment.amount}
+            {payment.client?.code}
           </Typography>
           <Typography variant='subtitle1' color='textSecondary'>
-            {payment.created_at?.toDateString()}
+            {'₱ ' + payment.amount}
+          </Typography>
+          <Typography variant='subtitle1' color='textSecondary'>
+            {new Date(payment.created_at!).toDateString()}
           </Typography>
           <Grid item xs={6}>
             <Chip
               style={{ marginTop: 5 }}
               size='small'
-              label={
-                payment.hasCommission ? 'with commission' : 'no commission'
-              }
+              label={hasCommission ? 'with commission' : 'no commission'}
               variant='default'
-              color={payment.hasCommission ? 'secondary' : 'default'}
+              color={hasCommission ? 'secondary' : 'default'}
             />
           </Grid>
           <Grid style={{ marginTop: 20 }} item container xs={12}>

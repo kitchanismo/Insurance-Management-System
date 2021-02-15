@@ -40,12 +40,25 @@ const payments: Payment[] = [
   },
 ]
 
-export const getPayments = () => {
-  return new Promise<Payment[]>(function (resolve, reject) {
-    setTimeout(() => {
-      resolve(payments)
-    }, 3000)
-  })
+export const getPayments = (props?: {
+  page?: number
+  search?: string
+  category?: string
+}) => {
+  return http
+    .get(
+      `/payments?page=${props?.page || ''}&search=${
+        props?.search || ''
+      }&category=${props?.category || ''}`,
+    )
+    .then(({ data }) => ({
+      total: data.count,
+      pages: data.pages,
+      payments: data.items.map((item: any) => ({
+        ...item,
+        client: { ...item.client.profile, ...item.client },
+      })),
+    }))
 }
 
 export const savePayments = (payment: any) => {

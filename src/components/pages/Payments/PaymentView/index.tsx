@@ -22,8 +22,8 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
   useEffect(() => {
     getPayments().then((payments) => {
       paymentDispatch({ type: 'ON_LOAD_PAYMENTS', payload: payments })
-      const payment = payments.filter((payment) => payment.id === +params.id)[0]
-      setPayment(payment)
+      // const payment = payments.filter((payment) => payment.id === +params.id)[0]
+      //  setPayment(payment)
     })
   }, [])
 

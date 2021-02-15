@@ -8,14 +8,30 @@ export const PaymentContext = createContext<
 
 interface PaymentState {
   payments: Payment[]
+  total: number
+  pages: number
 }
 
-type PaymentAction = { type: 'ON_LOAD_PAYMENTS'; payload: Payment[] }
+type PaymentAction =
+  | {
+      type: 'ON_LOAD_PAYMENTS'
+      payload: { payments: Payment[]; total?: number; pages?: number }
+    }
+  | { type: 'SET_TOTAL'; payload: number }
+  | { type: 'SET_PAGES'; payload: number }
 
 const reducer = (state: PaymentState, action: PaymentAction) => {
   switch (action.type) {
     case 'ON_LOAD_PAYMENTS':
-      state.payments = action.payload
+      state.payments = action.payload.payments
+      state.total = action.payload.total!
+      state.pages = action.payload.pages!
+      break
+    case 'SET_TOTAL':
+      state.total = action.payload
+      break
+    case 'SET_PAGES':
+      state.pages = action.payload
       break
     default:
       return state
@@ -27,6 +43,8 @@ const reducer = (state: PaymentState, action: PaymentAction) => {
 export const PaymentProvider: React.FC = (props) => {
   const [state, dispatch] = useReducer(produce(reducer), {
     payments: [],
+    total: 0,
+    pages: 0,
   })
   return (
     <PaymentContext.Provider value={[state, dispatch]}>

@@ -10,7 +10,7 @@ export const saveEmployee = async (employee: Employee) => {
 export interface GetEmployeesProps {
   search?: string
   category?: string
-  page: number
+  page?: number
 }
 
 export const getEmployees = async (props?: GetEmployeesProps) => {
@@ -20,11 +20,14 @@ export const getEmployees = async (props?: GetEmployeesProps) => {
 
   return http
     .get(
-      `/employees?page=${props?.page}&search=${props?.search || ''}&category=${
-        props?.category || ''
-      }`,
+      `/employees?page=${props?.page || ''}&search=${
+        props?.search || ''
+      }&category=${props?.category || ''}`,
     )
     .then(({ data }) => {
+      if (!props?.page) {
+        return data
+      }
       const employees: Employee[] = data.items.map((item: any) => ({
         ...item.profile,
         ...item,

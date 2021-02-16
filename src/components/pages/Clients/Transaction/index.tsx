@@ -47,7 +47,9 @@ const Transaction: React.SFC<TransactionProps> = () => {
       })
     })
 
-    getEmployees().then((employees) => setEmployees(employees))
+    getEmployees({ category: 'active' }).then((employees) => {
+      setEmployees(employees)
+    })
   }, [])
 
   useEffect(() => {
@@ -182,6 +184,10 @@ const Transaction: React.SFC<TransactionProps> = () => {
         payload: { clients, pages, total },
       })
       globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+      setTransaction({
+        position: 'sales_agent',
+        amount: 0,
+      })
     })
   }
 

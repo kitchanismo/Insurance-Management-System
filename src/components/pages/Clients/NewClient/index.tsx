@@ -30,7 +30,10 @@ const NewClient: React.SFC<NewClientProps> = () => {
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Client Registration' })
     scroll.scrollToTop({ duration: 500 })
-    getEmployees().then((employees) => setEmployees(employees))
+    getEmployees({ category: 'active' }).then((employees) => {
+      console.log(employees)
+      setEmployees(employees)
+    })
   }, [])
 
   const history = useHistory()

@@ -9,18 +9,11 @@ import ViewIcon from '@material-ui/icons/RemoveRedEye'
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import Chip from '@material-ui/core/Chip'
-import Avatar from '@material-ui/core/Avatar'
-import userIcon from 'assets/profile-user.svg'
 import Client from 'models/client'
 import { useHistory } from 'react-router-dom'
 import MyAvatar from 'components/common/MyAvatar'
-import { ClientContext } from 'providers/ClientProvider'
 
-import {
-  computeTotalCountPaid,
-  computeTotalCountToPay,
-} from 'services/clientService'
-import { capitalize } from 'utils/helper'
+import { computeTotalCountPaid } from 'services/clientService'
 
 export interface ClientCardProps {
   client: Client
@@ -46,13 +39,13 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
             <Typography variant='subtitle1' color='textSecondary'>
               {client.plan?.name! + ' - ' + client.payment_mode}
             </Typography>
-            <Typography variant='subtitle1' color='textSecondary'>
+            <Typography variant='subtitle2' color='textSecondary'>
               {'Lapse on ' + new Date(client.next_payment!).toDateString()}
             </Typography>
 
             <Grid item xs={1}>
               <Chip
-                style={{ marginTop: 10 }}
+                style={{ marginTop: 5 }}
                 size='small'
                 label={computeTotalCountPaid(client) + ' Paid'}
                 color='default'

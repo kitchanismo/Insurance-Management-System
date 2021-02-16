@@ -115,7 +115,12 @@ const NewClient: React.SFC<NewClientProps> = () => {
               type: 'SET_ALERT',
               payload: { message: error.response.data.error, type: 'error' },
             })
+            return
           }
+          globalDispatch({
+            type: 'SET_ALERT',
+            payload: { message: error.message, type: 'error' },
+          })
           globalDispatch({ type: 'SET_IS_LOADING', payload: false })
         })
     })

@@ -3,12 +3,16 @@ import { useContext, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
+import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Chip from '@material-ui/core/Chip'
 import Payment from 'models/payment'
-import { getPayments } from 'services/paymentService'
+import { getPayment, getPayments } from 'services/paymentService'
 import { PaymentContext } from 'providers/PaymentProvider'
+import MyAvatar from 'components/common/MyAvatar'
+import { GlobalContext } from 'providers/GlobalProvider'
+import MyMiniCards from 'components/common/MyMiniCards'
+import Commission from 'models/commissions'
 
 export interface PaymentViewProps {}
 
@@ -17,56 +21,90 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
   const params = useParams<{ id: string }>()
   const [payment, setPayment] = useState<Payment>({})
 
-  const [paymentState, paymentDispatch] = useContext(PaymentContext)!
+  const [globalState, globalDispatch] = useContext(GlobalContext)!
 
   useEffect(() => {
-    getPayments().then((payments) => {
-      paymentDispatch({ type: 'ON_LOAD_PAYMENTS', payload: payments })
-      // const payment = payments.filter((payment) => payment.id === +params.id)[0]
-      //  setPayment(payment)
-    })
+    globalDispatch({ type: 'SET_TITLE', payload: 'Payment Details' })
+    getPayment(+params.id).then((payment) => setPayment(payment))
   }, [])
 
   const client = payment.client
-  const fullname = `${client?.lastname}, ${client?.firstname} ${client?.middlename}`
+  const fullname = `${client?.profile?.lastname}, ${client?.profile?.firstname} ${client?.profile?.middlename}`
+
+  const insured_at = new Date(payment?.client?.created_at!)
+  const hasCommission =
+    new Date(insured_at.setFullYear(insured_at.getFullYear() + 1)) >=
+    new Date(Date.now())
+
+  const handleSelected = (commission: Commission) => {
+    // history.push('/clients/' + client.id)
+  }
 
   return (
-    <MyCard title={payment.or_number} style={{ paddingBottom: 5 }}>
-      <CardContent>
-        <Grid xs={12} direction='column' container>
-          <Typography component='h3' variant='h6'>
-            {fullname}
-          </Typography>
-          <Typography variant='subtitle1' color='textSecondary'>
-            {'Php ' + payment.amount}
-          </Typography>
-          <Typography variant='subtitle1' color='textSecondary'>
-            {payment.created_at?.toDateString()}
-          </Typography>
-          <Grid item xs={6}>
-            <Chip
-              style={{ marginTop: 5 }}
-              size='small'
-              label={
-                payment.hasCommission ? 'with commission' : 'no commission'
-              }
-              variant='default'
-              color={payment.hasCommission ? 'secondary' : 'default'}
-            />
+    <Grid container xs={12}>
+      <MyCard
+        title={payment.or_number}
+        style={{ paddingBottom: 5, marginBottom: 10 }}
+      >
+        <CardContent>
+          <Grid xs={12} direction='row' container>
+            <Grid item xs={7}>
+              <Typography component='h3' variant='h6'>
+                {fullname}
+              </Typography>
+              <Typography variant='subtitle1' color='textSecondary'>
+                {'₱ ' + payment.amount}
+              </Typography>
+              <Typography variant='subtitle1' color='textSecondary'>
+                {'Paid on ' + new Date(payment?.created_at!).toDateString()}
+              </Typography>
+              <Chip
+                style={{ marginTop: 5 }}
+                size='small'
+                label={hasCommission ? 'with commission' : 'no commission'}
+                variant='default'
+                color={hasCommission ? 'secondary' : 'default'}
+              />
+            </Grid>
+            <Grid container item xs={5} justify='center' alignItems='center'>
+              <MyAvatar src={payment?.client?.profile?.image_url} />
+            </Grid>
           </Grid>
-        </Grid>
-        <Divider
-          style={{
-            marginTop: 20,
-            marginLeft: 10,
-            marginRight: 10,
-          }}
-        ></Divider>
-        <Typography variant='subtitle1' color='textSecondary'>
-          {payment.created_at?.toDateString()}
-        </Typography>
-      </CardContent>
-    </MyCard>
+        </CardContent>
+      </MyCard>
+
+      {!!payment?.commissions?.length && (
+        <>
+          <Typography variant='subtitle1'>Commissioners</Typography>
+          <MyMiniCards
+            style={{ marginBottom: 15, marginTop: 10 }}
+            onSelected={handleSelected}
+            items={payment?.commissions!}
+          >
+            {({ renderCards, item }) => (
+              <>
+                {renderCards({
+                  item,
+                  title: `${item.employee?.profile?.lastname}, ${item.employee?.profile?.firstname} (${item.employee?.position?.name})`,
+                  subtitle: '₱ ' + item.amount!,
+                  src: item.employee?.profile?.image_url,
+                })}
+              </>
+            )}
+          </MyMiniCards>
+        </>
+      )}
+      <Grid item xs={6}>
+        <Button
+          onClick={() => history.goBack()}
+          fullWidth
+          variant='contained'
+          color='default'
+        >
+          BACK
+        </Button>
+      </Grid>
+    </Grid>
   )
 }
 

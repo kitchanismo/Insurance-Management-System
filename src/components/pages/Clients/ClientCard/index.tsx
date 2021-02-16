@@ -46,17 +46,11 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
             <Typography variant='subtitle1' color='textSecondary'>
               {client.plan?.name! + ' - ' + client.payment_mode}
             </Typography>
+            <Typography variant='subtitle1' color='textSecondary'>
+              {'Lapse on ' + new Date(client.next_payment!).toDateString()}
+            </Typography>
+
             <Grid item xs={1}>
-              <Chip
-                style={{ marginTop: 5 }}
-                size='small'
-                label={
-                  new Date(client.next_payment!).toLocaleDateString() +
-                  ' Lapsed'
-                }
-                color='default'
-                variant='outlined'
-              />
               <Chip
                 style={{ marginTop: 10 }}
                 size='small'

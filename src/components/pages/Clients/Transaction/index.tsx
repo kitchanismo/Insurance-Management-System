@@ -144,15 +144,35 @@ const Transaction: React.SFC<TransactionProps> = () => {
       created_at,
     }
 
-    return savePayments(payment).then((data) => {
-      globalDispatch({
-        type: 'SET_ALERT',
-        payload: {
-          message: 'Successfully save!',
-          type: 'success',
-        },
+    return savePayments(payment)
+      .then((data) => {
+        globalDispatch({
+          type: 'SET_ALERT',
+          payload: {
+            message: 'Successfully save!',
+            type: 'success',
+          },
+        })
       })
-    })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          globalDispatch({
+            type: 'SET_ALERT',
+            payload: {
+              message: error.response.data.error,
+              type: 'error',
+            },
+          })
+          return
+        }
+        globalDispatch({
+          type: 'SET_ALERT',
+          payload: {
+            message: error.message,
+            type: 'error',
+          },
+        })
+      })
   }
 
   const onSearch = (search: string) => {
@@ -217,10 +237,11 @@ const Transaction: React.SFC<TransactionProps> = () => {
               {transaction?.code}
             </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-              {transaction?.plan?.name!}
+              {transaction?.plan?.name! + ' - ' + transaction?.payment_period}
             </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-              {transaction?.payment_period}
+              {'Lapse on ' +
+                new Date(transaction?.next_payment!).toDateString()}
             </Typography>
           </Grid>
           <Grid item xs={4}>

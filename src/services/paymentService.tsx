@@ -1,45 +1,6 @@
 import Payment from 'models/payment'
 import http from 'utils/http'
 
-const payments: Payment[] = [
-  {
-    id: 1,
-    client: {
-      firstname: 'Firstname',
-      lastname: 'Lastnane',
-      middlename: 'Middlename',
-    },
-    amount: 388,
-    or_number: '1033-233444',
-    created_at: new Date(Date.now()),
-    hasCommission: true,
-  },
-  {
-    id: 2,
-    client: {
-      firstname: 'Firstname',
-      lastname: 'Lastnane',
-      middlename: 'Middlename',
-    },
-    amount: 388,
-    or_number: '1033-235444',
-    created_at: new Date(Date.now()),
-    hasCommission: false,
-  },
-  {
-    id: 3,
-    client: {
-      firstname: 'Firstname',
-      lastname: 'Lastnane',
-      middlename: 'Middlename',
-    },
-    amount: 388,
-    or_number: '1033-233424',
-    created_at: new Date(Date.now()),
-    hasCommission: true,
-  },
-]
-
 export const getPayments = (props?: {
   page?: number
   search?: string
@@ -59,6 +20,10 @@ export const getPayments = (props?: {
         client: { ...item.client.profile, ...item.client },
       })),
     }))
+}
+
+export const getPayment = (id: number) => {
+  return http.get('/payments/' + id).then(({ data }) => data)
 }
 
 export const savePayments = (payment: any) => {

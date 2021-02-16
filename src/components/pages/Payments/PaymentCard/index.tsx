@@ -15,9 +15,9 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
   const history = useHistory()
 
   const client = payment.client
-  const created_at = new Date(payment?.created_at!)
+  const insured_at = new Date(payment?.client?.created_at!)
   const hasCommission =
-    new Date(created_at.setFullYear(created_at.getFullYear() + 1)) >=
+    new Date(insured_at.setFullYear(insured_at.getFullYear() + 1)) >=
     new Date(Date.now())
 
   const fullname = `${client?.lastname}, ${client?.firstname} ${client?.middlename}`
@@ -35,7 +35,7 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
             {'₱ ' + payment.amount}
           </Typography>
           <Typography variant='subtitle1' color='textSecondary'>
-            {new Date(payment.created_at!).toDateString()}
+            {'Paid on ' + new Date(payment.created_at!).toDateString()}
           </Typography>
           <Grid item xs={6}>
             <Chip

@@ -160,3 +160,7 @@ export const computeTotalCountPaid = (client: Client) => {
     totalCountPaid - Math.ceil(client.balance! / amount) + '/' + totalCountPaid
   )
 }
+
+export const archieveClient = (id: number) => {
+  return http.delete('/clients/' + id).then(({ data }) => data)
+}

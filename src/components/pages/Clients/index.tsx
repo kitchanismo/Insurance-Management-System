@@ -8,13 +8,16 @@ import AddIcon from '@material-ui/icons/Add'
 import { useHistory, useLocation } from 'react-router-dom'
 import ClientCard from './ClientCard'
 import { useContext, useEffect, useState } from 'react'
-import { getClients, ClientProps } from 'services/clientService'
+import { getClients, ClientProps, archieveClient } from 'services/clientService'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { ClientContext } from 'providers/ClientProvider'
 import MySkeletonCards from 'components/common/MySkeletonCards'
 import MyChips, { MyChip } from 'components/common/MyChips'
+import MyAlertDialog, { AlertDataProps } from 'components/common/MyAlertDialog'
+
 import qs from 'query-string'
 import Scroll from 'react-scroll'
+import Client from 'models/client'
 
 export interface ClientsProps {}
 
@@ -93,8 +96,38 @@ const Clients: React.SFC<ClientsProps> = () => {
     { value: 'fullpayment', name: 'Fullpayment' },
   ]
 
+  const [alertDialog, setAlertDialog] = useState<AlertDataProps>({})
+
+  const [client, setClient] = useState<Client>()
+
+  const handleSelectedClient = (client: Client) => {
+    setClient(client)
+    setAlertDialog({
+      open: true,
+      text: `Are you sure you want to archive ${client.lastname}, ${client.firstname} ${client.middlename}?`,
+      description:
+        'Archieving will not permanently deleted the client account in the database.',
+    })
+  }
+
+  const handleArchieve = () => {
+    archieveClient(client?.id!).then((data) => {
+      setAlertDialog({
+        open: false,
+      })
+      onLoad({
+        page,
+      })
+    })
+  }
+
   return (
     <>
+      <MyAlertDialog
+        onAgree={handleArchieve}
+        onDisagree={() => setAlertDialog({ open: false })}
+        data={alertDialog}
+      />
       <MySearchField onSearch={onSearch} style={{ marginBottom: 5 }} />
 
       <MyChips
@@ -115,7 +148,11 @@ const Clients: React.SFC<ClientsProps> = () => {
         >
           {clientState.clients.map((client) => (
             <Grid key={client.id} item xs={12}>
-              <ClientCard key={client.id} client={client} />
+              <ClientCard
+                onArchieve={handleSelectedClient}
+                key={client.id}
+                client={client}
+              />
             </Grid>
           ))}
           <Pagination

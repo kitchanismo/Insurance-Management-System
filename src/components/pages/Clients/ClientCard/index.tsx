@@ -17,9 +17,13 @@ import { computeTotalCountPaid } from 'services/clientService'
 
 export interface ClientCardProps {
   client: Client
+  onArchieve?: (client: Client) => void
 }
 
-export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
+export const ClientCard: React.SFC<ClientCardProps> = ({
+  client,
+  onArchieve,
+}) => {
   const history = useHistory()
   return (
     <MyCard title={client.code} style={{ paddingBottom: 5 }}>
@@ -76,7 +80,7 @@ export const ClientCard: React.SFC<ClientCardProps> = ({ client }) => {
         >
           <EditIcon />
         </IconButton>
-        <IconButton aria-label='archive'>
+        <IconButton onClick={() => onArchieve?.(client)} aria-label='archive'>
           <DeleteIcon />
         </IconButton>
       </Grid>

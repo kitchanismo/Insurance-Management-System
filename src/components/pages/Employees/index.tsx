@@ -17,6 +17,9 @@ import MySkeletonCards from 'components/common/MySkeletonCards'
 import MyChips, { MyChip } from 'components/common/MyChips'
 import Scroll from 'react-scroll'
 import qs from 'query-string'
+import MyAlertDialog, { AlertDataProps } from 'components/common/MyAlertDialog'
+import { archiveEmployee } from 'services/employeeService'
+import Employee from 'models/employee'
 
 export interface EmployeesProps {}
 
@@ -96,8 +99,38 @@ const Employees: React.SFC<EmployeesProps> = () => {
     { value: 4, name: 'Sales Agent' },
   ]
 
+  const [alertDialog, setAlertDialog] = useState<AlertDataProps>({})
+
+  const [employee, setEmployee] = useState<Employee>()
+
+  const handleSelectedEmployee = (employee: Employee) => {
+    setEmployee(employee)
+    setAlertDialog({
+      open: true,
+      text: `Are you sure you want to archive ${employee.lastname}, ${employee.firstname} ${employee.middlename}?`,
+      description:
+        'Archieving will not permanently deleted the employee account in the database.',
+    })
+  }
+
+  const handleArchieve = () => {
+    archiveEmployee(employee?.id!).then((data) => {
+      setAlertDialog({
+        open: false,
+      })
+      onLoad({
+        page,
+      })
+    })
+  }
+
   return (
     <>
+      <MyAlertDialog
+        onAgree={handleArchieve}
+        onDisagree={() => setAlertDialog({ open: false })}
+        data={alertDialog}
+      />
       <MySearchField onSearch={onSearch} style={{ marginBottom: 5 }} />
 
       <MyChips
@@ -118,7 +151,10 @@ const Employees: React.SFC<EmployeesProps> = () => {
         >
           {employeeState.employees.map((employee) => (
             <Grid key={employee.id} item xs={12}>
-              <EmployeeCard employee={employee} />
+              <EmployeeCard
+                onArchieve={handleSelectedEmployee}
+                employee={employee}
+              />
             </Grid>
           ))}
           <Pagination

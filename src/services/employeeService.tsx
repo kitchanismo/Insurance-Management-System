@@ -67,3 +67,7 @@ export const updateEmployee = (employee: Employee) => {
     return data
   })
 }
+
+export const archiveEmployee = (id: number) => {
+  return http.delete('/employees/' + id).then(({ data }) => data)
+}

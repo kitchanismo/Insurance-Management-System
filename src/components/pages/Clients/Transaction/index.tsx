@@ -73,8 +73,9 @@ const Transaction: React.SFC<TransactionProps> = () => {
 
       getRecentCommissionerByClient(transaction.id).then((employees: any) => {
         const getCommissioner = (id: number) =>
-          employees.filter((employee: any) => employee.positionId === id)[0]?.id
+          employees.find((employee: any) => employee.positionId === id)?.id
 
+        //  console.log(employees)
         //radio btn must be controlled input to work
         // const position = employees.filter(
         //   (employee: any) => employee.is_insured,
@@ -82,10 +83,10 @@ const Transaction: React.SFC<TransactionProps> = () => {
 
         setTransaction((transaction) => ({
           ...transaction,
-          branch_manager: getCommissioner(1),
-          agency_manager: getCommissioner(2),
-          supervisor: getCommissioner(3),
-          sales_agent: getCommissioner(4),
+          branch_manager: getCommissioner(1) || '',
+          agency_manager: getCommissioner(2) || '',
+          supervisor: getCommissioner(3) || '',
+          sales_agent: getCommissioner(4) || '',
           ///position,
         }))
       })

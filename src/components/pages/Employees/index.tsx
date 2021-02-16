@@ -115,12 +115,13 @@ const Employees: React.SFC<EmployeesProps> = () => {
 
   const handleArchieve = () => {
     archiveEmployee(employee?.id!).then((data) => {
-      setAlertDialog({
-        open: false,
-      })
       onLoad({
         page,
       })
+      setChip({ value: '', name: 'All' })
+    })
+    setAlertDialog({
+      open: false,
     })
   }
 

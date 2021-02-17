@@ -66,8 +66,8 @@ const Employees: React.SFC<EmployeesProps> = () => {
   }
 
   const onFilter = (chip: MyChip) => {
-    employeeDispatch({ type: 'SET_TOTAL', payload: 0 })
     setChip(chip)
+    employeeDispatch({ type: 'SET_TOTAL', payload: 0 })
     setPage(1)
     onLoad({ page: 1, category: chip.value })
   }

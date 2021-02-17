@@ -67,13 +67,15 @@ const PaymentHistory: React.SFC<PaymentHistoryProps> = () => {
   }
 
   const onSearch = (search: string) => {
+    setChip({ value: '', name: 'All' })
     onLoad({ page: 1, search })
     setPage(1)
   }
 
   const onFilter = (chip: MyChip) => {
-    onLoad({ page: 1, category: chip.value })
+    paymentDispatch({ type: 'SET_TOTAL', payload: 0 })
     setChip(chip)
+    onLoad({ page: 1, category: chip.value })
     setPage(1)
     history.push('/payments?page=' + 1)
   }
@@ -86,7 +88,7 @@ const PaymentHistory: React.SFC<PaymentHistoryProps> = () => {
         onChipSelected={onFilter}
         active={chip}
         chips={chips}
-      ></MyChips>
+      />
       <Grid
         container
         spacing={2}

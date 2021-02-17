@@ -6,6 +6,7 @@ import EmployeesIcon from '@material-ui/icons/People'
 import BranchIcon from '@material-ui/icons/Business'
 import ClientIcon from '@material-ui/icons/SupervisedUserCircle'
 import PaymentIcon from '@material-ui/icons/Receipt'
+import CommissionIcon from '@material-ui/icons/MonetizationOn'
 import SettingsIcon from '@material-ui/icons/Settings'
 import TransactionIcon from '@material-ui/icons/Payment'
 import ExitIcon from '@material-ui/icons/ExitToApp'
@@ -54,6 +55,11 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
       name: 'Payment History',
       path: '/payments',
       icon: <PaymentIcon />,
+    },
+    {
+      name: 'Commission History',
+      path: '/commissions',
+      icon: <CommissionIcon />,
     },
     {
       name: 'Settings',

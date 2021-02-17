@@ -8,6 +8,7 @@ import { EmployeeProvider } from 'providers/EmployeeProvider'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { PaymentProvider } from 'providers/PaymentProvider'
 import { BranchProvider } from 'providers/BranchProvider'
+import { CommissionProvider } from 'providers/CommissionProvider'
 
 const App: React.FC = (props) => {
   const [state] = useContext(GlobalContext)!
@@ -15,13 +16,14 @@ const App: React.FC = (props) => {
     <>
       <CssBaseline />
       <MyAlert />
-
       {state.isAuthenticUser && <Nav />}
       <BranchProvider>
         <EmployeeProvider>
           <ClientProvider>
             <PaymentProvider>
-              <Layout />
+              <CommissionProvider>
+                <Layout />
+              </CommissionProvider>
             </PaymentProvider>
           </ClientProvider>
         </EmployeeProvider>

@@ -1,5 +1,5 @@
 import Client from './client'
-import Commission from './commissions'
+import Commission from './commission'
 
 interface Payment {
   id?: number

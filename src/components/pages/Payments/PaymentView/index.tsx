@@ -12,7 +12,7 @@ import { PaymentContext } from 'providers/PaymentProvider'
 import MyAvatar from 'components/common/MyAvatar'
 import { GlobalContext } from 'providers/GlobalProvider'
 import MyMiniCards from 'components/common/MyMiniCards'
-import Commission from 'models/commissions'
+import Commission from 'models/commission'
 
 export interface PaymentViewProps {}
 

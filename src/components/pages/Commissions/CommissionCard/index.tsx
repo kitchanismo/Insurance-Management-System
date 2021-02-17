@@ -4,28 +4,32 @@ import Button from '@material-ui/core/Button'
 import MyCard from 'components/common/MyCard'
 import Grid from '@material-ui/core/Grid'
 import Chip from '@material-ui/core/Chip'
-import Payment from 'models/payment'
 import { useHistory } from 'react-router-dom'
+
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
+import ViewIcon from '@material-ui/icons/RemoveRedEye'
+import Divider from '@material-ui/core/Divider'
+
+import Commission from 'models/commission'
 import MyAvatar from 'components/common/MyAvatar'
 
-export interface PaymentCardProps {
-  payment: Payment
+export interface CommissionCardProps {
+  commission: Commission
 }
 
-const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
+const CommissionCard: React.SFC<CommissionCardProps> = ({ commission }) => {
   const history = useHistory()
-
-  const client = payment.client
-  const insured_at = new Date(payment?.client?.created_at!)
-  const hasCommission =
-    new Date(insured_at.setFullYear(insured_at.getFullYear() + 1)) >=
-    new Date(Date.now())
-
-  const fullname = `${client?.profile?.lastname}, ${client?.profile?.firstname} ${client?.profile?.middlename}`
+  const fullname = `${commission?.employee?.profile?.lastname}, ${commission?.employee?.profile?.firstname} ${commission?.employee?.profile?.lastname}`
   return (
-    <MyCard title={payment.or_number} style={{ paddingBottom: 5 }}>
+    <MyCard title={`${commission.payment?.or_number}`}>
       <CardContent>
-        <Grid xs={12} justify='space-between' container>
+        <Grid
+          style={{ marginBottom: 20 }}
+          xs={12}
+          justify='space-between'
+          container
+        >
           <Grid
             style={{ paddingLeft: 10 }}
             container
@@ -38,28 +42,28 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
               {fullname}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {payment.client?.code}
+              {commission?.employee?.position?.name}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {'₱ ' + payment.amount}
+              {`₱ ${commission?.amount}`}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {'Paid on ' + new Date(payment.created_at!).toDateString()}
+              {new Date(commission?.created_at!).toDateString()}
             </Typography>
             <Grid item xs={1}>
               <Chip
                 style={{ marginTop: 5 }}
                 size='small'
-                label={hasCommission ? 'with commission' : 'no commission'}
-                variant='default'
-                color={hasCommission ? 'secondary' : 'default'}
+                label={commission.is_release ? 'release' : 'unrelease'}
+                variant='outlined'
+                color={!commission.is_release ? 'secondary' : 'default'}
               />
             </Grid>
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <MyAvatar
-              src={payment?.client?.profile?.image_url}
-              onClick={() => history.push('/payments/' + payment.id)}
+              src={commission?.employee?.image_url}
+              onClick={() => history.push('/commissions/' + commission.id)}
             />
           </Grid>
         </Grid>
@@ -68,4 +72,4 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
   )
 }
 
-export default PaymentCard
+export default CommissionCard

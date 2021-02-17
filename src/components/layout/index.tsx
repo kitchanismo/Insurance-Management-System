@@ -21,12 +21,14 @@ import PaymentView from 'components/pages/Payments/PaymentView'
 import Branches from 'components/pages/Branches'
 import NewBranch from 'components/pages/Branches/NewBranch'
 import EditBranch from 'components/pages/Branches/EditBranch'
+import Commissions from 'components/pages/Commissions'
 
 const Layout = () => {
   const styles = useStyles()
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
+        <AuthRoute path='/commissions' component={Commissions} />
         <AuthRoute path='/branches/new' component={NewBranch} />
         <AuthRoute path='/branches/edit/:id' component={EditBranch} />
         <AuthRoute path='/branches' component={Branches} />

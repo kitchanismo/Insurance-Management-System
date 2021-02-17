@@ -18,15 +18,15 @@ import { EmployeeContext } from 'providers/EmployeeProvider'
 
 export interface EmployeesProps {
   employee: Partial<Employee>
-  onArchieve?: (employee: Employee) => void
+  onArchive?: (employee: Employee) => void
 }
 
-const EmployeeCard: React.SFC<EmployeesProps> = ({ employee, onArchieve }) => {
+const EmployeeCard: React.SFC<EmployeesProps> = ({ employee, onArchive }) => {
   const history = useHistory()
 
   return (
     <>
-      <MyCard title={employee.firstname} style={{ paddingBottom: 5 }}>
+      <MyCard title={'#' + employee.id} style={{ paddingBottom: 5 }}>
         <CardContent>
           <Grid container xs={12} justify='space-between'>
             <Grid
@@ -87,7 +87,7 @@ const EmployeeCard: React.SFC<EmployeesProps> = ({ employee, onArchieve }) => {
             <EditIcon />
           </IconButton>
           <IconButton
-            onClick={() => onArchieve?.(employee)}
+            onClick={() => onArchive?.(employee)}
             aria-label='archive'
           >
             <DeleteIcon />

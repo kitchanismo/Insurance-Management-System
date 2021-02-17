@@ -109,14 +109,18 @@ const Employees: React.SFC<EmployeesProps> = () => {
       open: true,
       text: `Are you sure you want to archive ${employee.lastname}, ${employee.firstname} ${employee.middlename}?`,
       description:
-        'Archieving will not permanently deleted the employee account in the database.',
+        'Archiving will not permanently delete the employee account in the database.',
     })
   }
 
-  const handleArchieve = () => {
+  const handleArchive = () => {
     archiveEmployee(employee?.id!).then((data) => {
       onLoad({
         page,
+      })
+      globalDispatch({
+        type: 'SET_ALERT',
+        payload: { message: 'Successfully archived', type: 'error' },
       })
       setChip({ value: '', name: 'All' })
     })
@@ -128,7 +132,7 @@ const Employees: React.SFC<EmployeesProps> = () => {
   return (
     <>
       <MyAlertDialog
-        onAgree={handleArchieve}
+        onAgree={handleArchive}
         onDisagree={() => setAlertDialog({ open: false })}
         data={alertDialog}
       />
@@ -153,7 +157,7 @@ const Employees: React.SFC<EmployeesProps> = () => {
           {employeeState.employees.map((employee) => (
             <Grid key={employee.id} item xs={12}>
               <EmployeeCard
-                onArchieve={handleSelectedEmployee}
+                onArchive={handleSelectedEmployee}
                 employee={employee}
               />
             </Grid>

@@ -12,6 +12,8 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import { postImage } from 'services/imageService'
+import { getBranches } from 'services/branchService'
+import { BranchContext } from 'providers/BranchProvider'
 
 export interface EditUserProps {}
 
@@ -19,6 +21,8 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
   const [_, globalDispatch] = useContext(GlobalContext)!
 
   const [employeeState, employeeDispatch] = useContext(EmployeeContext)!
+
+  const [branchState, branchDispatch] = useContext(BranchContext)!
 
   const history = useHistory()
 
@@ -43,6 +47,9 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
       setEmployee(employee)
       setIsLoading(false)
     })
+    getBranches().then((branches) =>
+      branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches }),
+    )
   }, [])
 
   const onSubmit = async (employee: Employee) => {
@@ -155,7 +162,7 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
             value: employee.branch + '',
             name: 'branch',
             labelWidth: 55,
-            options: employeeState.branches.map((branch) => ({
+            options: branchState.branches.map((branch) => ({
               value: branch.id,
               name: branch.name,
             })),

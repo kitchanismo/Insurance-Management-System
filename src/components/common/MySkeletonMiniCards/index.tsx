@@ -7,8 +7,12 @@ export interface MySkeletonMiniCardsProps {}
 const MySkeletonMiniCards: React.SFC<MySkeletonMiniCardsProps> = () => {
   const card = () => {
     return (
-      <Paper style={{ padding: 15, width: 230 }}>
-        <Grid container xs={12}>
+      <Paper style={{ paddingLeft: 15, width: 230 }}>
+        <Grid
+          style={{ minHeight: 92, display: 'flex', alignItems: 'center' }}
+          container
+          xs={12}
+        >
           <Grid item container justify='center' xs={3}>
             <Skeleton
               animation='wave'

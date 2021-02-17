@@ -3,6 +3,7 @@ import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import EmployeesIcon from '@material-ui/icons/People'
+import BranchIcon from '@material-ui/icons/Business'
 import ClientIcon from '@material-ui/icons/SupervisedUserCircle'
 import PaymentIcon from '@material-ui/icons/Receipt'
 import SettingsIcon from '@material-ui/icons/Settings'
@@ -33,6 +34,11 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
 
   const menus = [
     { name: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
+    {
+      name: 'Branch Management',
+      path: '/branches',
+      icon: <BranchIcon />,
+    },
     {
       name: 'Employee Management',
       path: '/employees',

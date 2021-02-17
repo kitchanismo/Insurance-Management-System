@@ -75,19 +75,12 @@ const Transaction: React.SFC<TransactionProps> = () => {
         const getCommissioner = (id: number) =>
           employees.find((employee: any) => employee.positionId === id)?.id
 
-        //  console.log(employees)
-        //radio btn must be controlled input to work
-        // const position = employees.filter(
-        //   (employee: any) => employee.is_insured,
-        // )[0].position
-
         setTransaction((transaction) => ({
           ...transaction,
           branch_manager: getCommissioner(1) || '',
           agency_manager: getCommissioner(2) || '',
           supervisor: getCommissioner(3) || '',
           sales_agent: getCommissioner(4) || '',
-          ///position,
         }))
       })
     }

@@ -12,6 +12,8 @@ import Employee from 'models/employee'
 import { saveEmployee } from 'services/employeeService'
 import { EmployeeContext } from 'providers/EmployeeProvider'
 import { postImage } from 'services/imageService'
+import { getBranches } from 'services/branchService'
+import { BranchContext } from 'providers/BranchProvider'
 
 export interface NewUserProps {}
 
@@ -20,12 +22,18 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
 
   const [employeeState, employeeDispatch] = useContext(EmployeeContext)!
 
+  const [branchState, branchDispatch] = useContext(BranchContext)!
+
   const [imageFile, setImageFile] = React.useState<HTMLImageElement | null>(
     null,
   )
 
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Employee Registration' })
+
+    getBranches().then((branches) =>
+      branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches }),
+    )
   }, [])
 
   const history = useHistory()
@@ -132,7 +140,7 @@ const NewEmployee: React.SFC<NewUserProps> = () => {
             value: employee.branch,
             name: 'branch',
             labelWidth: 55,
-            options: employeeState.branches.map((branch) => ({
+            options: branchState.branches.map((branch) => ({
               value: branch.id,
               name: branch.name,
             })),

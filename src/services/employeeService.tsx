@@ -36,14 +36,6 @@ export const getEmployees = async (props?: GetEmployeesProps) => {
     })
 }
 
-export const getBranches = async () => {
-  return http.get('/branches').then(({ data }) => data)
-}
-
-export const getEmployeesByBranch = (id: number) => {
-  return http.get(`/branches/${id}/employees`).then(({ data }) => data)
-}
-
 export const getEmployee = async (id: string) => {
   return http.get('/employees/' + id).then(({ data }) => {
     //order is important

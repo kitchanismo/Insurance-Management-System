@@ -41,9 +41,13 @@ export const MyAlertDialog: React.FC<MyAlertDialogProps> = ({
           </DialogContent>
           <DialogActions>
             <Button onClick={onDisagree} color='default'>
-              Disagree
+              Cancel
             </Button>
-            <Button onClick={onAgree} color='primary'>
+            <Button
+              style={{ marginRight: 10 }}
+              onClick={onAgree}
+              color='secondary'
+            >
               Agree
             </Button>
           </DialogActions>

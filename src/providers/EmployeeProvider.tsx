@@ -2,7 +2,6 @@ import { Dispatch, createContext, useReducer, useEffect } from 'react'
 import Employee from 'models/employee'
 import { produce } from 'immer'
 import Branch from 'models/branch'
-import { getBranches } from 'services/employeeService'
 import Position from 'models/position'
 
 interface EmployeeState {
@@ -105,12 +104,6 @@ export const EmployeeProvider: React.FC = (props) => {
     pages: 0,
     total: 0,
   })
-
-  useEffect(() => {
-    getBranches().then((branches) =>
-      dispatch({ type: 'ON_LOAD_BRANCHES', payload: branches }),
-    )
-  }, [])
 
   return (
     <EmployeeContext.Provider value={[state, dispatch]}>

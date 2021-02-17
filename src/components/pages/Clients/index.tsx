@@ -8,7 +8,7 @@ import AddIcon from '@material-ui/icons/Add'
 import { useHistory, useLocation } from 'react-router-dom'
 import ClientCard from './ClientCard'
 import { useContext, useEffect, useState } from 'react'
-import { getClients, ClientProps, archieveClient } from 'services/clientService'
+import { getClients, ClientProps, archiveClient } from 'services/clientService'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { ClientContext } from 'providers/ClientProvider'
 import MySkeletonCards from 'components/common/MySkeletonCards'
@@ -106,18 +106,23 @@ const Clients: React.SFC<ClientsProps> = () => {
       open: true,
       text: `Are you sure you want to archive ${client.lastname}, ${client.firstname} ${client.middlename}?`,
       description:
-        'Archieving will not permanently deleted the client account in the database.',
+        'Archiving will not permanently delete the client account in the database.',
     })
   }
 
   const handleArchieve = () => {
-    archieveClient(client?.id!).then((data) => {
-      setAlertDialog({
-        open: false,
-      })
+    archiveClient(client?.id!).then((data) => {
       onLoad({
         page,
       })
+      globalDispatch({
+        type: 'SET_ALERT',
+        payload: { message: 'Successfully archived', type: 'error' },
+      })
+      setChip({ value: '', name: 'All' })
+    })
+    setAlertDialog({
+      open: false,
     })
   }
 

@@ -18,12 +18,19 @@ import Settings from 'components/pages/Settings'
 import EditClient from 'components/pages/Clients/EditClient'
 import PaymentHistory from 'components/pages/Payments'
 import PaymentView from 'components/pages/Payments/PaymentView'
+import Branches from 'components/pages/Branches'
+import NewBranch from 'components/pages/Branches/NewBranch'
+import EditBranch from 'components/pages/Branches/EditBranch'
 
 const Layout = () => {
   const styles = useStyles()
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
+        <AuthRoute path='/branches/new' component={NewBranch} />
+        <AuthRoute path='/branches/edit/:id' component={EditBranch} />
+        <AuthRoute path='/branches' component={Branches} />
+
         <AuthRoute path='/payments/:id' component={PaymentView} />
         <AuthRoute path='/payments' component={PaymentHistory} />
 

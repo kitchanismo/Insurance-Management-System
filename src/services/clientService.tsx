@@ -161,6 +161,6 @@ export const computeTotalCountPaid = (client: Client) => {
   )
 }
 
-export const archieveClient = (id: number) => {
+export const archiveClient = (id: number) => {
   return http.delete('/clients/' + id).then(({ data }) => data)
 }

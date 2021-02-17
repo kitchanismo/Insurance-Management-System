@@ -1,6 +1,6 @@
 interface Branch {
   id?: number
-  name: string
+  name?: string
   address?: string
   contact?: string
 }

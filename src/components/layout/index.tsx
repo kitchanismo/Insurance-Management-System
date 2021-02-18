@@ -13,7 +13,7 @@ import ViewClient from 'components/pages/Clients/ViewClient'
 import NewClient from 'components/pages/Clients/NewClient'
 import SignIn from 'components/pages/Auth/SignIn'
 import AuthRoute from 'components/common/MyAuthRoute'
-import Transaction from 'components/pages/Clients/Transaction'
+import Transaction from 'components/pages/Transactions/EncodeTransaction'
 import Settings from 'components/pages/Settings'
 import EditClient from 'components/pages/Clients/EditClient'
 import PaymentHistory from 'components/pages/Payments'
@@ -22,6 +22,7 @@ import Branches from 'components/pages/Branches'
 import NewBranch from 'components/pages/Branches/NewBranch'
 import EditBranch from 'components/pages/Branches/EditBranch'
 import Commissions from 'components/pages/Commissions'
+import ReleaseTransaction from 'components/pages/Transactions/ReleaseTransaction'
 
 const Layout = () => {
   const styles = useStyles()
@@ -29,6 +30,7 @@ const Layout = () => {
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
         <AuthRoute path='/commissions' component={Commissions} />
+        <AuthRoute path='/releases' component={ReleaseTransaction} />
         <AuthRoute path='/branches/new' component={NewBranch} />
         <AuthRoute path='/branches/edit/:id' component={EditBranch} />
         <AuthRoute path='/branches' component={Branches} />

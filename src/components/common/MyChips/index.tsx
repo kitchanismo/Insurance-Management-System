@@ -23,7 +23,7 @@ const MyChips: React.SFC<MyChipsProps> = ({
 }) => {
   const renderChips = (chip: MyChip) => {
     return (
-      <Grid item>
+      <Grid key={chip.value} item>
         <Badge
           invisible={active.value !== chip.value}
           badgeContent={count! >= 100 ? '99+' : count}
@@ -60,9 +60,7 @@ const MyChips: React.SFC<MyChipsProps> = ({
         spacing={1}
         alignItems='center'
       >
-        {chips.map((chip) => (
-          <>{renderChips(chip)}</>
-        ))}
+        {chips.map((chip) => renderChips(chip))}
       </Grid>
     </>
   )

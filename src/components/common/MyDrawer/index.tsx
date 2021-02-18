@@ -78,12 +78,12 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
       subMenus: [
         {
           name: 'Encode Transaction',
-          path: '/clients/transaction',
+          path: '/transaction/encode',
           icon: <TransactionIcon />,
         },
         {
           name: 'Release Transaction',
-          path: '/releases',
+          path: '/transaction/releases',
           icon: <ReleaseIcon />,
         },
       ],

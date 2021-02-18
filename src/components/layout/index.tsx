@@ -30,7 +30,11 @@ const Layout = () => {
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
         <AuthRoute path='/commissions' component={Commissions} />
-        <AuthRoute path='/releases' component={ReleaseTransaction} />
+        <AuthRoute
+          path='/transaction/releases'
+          component={ReleaseTransaction}
+        />
+        <AuthRoute path='/transaction/encode' component={Transaction} />
         <AuthRoute path='/branches/new' component={NewBranch} />
         <AuthRoute path='/branches/edit/:id' component={EditBranch} />
         <AuthRoute path='/branches' component={Branches} />
@@ -41,7 +45,6 @@ const Layout = () => {
         <AuthRoute path='/settings' component={Settings} />
 
         <AuthRoute path='/clients/new' component={NewClient} />
-        <AuthRoute path='/clients/transaction' component={Transaction} />
         <AuthRoute path='/clients/edit/:id' component={EditClient} />
         <AuthRoute path='/clients/:id' component={ViewClient} />
         <AuthRoute path='/clients' component={Clients} />

@@ -25,8 +25,6 @@ const ReleaseCard: React.SFC<ReleaseCardProps> = ({
 }) => {
   const history = useHistory()
 
-  console.log(commission?.employee?.profile?.image_url)
-
   return (
     <>
       <MyCard

@@ -7,6 +7,7 @@ import Chip from '@material-ui/core/Chip'
 import Payment from 'models/payment'
 import { useHistory } from 'react-router-dom'
 import MyAvatar from 'components/common/MyAvatar'
+import { toMoney } from 'utils/helper'
 
 export interface PaymentCardProps {
   payment: Payment
@@ -23,7 +24,7 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
 
   const fullname = `${client?.profile?.lastname}, ${client?.profile?.firstname} ${client?.profile?.middlename}`
   return (
-    <MyCard title={payment.or_number} style={{ paddingBottom: 5 }}>
+    <MyCard title={'OR#' + payment.or_number} style={{ paddingBottom: 5 }}>
       <CardContent>
         <Grid xs={12} justify='space-between' container>
           <Grid
@@ -41,7 +42,7 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
               {payment.client?.code}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {'₱ ' + payment.amount}
+              {toMoney(payment?.amount!)}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
               {'Paid on ' + new Date(payment.created_at!).toDateString()}

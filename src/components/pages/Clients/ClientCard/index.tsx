@@ -26,7 +26,7 @@ export const ClientCard: React.SFC<ClientCardProps> = ({
 }) => {
   const history = useHistory()
   return (
-    <MyCard title={client.code} style={{ paddingBottom: 5 }}>
+    <MyCard title={`Code#${client.code}`} style={{ paddingBottom: 5 }}>
       <CardContent>
         <Grid container xs={12} justify='space-between'>
           <Grid

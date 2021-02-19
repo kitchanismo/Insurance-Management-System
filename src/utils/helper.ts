@@ -82,3 +82,7 @@ export const capitalize = (s: string) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase()
 }
+
+export const toMoney = (num: number) => {
+  return '₱ ' + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}

@@ -22,7 +22,7 @@ export interface BranchCardProps {
 const BranchCard: React.SFC<BranchCardProps> = ({ branch, onArchive }) => {
   const history = useHistory()
   return (
-    <MyCard title={`#${branch.id}`}>
+    <MyCard title={`Branch#${branch.id}`}>
       <CardContent>
         <Grid style={{ marginBottom: 20 }} xs={12} direction='column' container>
           <Typography component='h3' variant='h6'>

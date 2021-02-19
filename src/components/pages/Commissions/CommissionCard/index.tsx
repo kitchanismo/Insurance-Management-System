@@ -13,6 +13,7 @@ import Divider from '@material-ui/core/Divider'
 
 import Commission from 'models/commission'
 import MyAvatar from 'components/common/MyAvatar'
+import { toMoney } from 'utils/helper'
 
 export interface CommissionCardProps {
   commission: Commission
@@ -22,7 +23,7 @@ const CommissionCard: React.SFC<CommissionCardProps> = ({ commission }) => {
   const history = useHistory()
   const fullname = `${commission?.employee?.profile?.lastname}, ${commission?.employee?.profile?.firstname} ${commission?.employee?.profile?.lastname}`
   return (
-    <MyCard title={`${commission.payment?.or_number}`}>
+    <MyCard title={`OR#${commission.payment?.or_number}`}>
       <CardContent>
         <Grid
           style={{ marginBottom: 20 }}
@@ -45,7 +46,7 @@ const CommissionCard: React.SFC<CommissionCardProps> = ({ commission }) => {
               {commission?.employee?.position?.name}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              {`₱ ${commission?.amount}`}
+              {toMoney(commission?.amount!)}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
               {new Date(commission?.created_at!).toDateString()}

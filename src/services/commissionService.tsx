@@ -1,6 +1,7 @@
+import Commission from 'models/commission'
 import http from 'utils/http'
 
-interface CommissionProps {
+export interface CommissionProps {
   page?: number
   search?: string
   category?: string
@@ -18,4 +19,35 @@ export const getCommissions = (props?: CommissionProps) => {
       total: data.count,
       pages: data.pages,
     }))
+}
+
+export const getTotalCommissionOfEmployees = (props: CommissionProps) => {
+  return http
+    .get(
+      `/commissions/total/employees?page=${props?.page || ''}&search=${
+        props?.search || ''
+      }&category=${props?.category || ''}`,
+    )
+    .then(({ data }) => {
+      const commissions: Commission[] = data.items.map((com: any) => ({
+        id: com.id,
+        employee: {
+          id: com.employee_id,
+          profile: {
+            firstname: com.firstname,
+            middlename: com.middlename,
+            lastname: com.lastname,
+          },
+          position: { name: com.position_name },
+        },
+        amount: com.total,
+      }))
+      return { total: data.count, pages: data.pages, commissions }
+    })
+}
+
+export const releaseCommission = (employeeId: number) => {
+  return http
+    .post('/commissions/release', { employeeId })
+    .then(({ data }) => data)
 }

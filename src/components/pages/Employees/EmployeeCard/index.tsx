@@ -26,7 +26,7 @@ const EmployeeCard: React.SFC<EmployeesProps> = ({ employee, onArchive }) => {
 
   return (
     <>
-      <MyCard title={'#' + employee.id} style={{ paddingBottom: 5 }}>
+      <MyCard title={'Employee#' + employee.id} style={{ paddingBottom: 5 }}>
         <CardContent>
           <Grid container xs={12} justify='space-between'>
             <Grid

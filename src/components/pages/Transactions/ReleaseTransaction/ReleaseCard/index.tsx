@@ -25,6 +25,8 @@ const ReleaseCard: React.SFC<ReleaseCardProps> = ({
 }) => {
   const history = useHistory()
 
+  console.log(commission?.employee?.profile?.image_url)
+
   return (
     <>
       <MyCard
@@ -55,7 +57,7 @@ const ReleaseCard: React.SFC<ReleaseCardProps> = ({
             <Grid container item xs={5} justify='center' alignItems='center'>
               <MyAvatar
                 src={commission?.employee?.profile?.image_url}
-                onClick={() => history.push('/commissions/' + commission.id)}
+                // onClick={() => history.push('/commissions/' + commission.id)}
               />
             </Grid>
           </Grid>

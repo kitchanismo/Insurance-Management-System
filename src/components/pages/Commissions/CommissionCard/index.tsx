@@ -63,8 +63,10 @@ const CommissionCard: React.SFC<CommissionCardProps> = ({ commission }) => {
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <MyAvatar
-              src={commission?.employee?.image_url}
-              onClick={() => history.push('/commissions/' + commission.id)}
+              src={commission?.employee?.profile?.image_url}
+              onClick={() =>
+                history.push('/payments/' + commission?.payment?.id)
+              }
             />
           </Grid>
         </Grid>

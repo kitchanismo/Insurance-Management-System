@@ -17,6 +17,7 @@ export const getPayments = (props?: {
       pages: data.pages,
       payments: data.items.map((item: any) => ({
         ...item,
+        payment: { id: item.payment_id },
         client: { ...item.client.profile, ...item.client },
       })),
     }))

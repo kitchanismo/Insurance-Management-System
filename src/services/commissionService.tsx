@@ -37,6 +37,7 @@ export const getTotalCommissionOfEmployees = (props: CommissionProps) => {
             firstname: com.firstname,
             middlename: com.middlename,
             lastname: com.lastname,
+            image_url: com.image_url,
           },
           position: { name: com.position_name },
         },

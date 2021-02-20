@@ -16,7 +16,7 @@ const App: React.FC = (props) => {
     <>
       <CssBaseline />
       <MyAlert />
-      {state.isAuthenticUser && <Nav />}
+      {state.currentUser && <Nav />}
       <BranchProvider>
         <EmployeeProvider>
           <ClientProvider>

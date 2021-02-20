@@ -13,6 +13,7 @@ import ViewClient from 'components/pages/Clients/ViewClient'
 import NewClient from 'components/pages/Clients/NewClient'
 import SignIn from 'components/pages/Auth/SignIn'
 import AuthRoute from 'components/common/MyAuthRoute'
+import GuestRoute from 'components/common/MyGuestRoute'
 import Transaction from 'components/pages/Transactions/EncodeTransaction'
 import Settings from 'components/pages/Settings'
 import EditClient from 'components/pages/Clients/EditClient'
@@ -55,8 +56,8 @@ const Layout = () => {
         <AuthRoute path='/employees' component={Employees} />
 
         <AuthRoute path='/dashboard' component={Dashboard} />
-        <Route path='/' component={SignIn} />
-        <Redirect from='/' exact to='/signin' />
+        <GuestRoute path='/signin' component={SignIn} />
+        <Redirect from='/' exact to='/dashboard' />
         <Redirect to='/not-found' />
       </Switch>
     </Container>

@@ -16,11 +16,11 @@ const AuthRoute: React.FC<RouteProps & { isAdmin?: boolean }> = ({
     <Route
       {...rest}
       render={(props) => {
-        if (!state.currentUser)
+        if (state.currentUser)
           return (
             <Redirect
               to={{
-                pathname: '/signin',
+                pathname: '/',
                 state: { from: props.location },
               }}
             />

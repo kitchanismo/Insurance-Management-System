@@ -1,7 +1,9 @@
 import { ThemeProvider } from '@material-ui/core/styles'
-import { createContext, Dispatch, useReducer } from 'react'
+import { createContext, Dispatch, useEffect, useReducer } from 'react'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { produce } from 'immer'
+import { getDecodeToken } from 'utils/helper'
+import User from 'models/user'
 
 export const GlobalContext = createContext<
   [state: GlobalState, dispatch: Dispatch<GlobalAction>] | null
@@ -17,7 +19,7 @@ interface GlobalState {
   title: string
   isDark: boolean
   isLoading: boolean
-  isAuthenticUser: boolean
+  currentUser: User | null
 }
 
 type GlobalAction =
@@ -25,7 +27,7 @@ type GlobalAction =
   | { type: 'SET_ALERT'; payload: AlertProps | null }
   | { type: 'SET_TITLE'; payload: string }
   | { type: 'SET_IS_LOADING'; payload: boolean }
-  | { type: 'SET_IS_AUTHENTIC_USER'; payload: boolean }
+  | { type: 'SET_CURRENT_USER'; payload: User | null }
 
 const reducer = (state: GlobalState, action: GlobalAction) => {
   switch (action.type) {
@@ -44,8 +46,8 @@ const reducer = (state: GlobalState, action: GlobalAction) => {
     case 'TOGGLE_THEME':
       state.isDark = !state.isDark
       break
-    case 'SET_IS_AUTHENTIC_USER':
-      state.isAuthenticUser = action.payload
+    case 'SET_CURRENT_USER':
+      state.currentUser = action.payload
       break
     default:
       return state
@@ -59,8 +61,13 @@ const GlobalProvider: React.FC = (props) => {
     title: '',
     isDark: false,
     isLoading: false,
-    isAuthenticUser: true,
+    currentUser: null,
   })
+
+  useEffect(() => {
+    const currentUser = getDecodeToken()
+    dispatch({ type: 'SET_CURRENT_USER', payload: currentUser })
+  }, [])
 
   const theme = createMuiTheme({
     overrides: {

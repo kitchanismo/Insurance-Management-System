@@ -8,6 +8,8 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 import { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
+import { userInfo } from 'os'
+import { getDecodeToken, saveToken } from 'utils/helper'
 
 export interface SignInProps {}
 
@@ -22,11 +24,16 @@ const SignIn: React.SFC<SignInProps> = () => {
     dispatch({ type: 'SET_TITLE', payload: 'BRAND NAME' })
   }, [])
 
-  const [user, setUser] = useState<User>({ username: '', password: '' })
+  const [user, setUser] = useState<User>({
+    username: 'admin123',
+    password: 'admin123',
+  })
 
-  const onSubmit = async () => {
-    return onSignIn().then((res) => {
-      dispatch({ type: 'SET_IS_AUTHENTIC_USER', payload: true })
+  const onSubmit = async (user: User) => {
+    return onSignIn(user).then((access_token) => {
+      saveToken(access_token)
+
+      dispatch({ type: 'SET_CURRENT_USER', payload: getDecodeToken() })
       history.replace('/dashboard')
     })
   }

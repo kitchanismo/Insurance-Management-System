@@ -7,6 +7,12 @@ axios.interceptors.request.use((config) => {
   config.baseURL =
     process.env.NODE_ENV === 'development' ? apiUrlDev : apiUrlProd
 
+  const access_token = localStorage.getItem('access_token')
+
+  if (access_token) {
+    config.headers.Authorization = `Bearer ${access_token}`
+  }
+
   // config.withCredentials = true
   return config
 })

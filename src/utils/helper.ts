@@ -52,7 +52,7 @@ export const nameCapitalize = (name: string) =>
   name.charAt(0).toUpperCase() + name.slice(1) || ''
 
 export const getDecodeToken: any = () => {
-  const token = localStorage.getItem('access-token')
+  const token = localStorage.getItem('access_token')
 
   try {
     if (token) {
@@ -61,6 +61,10 @@ export const getDecodeToken: any = () => {
   } catch (error) {
     return null
   }
+}
+
+export const saveToken = (access_token: string) => {
+  localStorage.setItem('access_token', access_token)
 }
 
 export const calculateAge = (date: any) => {

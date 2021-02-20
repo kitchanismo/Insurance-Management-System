@@ -186,7 +186,8 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
             primary='Logout'
             onClick={() => {
               props.onToggle()
-              dispatch({ type: 'SET_IS_AUTHENTIC_USER', payload: false })
+              dispatch({ type: 'SET_CURRENT_USER', payload: null })
+              localStorage.removeItem('access_token')
             }}
           />
         </ListItem>

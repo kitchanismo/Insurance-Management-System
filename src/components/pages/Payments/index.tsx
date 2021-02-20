@@ -39,7 +39,7 @@ const PaymentHistory: React.SFC<PaymentHistoryProps> = () => {
   const chips = [
     { value: '', name: 'All' },
     { value: 'with', name: 'With Commission' },
-    { value: 'no', name: 'No commission' },
+    { value: 'no', name: 'No Commission' },
   ]
 
   const onPage = (e: any, page: number) => {

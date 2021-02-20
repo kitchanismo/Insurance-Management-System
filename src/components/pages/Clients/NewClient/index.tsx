@@ -170,7 +170,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
       {stepper.activeStep === 3 && (
         <Grid container xs={12} direction='column' alignItems='center'>
           <Typography component='h6' variant='subtitle1'>
-            All Step Completed!
+            All Steps Completed!
           </Typography>
           <Grid spacing={2} item container xs={12}>
             <Grid item xs={6}>

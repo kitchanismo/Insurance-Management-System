@@ -145,7 +145,7 @@ export const computeTotalCountToPay = (client: Client) => {
       period = 1
       break
     default:
-      period = 0
+      period = 12
       break
   }
 
@@ -153,9 +153,10 @@ export const computeTotalCountToPay = (client: Client) => {
 }
 
 export const computeTotalCountPaid = (client: Client) => {
-  if (!plans.length) return '?'
   const amount = getAmountToPay(client)
+
   const totalCountPaid = computeTotalCountToPay(client)
+
   return (
     totalCountPaid - Math.ceil(client.balance! / amount) + '/' + totalCountPaid
   )

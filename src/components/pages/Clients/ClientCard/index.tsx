@@ -43,19 +43,24 @@ export const ClientCard: React.SFC<ClientCardProps> = ({
             <Typography variant='subtitle1' color='textSecondary'>
               {client.plan?.name! + ' - ' + client.payment_mode}
             </Typography>
-            <Typography variant='subtitle2' color='textSecondary'>
-              {'Lapse on ' + new Date(client.next_payment!).toDateString()}
-            </Typography>
 
-            <Grid item xs={1}>
-              <Chip
-                style={{ marginTop: 5 }}
-                size='small'
-                label={computeTotalCountPaid(client) + ' Paid'}
-                color='default'
-                variant='outlined'
-              />
-            </Grid>
+            {client.payment_mode === 'Installment' && (
+              <>
+                <Typography variant='subtitle2' color='textSecondary'>
+                  {'Lapse on ' + new Date(client.next_payment!).toDateString()}
+                </Typography>
+
+                <Grid item xs={1}>
+                  <Chip
+                    style={{ marginTop: 5 }}
+                    size='small'
+                    label={computeTotalCountPaid(client) + ' Paid'}
+                    color='default'
+                    variant='outlined'
+                  />
+                </Grid>
+              </>
+            )}
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <MyAvatar

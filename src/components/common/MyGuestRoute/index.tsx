@@ -2,6 +2,7 @@ import { GlobalContext } from 'providers/GlobalProvider'
 
 import React, { useContext } from 'react'
 import { Route, Redirect, RouteProps } from 'react-router-dom'
+import { getCurrentUser } from 'utils/helper'
 
 const AuthRoute: React.FC<RouteProps & { isAdmin?: boolean }> = ({
   path,
@@ -16,7 +17,7 @@ const AuthRoute: React.FC<RouteProps & { isAdmin?: boolean }> = ({
     <Route
       {...rest}
       render={(props) => {
-        if (state.currentUser)
+        if (getCurrentUser())
           return (
             <Redirect
               to={{

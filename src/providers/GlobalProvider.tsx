@@ -2,7 +2,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import { createContext, Dispatch, useEffect, useReducer } from 'react'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { produce } from 'immer'
-import { getDecodeToken } from 'utils/helper'
+import { getCurrentUser } from 'utils/helper'
 import User from 'models/user'
 
 export const GlobalContext = createContext<
@@ -65,8 +65,7 @@ const GlobalProvider: React.FC = (props) => {
   })
 
   useEffect(() => {
-    const currentUser = getDecodeToken()
-    dispatch({ type: 'SET_CURRENT_USER', payload: currentUser })
+    dispatch({ type: 'SET_CURRENT_USER', payload: getCurrentUser() })
   }, [])
 
   const theme = createMuiTheme({

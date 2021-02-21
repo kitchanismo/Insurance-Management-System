@@ -24,6 +24,7 @@ import NewBranch from 'components/pages/Branches/NewBranch'
 import EditBranch from 'components/pages/Branches/EditBranch'
 import Commissions from 'components/pages/Commissions'
 import ReleaseTransaction from 'components/pages/Transactions/ReleaseTransaction'
+import NotFound from 'components/common/NotFound'
 
 const Layout = () => {
   const styles = useStyles()
@@ -57,6 +58,7 @@ const Layout = () => {
 
         <AuthRoute path='/dashboard' component={Dashboard} />
         <GuestRoute path='/signin' component={SignIn} />
+        <Route path='/not-found' component={NotFound} />
         <Redirect from='/' exact to='/dashboard' />
         <Redirect to='/not-found' />
       </Switch>

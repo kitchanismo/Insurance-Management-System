@@ -63,6 +63,9 @@ export const getDecodeToken: any = () => {
   }
 }
 
+export const getCurrentUser = () =>
+  getDecodeToken() ? { ...getDecodeToken().data } : null
+
 export const saveToken = (access_token: string) => {
   localStorage.setItem('access_token', access_token)
 }

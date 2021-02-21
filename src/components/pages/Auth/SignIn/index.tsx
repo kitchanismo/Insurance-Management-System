@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { userInfo } from 'os'
-import { getDecodeToken, saveToken } from 'utils/helper'
+import { getCurrentUser, saveToken } from 'utils/helper'
 
 export interface SignInProps {}
 
@@ -33,8 +33,8 @@ const SignIn: React.SFC<SignInProps> = () => {
     return onSignIn(user).then((access_token) => {
       saveToken(access_token)
 
-      dispatch({ type: 'SET_CURRENT_USER', payload: getDecodeToken() })
-      history.replace('/dashboard')
+      dispatch({ type: 'SET_CURRENT_USER', payload: getCurrentUser() })
+      // history.replace('/dashboard')
     })
   }
   const formProps: MyFormProps<User> = {

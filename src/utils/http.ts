@@ -12,8 +12,8 @@ axios.interceptors.request.use((config) => {
   if (access_token) {
     config.headers.Authorization = `Bearer ${access_token}`
   }
+  config.withCredentials = true
 
-  // config.withCredentials = true
   return config
 })
 
@@ -28,18 +28,19 @@ axios.interceptors.response.use(
   },
 )
 
-// createAuthRefreshInterceptor(
-//   axios,
-//   (failedRequest) => {
-//     return axios.get('/auth/refresh-token').then(({ data }) => {
-//       return Promise.resolve()
-//     })
-//   },
-//   {
-//     statusCodes: [403],
-//     pauseInstanceWhileRefreshing: true,
-//   },
-// )
+createAuthRefreshInterceptor(
+  axios,
+  (failedRequest) => {
+    return axios.get('/auth/refresh-token').then(({ data }) => {
+      localStorage.setItem('access_token', data.access_token)
+      return Promise.resolve()
+    })
+  },
+  {
+    statusCodes: [403],
+    pauseInstanceWhileRefreshing: true,
+  },
+)
 
 export default {
   get: axios.get,

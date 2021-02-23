@@ -55,7 +55,7 @@ export const getClient = async (id: number) => {
       ({
         ...data.profile,
         ...data,
-      } as Client),
+      } as Client)
   )
 }
 
@@ -88,7 +88,7 @@ export const getClients = async (props: ClientProps) => {
     .get(
       `/clients?page=${props.page || ''}&search=${
         props.search || ''
-      }&category=${props.category || ''}`,
+      }&category=${props.category || ''}`
     )
     .then(({ data }) => {
       const clients: Client[] = data.items.map((item: any) => ({
@@ -99,12 +99,12 @@ export const getClients = async (props: ClientProps) => {
     })
 }
 
-export const getLapsedClients = async () => {
-  return http.get(`/clients/lapse`).then(({ data }) =>
+export const getLapsedClients = async (search: string) => {
+  return http.get(`/clients/lapse?search=` + search).then(({ data }) =>
     data.map((client: any) => ({
       ...client.profile,
       ...client,
-    })),
+    }))
   )
 }
 

@@ -40,7 +40,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
   useEffect(() => {
     clientDispatch({ type: 'SET_IS_LOADING', payload: true })
     globalDispatch({ type: 'SET_TITLE', payload: 'Encode Transaction' })
-    getLapsedClients().then((clients) => {
+    getLapsedClients('').then((clients) => {
       clientDispatch({
         type: 'ON_LOAD_CLIENTS',
         payload: { clients },
@@ -172,10 +172,10 @@ const Transaction: React.SFC<TransactionProps> = () => {
   }
 
   const onSearch = (search: string) => {
-    getClients({ page: 1, search }).then(({ clients, pages, total }) => {
+    getLapsedClients(search).then((clients) => {
       clientDispatch({
         type: 'ON_LOAD_CLIENTS',
-        payload: { clients, pages, total },
+        payload: { clients },
       })
       globalDispatch({ type: 'SET_IS_LOADING', payload: false })
       setTransaction({

@@ -1,3 +1,4 @@
+import User from 'models/user'
 import { GlobalContext } from 'providers/GlobalProvider'
 
 import React, { useContext } from 'react'
@@ -13,11 +14,13 @@ const AuthRoute: React.FC<RouteProps & { isAdmin?: boolean }> = ({
 }) => {
   const [state] = useContext(GlobalContext)!
 
+  const currentUser: User | null = getCurrentUser()
+
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (!getCurrentUser())
+        if (!currentUser)
           return (
             <Redirect
               to={{
@@ -27,6 +30,16 @@ const AuthRoute: React.FC<RouteProps & { isAdmin?: boolean }> = ({
             />
           )
 
+        if (isAdmin && currentUser?.role !== 'admin')
+          return (
+            <Redirect
+              to={{
+                pathname: '/not-found',
+                state: { from: props.location },
+              }}
+            />
+          )
+        
         return Component ? <Component {...props} /> : render?.(props)
       }}
     />

@@ -58,7 +58,7 @@ const reducer = (state: GlobalState, action: GlobalAction) => {
 const GlobalProvider: React.FC = (props) => {
   const [state, dispatch] = useReducer(produce(reducer), {
     alert: null,
-    title: '',
+    title: 'PSY INSURANCE',
     isDark: false,
     isLoading: false,
     currentUser: null,

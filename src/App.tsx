@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext,useEffect } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Nav from 'components/common/MyNav'
 import MyAlert from 'components/common/MyAlert'
@@ -11,7 +11,8 @@ import { BranchProvider } from 'providers/BranchProvider'
 import { CommissionProvider } from 'providers/CommissionProvider'
 
 const App: React.FC = (props) => {
-  const [state] = useContext(GlobalContext)!
+  const [state, dispatch] = useContext(GlobalContext)!
+ 
   return (
     <>
       <CssBaseline />

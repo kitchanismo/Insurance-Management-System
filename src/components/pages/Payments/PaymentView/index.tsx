@@ -1,5 +1,6 @@
 import MyCard from 'components/common/MyCard'
 import { useContext, useEffect, useState } from 'react'
+import Link from '@material-ui/core/Link'
 import { useHistory, useParams } from 'react-router-dom'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
@@ -13,6 +14,8 @@ import MyAvatar from 'components/common/MyAvatar'
 import { GlobalContext } from 'providers/GlobalProvider'
 import MyMiniCards from 'components/common/MyMiniCards'
 import Commission from 'models/commission'
+import MySkeletonCard from 'components/common/MySkeletonCard'
+import MySkeletonMiniCards from 'components/common/MySkeletonMiniCards'
 
 export interface PaymentViewProps {}
 
@@ -20,12 +23,28 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
   const history = useHistory()
   const params = useParams<{ id: string }>()
   const [payment, setPayment] = useState<Payment>({})
+  const [isLoading, setIsLoading] = useState(false)
 
   const [globalState, globalDispatch] = useContext(GlobalContext)!
 
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Payment Details' })
-    getPayment(+params.id).then((payment) => setPayment(payment))
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
+    setIsLoading(true)
+    getPayment(+params.id)
+      .then((payment) => {
+        setPayment(payment)
+        globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+        setIsLoading(false)
+      })
+      .catch(() => {
+        globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+        setIsLoading(false)
+      })
+    return () => {
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+      setIsLoading(false)
+    }
   }, [])
 
   const client = payment.client
@@ -42,6 +61,24 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
 
   return (
     <Grid container xs={12}>
+      {isLoading && (
+        <>
+          <MySkeletonCard />
+          <Grid
+            container
+            style={{ marginBottom: 10 }}
+            xs={12}
+            justify='space-between'
+          >
+            <Typography variant='subtitle1'>Commissioners</Typography>
+            <Link component='button' variant='body1'>
+              View All({payment?.commissions?.length})
+            </Link>
+            <MySkeletonMiniCards />
+          </Grid>
+        </>
+      )}
+
       <MyCard
         title={payment.or_number}
         style={{ paddingBottom: 5, marginBottom: 10 }}

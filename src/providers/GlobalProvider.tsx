@@ -28,6 +28,7 @@ type GlobalAction =
   | { type: 'SET_TITLE'; payload: string }
   | { type: 'SET_IS_LOADING'; payload: boolean }
   | { type: 'SET_CURRENT_USER'; payload: User | null }
+  | { type: 'SET_THEME'; payload: boolean }
 
 const reducer = (state: GlobalState, action: GlobalAction) => {
   switch (action.type) {
@@ -45,6 +46,9 @@ const reducer = (state: GlobalState, action: GlobalAction) => {
       break
     case 'TOGGLE_THEME':
       state.isDark = !state.isDark
+      break
+    case 'SET_THEME':
+      state.isDark = action.payload
       break
     case 'SET_CURRENT_USER':
       state.currentUser = action.payload
@@ -99,6 +103,11 @@ const GlobalProvider: React.FC = (props) => {
       },
     },
   })
+
+  useEffect(() => {
+    const theme = localStorage.getItem('theme') || 'light'
+    dispatch({ type: 'SET_THEME', payload: theme === 'dark' ? true : false })
+  }, [])
 
   return (
     <>

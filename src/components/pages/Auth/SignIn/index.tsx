@@ -71,13 +71,13 @@ const SignIn: React.SFC<SignInProps> = () => {
       xs={12}
     >
       <Grid
-        style={{ paddingBottom: 50, marginTop: 20 }}
+        style={{ marginTop: 20 }}
         direction='row'
         container
         justify='center'
         alignItems='flex-start'
       >
-        <img width={300} src={logo} alt='brand logo' />
+        <img style={{ zIndex: 1 }} width={300} src={logo} alt='brand logo' />
       </Grid>
 
       <div className={styles.formContainer}>
@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-end',
-
+      marginTop: 50,
       paddingLeft: 20,
       paddingRight: 20,
     },

@@ -5,11 +5,20 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import MyCard from 'components/common/MyCard'
 import { useContext } from 'react'
 import { GlobalContext } from 'providers/GlobalProvider'
+import Button from '@material-ui/core/Button'
 
 export interface SettingsProps {}
 
 const Settings: React.SFC<SettingsProps> = () => {
   const [state, dispatch] = useContext(GlobalContext)!
+
+  const onSave = () => {
+    localStorage.setItem('theme', state.isDark ? 'dark' : 'light')
+    dispatch({
+      type: 'SET_ALERT',
+      payload: { message: 'Saved', type: 'success' },
+    })
+  }
 
   return (
     <Grid xs={12} container>
@@ -27,6 +36,9 @@ const Settings: React.SFC<SettingsProps> = () => {
             }
             label='Dark Mode'
           />
+          <Button onClick={onSave} fullWidth variant='text' color='primary'>
+            Save
+          </Button>
         </Grid>
       </MyCard>
     </Grid>

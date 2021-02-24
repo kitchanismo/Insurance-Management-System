@@ -71,7 +71,7 @@ const SignIn: React.SFC<SignInProps> = () => {
       xs={12}
     >
       <Grid
-        style={{ paddingBottom: 50 }}
+        style={{ paddingBottom: 50, marginTop: 20 }}
         direction='row'
         container
         justify='center'

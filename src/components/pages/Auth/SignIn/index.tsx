@@ -8,7 +8,8 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 import { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
-import { userInfo } from 'os'
+import logo from 'assets/revenue.svg'
+
 import { getCurrentUser, saveToken, nameCapitalize } from 'utils/helper'
 
 export interface SignInProps {}
@@ -70,13 +71,13 @@ const SignIn: React.SFC<SignInProps> = () => {
       xs={12}
     >
       <Grid
-        style={{ paddingTop: 80 }}
+        style={{ paddingBottom: 50 }}
         direction='row'
         container
         justify='center'
         alignItems='flex-start'
       >
-        <h1>Logo</h1>
+        <img width={300} src={logo} alt='brand logo' />
       </Grid>
 
       <div className={styles.formContainer}>

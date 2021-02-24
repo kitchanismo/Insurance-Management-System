@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { userInfo } from 'os'
-import { getCurrentUser, saveToken } from 'utils/helper'
+import { getCurrentUser, saveToken, nameCapitalize } from 'utils/helper'
 
 export interface SignInProps {}
 
@@ -30,12 +30,30 @@ const SignIn: React.SFC<SignInProps> = () => {
   })
 
   const onSubmit = async (user: User) => {
-    return onSignIn(user).then((access_token) => {
-      saveToken(access_token)
-
-      dispatch({ type: 'SET_CURRENT_USER', payload: getCurrentUser() })
-      // history.replace('/dashboard')
-    })
+    return onSignIn(user)
+      .then((access_token) => {
+        saveToken(access_token)
+        const currentUser = getCurrentUser()
+        dispatch({ type: 'SET_CURRENT_USER', payload: currentUser })
+        dispatch({
+          type: 'SET_ALERT',
+          payload: {
+            message: `Welcome, ${nameCapitalize(currentUser.username)}`,
+            type: 'success',
+          },
+        })
+      })
+      .catch(({ response }) => {
+        if (response.status === 401) {
+          dispatch({
+            type: 'SET_ALERT',
+            payload: {
+              message: response.data.error,
+              type: 'error',
+            },
+          })
+        }
+      })
   }
   const formProps: MyFormProps<User> = {
     state: [user, setUser],
@@ -95,7 +113,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: 20,
       paddingRight: 20,
     },
-  }),
+  })
 )
 
 export default SignIn

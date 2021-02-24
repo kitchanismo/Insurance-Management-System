@@ -9,6 +9,7 @@ import Pagination from '@material-ui/lab/Pagination'
 import { useHistory, useLocation } from 'react-router-dom'
 import qs from 'query-string'
 import { GlobalContext } from 'providers/GlobalProvider'
+import MySkeletonCards from 'components/common/MySkeletonCards'
 
 export interface PaymentHistoryProps {}
 
@@ -56,14 +57,17 @@ const PaymentHistory: React.SFC<PaymentHistoryProps> = () => {
   }
 
   const onLoad = ({ page, search, category }: LoadProps) => {
-    getPayments({ page, search, category }).then(
-      ({ payments, total, pages }) => {
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
+    paymentDispatch({ type: 'SET_IS_LOADING', payload: true })
+    getPayments({ page, search, category })
+      .then(({ payments, total, pages }) => {
         paymentDispatch({
           type: 'ON_LOAD_PAYMENTS',
           payload: { payments, total, pages },
         })
-      },
-    )
+        globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+      })
+      .catch(() => globalDispatch({ type: 'SET_IS_LOADING', payload: false }))
   }
 
   const onSearch = (search: string) => {
@@ -80,6 +84,8 @@ const PaymentHistory: React.SFC<PaymentHistoryProps> = () => {
     history.push('/payments?page=' + 1)
   }
 
+  const isLoading = paymentState.isLoading && !paymentState.payments.length
+
   return (
     <>
       <MySearchField onSearch={onSearch} style={{ marginBottom: 15 }} />
@@ -89,28 +95,31 @@ const PaymentHistory: React.SFC<PaymentHistoryProps> = () => {
         active={chip}
         chips={chips}
       />
-      <Grid
-        container
-        spacing={2}
-        direction='column'
-        justify='flex-start'
-        alignItems='center'
-      >
-        {paymentState.payments.map((payment) => (
-          <Grid key={payment.id} item xs={12}>
-            <PaymentCard payment={payment} />
-          </Grid>
-        ))}
-        <Pagination
-          style={{ marginTop: 15, marginBottom: 15 }}
-          variant='outlined'
-          color='primary'
-          count={paymentState.pages}
-          siblingCount={0}
-          page={page}
-          onChange={onPage}
-        />
-      </Grid>
+      {isLoading && <MySkeletonCards />}
+      {!isLoading && (
+        <Grid
+          container
+          spacing={2}
+          direction='column'
+          justify='flex-start'
+          alignItems='center'
+        >
+          {paymentState.payments.map((payment) => (
+            <Grid key={payment.id} item xs={12}>
+              <PaymentCard payment={payment} />
+            </Grid>
+          ))}
+          <Pagination
+            style={{ marginTop: 15, marginBottom: 15 }}
+            variant='outlined'
+            color='primary'
+            count={paymentState.pages}
+            siblingCount={0}
+            page={page}
+            onChange={onPage}
+          />
+        </Grid>
+      )}
     </>
   )
 }

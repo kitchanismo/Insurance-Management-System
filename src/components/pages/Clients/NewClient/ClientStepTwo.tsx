@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -7,6 +7,7 @@ import Client from 'models/client'
 import Commissioner from 'models/commissioner'
 import Divider from '@material-ui/core/Divider'
 import validator from 'validators/clientStepTwoValidator'
+import { GlobalContext } from 'providers/GlobalProvider'
 import { getEmployees } from 'services/employeeService'
 import Employee from 'models/employee'
 

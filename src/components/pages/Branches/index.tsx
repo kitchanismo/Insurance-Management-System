@@ -10,6 +10,7 @@ import MySearchField from 'components/common/MySearchField'
 import { GlobalContext } from 'providers/GlobalProvider'
 import MyAlertDialog, { AlertDataProps } from 'components/common/MyAlertDialog'
 import Branch from 'models/branch'
+import MySkeletonCards from 'components/common/MySkeletonCards'
 
 export interface BranchesProps {}
 
@@ -26,12 +27,17 @@ const Branches: React.SFC<BranchesProps> = () => {
   }, [])
 
   const onLoad = (search?: string) => {
-    getBranches(search).then((branches) => {
-      branchDispatch({
-        type: 'ON_LOAD_BRANCHES',
-        payload: branches,
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
+    branchDispatch({ type: 'SET_IS_LOADING', payload: true })
+    getBranches(search)
+      .then((branches) => {
+        branchDispatch({
+          type: 'ON_LOAD_BRANCHES',
+          payload: branches,
+        })
+        globalDispatch({ type: 'SET_IS_LOADING', payload: false })
       })
-    })
+      .catch(() => globalDispatch({ type: 'SET_IS_LOADING', payload: false }))
   }
 
   const onSearch = (value: string) => {
@@ -65,6 +71,8 @@ const Branches: React.SFC<BranchesProps> = () => {
     })
   }
 
+  const isLoading = branchState.isLoading && !branchState.branches.length
+
   return (
     <>
       <MyAlertDialog
@@ -73,23 +81,25 @@ const Branches: React.SFC<BranchesProps> = () => {
         data={alertDialog}
       />
       <MySearchField onSearch={onSearch} style={{ marginBottom: 20 }} />
-
-      <Grid
-        container
-        spacing={2}
-        direction='column'
-        justify='flex-start'
-        alignItems='center'
-      >
-        {branchState.branches.map((branch) => (
-          <Grid key={branch.id} item xs={12}>
-            <BranchCard
-              onArchive={handleSelectedClient}
-              branch={branch}
-            ></BranchCard>
-          </Grid>
-        ))}
-      </Grid>
+      {isLoading && <MySkeletonCards />}
+      {!isLoading && (
+        <Grid
+          container
+          spacing={2}
+          direction='column'
+          justify='flex-start'
+          alignItems='center'
+        >
+          {branchState.branches.map((branch) => (
+            <Grid key={branch.id} item xs={12}>
+              <BranchCard
+                onArchive={handleSelectedClient}
+                branch={branch}
+              ></BranchCard>
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
       <Fab
         style={{

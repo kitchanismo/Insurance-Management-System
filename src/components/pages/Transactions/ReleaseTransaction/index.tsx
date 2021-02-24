@@ -2,12 +2,9 @@ import { useContext, useEffect, useState } from 'react'
 import Grid from '@material-ui/core/Grid'
 import MyChips, { MyChip } from 'components/common/MyChips'
 import MySearchField from 'components/common/MySearchField'
-import { PaymentContext } from 'providers/PaymentProvider'
-import { getPayments } from 'services/paymentService'
 
 import Pagination from '@material-ui/lab/Pagination'
-import { useHistory, useLocation } from 'react-router-dom'
-import qs from 'query-string'
+import { useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { CommissionContext } from 'providers/CommissionProvider'
 import {
@@ -19,6 +16,7 @@ import ReleaseCard from './ReleaseCard'
 import MyAlertDialog, { AlertDataProps } from 'components/common/MyAlertDialog'
 import Commission from 'models/commission'
 import { toMoney } from 'utils/helper'
+import MySkeletonCards from 'components/common/MySkeletonCards'
 
 export interface CommissionReleaseProps {}
 
@@ -39,14 +37,17 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
   }, [])
 
   const onLoad = ({ page, search, category }: CommissionProps) => {
-    getTotalCommissionOfEmployees({ page, search, category }).then(
-      ({ commissions, total, pages }) => {
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
+    commissionDispatch({ type: 'SET_IS_LOADING', payload: true })
+    getTotalCommissionOfEmployees({ page, search, category })
+      .then(({ commissions, total, pages }) => {
         commissionDispatch({
           type: 'ON_LOAD_COMMISSIONS',
           payload: { commissions, total, pages },
         })
-      },
-    )
+        globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+      })
+      .catch(() => globalDispatch({ type: 'SET_IS_LOADING', payload: false }))
   }
 
   const chips: MyChip[] = [
@@ -102,6 +103,9 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
     })
   }
 
+  const isLoading =
+    commissionState.isLoading && !commissionState.commissions.length
+
   return (
     <>
       <MyAlertDialog
@@ -110,37 +114,41 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
         data={alertDialog}
       />
       <MySearchField onSearch={onSearch} style={{ marginBottom: 15 }} />
+
       <MyChips
         count={commissionState.total}
         onChipSelected={onFilter}
         active={chip}
         chips={chips}
       />
-      <Grid
-        container
-        spacing={2}
-        direction='column'
-        justify='flex-start'
-        alignItems='center'
-      >
-        {commissionState.commissions.map((commission) => (
-          <Grid key={commission.id} item xs={12}>
-            <ReleaseCard
-              onRelease={handleSelectedCommission}
-              commission={commission}
-            />
-          </Grid>
-        ))}
-        <Pagination
-          style={{ marginTop: 15, marginBottom: 15 }}
-          variant='outlined'
-          color='primary'
-          count={commissionState.pages}
-          siblingCount={0}
-          page={page}
-          onChange={onPage}
-        />
-      </Grid>
+      {isLoading && <MySkeletonCards />}
+      {!isLoading && (
+        <Grid
+          container
+          spacing={2}
+          direction='column'
+          justify='flex-start'
+          alignItems='center'
+        >
+          {commissionState.commissions.map((commission) => (
+            <Grid key={commission.id} item xs={12}>
+              <ReleaseCard
+                onRelease={handleSelectedCommission}
+                commission={commission}
+              />
+            </Grid>
+          ))}
+          <Pagination
+            style={{ marginTop: 15, marginBottom: 15 }}
+            variant='outlined'
+            color='primary'
+            count={commissionState.pages}
+            siblingCount={0}
+            page={page}
+            onChange={onPage}
+          />
+        </Grid>
+      )}
     </>
   )
 }

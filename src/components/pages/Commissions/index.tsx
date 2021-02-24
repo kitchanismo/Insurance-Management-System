@@ -8,6 +8,7 @@ import CommissionCard from './CommissionCard'
 import Pagination from '@material-ui/lab/Pagination'
 import { useLocation, useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
+import MySkeletonCards from 'components/common/MySkeletonCards'
 
 export interface CommissionsProps {}
 
@@ -37,14 +38,17 @@ const Commissions: React.SFC<CommissionsProps> = () => {
   }, [])
 
   const onLoad = ({ page, search, category }: LoadProps) => {
-    getCommissions({ page, search, category }).then(
-      ({ commissions, total, pages }) => {
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
+    commissionDispatch({ type: 'SET_IS_LOADING', payload: true })
+    getCommissions({ page, search, category })
+      .then(({ commissions, total, pages }) => {
         commissionDispatch({
           type: 'ON_LOAD_COMMISSIONS',
           payload: { commissions, total, pages },
         })
-      },
-    )
+        globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+      })
+      .catch(() => globalDispatch({ type: 'SET_IS_LOADING', payload: false }))
   }
 
   const onSearch = (search: string) => {
@@ -73,6 +77,8 @@ const Commissions: React.SFC<CommissionsProps> = () => {
     onLoad({ page, category: chip.value })
     history.push('/commissions?page=' + page)
   }
+  const isLoading =
+    commissionState.isLoading && !commissionState.commissions.length
 
   return (
     <>
@@ -83,28 +89,31 @@ const Commissions: React.SFC<CommissionsProps> = () => {
         active={chip}
         chips={chips}
       />
-      <Grid
-        container
-        spacing={2}
-        direction='column'
-        justify='flex-start'
-        alignItems='center'
-      >
-        {commissionState.commissions.map((commission) => (
-          <Grid key={commission.id} item xs={12}>
-            <CommissionCard commission={commission} />
-          </Grid>
-        ))}
-        <Pagination
-          style={{ marginTop: 15, marginBottom: 15 }}
-          variant='outlined'
-          color='primary'
-          count={commissionState.pages}
-          siblingCount={0}
-          page={page}
-          onChange={onPage}
-        />
-      </Grid>
+      {isLoading && <MySkeletonCards />}
+      {!isLoading && (
+        <Grid
+          container
+          spacing={2}
+          direction='column'
+          justify='flex-start'
+          alignItems='center'
+        >
+          {commissionState.commissions.map((commission) => (
+            <Grid key={commission.id} item xs={12}>
+              <CommissionCard commission={commission} />
+            </Grid>
+          ))}
+          <Pagination
+            style={{ marginTop: 15, marginBottom: 15 }}
+            variant='outlined'
+            color='primary'
+            count={commissionState.pages}
+            siblingCount={0}
+            page={page}
+            onChange={onPage}
+          />
+        </Grid>
+      )}
     </>
   )
 }

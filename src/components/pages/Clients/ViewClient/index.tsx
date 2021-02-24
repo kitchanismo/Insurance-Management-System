@@ -5,25 +5,16 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import CardContent from '@material-ui/core/CardContent'
-import IconButton from '@material-ui/core/IconButton'
 import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
-import userIcon from 'assets/profile-user.svg'
-import { calculateAge } from 'utils/helper'
+import { calculateAge, toMoney } from 'utils/helper'
 import MyCard from 'components/common/MyCard'
 import Client from 'models/client'
-import { ClientContext } from 'providers/ClientProvider'
 import { GlobalContext } from 'providers/GlobalProvider'
-import { EmployeeContext } from 'providers/EmployeeProvider'
 
-import {
-  getClient,
-  computeTotalCountPaid,
-  computeTotalCountToPay,
-} from 'services/clientService'
+import { getClient, computeTotalCountPaid } from 'services/clientService'
 import MySkeletonCard from 'components/common/MySkeletonCard'
 import MyAvatar from 'components/common/MyAvatar'
-import { capitalize } from 'utils/helper'
 
 export interface ViewClientProps {}
 
@@ -113,11 +104,11 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
             <CardContent>
               <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
                 {detail('Period ', client.payment_period)}
-                {detail('Balance', 'Php ' + client.balance)}
+                {detail('Balance', toMoney(client.balance!))}
                 {detail('Branch', client?.branch?.name!)}
                 {detail(
                   'Insured',
-                  new Date(client.created_at!).toLocaleDateString(),
+                  new Date(client.created_at!).toLocaleDateString()
                 )}
               </Grid>
             </CardContent>
@@ -129,7 +120,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                 {detail('Contact', client.contact)}
                 {detail(
                   'Age',
-                  client.birthdate ? calculateAge(client.birthdate) : 'N/A',
+                  client.birthdate ? calculateAge(client.birthdate) : 'N/A'
                 )}
 
                 <Grid

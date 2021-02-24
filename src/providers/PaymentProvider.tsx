@@ -10,6 +10,7 @@ interface PaymentState {
   payments: Payment[]
   total: number
   pages: number
+  isLoading: boolean
 }
 
 type PaymentAction =
@@ -17,6 +18,7 @@ type PaymentAction =
       type: 'ON_LOAD_PAYMENTS'
       payload: { payments: Payment[]; total?: number; pages?: number }
     }
+  | { type: 'SET_IS_LOADING'; payload: boolean }
   | { type: 'SET_TOTAL'; payload: number }
   | { type: 'SET_PAGES'; payload: number }
 
@@ -26,12 +28,16 @@ const reducer = (state: PaymentState, action: PaymentAction) => {
       state.payments = action.payload.payments
       state.total = action.payload.total!
       state.pages = action.payload.pages!
+      state.isLoading = false
       break
     case 'SET_TOTAL':
       state.total = action.payload
       break
     case 'SET_PAGES':
       state.pages = action.payload
+      break
+    case 'SET_IS_LOADING':
+      state.isLoading = action.payload
       break
     default:
       return state
@@ -45,6 +51,7 @@ export const PaymentProvider: React.FC = (props) => {
     payments: [],
     total: 0,
     pages: 0,
+    isLoading: false,
   })
   return (
     <PaymentContext.Provider value={[state, dispatch]}>

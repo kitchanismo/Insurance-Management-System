@@ -40,16 +40,21 @@ const Transaction: React.SFC<TransactionProps> = () => {
   useEffect(() => {
     clientDispatch({ type: 'SET_IS_LOADING', payload: true })
     globalDispatch({ type: 'SET_TITLE', payload: 'Encode Transaction' })
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
     getLapsedClients('').then((clients) => {
       clientDispatch({
         type: 'ON_LOAD_CLIENTS',
         payload: { clients },
       })
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
     })
 
     getEmployees({ category: 'active' }).then((employees) => {
       setEmployees(employees)
     })
+    return () => {
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+    }
   }, [])
 
   useEffect(() => {
@@ -149,6 +154,10 @@ const Transaction: React.SFC<TransactionProps> = () => {
             type: 'success',
           },
         })
+        setTransaction({
+          position: 'sales_agent',
+          amount: 0,
+        })
       })
       .catch((error) => {
         if (error.response.status === 400) {
@@ -172,6 +181,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
   }
 
   const onSearch = (search: string) => {
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
     getLapsedClients(search).then((clients) => {
       clientDispatch({
         type: 'ON_LOAD_CLIENTS',

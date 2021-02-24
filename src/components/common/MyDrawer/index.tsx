@@ -25,6 +25,7 @@ import { useHistory } from 'react-router-dom'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import MyAlertDialog, { AlertDataProps } from '../MyAlertDialog'
+import { onSignout } from 'services/authService'
 
 export interface MyDrawerProps {
   isActive: boolean
@@ -190,8 +191,15 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
     setAlertDialog({
       open: false,
     })
-    localStorage.removeItem('access_token')
-    dispatch({ type: 'SET_CURRENT_USER', payload: null })
+    onSignout()
+      .then(() => {
+        localStorage.removeItem('access_token')
+        dispatch({ type: 'SET_CURRENT_USER', payload: null })
+      })
+      .catch(() => {
+        localStorage.removeItem('access_token')
+        dispatch({ type: 'SET_CURRENT_USER', payload: null })
+      })
   }
 
   return (

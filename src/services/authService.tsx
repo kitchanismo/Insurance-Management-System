@@ -6,3 +6,7 @@ export const onSignIn = ({ username, password }: User) => {
     .post('/auth/signin', { username, password })
     .then(({ data }) => data.access_token)
 }
+
+export const onSignout = () => {
+  return http.get('/auth/signout').then(({ data }) => data)
+}

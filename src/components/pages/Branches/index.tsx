@@ -24,6 +24,9 @@ const Branches: React.SFC<BranchesProps> = () => {
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Branch Management' })
     onLoad()
+    return () => {
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+    }
   }, [])
 
   const onLoad = (search?: string) => {

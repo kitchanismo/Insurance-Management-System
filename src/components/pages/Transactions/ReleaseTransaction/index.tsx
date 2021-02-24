@@ -34,6 +34,9 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Release Transaction' })
     onLoad({ page: 1 })
+    return () => {
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+    }
   }, [])
 
   const onLoad = ({ page, search, category }: CommissionProps) => {

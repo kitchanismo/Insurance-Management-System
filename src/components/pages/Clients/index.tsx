@@ -47,6 +47,9 @@ const Clients: React.SFC<ClientsProps> = () => {
       page: currentPage,
       search: (search as string) || '',
     })
+    return () => {
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+    }
   }, [])
 
   const onLoad = ({ page, category, search }: ClientProps) => {
@@ -191,7 +194,7 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 60,
       right: 20,
     },
-  }),
+  })
 )
 
 export default Clients

@@ -35,6 +35,9 @@ const PaymentHistory: React.SFC<PaymentHistoryProps> = () => {
       page: currentPage,
       search: (search as string) || '',
     })
+    return () => {
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+    }
   }, [])
 
   const chips = [

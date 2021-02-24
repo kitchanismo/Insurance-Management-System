@@ -1,156 +1,157 @@
-import React, { useState } from "react";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import EmployeesIcon from "@material-ui/icons/People";
-import BranchIcon from "@material-ui/icons/Business";
-import ClientIcon from "@material-ui/icons/SupervisedUserCircle";
-import PaymentIcon from "@material-ui/icons/Receipt";
-import CommissionIcon from "@material-ui/icons/Description";
-import SettingsIcon from "@material-ui/icons/Settings";
-import TransactionIcon from "@material-ui/icons/Payment";
-import ReleaseIcon from "@material-ui/icons/MonetizationOn";
-import ExitIcon from "@material-ui/icons/ExitToApp";
-import ListItem from "@material-ui/core/ListItem";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import IconButton from "@material-ui/core/IconButton";
-import Divider from "@material-ui/core/Divider";
-import Collapse from "@material-ui/core/Collapse";
-import Grid from "@material-ui/core/Grid/Grid";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import { GlobalContext } from "providers/GlobalProvider";
-import { useHistory } from "react-router-dom";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
+import React, { useState } from 'react'
+import Drawer from '@material-ui/core/Drawer'
+import List from '@material-ui/core/List'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import EmployeesIcon from '@material-ui/icons/People'
+import BranchIcon from '@material-ui/icons/Business'
+import ClientIcon from '@material-ui/icons/SupervisedUserCircle'
+import PaymentIcon from '@material-ui/icons/Receipt'
+import CommissionIcon from '@material-ui/icons/Description'
+import SettingsIcon from '@material-ui/icons/Settings'
+import TransactionIcon from '@material-ui/icons/Payment'
+import ReleaseIcon from '@material-ui/icons/MonetizationOn'
+import ExitIcon from '@material-ui/icons/ExitToApp'
+import ListItem from '@material-ui/core/ListItem'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import IconButton from '@material-ui/core/IconButton'
+import Divider from '@material-ui/core/Divider'
+import Collapse from '@material-ui/core/Collapse'
+import Grid from '@material-ui/core/Grid/Grid'
+import DashboardIcon from '@material-ui/icons/Dashboard'
+import { GlobalContext } from 'providers/GlobalProvider'
+import { useHistory } from 'react-router-dom'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import MyAlertDialog, { AlertDataProps } from '../MyAlertDialog'
 
 export interface MyDrawerProps {
-  isActive: boolean;
-  onToggle: Function;
+  isActive: boolean
+  onToggle: Function
 }
 
 interface SubMenuProps {
-  name: string;
-  path: string;
-  icon: JSX.Element;
+  name: string
+  path: string
+  icon: JSX.Element
 }
 
 interface MenuProps {
-  state: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-  name: string;
-  subMenus: SubMenuProps[];
+  state: [boolean, React.Dispatch<React.SetStateAction<boolean>>]
+  name: string
+  subMenus: SubMenuProps[]
 }
 
 const MyDrawer: React.FC<MyDrawerProps> = (props) => {
-  const styles = useStyles();
+  const styles = useStyles()
 
-  const history = useHistory();
+  const history = useHistory()
 
-  const [state, dispatch] = React.useContext(GlobalContext)!;
+  const [state, dispatch] = React.useContext(GlobalContext)!
 
-  const stateManagementOpen = useState(false);
-  const stateTransactionOpen = useState(false);
-  const stateHistoryOpen = useState(false);
-  const stateSettingOpen = useState(false);
+  const stateManagementOpen = useState(false)
+  const stateTransactionOpen = useState(false)
+  const stateHistoryOpen = useState(false)
+  const stateSettingOpen = useState(false)
 
   const adminMenus: MenuProps[] = [
     {
       state: stateManagementOpen,
-      name: "Management",
+      name: 'Management',
       subMenus: [
         {
-          name: "Branch Management",
-          path: "/branches",
+          name: 'Branch Management',
+          path: '/branches',
           icon: <BranchIcon />,
         },
         {
-          name: "Employee Management",
-          path: "/employees",
+          name: 'Employee Management',
+          path: '/employees',
           icon: <EmployeesIcon />,
         },
-        { name: "Client Management", path: "/clients", icon: <ClientIcon /> },
+        { name: 'Client Management', path: '/clients', icon: <ClientIcon /> },
       ],
     },
     {
       state: stateTransactionOpen,
-      name: "Transaction",
+      name: 'Transaction',
       subMenus: [
         {
-          name: "Encode Transaction",
-          path: "/transaction/encode",
+          name: 'Encode Transaction',
+          path: '/transaction/encode',
           icon: <TransactionIcon />,
         },
         {
-          name: "Release Transaction",
-          path: "/transaction/releases",
+          name: 'Release Transaction',
+          path: '/transaction/releases',
           icon: <ReleaseIcon />,
         },
       ],
     },
     {
       state: stateHistoryOpen,
-      name: "History",
+      name: 'History',
       subMenus: [
         {
-          name: "Payment History",
-          path: "/payments",
+          name: 'Payment History',
+          path: '/payments',
           icon: <PaymentIcon />,
         },
         {
-          name: "Commission History",
-          path: "/commissions",
+          name: 'Commission History',
+          path: '/commissions',
           icon: <CommissionIcon />,
         },
       ],
     },
     {
       state: stateSettingOpen,
-      name: "Settings",
+      name: 'Settings',
       subMenus: [
         {
-          name: "General Settings",
-          path: "/settings",
+          name: 'General Settings',
+          path: '/settings',
           icon: <SettingsIcon />,
         },
       ],
     },
-  ];
+  ]
 
   const cashierMenus = [
     {
-      name: "Client Registration",
-      path: "/clients/new",
+      name: 'Client Registration',
+      path: '/clients/new',
       icon: <BranchIcon />,
     },
     {
-      name: "Employee Registration",
-      path: "/employees/new",
+      name: 'Employee Registration',
+      path: '/employees/new',
       icon: <EmployeesIcon />,
     },
     {
-      name: "Encode Transaction",
-      path: "/transaction/encode",
+      name: 'Encode Transaction',
+      path: '/transaction/encode',
       icon: <TransactionIcon />,
     },
     {
-      name: "General Settings",
-      path: "/settings",
+      name: 'General Settings',
+      path: '/settings',
       icon: <SettingsIcon />,
     },
-  ];
+  ]
 
   const renderSubMenus = (subMenu: {
-    name: string;
-    path: string;
-    icon: JSX.Element;
+    name: string
+    path: string
+    icon: JSX.Element
   }) => {
     return (
-      <List component="div" disablePadding>
+      <List component='div' disablePadding>
         <ListItem
           onClick={() => {
-            props.onToggle(subMenu.name);
-            history.replace(subMenu.path);
+            props.onToggle(subMenu.name)
+            history.replace(subMenu.path)
           }}
           button
           className={styles.nested}
@@ -161,8 +162,8 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
           <ListItemText primary={subMenu.name} />
         </ListItem>
       </List>
-    );
-  };
+    )
+  }
 
   const renderMenus = ({ state: [open, setOpen], ...rest }: MenuProps) => {
     return (
@@ -175,37 +176,53 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
           <ListItemText primary={rest.name} />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={open} timeout='auto' unmountOnExit>
           {rest.subMenus.map((subMenu) => renderSubMenus(subMenu))}
         </Collapse>
       </>
-    );
-  };
+    )
+  }
+
+  const [alertDialog, setAlertDialog] = useState<AlertDataProps>({})
+
+  const handleArchieve = () => {
+    props.onToggle()
+    setAlertDialog({
+      open: false,
+    })
+    localStorage.removeItem('access_token')
+    dispatch({ type: 'SET_CURRENT_USER', payload: null })
+  }
 
   return (
     <Drawer
-      anchor="left"
+      anchor='left'
       open={props.isActive}
       ModalProps={{ onBackdropClick: () => props.onToggle() }}
     >
-      <Grid container justify="flex-end">
+      <MyAlertDialog
+        onAgree={handleArchieve}
+        onDisagree={() => setAlertDialog({ open: false })}
+        data={alertDialog}
+      />
+      <Grid container justify='flex-end'>
         <IconButton
           onClick={() => props.onToggle()}
-          edge="start"
-          color="inherit"
-          aria-label="menu"
+          edge='start'
+          color='inherit'
+          aria-label='menu'
         >
           <ChevronLeftIcon />
         </IconButton>
       </Grid>
       <List
         className={styles.root}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
+        component='nav'
+        aria-labelledby='nested-list-subheader'
       >
-        {state.currentUser?.role === "admin" &&
+        {state.currentUser?.role === 'admin' &&
           adminMenus.map((menu) => renderMenus(menu))}
-        {state.currentUser?.role === "cashier" &&
+        {state.currentUser?.role === 'cashier' &&
           cashierMenus.map((menu) => renderSubMenus(menu))}
         <Divider
           style={{
@@ -217,18 +234,19 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
         <ListItem style={{ paddingLeft: 30 }} button>
           <ListItemText
             className={styles.logout}
-            primary="Logout"
+            primary='Logout'
             onClick={() => {
-              props.onToggle();
-              dispatch({ type: "SET_CURRENT_USER", payload: null });
-              localStorage.removeItem("access_token");
+              setAlertDialog({
+                text: 'Are you sure do you want to logout?',
+                open: true,
+              })
             }}
           />
         </ListItem>
       </List>
     </Drawer>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -246,6 +264,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
     color: theme.palette.secondary.main,
   },
-}));
+}))
 
-export default MyDrawer;
+export default MyDrawer

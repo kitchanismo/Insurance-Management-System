@@ -48,6 +48,9 @@ const Employees: React.SFC<EmployeesProps> = () => {
       page: currentPage,
       search: (search as string) || '',
     })
+    return () => {
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+    }
   }, [])
 
   const onLoad = ({ page, category, search }: GetEmployeesProps) => {
@@ -61,7 +64,7 @@ const Employees: React.SFC<EmployeesProps> = () => {
         })
         globalDispatch({ type: 'SET_IS_LOADING', payload: false })
         scroll.scrollToTop({ duration: 1000 })
-      },
+      }
     )
   }
 
@@ -193,7 +196,7 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 60,
       right: 20,
     },
-  }),
+  })
 )
 
 export default Employees

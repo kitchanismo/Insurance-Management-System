@@ -35,6 +35,9 @@ const Commissions: React.SFC<CommissionsProps> = () => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Commission History' })
 
     onLoad({ page: 1 })
+    return () => {
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+    }
   }, [])
 
   const onLoad = ({ page, search, category }: LoadProps) => {

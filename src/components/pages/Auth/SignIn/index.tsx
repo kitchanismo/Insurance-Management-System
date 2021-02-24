@@ -36,13 +36,13 @@ const SignIn: React.SFC<SignInProps> = () => {
         saveToken(access_token)
         const currentUser = getCurrentUser()
         dispatch({ type: 'SET_CURRENT_USER', payload: currentUser })
-        dispatch({
-          type: 'SET_ALERT',
-          payload: {
-            message: `Welcome, ${nameCapitalize(currentUser.username)}`,
-            type: 'success',
-          },
-        })
+        // dispatch({
+        //   type: 'SET_ALERT',
+        //   payload: {
+        //     message: `Welcome, ${nameCapitalize(currentUser.username)}`,
+        //     type: 'success',
+        //   },
+        // })
       })
       .catch(({ response }) => {
         if (response.status === 401) {

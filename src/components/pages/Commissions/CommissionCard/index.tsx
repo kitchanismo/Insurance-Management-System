@@ -48,7 +48,7 @@ const CommissionCard: React.SFC<CommissionCardProps> = ({ commission }) => {
             <Typography variant='subtitle1' color='textSecondary'>
               {toMoney(commission?.amount!)}
             </Typography>
-            <Typography variant='subtitle1' color='textSecondary'>
+            <Typography variant='caption' color='textSecondary'>
               {new Date(commission?.created_at!).toDateString()}
             </Typography>
             <Grid item xs={1}>

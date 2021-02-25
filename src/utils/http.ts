@@ -20,12 +20,15 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    if (error.message === 'Network Error') {
+    if (
+      error.message === 'Network Error' ||
+      error.message === 'Internal Server Error'
+    ) {
       throw Error(error.message)
     }
 
     throw error
-  },
+  }
 )
 
 createAuthRefreshInterceptor(
@@ -39,7 +42,7 @@ createAuthRefreshInterceptor(
   {
     statusCodes: [403],
     pauseInstanceWhileRefreshing: true,
-  },
+  }
 )
 
 export default {

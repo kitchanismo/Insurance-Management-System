@@ -245,7 +245,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
             <Typography variant='subtitle2' color='textSecondary'>
               {transaction?.plan?.name! + ' - ' + transaction?.payment_period}
             </Typography>
-            <Typography variant='subtitle2' color='textSecondary'>
+            <Typography variant='caption' color='textSecondary'>
               {'Lapse on ' +
                 new Date(transaction?.next_payment!).toDateString()}
             </Typography>

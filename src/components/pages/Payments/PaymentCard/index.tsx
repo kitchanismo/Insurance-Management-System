@@ -47,7 +47,7 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
             <Typography variant='subtitle1' color='textSecondary'>
               {toMoney(payment?.amount!)}
             </Typography>
-            <Typography variant='subtitle1' color='textSecondary'>
+            <Typography variant='caption' color='textSecondary'>
               {'Paid on ' + new Date(payment.created_at!).toDateString()}
             </Typography>
             <Grid item xs={1}>

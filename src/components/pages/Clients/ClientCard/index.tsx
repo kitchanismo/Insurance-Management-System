@@ -49,7 +49,7 @@ export const ClientCard: React.SFC<ClientCardProps> = ({
 
             {client.payment_mode === 'Installment' && (
               <>
-                <Typography variant='subtitle2' color='textSecondary'>
+                <Typography variant='caption' color='textSecondary'>
                   {'Lapse on ' + new Date(client.next_payment!).toDateString()}
                 </Typography>
 

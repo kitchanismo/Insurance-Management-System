@@ -199,11 +199,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
 
   return (
     <Grid container direction='column' xs={12}>
-      <MySearchField
-        onSearch={onSearch}
-        labelWidth={140}
-        label='Client Name / Code'
-      />
+      <MySearchField onSearch={onSearch} labelWidth={100} label='Name / Code' />
       {isLoading && <MySkeletonMiniCards></MySkeletonMiniCards>}
 
       {!isLoading && (

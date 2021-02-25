@@ -41,6 +41,9 @@ export const ClientCard: React.SFC<ClientCardProps> = ({
               {`${client.lastname}, ${client.firstname} ${client.middlename}`}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
+              {client?.branch?.name}
+            </Typography>
+            <Typography variant='subtitle1' color='textSecondary'>
               {client.plan?.name! + ' - ' + client.payment_mode}
             </Typography>
 

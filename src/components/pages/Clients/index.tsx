@@ -136,7 +136,12 @@ const Clients: React.SFC<ClientsProps> = () => {
         onDisagree={() => setAlertDialog({ open: false })}
         data={alertDialog}
       />
-      <MySearchField onSearch={onSearch} style={{ marginBottom: 5 }} />
+      <MySearchField
+        labelWidth={160}
+        label='Name / Code / Branch'
+        onSearch={onSearch}
+        style={{ marginBottom: 5 }}
+      />
 
       <MyChips
         count={clientState.total}

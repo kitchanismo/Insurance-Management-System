@@ -91,7 +91,12 @@ const PaymentHistory: React.SFC<PaymentHistoryProps> = () => {
 
   return (
     <>
-      <MySearchField onSearch={onSearch} style={{ marginBottom: 15 }} />
+      <MySearchField
+        labelWidth={160}
+        label='Name / Code / Branch'
+        onSearch={onSearch}
+        style={{ marginBottom: 15 }}
+      />
       <MyChips
         count={paymentState.total}
         onChipSelected={onFilter}

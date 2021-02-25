@@ -139,7 +139,12 @@ const Employees: React.SFC<EmployeesProps> = () => {
         onDisagree={() => setAlertDialog({ open: false })}
         data={alertDialog}
       />
-      <MySearchField onSearch={onSearch} style={{ marginBottom: 5 }} />
+      <MySearchField
+        label='Name / Branch'
+        labelWidth={110}
+        onSearch={onSearch}
+        style={{ marginBottom: 5 }}
+      />
 
       <MyChips
         count={employeeState.total}

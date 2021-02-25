@@ -45,6 +45,9 @@ const ReleaseCard: React.SFC<ReleaseCardProps> = ({
                 {`${commission?.employee?.profile?.lastname}, ${commission?.employee?.profile?.firstname} ${commission?.employee?.profile?.middlename}`}
               </Typography>
               <Typography variant='subtitle1' color='textSecondary'>
+                {commission?.employee?.branch?.name}
+              </Typography>
+              <Typography variant='subtitle1' color='textSecondary'>
                 {commission?.employee?.position?.name}
               </Typography>
 

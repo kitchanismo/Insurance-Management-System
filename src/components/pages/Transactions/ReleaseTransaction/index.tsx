@@ -116,7 +116,12 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
         onDisagree={() => setAlertDialog({ open: false })}
         data={alertDialog}
       />
-      <MySearchField onSearch={onSearch} style={{ marginBottom: 15 }} />
+      <MySearchField
+        labelWidth={110}
+        label='Name / Branch'
+        onSearch={onSearch}
+        style={{ marginBottom: 15 }}
+      />
 
       <MyChips
         count={commissionState.total}

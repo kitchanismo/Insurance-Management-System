@@ -12,7 +12,7 @@ export const getCommissions = (props?: CommissionProps) => {
     .get(
       `/commissions?page=${props?.page || ''}&search=${
         props?.search || ''
-      }&category=${props?.category || ''}`,
+      }&category=${props?.category || ''}`
     )
     .then(({ data }) => ({
       commissions: data.items,
@@ -26,7 +26,7 @@ export const getTotalCommissionOfEmployees = (props: CommissionProps) => {
     .get(
       `/commissions/total/employees?page=${props?.page || ''}&search=${
         props?.search || ''
-      }&category=${props?.category || ''}`,
+      }&category=${props?.category || ''}`
     )
     .then(({ data }) => {
       const commissions: Commission[] = data.items.map((com: any) => ({
@@ -39,6 +39,7 @@ export const getTotalCommissionOfEmployees = (props: CommissionProps) => {
             lastname: com.lastname,
             image_url: com.image_url,
           },
+          branch: { name: com.branch_name },
           position: { name: com.position_name },
         },
         amount: com.total,

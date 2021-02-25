@@ -85,7 +85,12 @@ const Commissions: React.SFC<CommissionsProps> = () => {
 
   return (
     <>
-      <MySearchField onSearch={onSearch} style={{ marginBottom: 10 }} />
+      <MySearchField
+        label='Name'
+        labelWidth={45}
+        onSearch={onSearch}
+        style={{ marginBottom: 10 }}
+      />
       <MyChips
         count={commissionState.total}
         onChipSelected={onFilter}

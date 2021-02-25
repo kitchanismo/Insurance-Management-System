@@ -63,7 +63,7 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
     <Grid container xs={12}>
       {isLoading && (
         <>
-          <MySkeletonCard />
+          <MySkeletonCard height={110} />
           <Grid
             container
             style={{ marginBottom: 10 }}
@@ -78,57 +78,69 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
           </Grid>
         </>
       )}
-
-      <MyCard
-        title={payment.or_number}
-        style={{ paddingBottom: 5, marginBottom: 10 }}
-      >
-        <CardContent>
-          <Grid xs={12} direction='row' container>
-            <Grid item xs={7}>
-              <Typography component='h3' variant='h6'>
-                {fullname}
-              </Typography>
-              <Typography variant='subtitle1' color='textSecondary'>
-                {'₱ ' + payment.amount}
-              </Typography>
-              <Typography variant='subtitle1' color='textSecondary'>
-                {'Paid on ' + new Date(payment?.created_at!).toDateString()}
-              </Typography>
-              <Chip
-                style={{ marginTop: 5 }}
-                size='small'
-                label={hasCommission ? 'with commission' : 'no commission'}
-                variant='default'
-                color={hasCommission ? 'secondary' : 'default'}
-              />
-            </Grid>
-            <Grid container item xs={5} justify='center' alignItems='center'>
-              <MyAvatar src={payment?.client?.profile?.image_url} />
-            </Grid>
-          </Grid>
-        </CardContent>
-      </MyCard>
-
-      {!!payment?.commissions?.length && (
+      {!isLoading && (
         <>
-          <Typography variant='subtitle1'>Commissioners</Typography>
-          <MyMiniCards
-            style={{ marginBottom: 15, marginTop: 10 }}
-            onSelected={handleSelected}
-            items={payment?.commissions!}
+          <MyCard
+            title={payment.or_number}
+            style={{ paddingBottom: 5, marginBottom: 10 }}
           >
-            {({ renderCards, item }) => (
-              <>
-                {renderCards({
-                  item,
-                  title: `${item.employee?.profile?.lastname}, ${item.employee?.profile?.firstname} (${item.employee?.position?.name})`,
-                  subtitle: '₱ ' + item.amount!,
-                  src: item.employee?.profile?.image_url,
-                })}
-              </>
-            )}
-          </MyMiniCards>
+            <CardContent>
+              <Grid xs={12} direction='row' container>
+                <Grid item xs={7}>
+                  <Typography component='h3' variant='h6'>
+                    {fullname}
+                  </Typography>
+                  <Typography variant='subtitle1' color='textSecondary'>
+                    {payment.client?.branch?.name}
+                  </Typography>
+                  <Typography variant='subtitle1' color='textSecondary'>
+                    {'₱ ' + payment.amount}
+                  </Typography>
+                  <Typography variant='subtitle1' color='textSecondary'>
+                    {'Paid on ' + new Date(payment?.created_at!).toDateString()}
+                  </Typography>
+                  <Chip
+                    style={{ marginTop: 5 }}
+                    size='small'
+                    label={hasCommission ? 'with commission' : 'no commission'}
+                    variant='default'
+                    color={hasCommission ? 'secondary' : 'default'}
+                  />
+                </Grid>
+                <Grid
+                  container
+                  item
+                  xs={5}
+                  justify='center'
+                  alignItems='center'
+                >
+                  <MyAvatar src={payment?.client?.profile?.image_url} />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </MyCard>
+
+          {!!payment?.commissions?.length && (
+            <>
+              <Typography variant='subtitle1'>Commissioners</Typography>
+              <MyMiniCards
+                style={{ marginBottom: 15, marginTop: 10 }}
+                onSelected={handleSelected}
+                items={payment?.commissions!}
+              >
+                {({ renderCards, item }) => (
+                  <>
+                    {renderCards({
+                      item,
+                      title: `${item.employee?.profile?.lastname}, ${item.employee?.profile?.firstname} (${item.employee?.position?.name})`,
+                      subtitle: '₱ ' + item.amount!,
+                      src: item.employee?.profile?.image_url,
+                    })}
+                  </>
+                )}
+              </MyMiniCards>
+            </>
+          )}
         </>
       )}
       <Grid item xs={6}>

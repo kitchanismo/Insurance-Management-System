@@ -42,6 +42,9 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
               {payment.client?.code}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
+              {payment.client?.branch?.name}
+            </Typography>
+            <Typography variant='subtitle1' color='textSecondary'>
               {toMoney(payment?.amount!)}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>

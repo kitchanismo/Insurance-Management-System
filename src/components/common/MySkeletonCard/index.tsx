@@ -2,9 +2,11 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Skeleton from '@material-ui/lab/Skeleton'
 
-export interface MySkeletonCardProps {}
+export interface MySkeletonCardProps {
+  height?: number
+}
 
-const MySkeletonCard: React.SFC<MySkeletonCardProps> = () => {
+const MySkeletonCard: React.SFC<MySkeletonCardProps> = ({ height = 285 }) => {
   const card = () => {
     return (
       <Paper style={{ marginBottom: 20 }}>
@@ -26,7 +28,7 @@ const MySkeletonCard: React.SFC<MySkeletonCardProps> = () => {
             />
           </Grid>
         </Grid>
-        <Skeleton animation='wave' variant='rect' height={285} />
+        <Skeleton animation='wave' variant='rect' height={height} />
       </Paper>
     )
   }

@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import CardContent from '@material-ui/core/CardContent'
 import Chip from '@material-ui/core/Chip'
+import Badge from '@material-ui/core/Badge'
 import Divider from '@material-ui/core/Divider'
 import { calculateAge, capitalize } from 'utils/helper'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
@@ -60,11 +61,11 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
   }
 
   const branch = employeeState.branches.filter(
-    (branch) => branch.id === employee?.branch,
+    (branch) => branch.id === employee?.branch
   )[0]
 
   const position = employeeState.positions.filter(
-    (position) => position.id === employee?.position,
+    (position) => position.id === employee?.position
   )[0]
 
   const renderClients = (clients: Client[]) => {
@@ -76,14 +77,18 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
           xs={12}
           justify='space-between'
         >
-          <Typography variant='subtitle1'>Recent Clients</Typography>
-          <Link
+          {!!count && (
+            <Badge badgeContent={count! >= 100 ? '99+' : count} color='primary'>
+              <Typography variant='subtitle1'>Clients</Typography>
+            </Badge>
+          )}
+          {/* <Link
             component='button'
             variant='body1'
             onClick={() => history.push('/clients')}
           >
             View All({clients.length})
-          </Link>
+          </Link> */}
         </Grid>
         <MyMiniCards onSelected={handleSelected} items={clients}>
           {({ renderCards, item }) => (
@@ -101,22 +106,24 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
     )
   }
 
+  const count = employee?.clients?.length || 0
+
   return (
     <>
       <Grid container xs={12}>
         {isLoading && (
           <>
             <MySkeletonCard />
-            <Grid
-              container
-              style={{ marginBottom: 10 }}
-              xs={12}
-              justify='space-between'
-            >
-              <Typography variant='subtitle1'>Recent Clients</Typography>
-              <Link component='button' variant='body1'>
+            <Grid container style={{ marginBottom: 10 }} xs={12}>
+              <Badge
+                badgeContent={count! >= 100 ? '99+' : count}
+                color='primary'
+              >
+                <Typography variant='subtitle1'>Clients</Typography>
+              </Badge>
+              {/* <Link component='button' variant='body1'>
                 View All({employee?.clients?.length})
-              </Link>
+              </Link> */}
               <MySkeletonMiniCards />
             </Grid>
           </>
@@ -176,7 +183,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
                     'Age',
                     employee.birthdate
                       ? calculateAge(employee.birthdate)
-                      : 'N/A',
+                      : 'N/A'
                   )}
                   {
                     <Grid
@@ -244,7 +251,7 @@ const useStyles = makeStyles((theme: Theme) =>
     avatar: {
       backgroundColor: theme.palette.secondary.main,
     },
-  }),
+  })
 )
 
 export default ViewEmployee

@@ -58,6 +58,22 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
 
   const adminMenus: MenuProps[] = [
     {
+      state: stateTransactionOpen,
+      name: 'Transaction',
+      subMenus: [
+        {
+          name: 'Encode Transaction',
+          path: '/transaction/encode',
+          icon: <TransactionIcon />,
+        },
+        {
+          name: 'Release Transaction',
+          path: '/transaction/releases',
+          icon: <ReleaseIcon />,
+        },
+      ],
+    },
+    {
       state: stateManagementOpen,
       name: 'Management',
       subMenus: [
@@ -74,22 +90,7 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
         { name: 'Client Management', path: '/clients', icon: <ClientIcon /> },
       ],
     },
-    {
-      state: stateTransactionOpen,
-      name: 'Transaction',
-      subMenus: [
-        {
-          name: 'Encode Transaction',
-          path: '/transaction/encode',
-          icon: <TransactionIcon />,
-        },
-        {
-          name: 'Release Transaction',
-          path: '/transaction/releases',
-          icon: <ReleaseIcon />,
-        },
-      ],
-    },
+
     {
       state: stateHistoryOpen,
       name: 'History',

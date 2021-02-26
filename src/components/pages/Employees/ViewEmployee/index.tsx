@@ -130,7 +130,7 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
         )}
         {!isLoading && employee && (
           <>
-            <MyCard title='Employee Details'>
+            <MyCard title={'Employee#' + employee.id}>
               <CardContent>
                 <Grid container xs={12} justify='space-between'>
                   <Grid

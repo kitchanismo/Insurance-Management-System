@@ -54,7 +54,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
       {isLoading && <MySkeletonCard />}
       {client && !isLoading && (
         <>
-          <MyCard title={client.code}>
+          <MyCard title={'Code#' + client.code}>
             <CardContent>
               <Grid container xs={12} justify='space-between'>
                 <Grid

@@ -23,14 +23,14 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
   const history = useHistory()
   const params = useParams<{ id: string }>()
   const [payment, setPayment] = useState<Payment>({})
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const [globalState, globalDispatch] = useContext(GlobalContext)!
 
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Payment Details' })
     globalDispatch({ type: 'SET_IS_LOADING', payload: true })
-    setIsLoading(true)
+
     getPayment(+params.id)
       .then((payment) => {
         setPayment(payment)
@@ -81,7 +81,7 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
       {!isLoading && (
         <>
           <MyCard
-            title={payment.or_number}
+            title={'OR#' + payment.or_number}
             style={{ paddingBottom: 5, marginBottom: 10 }}
           >
             <CardContent>
@@ -96,7 +96,7 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
                   <Typography variant='subtitle1' color='textSecondary'>
                     {'₱ ' + payment.amount}
                   </Typography>
-                  <Typography variant='subtitle1' color='textSecondary'>
+                  <Typography variant='caption' color='textSecondary'>
                     {'Paid on ' + new Date(payment?.created_at!).toDateString()}
                   </Typography>
                   <Chip

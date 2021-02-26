@@ -1,6 +1,7 @@
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import Divider from '@material-ui/core/Divider'
 import MyCard from 'components/common/MyCard'
 import Grid from '@material-ui/core/Grid'
 import Chip from '@material-ui/core/Chip'
@@ -26,7 +27,12 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
   return (
     <MyCard title={'OR#' + payment.or_number} style={{ paddingBottom: 5 }}>
       <CardContent>
-        <Grid xs={12} justify='space-between' container>
+        <Grid
+          style={{ marginBottom: 20 }}
+          xs={12}
+          justify='space-between'
+          container
+        >
           <Grid
             style={{ paddingLeft: 10 }}
             container
@@ -47,9 +53,9 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
             <Typography variant='subtitle1' color='textSecondary'>
               {toMoney(payment?.amount!)}
             </Typography>
-            <Typography variant='caption' color='textSecondary'>
+            {/* <Typography variant='caption' color='textSecondary'>
               {'Paid on ' + new Date(payment.created_at!).toDateString()}
-            </Typography>
+            </Typography> */}
             <Grid item xs={1}>
               <Chip
                 style={{ marginTop: 5 }}
@@ -66,6 +72,27 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
               onClick={() => history.push('/payments/' + payment.id)}
             />
           </Grid>
+        </Grid>
+        <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
+        <Grid
+          style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 20 }}
+          container
+          xs={12}
+          justify='space-evenly'
+        >
+          <Grid item xs={3}></Grid>
+          <Grid item xs={6}>
+            <Button
+              onClick={() => history.push('/payments/' + payment.id)}
+              fullWidth
+              variant='text'
+              color='primary'
+            >
+              Details
+            </Button>
+          </Grid>
+
+          <Grid item xs={3}></Grid>
         </Grid>
       </CardContent>
     </MyCard>

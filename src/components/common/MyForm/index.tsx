@@ -39,7 +39,7 @@ export interface InputProps {
   type?: string | 'text'
   label?: string
   isMultiline?: boolean
-  onChange?: (e: React.FormEvent) => void
+  onChange?: (e: any) => void
   onTogglePassword?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -50,6 +50,7 @@ export interface OptionProps {
 
 export interface SelectProps extends InputProps {
   options: OptionProps[]
+  subLabel?: string
   labelWidth?: number
 }
 
@@ -108,7 +109,7 @@ function MyForm<T>(props: MyFormProps<T>) {
   const [isDisable, setIsDisable] = React.useState<boolean>(false)
 
   const [selectedValue, setSelectedValue] = React.useState(
-    props.radioButtonDefaultValue ?? '',
+    props.radioButtonDefaultValue ?? ''
   )
 
   const [errors, setErrors] = React.useState<any>(null)
@@ -237,7 +238,7 @@ function MyForm<T>(props: MyFormProps<T>) {
                   onClick={() =>
                     input.onTogglePassword?.call(
                       null,
-                      (isVisible) => !isVisible,
+                      (isVisible) => !isVisible
                     )
                   }
                 >
@@ -310,23 +311,31 @@ function MyForm<T>(props: MyFormProps<T>) {
             id={select.name ?? select.value}
             name={select.name ?? select.value}
             value={select.value || ''}
-            onChange={(e: any) => {
-              const { value } = e.target
-              if (error && value !== 'clear') {
-                const _errors = { ...errors }
-                delete _errors[select.name]
-                setErrors(_errors)
-              }
-              setData({
-                ...data,
-                [select.name]: value !== 'clear' ? value : '',
-              })
-            }}
+            onChange={
+              select.onChange
+                ? select.onChange
+                : (e: any) => {
+                    const { value } = e.target
+                    if (error && value !== 'clear') {
+                      const _errors = { ...errors }
+                      delete _errors[select.name]
+                      setErrors(_errors)
+                    }
+                    setData({
+                      ...data,
+                      [select.name]: value !== 'clear' ? value : '',
+                    })
+                  }
+            }
             labelWidth={select.labelWidth ?? 60}
           >
             {select.options.map((option) => (
               <MenuItem value={option.value}>
-                {option.name ?? option.value}
+                {option.name
+                  ? select.subLabel
+                    ? option.name + '-' + select.subLabel
+                    : option.name
+                  : option.value}
               </MenuItem>
             ))}
             <Divider style={{ marginLeft: 15, marginRight: 15 }}></Divider>

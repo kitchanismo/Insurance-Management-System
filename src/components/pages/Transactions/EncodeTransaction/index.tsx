@@ -78,14 +78,23 @@ const Transaction: React.SFC<TransactionProps> = () => {
 
       getRecentCommissionerByClient(transaction.id).then((employees: any) => {
         const getCommissioner = (id: number) =>
-          employees.find((employee: any) => employee.positionId === id)?.id
+          employees.find(
+            (employee: any) =>
+              employee.positionId === id &&
+              employee.branchId === globalState.currentUser?.branch?.id!
+          )?.id || ''
+
+        const branch_manager = getCommissioner(1)
+        const agency_manager = getCommissioner(2)
+        const supervisor = getCommissioner(3)
+        const sales_agent = getCommissioner(4)
 
         setTransaction((transaction) => ({
           ...transaction,
-          branch_manager: getCommissioner(1) || '',
-          agency_manager: getCommissioner(2) || '',
-          supervisor: getCommissioner(3) || '',
-          sales_agent: getCommissioner(4) || '',
+          branch_manager,
+          agency_manager,
+          supervisor,
+          sales_agent,
         }))
       })
     }

@@ -70,6 +70,7 @@ const GlobalProvider: React.FC = (props) => {
 
   useEffect(() => {
     dispatch({ type: 'SET_CURRENT_USER', payload: getCurrentUser() })
+    console.log('hit')
   }, [])
 
   const theme = createMuiTheme({

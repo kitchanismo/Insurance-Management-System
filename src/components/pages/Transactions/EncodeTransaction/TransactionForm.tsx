@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Grid from '@material-ui/core/Grid'
 import MyForm, { MyFormProps, RenderProps } from 'components/common/MyForm'
 import Client from 'models/client'
@@ -11,7 +11,7 @@ export interface ClientStepTwoProps {
   onSubmit: (transaction: Transaction) => Promise<void>
   state: [
     Transaction,
-    React.Dispatch<React.SetStateAction<Transaction & Client>>,
+    React.Dispatch<React.SetStateAction<Transaction & Client>>
   ]
   employees: Employee[]
 }
@@ -28,13 +28,57 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
     radioButtonDefaultValue: transaction.position,
   }
 
+  const [branch, setBranch] = useState<{ value: any; name: string } | null>(
+    null
+  )
+
+  console.log({ transaction })
+
+  const branchOptions: { value: any; name: string }[] = []
+
+  useEffect(() => {
+    setBranch(
+      branchOptions.find((b) => b.value === +transaction?.branch?.id!) || null
+    )
+  }, [])
+
+  useEffect(() => {
+    setTransaction((transaction) => ({
+      ...transaction,
+      branch_manager: '',
+      agency_manager: '',
+      supervisor: '',
+      sales_agent: '',
+    }))
+  }, [branch])
+
+  const handleBranch = (e: any) => {
+    const b = branchOptions.find((b) => b.value === +e.target.value)
+
+    setBranch(b || null)
+  }
+
   const employeeOptions = (id: number) =>
     employees
-      .filter((employee) => employee.position?.id === id)
+      .filter(
+        (employee) =>
+          employee.position?.id === id && +branch?.value === employee.branch?.id
+      )
       .map((employee) => ({
-        value: employee.id,
+        value: employee.id || '',
         name: `${employee.profile?.lastname}, ${employee.profile?.firstname}`,
       }))
+
+  const map = new Map()
+  for (const employee of employees) {
+    if (!map.has(employee?.branch?.id)) {
+      map.set(employee?.branch?.id, true)
+      branchOptions.push({
+        value: +employee.branch?.id!,
+        name: employee.branch?.name!,
+      })
+    }
+  }
 
   const labelMode =
     transaction.payment_mode !== 'Installment'
@@ -69,6 +113,15 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
               label: 'OR Number',
               value: transaction.or_number,
               name: 'or_number',
+            })}
+
+            {mySelect({
+              label: 'Branch',
+              value: branch?.value || '',
+              name: 'branch',
+              labelWidth: 120,
+              onChange: handleBranch,
+              options: branchOptions,
             })}
 
             <>

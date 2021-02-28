@@ -13,7 +13,7 @@ import Client from 'models/client'
 import { useHistory } from 'react-router-dom'
 import MyAvatar from 'components/common/MyAvatar'
 
-import { computeTotalCountPaid } from 'services/clientService'
+import { computeTotalCountPaid, hasCommission } from 'services/clientService'
 
 export interface ClientCardProps {
   client: Client
@@ -53,9 +53,18 @@ export const ClientCard: React.SFC<ClientCardProps> = ({
                   {'Lapse on ' + new Date(client.next_payment!).toDateString()}
                 </Typography>
 
-                <Grid item xs={1}>
+                <Grid item xs={12}>
                   <Chip
                     style={{ marginTop: 5 }}
+                    size='small'
+                    label={
+                      hasCommission(client!) ? 'on commission' : 'no commission'
+                    }
+                    variant='outlined'
+                    color={hasCommission(client!) ? 'secondary' : 'default'}
+                  />
+                  <Chip
+                    style={{ marginTop: 10 }}
                     size='small'
                     label={computeTotalCountPaid(client) + ' Paid'}
                     color='default'

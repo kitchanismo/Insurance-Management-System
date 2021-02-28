@@ -16,6 +16,7 @@ import MyMiniCards from 'components/common/MyMiniCards'
 import Commission from 'models/commission'
 import MySkeletonCard from 'components/common/MySkeletonCard'
 import MySkeletonMiniCards from 'components/common/MySkeletonMiniCards'
+import { hasCommission } from 'services/clientService'
 
 export interface PaymentViewProps {}
 
@@ -51,9 +52,9 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
   const fullname = `${client?.profile?.lastname}, ${client?.profile?.firstname} ${client?.profile?.middlename}`
 
   const insured_at = new Date(payment?.client?.created_at!)
-  const hasCommission =
-    new Date(insured_at.setFullYear(insured_at.getFullYear() + 1)) >=
-    new Date(Date.now())
+  // const hasCommission =
+  //   new Date(insured_at.setFullYear(insured_at.getFullYear() + 1)) >=
+  //   new Date(Date.now())
 
   const handleSelected = (commission: Commission) => {
     // history.push('/clients/' + client.id)
@@ -99,13 +100,6 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
                   <Typography variant='caption' color='textSecondary'>
                     {'Paid on ' + new Date(payment?.created_at!).toDateString()}
                   </Typography>
-                  <Chip
-                    style={{ marginTop: 5 }}
-                    size='small'
-                    label={hasCommission ? 'with commission' : 'no commission'}
-                    variant='default'
-                    color={hasCommission ? 'secondary' : 'default'}
-                  />
                 </Grid>
                 <Grid
                   container

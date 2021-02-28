@@ -152,13 +152,20 @@ export const computeTotalCountToPay = (client: Client) => {
   return period * client.years_to_pay!
 }
 
+export const hasCommission = (client: Client) => {
+  const price = client?.plan?.price!
+  const balance = client?.balance!
+  const percentage = Math.ceil(((price - balance) * 100) / price)
+  return percentage <= 20
+}
+
 export const computeTotalCountPaid = (client: Client) => {
   const amount = getAmountToPay(client)
 
   const totalCountPaid = computeTotalCountToPay(client)
-
+  console.log(Math.ceil(totalCountPaid - client.balance! / amount))
   return (
-    totalCountPaid - Math.ceil(client.balance! / amount) + '/' + totalCountPaid
+    Math.ceil(totalCountPaid - client.balance! / amount) + '/' + totalCountPaid
   )
 }
 

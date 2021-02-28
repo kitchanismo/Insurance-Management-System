@@ -40,11 +40,7 @@ const PaymentHistory: React.SFC<PaymentHistoryProps> = () => {
     }
   }, [])
 
-  const chips = [
-    { value: '', name: 'All' },
-    { value: 'with', name: 'With Commission' },
-    { value: 'no', name: 'No Commission' },
-  ]
+  const chips = [{ value: '', name: 'All' }]
 
   const onPage = (e: any, page: number) => {
     paymentDispatch({ type: 'SET_TOTAL', payload: 0 })

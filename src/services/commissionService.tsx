@@ -53,3 +53,8 @@ export const releaseCommission = (employeeId: number) => {
     .post('/commissions/release', { employeeId })
     .then(({ data }) => data)
 }
+
+export const hasCommission = (paidAmount: number, price: number) => {
+  const percentage = (paidAmount * 100) / price
+  return percentage <= 20
+}

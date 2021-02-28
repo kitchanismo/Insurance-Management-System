@@ -18,10 +18,6 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
   const history = useHistory()
 
   const client = payment.client
-  const insured_at = new Date(payment?.client?.created_at!)
-  const hasCommission =
-    new Date(insured_at.setFullYear(insured_at.getFullYear() + 1)) >=
-    new Date(Date.now())
 
   const fullname = `${client?.profile?.lastname}, ${client?.profile?.firstname} ${client?.profile?.middlename}`
   return (
@@ -56,15 +52,6 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
             {/* <Typography variant='caption' color='textSecondary'>
               {'Paid on ' + new Date(payment.created_at!).toDateString()}
             </Typography> */}
-            <Grid item xs={1}>
-              <Chip
-                style={{ marginTop: 5 }}
-                size='small'
-                label={hasCommission ? 'with commission' : 'no commission'}
-                variant='default'
-                color={hasCommission ? 'secondary' : 'default'}
-              />
-            </Grid>
           </Grid>
           <Grid container item xs={5} justify='center' alignItems='center'>
             <MyAvatar
@@ -88,7 +75,7 @@ const PaymentCard: React.SFC<PaymentCardProps> = ({ payment }) => {
               variant='text'
               color='primary'
             >
-              Details
+              Commissioners
             </Button>
           </Grid>
 

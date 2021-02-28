@@ -143,6 +143,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
     })
     setClient({
       years_to_pay: 5,
+      created_at: new Date(Date.now()),
     })
   }
 

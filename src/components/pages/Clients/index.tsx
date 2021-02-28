@@ -95,6 +95,8 @@ const Clients: React.SFC<ClientsProps> = () => {
     { value: '', name: 'All' },
     { value: 'lapse', name: 'Lapsed' },
     { value: 'near', name: 'Near' },
+    { value: 'on', name: 'On Commission' },
+    { value: 'no', name: 'No Commission' },
     { value: 'installment', name: 'Installment' },
     { value: 'fullpayment', name: 'Fullpayment' },
   ]

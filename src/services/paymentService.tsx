@@ -10,7 +10,7 @@ export const getPayments = (props?: {
     .get(
       `/payments?page=${props?.page || ''}&search=${
         props?.search || ''
-      }&category=${props?.category || ''}`,
+      }&category=${props?.category || ''}`
     )
     .then(({ data }) => ({
       total: data.count,

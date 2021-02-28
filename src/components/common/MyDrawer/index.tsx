@@ -3,6 +3,7 @@ import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import EmployeesIcon from '@material-ui/icons/People'
+import UsersIcon from '@material-ui/icons/Accessibility'
 import BranchIcon from '@material-ui/icons/Business'
 import ClientIcon from '@material-ui/icons/SupervisedUserCircle'
 import PaymentIcon from '@material-ui/icons/Receipt'
@@ -82,12 +83,18 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
           path: '/branches',
           icon: <BranchIcon />,
         },
+        { name: 'Client Management', path: '/clients', icon: <ClientIcon /> },
+
         {
           name: 'Employee Management',
           path: '/employees',
           icon: <EmployeesIcon />,
         },
-        { name: 'Client Management', path: '/clients', icon: <ClientIcon /> },
+        {
+          name: 'User Management',
+          path: '/users',
+          icon: <UsersIcon />,
+        },
       ],
     },
 

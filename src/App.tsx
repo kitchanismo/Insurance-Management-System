@@ -10,6 +10,7 @@ import { PaymentProvider } from 'providers/PaymentProvider'
 import { BranchProvider } from 'providers/BranchProvider'
 import { CommissionProvider } from 'providers/CommissionProvider'
 import wave from 'assets/wave.svg'
+import { UserProvider } from 'providers/UserProvider'
 
 const App: React.FC = (props) => {
   const [state, dispatch] = useContext(GlobalContext)!
@@ -28,15 +29,17 @@ const App: React.FC = (props) => {
       )}
       {state.currentUser && <Nav />}
       <BranchProvider>
-        <EmployeeProvider>
-          <ClientProvider>
-            <PaymentProvider>
-              <CommissionProvider>
-                <Layout />
-              </CommissionProvider>
-            </PaymentProvider>
-          </ClientProvider>
-        </EmployeeProvider>
+        <UserProvider>
+          <EmployeeProvider>
+            <ClientProvider>
+              <PaymentProvider>
+                <CommissionProvider>
+                  <Layout />
+                </CommissionProvider>
+              </PaymentProvider>
+            </ClientProvider>
+          </EmployeeProvider>
+        </UserProvider>
       </BranchProvider>
     </>
   )

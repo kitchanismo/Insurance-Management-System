@@ -56,12 +56,12 @@ const UserCard: React.SFC<UserCardProps> = ({ user, onArchive }) => {
 
         <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
         <Grid container xs={12} justify='space-evenly'>
-          <IconButton
+          {/* <IconButton
             onClick={() => history.push('/users/' + user.id)}
             aria-label='view'
           >
             <ViewIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton
             onClick={() => history.push('/users/edit/' + user.id)}
             aria-label='edit'

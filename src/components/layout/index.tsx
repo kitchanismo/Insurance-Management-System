@@ -27,6 +27,7 @@ import ReleaseTransaction from 'components/pages/Transactions/ReleaseTransaction
 import NotFound from 'components/common/NotFound'
 import Users from 'components/pages/Users'
 import NewUser from 'components/pages/Users/NewUser'
+import EditUser from 'components/pages/Users/EditUser'
 
 const Layout = () => {
   const styles = useStyles()
@@ -34,6 +35,7 @@ const Layout = () => {
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
+        <AuthRoute isAdmin path='/users/edit/:id' component={EditUser} />
         <AuthRoute isAdmin path='/users/new' component={NewUser} />
         <AuthRoute isAdmin path='/users' component={Users} />
         <AuthRoute path='/commissions' component={Commissions} />

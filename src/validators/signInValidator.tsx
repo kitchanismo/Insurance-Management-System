@@ -3,7 +3,7 @@ import { notNull } from 'utils/helper'
 
 const signInValidator = {
   username: notNull('Username'),
-  password: notNull('Password'),
+  password: Joi.string().min(8).max(50).required().label('Password'),
 }
 
 export default signInValidator

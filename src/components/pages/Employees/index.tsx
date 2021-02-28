@@ -123,7 +123,7 @@ const Employees: React.SFC<EmployeesProps> = () => {
       })
       globalDispatch({
         type: 'SET_ALERT',
-        payload: { message: 'Successfully archived', type: 'error' },
+        payload: { message: 'Successfully archived', type: 'success' },
       })
       setChip({ value: '', name: 'All' })
     })

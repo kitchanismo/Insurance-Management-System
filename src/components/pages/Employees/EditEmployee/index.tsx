@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { GlobalContext } from 'providers/GlobalProvider'
-import validator from '../../../../validators/saveEmployeeValidator'
+import validator from 'validators/editUserValidator'
 import MyForm, { MyFormProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
 import { EmployeeContext } from 'providers/EmployeeProvider'
@@ -48,7 +48,7 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
       setIsLoading(false)
     })
     getBranches().then((branches) =>
-      branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches }),
+      branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches })
     )
   }, [])
 

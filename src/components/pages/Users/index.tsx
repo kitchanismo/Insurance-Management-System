@@ -3,7 +3,7 @@ import { UserContext } from 'providers/UserProvider'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import { useContext, useEffect, useState } from 'react'
-import { getUsers } from 'services/userService'
+import { getUsers, archiveUser } from 'services/userService'
 import Grid from '@material-ui/core/Grid'
 import Pagination from '@material-ui/lab/Pagination'
 import User from 'models/user'
@@ -59,7 +59,21 @@ const Users: React.SFC<UsersProps> = () => {
 
   const [user, setUser] = useState<User>()
 
-  const handleArchive = () => {}
+  const handleArchive = () => {
+    archiveUser(user?.id!).then((data) => {
+      onLoad({
+        page,
+      })
+      globalDispatch({
+        type: 'SET_ALERT',
+        payload: { message: 'Successfully archived', type: 'success' },
+      })
+      setChip({ value: '', name: 'All' })
+    })
+    setAlertDialog({
+      open: false,
+    })
+  }
 
   const onSearch = (search: string) => {
     setChip({ value: '', name: 'All' })

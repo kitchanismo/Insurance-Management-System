@@ -18,9 +18,19 @@ export const getUsers = ({
 }
 
 export const getUser = (id: number) => {
-  return http.get('/users/' + id).then(({ data }) => data)
+  return http
+    .get('/users/' + id)
+    .then(({ data }) => ({ ...data, branch: data.branch?.id }))
 }
 
 export const saveUser = (user: User) => {
   return http.post('/users', user).then(({ data }) => data)
+}
+
+export const updateUser = (user: User) => {
+  return http.put('/users/' + user.id, user).then(({ data }) => data)
+}
+
+export const archiveUser = (id: number) => {
+  return http.delete('/users/' + id).then(({ data }) => data)
 }

@@ -1,40 +1,32 @@
 import React, { useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import Grid from '@material-ui/core/Grid'
 import { GlobalContext } from 'providers/GlobalProvider'
-import validator from 'validators/saveUserValidator'
+import validator from 'validators/editUserValidator'
 import MyForm, { MyFormProps, InputProps } from 'components/common/MyForm'
-import { saveUser } from 'services/userService'
+import { getUser, updateUser } from 'services/userService'
 import { UserContext } from 'providers/UserProvider'
 import { postImage } from 'services/imageService'
 import { getBranches } from 'services/branchService'
 import { BranchContext } from 'providers/BranchProvider'
 import User from 'models/user'
 
-export interface NewUserProps {}
+export interface EditUserProps {}
 
-const NewUser: React.SFC<NewUserProps> = () => {
+const EditUser: React.SFC<EditUserProps> = () => {
   const [{ currentUser }, globalDispatch] = useContext(GlobalContext)!
+
+  const params = useParams<{ id: string }>()
 
   const [branchState, branchDispatch] = useContext(BranchContext)!
 
   const [imageFile, setImageFile] = React.useState<HTMLImageElement | null>(
     null
   )
-
-  useEffect(() => {
-    globalDispatch({ type: 'SET_TITLE', payload: 'User Registration' })
-
-    getBranches().then((branches) =>
-      branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches })
-    )
-  }, [])
-
-  const history = useHistory()
 
   const [user, setUser] = React.useState<User>({
     username: '',
@@ -45,13 +37,24 @@ const NewUser: React.SFC<NewUserProps> = () => {
     password: '',
   })
 
+  useEffect(() => {
+    globalDispatch({ type: 'SET_TITLE', payload: 'Edit User' })
+
+    getUser(+params.id).then((user) => setUser(user))
+    getBranches().then((branches) =>
+      branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches })
+    )
+  }, [])
+
+  const history = useHistory()
+
   const onSubmit = async (user: User) => {
     globalDispatch({ type: 'SET_IS_LOADING', payload: true })
 
     return postImage(user?.image!, (image_url: string) => {
       user.image_url = image_url
       delete user.image
-      return saveUser(user).then(() => {
+      return updateUser(user).then(() => {
         globalDispatch({
           type: 'SET_ALERT',
           payload: { message: 'Successfully added', type: 'success' },
@@ -69,33 +72,27 @@ const NewUser: React.SFC<NewUserProps> = () => {
 
   return (
     <MyForm {...formProps}>
-      {({ myInput, mySelect, myButton }) => (
+      {({ myControlledInput, mySelect, myButton }) => (
         <>
-          {myInput({
+          {myControlledInput({
             label: 'Username',
             value: user.username,
             name: 'username',
           })}
-          {myInput({
+          {myControlledInput({
             label: 'Firstname',
             value: user.firstname,
             name: 'firstname',
           })}
-          {myInput({
+          {myControlledInput({
             label: 'Middlename',
             value: user.middlename,
             name: 'middlename',
           })}
-          {myInput({
+          {myControlledInput({
             label: 'Lastname',
             value: user.lastname,
             name: 'lastname',
-          })}
-          {myInput({
-            label: 'Password',
-            value: user.password,
-            name: 'password',
-            type: 'password',
           })}
 
           {mySelect({
@@ -184,4 +181,4 @@ const NewUser: React.SFC<NewUserProps> = () => {
     </MyForm>
   )
 }
-export default NewUser
+export default EditUser

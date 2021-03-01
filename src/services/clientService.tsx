@@ -120,7 +120,6 @@ export const getAmountToPay = (client: Client) => {
       return client.plan?.price! / (4 * client.years_to_pay!)
     case 'Semi-Annually':
       return client.plan?.price! / (2 * client.years_to_pay!)
-      break
     case 'Annually':
       return client.plan?.price! / client.years_to_pay!
     default:
@@ -163,7 +162,6 @@ export const computeTotalCountPaid = (client: Client) => {
   const amount = getAmountToPay(client)
 
   const totalCountPaid = computeTotalCountToPay(client)
-  console.log(Math.ceil(totalCountPaid - client.balance! / amount))
   return (
     Math.ceil(totalCountPaid - client.balance! / amount) + '/' + totalCountPaid
   )

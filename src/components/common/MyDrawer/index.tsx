@@ -253,40 +253,44 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
           <ChevronLeftIcon />
         </IconButton>
       </Grid>
-      <Grid
-        alignItems='flex-end'
-        justify='center'
-        // xs={12}
-        direction='row'
-        style={{ paddingLeft: 10, paddingRight: 10, width: 280 }}
-        container
-      >
-        <Grid item container xs={4}>
-          <MyAvatar width={70} height={70} src={user?.image_url} />
-        </Grid>
-        <Grid
-          style={{ paddingLeft: 10 }}
-          xs={8}
-          item
-          justify='flex-start'
-          container
-          direction='column'
-        >
-          <Typography variant='subtitle1' color='textPrimary'>
-            {`${user?.lastname}, ${user?.firstname} ${user?.middlename}`}
-          </Typography>
-          <Typography variant='subtitle1' color='textSecondary'>
-            {`${user?.branch?.name} - ${user?.role}`}
-          </Typography>
-        </Grid>
-      </Grid>
-      <Divider
-        style={{
-          marginTop: 10,
-          marginLeft: 10,
-          marginRight: 10,
-        }}
-      ></Divider>
+      {user?.id && (
+        <>
+          <Grid
+            alignItems='flex-end'
+            justify='center'
+            // xs={12}
+            direction='row'
+            style={{ paddingLeft: 10, paddingRight: 10, width: 280 }}
+            container
+          >
+            <Grid item container xs={4}>
+              <MyAvatar width={70} height={70} src={user?.image_url} />
+            </Grid>
+            <Grid
+              style={{ paddingLeft: 10 }}
+              xs={8}
+              item
+              justify='flex-start'
+              container
+              direction='column'
+            >
+              <Typography variant='subtitle1' color='textPrimary'>
+                {`${user?.lastname}, ${user?.firstname} ${user?.middlename}`}
+              </Typography>
+              <Typography variant='subtitle1' color='textSecondary'>
+                {`${user?.branch?.name} - ${user?.role}`}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Divider
+            style={{
+              marginTop: 10,
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+          ></Divider>
+        </>
+      )}
       <List
         className={styles.root}
         component='nav'

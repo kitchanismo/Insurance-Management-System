@@ -45,7 +45,6 @@ interface SubMenuProps {
 }
 
 interface MenuProps {
-  state: [boolean, React.Dispatch<React.SetStateAction<boolean>>]
   name: string
   subMenus: SubMenuProps[]
 }
@@ -56,6 +55,8 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
   const history = useHistory()
 
   const [state, dispatch] = React.useContext(GlobalContext)!
+
+  const [active, setActive] = useState('')
 
   const stateManagementOpen = useState(false)
   const stateTransactionOpen = useState(false)
@@ -70,7 +71,6 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
 
   const adminMenus: MenuProps[] = [
     {
-      state: stateTransactionOpen,
       name: 'Transaction',
       subMenus: [
         {
@@ -86,7 +86,6 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
       ],
     },
     {
-      state: stateManagementOpen,
       name: 'Management',
       subMenus: [
         {
@@ -110,7 +109,6 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
     },
 
     {
-      state: stateHistoryOpen,
       name: 'History',
       subMenus: [
         {
@@ -126,7 +124,6 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
       ],
     },
     {
-      state: stateSettingOpen,
       name: 'Settings',
       subMenus: [
         {
@@ -195,19 +192,24 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
     )
   }
 
-  const renderMenus = ({ state: [open, setOpen], ...rest }: MenuProps) => {
+  const toggleMenu = (name: string) => {
+    setActive((active) => (active === name ? '' : name))
+  }
+
+  const renderMenus = (menu: MenuProps) => {
+    const open = active === menu.name
     return (
       <>
         <ListItem
           style={{ paddingLeft: 30 }}
           button
-          onClick={() => setOpen(!open)}
+          onClick={() => toggleMenu(menu.name)}
         >
-          <ListItemText primary={rest.name} />
+          <ListItemText primary={menu.name} />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={open} timeout='auto' unmountOnExit>
-          {rest.subMenus.map((subMenu) => renderSubMenus(subMenu))}
+          {menu.subMenus.map((subMenu) => renderSubMenus(subMenu))}
         </Collapse>
       </>
     )
@@ -251,21 +253,10 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
           <ChevronLeftIcon />
         </IconButton>
       </Grid>
-
-      <List
-        className={styles.root}
-        component='nav'
-        aria-labelledby='nested-list-subheader'
-      >
-        {state.currentUser?.role === 'admin' &&
-          adminMenus.map((menu) => renderMenus(menu))}
-        {state.currentUser?.role === 'cashier' &&
-          cashierMenus.map((menu) => renderSubMenus(menu))}
-      </List>
       <Grid
         alignItems='flex-end'
         justify='center'
-        xs={12}
+        // xs={12}
         direction='row'
         style={{ paddingLeft: 10, paddingRight: 10, width: 280 }}
         container
@@ -289,6 +280,24 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
           </Typography>
         </Grid>
       </Grid>
+      <Divider
+        style={{
+          marginTop: 10,
+          marginLeft: 10,
+          marginRight: 10,
+        }}
+      ></Divider>
+      <List
+        className={styles.root}
+        component='nav'
+        aria-labelledby='nested-list-subheader'
+      >
+        {state.currentUser?.role === 'admin' &&
+          adminMenus.map((menu) => renderMenus(menu))}
+        {state.currentUser?.role === 'cashier' &&
+          cashierMenus.map((menu) => renderSubMenus(menu))}
+      </List>
+
       <Divider
         style={{
           marginTop: 10,

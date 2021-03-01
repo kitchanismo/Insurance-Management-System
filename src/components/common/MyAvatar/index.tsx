@@ -19,7 +19,7 @@ const MyAvatar: React.SFC<MyAvatarProps> = ({
   height,
   children,
 }) => {
-  const styles = useStyles()
+  const styles = useStyles({ width, height })()
   return (
     <IconButton onClick={onClick}>
       <Avatar className={styles.avatar} src={src} aria-label='clients'>
@@ -29,14 +29,15 @@ const MyAvatar: React.SFC<MyAvatarProps> = ({
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    avatar: {
-      width: 100,
-      height: 100,
-      backgroundColor: theme.palette.secondary.main,
-    },
-  }),
-)
+const useStyles = ({ width, height }: { height?: number; width?: number }) =>
+  makeStyles((theme: Theme) =>
+    createStyles({
+      avatar: {
+        width: width || 100,
+        height: height || 100,
+        backgroundColor: theme.palette.secondary.main,
+      },
+    })
+  )
 
 export default MyAvatar

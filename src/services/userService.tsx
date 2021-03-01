@@ -31,6 +31,14 @@ export const updateUser = (user: User) => {
   return http.put('/users/' + user.id, user).then(({ data }) => data)
 }
 
+export const updateAccount = (user: User) => {
+  return http.put('/users/account/' + user.id, user).then(({ data }) => data)
+}
+
 export const archiveUser = (id: number) => {
   return http.delete('/users/' + id).then(({ data }) => data)
+}
+
+export const getMe = () => {
+  return http.get('/users/me').then(({ data }) => data)
 }

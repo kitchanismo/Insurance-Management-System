@@ -115,45 +115,6 @@ const EditUser: React.SFC<EditUserProps> = () => {
           })}
 
           <Grid
-            container
-            style={{
-              paddingLeft: 15,
-              paddingRight: 15,
-              marginBottom: 10,
-            }}
-            alignItems='center'
-            justify='space-between'
-            xs={12}
-          >
-            <Typography variant='subtitle1'>
-              {imageFile?.name || 'Select Photo'}
-            </Typography>
-            <>
-              <input
-                accept='image/*'
-                style={{
-                  display: 'none',
-                }}
-                name='image'
-                id='icon-button-file'
-                type='file'
-                onChange={(e: any) => {
-                  setImageFile(e.target.files[0])
-                }}
-              />
-              <label htmlFor='icon-button-file'>
-                <IconButton
-                  color='primary'
-                  aria-label='upload picture'
-                  component='span'
-                >
-                  <PhotoCamera />
-                </IconButton>
-              </label>
-            </>
-          </Grid>
-
-          <Grid
             style={{ paddingLeft: 18, paddingTop: 10, paddingBottom: 5 }}
             container
             xs={12}

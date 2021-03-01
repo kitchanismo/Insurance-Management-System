@@ -6,6 +6,7 @@ interface User {
   middlename?: string
   lastname?: string
   password: string
+  new_password?: string
   role?: 'admin' | 'cashier'
   branch?: Branch
   image_url?: string

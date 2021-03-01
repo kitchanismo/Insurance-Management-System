@@ -15,7 +15,7 @@ import SignIn from 'components/pages/Auth/SignIn'
 import AuthRoute from 'components/common/MyAuthRoute'
 import GuestRoute from 'components/common/MyGuestRoute'
 import Transaction from 'components/pages/Transactions/EncodeTransaction'
-import Settings from 'components/pages/Settings'
+import GeneralSettings from 'components/pages/Settings/General'
 import EditClient from 'components/pages/Clients/EditClient'
 import PaymentHistory from 'components/pages/Payments'
 import PaymentView from 'components/pages/Payments/PaymentView'
@@ -28,6 +28,7 @@ import NotFound from 'components/common/NotFound'
 import Users from 'components/pages/Users'
 import NewUser from 'components/pages/Users/NewUser'
 import EditUser from 'components/pages/Users/EditUser'
+import AccountSettings from 'components/pages/Settings/Account'
 
 const Layout = () => {
   const styles = useStyles()
@@ -51,7 +52,8 @@ const Layout = () => {
         <AuthRoute isAdmin path='/payments/:id' component={PaymentView} />
         <AuthRoute isAdmin path='/payments' component={PaymentHistory} />
 
-        <AuthRoute path='/settings' component={Settings} />
+        <AuthRoute path='/settings/general' component={GeneralSettings} />
+        <AuthRoute path='/settings/account' component={AccountSettings} />
 
         <AuthRoute path='/clients/new' component={NewClient} />
         <AuthRoute isAdmin path='/clients/edit/:id' component={EditClient} />

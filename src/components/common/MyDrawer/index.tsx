@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
@@ -11,7 +11,7 @@ import CommissionIcon from '@material-ui/icons/Description'
 import SettingsIcon from '@material-ui/icons/Settings'
 import TransactionIcon from '@material-ui/icons/Payment'
 import ReleaseIcon from '@material-ui/icons/MonetizationOn'
-import ExitIcon from '@material-ui/icons/ExitToApp'
+import FaceIcon from '@material-ui/icons/Face'
 import ListItem from '@material-ui/core/ListItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -25,8 +25,13 @@ import { GlobalContext } from 'providers/GlobalProvider'
 import { useHistory } from 'react-router-dom'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
+
+import Typography from '@material-ui/core/Typography'
 import MyAlertDialog, { AlertDataProps } from '../MyAlertDialog'
 import { onSignout } from 'services/authService'
+import MyAvatar from '../MyAvatar'
+import { getMe } from 'services/userService'
+import User from 'models/user'
 
 export interface MyDrawerProps {
   isActive: boolean
@@ -56,6 +61,12 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
   const stateTransactionOpen = useState(false)
   const stateHistoryOpen = useState(false)
   const stateSettingOpen = useState(false)
+
+  const [user, setUser] = useState<Partial<User>>({})
+
+  useEffect(() => {
+    getMe().then((user) => setUser(user))
+  }, [])
 
   const adminMenus: MenuProps[] = [
     {
@@ -120,8 +131,13 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
       subMenus: [
         {
           name: 'General Settings',
-          path: '/settings',
+          path: '/settings/general',
           icon: <SettingsIcon />,
+        },
+        {
+          name: 'Account Settings',
+          path: '/settings/account',
+          icon: <FaceIcon />,
         },
       ],
     },
@@ -145,8 +161,13 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
     },
     {
       name: 'General Settings',
-      path: '/settings',
+      path: '/settings/general',
       icon: <SettingsIcon />,
+    },
+    {
+      name: 'Account Settings',
+      path: '/settings/account',
+      icon: <FaceIcon />,
     },
   ]
 
@@ -209,7 +230,6 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
         dispatch({ type: 'SET_CURRENT_USER', payload: null })
       })
   }
-
   return (
     <Drawer
       anchor='left'
@@ -231,6 +251,7 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
           <ChevronLeftIcon />
         </IconButton>
       </Grid>
+
       <List
         className={styles.root}
         component='nav'
@@ -240,26 +261,53 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
           adminMenus.map((menu) => renderMenus(menu))}
         {state.currentUser?.role === 'cashier' &&
           cashierMenus.map((menu) => renderSubMenus(menu))}
-        <Divider
-          style={{
-            marginTop: 10,
-            marginLeft: 10,
-            marginRight: 10,
-          }}
-        ></Divider>
-        <ListItem style={{ paddingLeft: 30 }} button>
-          <ListItemText
-            className={styles.logout}
-            primary='Logout'
-            onClick={() => {
-              setAlertDialog({
-                text: 'Are you sure do you want to logout?',
-                open: true,
-              })
-            }}
-          />
-        </ListItem>
       </List>
+      <Grid
+        alignItems='flex-end'
+        justify='center'
+        xs={12}
+        direction='row'
+        style={{ paddingLeft: 10, paddingRight: 10, width: 280 }}
+        container
+      >
+        <Grid item container xs={4}>
+          <MyAvatar width={70} height={70} src={user?.image_url} />
+        </Grid>
+        <Grid
+          style={{ paddingLeft: 10 }}
+          xs={8}
+          item
+          justify='flex-start'
+          container
+          direction='column'
+        >
+          <Typography variant='subtitle1' color='textPrimary'>
+            {`${user?.lastname}, ${user?.firstname} ${user?.middlename}`}
+          </Typography>
+          <Typography variant='subtitle1' color='textSecondary'>
+            {`${user?.branch?.name} - ${user?.role}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Divider
+        style={{
+          marginTop: 10,
+          marginLeft: 10,
+          marginRight: 10,
+        }}
+      ></Divider>
+      <ListItem style={{ paddingLeft: 30 }} button>
+        <ListItemText
+          className={styles.logout}
+          primary='Logout'
+          onClick={() => {
+            setAlertDialog({
+              text: 'Are you sure do you want to logout?',
+              open: true,
+            })
+          }}
+        />
+      </ListItem>
     </Drawer>
   )
 }

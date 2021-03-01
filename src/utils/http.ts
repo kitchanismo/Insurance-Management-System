@@ -27,6 +27,10 @@ axios.interceptors.response.use(
       throw Error(error.message)
     }
 
+    if (error?.code === '406') {
+      window.location.href = '/signin'
+    }
+
     throw error
   }
 )
@@ -34,10 +38,18 @@ axios.interceptors.response.use(
 createAuthRefreshInterceptor(
   axios,
   (failedRequest) => {
-    return axios.get('/auth/refresh-token').then(({ data }) => {
-      localStorage.setItem('access_token', data.access_token)
-      return Promise.resolve()
-    })
+    return axios
+      .get('/auth/refresh-token')
+      .then(({ data }) => {
+        localStorage.setItem('access_token', data.access_token)
+        return Promise.resolve()
+      })
+      .catch((error) => {
+        if (error.response.status === 406) {
+          localStorage.removeItem('access_token')
+          window.location.href = '/signin'
+        }
+      })
   },
   {
     statusCodes: [403],

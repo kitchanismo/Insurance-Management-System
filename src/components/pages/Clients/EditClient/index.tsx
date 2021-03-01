@@ -36,7 +36,7 @@ const EditClient: React.SFC<EditClientProps> = () => {
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Edit Client Profile' })
     const profile = clientState.clients.filter(
-      (client) => client.id === +params.id,
+      (client) => client.id === +params.id
     )[0]
     setProfile(profile)
   }, [])
@@ -52,7 +52,7 @@ const EditClient: React.SFC<EditClientProps> = () => {
         .then(() => {
           globalDispatch({
             type: 'SET_ALERT',
-            payload: { message: 'Successfully added', type: 'success' },
+            payload: { message: 'Successfully saved', type: 'success' },
           })
           globalDispatch({ type: 'SET_IS_LOADING', payload: false })
         })

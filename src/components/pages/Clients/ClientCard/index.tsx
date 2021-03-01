@@ -52,8 +52,7 @@ export const ClientCard: React.SFC<ClientCardProps> = ({
                 <Typography variant='caption' color='textSecondary'>
                   {'Lapse on ' + new Date(client.next_payment!).toDateString()}
                 </Typography>
-
-                <Grid item xs={12}>
+                <Grid item xs={1}>
                   <Chip
                     style={{ marginTop: 5 }}
                     size='small'

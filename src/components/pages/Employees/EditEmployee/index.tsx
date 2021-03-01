@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { GlobalContext } from 'providers/GlobalProvider'
-import validator from 'validators/editUserValidator'
+import validator from 'validators/saveEmployeeValidator'
 import MyForm, { MyFormProps } from 'components/common/MyForm'
 import Employee from 'models/employee'
 import { EmployeeContext } from 'providers/EmployeeProvider'
@@ -63,7 +63,7 @@ const EditEmployee: React.SFC<EditUserProps> = () => {
         .then(() => {
           globalDispatch({
             type: 'SET_ALERT',
-            payload: { message: 'Successfully added', type: 'success' },
+            payload: { message: 'Successfully saved', type: 'success' },
           })
           globalDispatch({ type: 'SET_IS_LOADING', payload: false })
         })

@@ -65,7 +65,7 @@ export const ClientCard: React.SFC<ClientCardProps> = ({
                   <Chip
                     style={{ marginTop: 10 }}
                     size='small'
-                    label={computeTotalCountPaid(client) + ' Paid'}
+                    label={computeTotalCountPaid(client) + ' paid'}
                     color='default'
                     variant='outlined'
                   />

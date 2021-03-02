@@ -45,7 +45,7 @@ function MyMiniCards<T>({
         avatar={
           <Avatar
             className={styles.avatar}
-            src={image_provider + src}
+            src={!!src ? image_provider + src : ''}
             aria-label='item'
           ></Avatar>
         }

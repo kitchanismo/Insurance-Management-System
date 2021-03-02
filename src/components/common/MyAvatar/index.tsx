@@ -25,7 +25,7 @@ const MyAvatar: React.SFC<MyAvatarProps> = ({
     <IconButton onClick={onClick}>
       <Avatar
         className={styles.avatar}
-        src={image_provider + src}
+        src={!!src ? image_provider + src : ''}
         aria-label='clients'
       >
         {children?.()}

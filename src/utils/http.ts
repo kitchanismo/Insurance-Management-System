@@ -27,10 +27,6 @@ axios.interceptors.response.use(
       throw Error(error.message)
     }
 
-    if (error?.code === '406') {
-      window.location.href = '/signin'
-    }
-
     throw error
   }
 )
@@ -49,11 +45,12 @@ createAuthRefreshInterceptor(
           localStorage.removeItem('access_token')
           window.location.href = '/signin'
         }
+        console.log(error.response)
       })
   },
   {
     statusCodes: [403],
-    pauseInstanceWhileRefreshing: true,
+    // pauseInstanceWhileRefreshing: true,
   }
 )
 

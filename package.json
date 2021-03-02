@@ -39,6 +39,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:prod": "react-scripts ../insurance-management-system-server/build/public",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

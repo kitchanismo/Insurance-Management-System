@@ -2,6 +2,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
+import { image_provider } from 'configs/index.json'
 
 export interface MyAvatarProps {
   onClick?: () => void
@@ -22,7 +23,11 @@ const MyAvatar: React.SFC<MyAvatarProps> = ({
   const styles = useStyles({ width, height })()
   return (
     <IconButton onClick={onClick}>
-      <Avatar className={styles.avatar} src={src} aria-label='clients'>
+      <Avatar
+        className={styles.avatar}
+        src={image_provider + src}
+        aria-label='clients'
+      >
         {children?.()}
       </Avatar>
     </IconButton>

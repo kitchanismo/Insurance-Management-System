@@ -16,7 +16,6 @@ import MyMiniCards from 'components/common/MyMiniCards'
 import Commission from 'models/commission'
 import MySkeletonCard from 'components/common/MySkeletonCard'
 import MySkeletonMiniCards from 'components/common/MySkeletonMiniCards'
-import { hasCommission } from 'services/clientService'
 
 export interface PaymentViewProps {}
 

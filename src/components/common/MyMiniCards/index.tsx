@@ -7,6 +7,7 @@ import { useState, useContext } from 'react'
 
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 import { GlobalContext } from 'providers/GlobalProvider'
+import { image_provider } from 'configs/index.json'
 
 interface RenderProps<T> {
   renderCards: (props: RenderCardsProps<T>) => JSX.Element
@@ -44,7 +45,7 @@ function MyMiniCards<T>({
         avatar={
           <Avatar
             className={styles.avatar}
-            src={src}
+            src={image_provider + src}
             aria-label='item'
           ></Avatar>
         }
@@ -109,7 +110,7 @@ const useStyles = (isDark: boolean) =>
         overflowX: 'auto',
         flexWrap: 'nowrap',
       },
-    }),
+    })
   )
 
 export default MyMiniCards

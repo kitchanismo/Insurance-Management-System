@@ -4,11 +4,9 @@ import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import Paper from '@material-ui/core/Paper'
 import React, { useContext, useEffect } from 'react'
-import ClientsGraph, { DataProps } from './ClientsGraph'
-import SalesGraph from './SalesGraph'
 import { BranchContext } from 'providers/BranchProvider'
 import { getBranches } from 'services/branchService'
-import MyGraph from 'components/common/MyGraph'
+import MyGraph, { DataProps } from 'components/common/MyGraph'
 
 export interface DashboardProps {}
 
@@ -59,7 +57,7 @@ const data: DataProps[] = [
   },
   {
     name: 'Dec',
-    count: 340,
+    count: 3490,
   },
 ]
 

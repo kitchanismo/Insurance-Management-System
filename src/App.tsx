@@ -11,6 +11,7 @@ import { BranchProvider } from 'providers/BranchProvider'
 import { CommissionProvider } from 'providers/CommissionProvider'
 import wave from 'assets/wave.svg'
 import { UserProvider } from 'providers/UserProvider'
+import MyNavFooter from 'components/common/MyNavFooter'
 
 const App: React.FC = (props) => {
   const [state, dispatch] = useContext(GlobalContext)!
@@ -41,6 +42,7 @@ const App: React.FC = (props) => {
           </EmployeeProvider>
         </UserProvider>
       </BranchProvider>
+      {state.currentUser && <MyNavFooter />}
     </>
   )
 }

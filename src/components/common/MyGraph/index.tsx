@@ -13,6 +13,7 @@ import useTheme from '@material-ui/core/styles/useTheme'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Menu from '@material-ui/core/Menu'
+import Paper from '@material-ui/core/Paper'
 import MenuItem from '@material-ui/core/MenuItem'
 import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
@@ -169,6 +170,7 @@ const MyGraph: React.SFC<ClientsGraphProps> = ({ branches, data, title }) => {
               />
             </linearGradient>
           </defs>
+
           <XAxis dataKey='name' />
           <YAxis />
           <CartesianGrid strokeDasharray='3 3' />
@@ -181,16 +183,18 @@ const MyGraph: React.SFC<ClientsGraphProps> = ({ branches, data, title }) => {
             // labelStyle={{ color: '#333' }}
           />
           {/* <Legend verticalAlign='bottom' height={40} /> */}
+
           <Area
             name='total'
             type='monotone'
             dataKey='count'
             stroke={theme.palette.primary.main}
-            fillOpacity={1}
+            fillOpacity={2}
             fill='url(#colorCount)'
           />
         </AreaChart>
       </ResponsiveContainer>
+
       <Grid xs={12} item container alignItems='center' justify='center'>
         <Typography component='h5' variant='subtitle1' color='textPrimary'>
           {`A total of 3000 ${title} from ` + titleRange}

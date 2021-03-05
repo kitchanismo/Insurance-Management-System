@@ -69,10 +69,10 @@ const Layout = () => {
         <AuthRoute isAdmin path='/employees/:id' component={ViewEmployee} />
         <AuthRoute isAdmin path='/employees' component={Employees} />
 
-        <AuthRoute path='/dashboard' component={Dashboard} />
+        <AuthRoute path='/app' component={Dashboard} />
         <GuestRoute path='/signin' component={SignIn} />
         <Route path='/not-found' component={NotFound} />
-        <Redirect from='/' exact to='/dashboard' />
+        <Redirect from='/' exact to='/app' />
         <Redirect to='/not-found' />
       </Switch>
     </Container>
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 110,
     paddingTop: 80,
     height: '100%',
-    backgroundColor: theme.palette.background.default,
+    //  backgroundColor: theme.palette.background.default,
   },
 }))
 

@@ -65,7 +65,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
   const [state, dispatch] = useContext(GlobalContext)!
 
   useEffect(() => {
-    dispatch({ type: 'SET_TITLE', payload: 'Dashboard' })
+    dispatch({ type: 'SET_TITLE', payload: 'Purple Supremacy' })
     getBranches().then((branches) => {
       branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches })
     })
@@ -80,12 +80,18 @@ const Dashboard: React.SFC<DashboardProps> = () => {
   return (
     <Grid container justify='center' xs={12}>
       <Grid
-        style={{ padding: 5, marginBottom: 5 }}
+        style={{ padding: 5, marginBottom: 5, paddingTop: 0 }}
         container
         xs={12}
         direction='column'
       >
-        <Paper elevation={1} style={{ padding: 20 }}>
+        <Typography component='h5' variant='h5' color='textPrimary'>
+          Welcome, {state.currentUser?.username || ''}
+        </Typography>
+        <Typography component='h5' variant='subtitle1' color='textSecondary'>
+          Today is {new Date(Date.now()).toDateString()}
+        </Typography>
+        <Paper elevation={1} style={{ padding: 20, marginTop: 10 }}>
           <Grid container xs={12}>
             <Grid alignItems='center' container direction='column' item xs={4}>
               <Typography
@@ -93,13 +99,9 @@ const Dashboard: React.SFC<DashboardProps> = () => {
                 variant='subtitle1'
                 color='textPrimary'
               >
-                SMS
+                Sms
               </Typography>
-              <Typography
-                component='h5'
-                variant='subtitle1'
-                color='textSecondary'
-              >
+              <Typography component='h5' variant='subtitle1' color='secondary'>
                 10
               </Typography>
             </Grid>
@@ -111,11 +113,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
               >
                 Lapse
               </Typography>
-              <Typography
-                component='h5'
-                variant='subtitle1'
-                color='textSecondary'
-              >
+              <Typography component='h5' variant='subtitle1' color='secondary'>
                 10
               </Typography>
             </Grid>
@@ -127,11 +125,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
               >
                 Near
               </Typography>
-              <Typography
-                component='h5'
-                variant='subtitle1'
-                color='textSecondary'
-              >
+              <Typography component='h5' variant='subtitle1' color='secondary'>
                 10
               </Typography>
             </Grid>
@@ -144,11 +138,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
             <Typography component='h5' variant='subtitle1' color='textPrimary'>
               Gross Sales
             </Typography>
-            <Typography
-              component='h5'
-              variant='subtitle1'
-              color='textSecondary'
-            >
+            <Typography component='h5' variant='subtitle1' color='secondary'>
               ₱ 10000
             </Typography>
           </Paper>
@@ -158,11 +148,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
             <Typography component='h5' variant='subtitle1' color='textPrimary'>
               Net Sales
             </Typography>
-            <Typography
-              component='h5'
-              variant='subtitle1'
-              color='textSecondary'
-            >
+            <Typography component='h5' variant='subtitle1' color='secondary'>
               ₱ 8000
             </Typography>
           </Paper>
@@ -180,11 +166,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
             <Typography component='h5' variant='subtitle1' color='textPrimary'>
               Total Clients
             </Typography>
-            <Typography
-              component='h5'
-              variant='subtitle1'
-              color='textSecondary'
-            >
+            <Typography component='h5' variant='subtitle1' color='secondary'>
               5000
             </Typography>
           </Grid>

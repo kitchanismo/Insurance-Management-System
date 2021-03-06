@@ -17,47 +17,40 @@ import Paper from '@material-ui/core/Paper'
 import MenuItem from '@material-ui/core/MenuItem'
 import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
+import Branch from 'models/branch'
 
 export interface DataProps {
   name: string
   count: number
+  year?: number
 }
 
 export interface ClientsGraphProps {
-  branches: string[]
+  branches: Branch[]
   data: DataProps[]
+  range: { start: string; end: string }
   title: string
+  onSelectedRange: (range: string) => void
+  onSelectedBranch: (branch: string) => void
 }
 
-const MyGraph: React.SFC<ClientsGraphProps> = ({ branches, data, title }) => {
+const MyGraph: React.SFC<ClientsGraphProps> = ({
+  branches,
+  data,
+  title,
+  range,
+  onSelectedRange,
+  onSelectedBranch,
+}) => {
   const theme = useTheme()
 
   const [anchorElRange, setAnchorElRange] = useState(null)
 
   const [anchorElBranch, setAnchorElBranch] = useState(null)
 
-  const [textRange, setTextRange] = useState('THIS YEAR')
+  const [textRange, setTextRange] = useState('ALL CLIENTS')
 
   const [textBranch, setTextBranch] = useState('ALL BRANCHES')
-
-  const [titleRange, setTitleRange] = useState(
-    new Date(Date.now()).getFullYear().toString()
-  )
-
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ]
 
   const handleClickRange = (event: any) => {
     setAnchorElRange(event.currentTarget)
@@ -68,38 +61,46 @@ const MyGraph: React.SFC<ClientsGraphProps> = ({ branches, data, title }) => {
   }
 
   const handleSelectRange = (event: any) => {
-    const text = event.currentTarget?.textContent
+    const value = event.currentTarget?.id
+    const text = event.currentTarget?.title
+
     setAnchorElRange(null)
+
     if (!text) {
       return
     }
 
+    onSelectedRange(value)
     setTextRange(text)
-    if (text === 'THIS YEAR') {
-      setTitleRange(new Date(Date.now()).getFullYear().toString())
-    }
-    if (text === 'THIS MONTH') {
-      setTitleRange(months[new Date(Date.now()).getMonth()])
-    }
   }
 
   const handleSelectBranch = (event: any) => {
-    const text = event.currentTarget?.textContent
+    const value = event.currentTarget?.id
+    const text = event.currentTarget?.title
     setAnchorElBranch(null)
+
     if (!text) {
       return
     }
 
+    onSelectedBranch(value)
     setTextBranch(text)
   }
 
-  const renderMenuItemBranch = (value: string) => {
+  const renderMenuItemBranch = (branch: Branch) => {
     return (
-      <MenuItem value={value} onClick={handleSelectBranch}>
-        {value}
+      <MenuItem
+        key={branch?.id!}
+        id={'' + branch?.id!}
+        title={branch?.name}
+        onClick={handleSelectBranch}
+      >
+        {branch?.name}
       </MenuItem>
     )
   }
+
+  const total = data?.reduce((acc, stat) => acc + +stat.count, 0)
 
   return (
     <>
@@ -121,11 +122,25 @@ const MyGraph: React.SFC<ClientsGraphProps> = ({ branches, data, title }) => {
             open={Boolean(anchorElRange)}
             onClose={handleSelectRange}
           >
-            <MenuItem value='THIS YEAR' onClick={handleSelectRange}>
-              THIS YEAR
+            <MenuItem title='PAST 7 DAYS' id='week' onClick={handleSelectRange}>
+              PAST 7 DAYS
             </MenuItem>
-            <MenuItem value='THIS MONTH' onClick={handleSelectRange}>
-              THIS MONTH
+            <MenuItem
+              title='PAST 30 DAYS'
+              id='month'
+              onClick={handleSelectRange}
+            >
+              PAST 30 DAYS
+            </MenuItem>
+            <MenuItem
+              title='PAST 12 MONTHS'
+              id='year'
+              onClick={handleSelectRange}
+            >
+              PAST 12 MONTHS
+            </MenuItem>
+            <MenuItem title='ALL CLIENTS' id='' onClick={handleSelectRange}>
+              ALL CLIENTS
             </MenuItem>
           </Menu>
         </Grid>
@@ -196,8 +211,12 @@ const MyGraph: React.SFC<ClientsGraphProps> = ({ branches, data, title }) => {
       </ResponsiveContainer>
 
       <Grid xs={12} item container alignItems='center' justify='center'>
-        <Typography component='h5' variant='subtitle1' color='textPrimary'>
-          {`A total of 3000 ${title} from ` + titleRange}
+        <Typography component='h5' variant='subtitle1' color='textSecondary'>
+          {`${total} ${title} from ${new Date(
+            range?.start!
+          ).toLocaleDateString()} to ${new Date(
+            range?.end!
+          ).toLocaleDateString()}`}
         </Typography>
       </Grid>
     </>

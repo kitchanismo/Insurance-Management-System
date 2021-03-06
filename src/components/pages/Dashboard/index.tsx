@@ -6,61 +6,14 @@ import Paper from '@material-ui/core/Paper'
 import React, { useContext, useEffect, useState } from 'react'
 import { BranchContext } from 'providers/BranchProvider'
 import { getBranches } from 'services/branchService'
-import MyGraph, { DataProps } from 'components/common/MyGraph'
-import { getData, getStatistics } from 'services/statisticService'
+import {
+  getClientStats,
+  getStatistics,
+  getSalesStats,
+} from 'services/statisticService'
+import StatisticGraph from './StatisticGraph'
 
 export interface DashboardProps {}
-
-const data: DataProps[] = [
-  {
-    name: 'Jan',
-    count: 3000,
-  },
-  {
-    name: 'Feb',
-    count: 3000,
-  },
-  {
-    name: 'Mar',
-    count: 2000,
-  },
-  {
-    name: 'Apr',
-    count: 2780,
-  },
-  {
-    name: 'May',
-    count: 1890,
-  },
-  {
-    name: 'Jun',
-    count: 2390,
-  },
-  {
-    name: 'Jul',
-    count: 3390,
-  },
-  {
-    name: 'Aug',
-    count: 3690,
-  },
-  {
-    name: 'Sep',
-    count: 3350,
-  },
-  {
-    name: 'Oct',
-    count: 3340,
-  },
-  {
-    name: 'Nov',
-    count: 350,
-  },
-  {
-    name: 'Dec',
-    count: 3490,
-  },
-]
 
 interface StatisticsProps {
   totalClients: number
@@ -68,63 +21,45 @@ interface StatisticsProps {
   netSales: number
   near: number
   lapsed: number
-  range: { start: string; end: string }
-  statistics: DataProps[]
+  releaseCommissions: number
+  unreleaseCommissions: number
 }
 
 const Dashboard: React.SFC<DashboardProps> = () => {
   const [state, dispatch] = useContext(GlobalContext)!
 
-  const [data, setData] = useState<StatisticsProps>({
+  const [branchState, branchDispatch] = useContext(BranchContext)!
+
+  const [stat, setStat] = useState<StatisticsProps>({
     totalClients: 0,
     grossSales: 0,
     netSales: 0,
     near: 0,
     lapsed: 0,
-    range: { start: '', end: '' },
-    statistics: [],
+    releaseCommissions: 0,
+    unreleaseCommissions: 0,
   })
-
-  const [branchId, setBranchId] = useState('')
-
-  const [range, setRange] = useState('')
 
   useEffect(() => {
     dispatch({ type: 'SET_TITLE', payload: 'Purple Supremacy' })
+    dispatch({ type: 'SET_IS_LOADING', payload: true })
     getBranches().then((branches) => {
       branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches })
     })
 
-    getStatistics().then((data) =>
-      setData((prevData) => ({
+    getStatistics().then((data) => {
+      setStat((prevData) => ({
         ...prevData,
         ...data,
       }))
-    )
-  }, [])
 
-  useEffect(() => {
-    getData(range, +branchId).then((data) => {
-      setData((prevData) => ({
-        ...prevData,
-        ...data,
-      }))
+      dispatch({ type: 'SET_IS_LOADING', payload: false })
     })
-  }, [range, branchId])
-
-  const [branchState, branchDispatch] = useContext(BranchContext)!
+  }, [])
 
   const branches = [...branchState.branches]
 
   branches.push({ id: 0, name: 'ALL BRANCHES' })
-
-  const handleSelectedBranchClient = (branchId: string) => {
-    setBranchId(branchId)
-  }
-
-  const handleSelectedRange = (range: string) => {
-    setRange(range)
-  }
 
   return (
     <Grid container justify='center' xs={12}>
@@ -163,7 +98,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
                 Lapsed
               </Typography>
               <Typography component='h5' variant='subtitle1' color='secondary'>
-                {data?.lapsed}
+                {stat?.lapsed}
               </Typography>
             </Grid>
             <Grid alignItems='center' container direction='column' item xs={4}>
@@ -175,7 +110,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
                 Near
               </Typography>
               <Typography component='h5' variant='subtitle1' color='secondary'>
-                {data?.near}
+                {stat?.near}
               </Typography>
             </Grid>
           </Grid>
@@ -188,7 +123,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
               Gross Sales
             </Typography>
             <Typography component='h5' variant='subtitle1' color='secondary'>
-              ₱ {data?.grossSales}
+              ₱ {stat?.grossSales}
             </Typography>
           </Paper>
         </Grid>
@@ -198,7 +133,30 @@ const Dashboard: React.SFC<DashboardProps> = () => {
               Net Sales
             </Typography>
             <Typography component='h5' variant='subtitle1' color='secondary'>
-              ₱ {data?.netSales}
+              ₱ {stat?.netSales}
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+
+      <Grid spacing={1} style={{ marginTop: 5 }} container xs={12}>
+        <Grid item xs={6} direction='column'>
+          <Paper elevation={2} style={{ padding: 20 }}>
+            <Typography component='h5' variant='subtitle1' color='textPrimary'>
+              Release
+            </Typography>
+            <Typography component='h5' variant='subtitle1' color='secondary'>
+              ₱ {stat?.releaseCommissions}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6} direction='column'>
+          <Paper elevation={2} style={{ padding: 20 }}>
+            <Typography component='h5' variant='subtitle1' color='textPrimary'>
+              Unrelease
+            </Typography>
+            <Typography component='h5' variant='subtitle1' color='secondary'>
+              ₱ {stat?.unreleaseCommissions}
             </Typography>
           </Paper>
         </Grid>
@@ -213,10 +171,10 @@ const Dashboard: React.SFC<DashboardProps> = () => {
         <Paper elevation={2} style={{ padding: 20 }}>
           <Grid container xs={12} direction='column' alignItems='center'>
             <Typography component='h5' variant='subtitle1' color='textPrimary'>
-              Total Clients
+              Clients
             </Typography>
             <Typography component='h5' variant='subtitle1' color='secondary'>
-              {data?.totalClients}
+              {stat?.totalClients}
             </Typography>
           </Grid>
         </Paper>
@@ -224,17 +182,19 @@ const Dashboard: React.SFC<DashboardProps> = () => {
       <Divider
         style={{ width: '100%', marginBottom: 10, marginTop: 20 }}
       ></Divider>
-      <MyGraph
-        onSelectedRange={handleSelectedRange}
-        onSelectedBranch={handleSelectedBranchClient}
+      <StatisticGraph
         title='client/s'
-        range={data?.range!}
-        data={data?.statistics!}
+        getData={getClientStats}
         branches={branches}
       />
       <Divider
         style={{ width: '100%', marginBottom: 10, marginTop: 20 }}
       ></Divider>
+      <StatisticGraph
+        title='sales'
+        getData={getSalesStats}
+        branches={branches}
+      />
     </Grid>
   )
 }

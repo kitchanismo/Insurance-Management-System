@@ -48,7 +48,7 @@ const MyGraph: React.SFC<ClientsGraphProps> = ({
 
   const [anchorElBranch, setAnchorElBranch] = useState(null)
 
-  const [textRange, setTextRange] = useState('ALL CLIENTS')
+  const [textRange, setTextRange] = useState('ALL RECORDS')
 
   const [textBranch, setTextBranch] = useState('ALL BRANCHES')
 
@@ -139,8 +139,8 @@ const MyGraph: React.SFC<ClientsGraphProps> = ({
             >
               PAST 12 MONTHS
             </MenuItem>
-            <MenuItem title='ALL CLIENTS' id='' onClick={handleSelectRange}>
-              ALL CLIENTS
+            <MenuItem title='ALL RECORDS' id='' onClick={handleSelectRange}>
+              ALL RECORDS
             </MenuItem>
           </Menu>
         </Grid>
@@ -203,7 +203,7 @@ const MyGraph: React.SFC<ClientsGraphProps> = ({
             name='total'
             type='monotone'
             dataKey='count'
-            stroke={theme.palette.primary.main}
+            stroke={theme.palette.secondary.main}
             fillOpacity={2}
             fill='url(#colorCount)'
           />

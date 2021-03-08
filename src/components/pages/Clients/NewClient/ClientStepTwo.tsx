@@ -88,7 +88,7 @@ export const ClientStepTwo: React.SFC<ClientStepTwoProps> = ({
                 label: 'Branch',
                 value: branch?.value || '',
                 name: 'branch',
-                labelWidth: 120,
+                labelWidth: 55,
                 onChange: handleBranch,
                 options: branchOptions,
               })}

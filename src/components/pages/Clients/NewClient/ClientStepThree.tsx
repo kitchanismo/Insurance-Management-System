@@ -15,7 +15,7 @@ export interface ClientStepTwoProps {
   onNext: (client: Client & Payment) => Promise<void>
   state: [
     Client & Payment,
-    React.Dispatch<React.SetStateAction<Client & Payment>>,
+    React.Dispatch<React.SetStateAction<Client & Payment>>
   ]
 }
 
@@ -30,7 +30,7 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
   useEffect(() => {
     if (client.payment_mode && client.plan) {
       const plan = clientState.plans.filter(
-        (plan) => plan.id === (client.plan as any),
+        (plan) => plan.id === (client.plan as any)
       )[0]
       setClient((client) => ({
         ...client,

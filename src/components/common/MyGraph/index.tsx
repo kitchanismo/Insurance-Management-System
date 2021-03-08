@@ -212,11 +212,23 @@ const MyGraph: React.SFC<ClientsGraphProps> = ({
 
       <Grid xs={12} item container alignItems='center' justify='center'>
         <Typography component='h5' variant='subtitle1' color='textSecondary'>
-          {`${total} ${title} from ${new Date(
-            range?.start!
-          ).toLocaleDateString()} to ${new Date(
-            range?.end!
-          ).toLocaleDateString()}`}
+          {`${total} ${title} from ${
+            range?.start
+              ? new Date(range?.start!).toLocaleDateString('en-GB', {
+                  month: '2-digit',
+                  day: '2-digit',
+                  year: 'numeric',
+                })
+              : ''
+          } to ${
+            range?.end
+              ? new Date(range?.end!).toLocaleDateString('en-GB', {
+                  month: '2-digit',
+                  day: '2-digit',
+                  year: 'numeric',
+                })
+              : ''
+          }`}
         </Typography>
       </Grid>
     </>

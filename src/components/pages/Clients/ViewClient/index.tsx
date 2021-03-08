@@ -50,7 +50,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
   )
 
   return (
-    <Grid container xs={12}>
+    <>
       {isLoading && <MySkeletonCard />}
       {client && !isLoading && (
         <>
@@ -172,7 +172,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
           </Grid>
         </>
       )}
-    </Grid>
+    </>
   )
 }
 

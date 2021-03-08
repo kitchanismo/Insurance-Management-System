@@ -21,27 +21,25 @@ const Settings: React.SFC<SettingsProps> = () => {
   }
 
   return (
-    <Grid xs={12} container>
-      <MyCard title='General Settings'>
-        <Grid style={{ padding: 20 }} direction='column' container xs={12}>
-          <Typography variant='subtitle1'>Theme</Typography>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={state.isDark}
-                onChange={() => dispatch({ type: 'TOGGLE_THEME' })}
-                name='checkedA'
-                inputProps={{ 'aria-label': 'secondary checkbox' }}
-              />
-            }
-            label='Dark Mode'
-          />
-          <Button onClick={onSave} fullWidth variant='text' color='primary'>
-            Save
-          </Button>
-        </Grid>
-      </MyCard>
-    </Grid>
+    <MyCard title='General Settings'>
+      <Grid style={{ padding: 20 }} direction='column' container xs={12}>
+        <Typography variant='subtitle1'>Theme</Typography>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={state.isDark}
+              onChange={() => dispatch({ type: 'TOGGLE_THEME' })}
+              name='checkedA'
+              inputProps={{ 'aria-label': 'secondary checkbox' }}
+            />
+          }
+          label='Dark Mode'
+        />
+        <Button onClick={onSave} fullWidth variant='text' color='primary'>
+          Save
+        </Button>
+      </Grid>
+    </MyCard>
   )
 }
 

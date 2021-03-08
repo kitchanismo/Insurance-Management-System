@@ -60,7 +60,7 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
   }
 
   return (
-    <Grid container xs={12}>
+    <>
       {isLoading && (
         <>
           <MySkeletonCard height={110} />
@@ -146,7 +146,7 @@ const PaymentView: React.SFC<PaymentViewProps> = () => {
           BACK
         </Button>
       </Grid>
-    </Grid>
+    </>
   )
 }
 

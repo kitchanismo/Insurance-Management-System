@@ -76,28 +76,35 @@ const Transaction: React.SFC<TransactionProps> = () => {
         amount,
       }))
 
-      getRecentCommissionerByClient(transaction.id).then((employees: any) => {
-        const getCommissioner = (id: number) =>
-          employees.find((employee: any) =>
-            globalState.currentUser?.role === 'admin'
-              ? employee.positionId === id
-              : employee.positionId === id &&
-                employee.branchId === globalState.currentUser?.branch?.id!
-          )?.id || ''
+      globalDispatch({ type: 'SET_IS_LOADING', payload: true })
 
-        const branch_manager = getCommissioner(1)
-        const agency_manager = getCommissioner(2)
-        const supervisor = getCommissioner(3)
-        const sales_agent = getCommissioner(4)
+      getRecentCommissionerByClient(transaction.id)
+        .then((employees: any) => {
+          globalDispatch({ type: 'SET_IS_LOADING', payload: false })
 
-        setTransaction((transaction) => ({
-          ...transaction,
-          branch_manager,
-          agency_manager,
-          supervisor,
-          sales_agent,
-        }))
-      })
+          const getCommissioner = (id: number) =>
+            employees.find((employee: any) =>
+              globalState.currentUser?.role === 'admin'
+                ? employee.positionId === id
+                : employee.positionId === id &&
+                  employee.branch?.id === globalState.currentUser?.branch?.id!
+            )?.id || ''
+
+          const branch_manager = getCommissioner(1)
+          const agency_manager = getCommissioner(2)
+          const supervisor = getCommissioner(3)
+          const sales_agent = getCommissioner(4)
+
+          setTransaction((transaction) => ({
+            ...transaction,
+            branch: employees[0]?.branch,
+            branch_manager,
+            agency_manager,
+            supervisor,
+            sales_agent,
+          }))
+        })
+        .catch(() => globalDispatch({ type: 'SET_IS_LOADING', payload: false }))
     }
   }, [transaction.payment_mode, transaction.id])
 

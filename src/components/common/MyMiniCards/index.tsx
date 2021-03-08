@@ -4,6 +4,7 @@ import CardHeader from '@material-ui/core/CardHeader'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import { useState, useContext } from 'react'
+import Fade from 'react-reveal/Fade'
 
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 import { GlobalContext } from 'providers/GlobalProvider'
@@ -68,18 +69,20 @@ function MyMiniCards<T>({
     >
       {items.map((item, index) => (
         <Grid item xs={12} key={index}>
-          <Card
-            style={{ minHeight: 92, display: 'flex', alignItems: 'center' }}
-            className={
-              selectedItem === item ? styles.headerSelected : styles.header
-            }
-            onClick={() => {
-              onSelected?.(item)
-              setSelectedItem(item)
-            }}
-          >
-            {children?.({ renderCards, item } as RenderProps<T>)}
-          </Card>
+          <Fade>
+            <Card
+              style={{ minHeight: 92, display: 'flex', alignItems: 'center' }}
+              className={
+                selectedItem === item ? styles.headerSelected : styles.header
+              }
+              onClick={() => {
+                onSelected?.(item)
+                setSelectedItem(item)
+              }}
+            >
+              {children?.({ renderCards, item } as RenderProps<T>)}
+            </Card>
+          </Fade>
         </Grid>
       ))}
     </Grid>

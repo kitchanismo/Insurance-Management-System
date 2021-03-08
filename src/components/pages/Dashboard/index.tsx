@@ -12,6 +12,8 @@ import {
   getSalesStats,
 } from 'services/statisticService'
 import StatisticGraph from './StatisticGraph'
+import Fade from 'react-reveal/Fade'
+import Scroll from 'react-scroll'
 
 export interface DashboardProps {}
 
@@ -30,6 +32,8 @@ const Dashboard: React.SFC<DashboardProps> = () => {
 
   const [branchState, branchDispatch] = useContext(BranchContext)!
 
+  const scroll = Scroll.animateScroll
+
   const [stat, setStat] = useState<StatisticsProps>({
     totalClients: 0,
     grossSales: 0,
@@ -42,19 +46,23 @@ const Dashboard: React.SFC<DashboardProps> = () => {
 
   useEffect(() => {
     dispatch({ type: 'SET_TITLE', payload: 'Purple Supremacy' })
-    dispatch({ type: 'SET_IS_LOADING', payload: true })
+
     getBranches().then((branches) => {
       branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches })
     })
 
-    getStatistics().then((data) => {
-      setStat((prevData) => ({
-        ...prevData,
-        ...data,
-      }))
+    if (state?.currentUser?.role === 'admin') {
+      dispatch({ type: 'SET_IS_LOADING', payload: true })
+      getStatistics().then((data) => {
+        setStat((prevData) => ({
+          ...prevData,
+          ...data,
+        }))
 
-      dispatch({ type: 'SET_IS_LOADING', payload: false })
-    })
+        dispatch({ type: 'SET_IS_LOADING', payload: false })
+      })
+    }
+    scroll.scrollToTop({ duration: 1000 })
   }, [])
 
   const branches = [...branchState.branches]
@@ -62,140 +70,221 @@ const Dashboard: React.SFC<DashboardProps> = () => {
   branches.push({ id: 0, name: 'ALL BRANCHES' })
 
   return (
-    <Grid container justify='center' xs={12}>
-      <Grid
-        style={{ padding: 5, marginBottom: 5, paddingTop: 0 }}
-        container
-        xs={12}
-        direction='column'
-      >
-        <Typography component='h5' variant='h5' color='textPrimary'>
-          Welcome, {state.currentUser?.username || ''}
-        </Typography>
-        <Typography component='h5' variant='subtitle1' color='textSecondary'>
-          Today is {new Date(Date.now()).toDateString()}
-        </Typography>
-        <Paper elevation={1} style={{ padding: 20, marginTop: 10 }}>
-          <Grid container xs={12}>
-            <Grid alignItems='center' container direction='column' item xs={4}>
-              <Typography
-                component='h5'
-                variant='subtitle1'
-                color='textPrimary'
-              >
-                Sms
-              </Typography>
-              <Typography component='h5' variant='subtitle1' color='secondary'>
-                0
-              </Typography>
-            </Grid>
-            <Grid alignItems='center' container direction='column' item xs={4}>
-              <Typography
-                component='h5'
-                variant='subtitle1'
-                color='textPrimary'
-              >
-                Lapsed
-              </Typography>
-              <Typography component='h5' variant='subtitle1' color='secondary'>
-                {stat?.lapsed}
-              </Typography>
-            </Grid>
-            <Grid alignItems='center' container direction='column' item xs={4}>
-              <Typography
-                component='h5'
-                variant='subtitle1'
-                color='textPrimary'
-              >
-                Near
-              </Typography>
-              <Typography component='h5' variant='subtitle1' color='secondary'>
-                {stat?.near}
-              </Typography>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-      <Grid spacing={1} container xs={12}>
-        <Grid item xs={6} direction='column'>
-          <Paper elevation={2} style={{ padding: 20 }}>
-            <Typography component='h5' variant='subtitle1' color='textPrimary'>
-              Gross Sales
-            </Typography>
-            <Typography component='h5' variant='subtitle1' color='secondary'>
-              ₱ {stat?.grossSales}
-            </Typography>
-          </Paper>
+    <Fade delay={500}>
+      <Grid container justify='center' xs={12}>
+        <Grid
+          style={{ padding: 5, marginBottom: 5, paddingTop: 0 }}
+          container
+          xs={12}
+          direction='column'
+        >
+          <Typography component='h5' variant='h5' color='textPrimary'>
+            Welcome, {state.currentUser?.username || ''}
+          </Typography>
+          <Typography component='h5' variant='subtitle1' color='textSecondary'>
+            Today is {new Date(Date.now()).toDateString()}
+          </Typography>
+          {state?.currentUser?.role === 'admin' && (
+            <>
+              <Paper elevation={1} style={{ padding: 20, marginTop: 10 }}>
+                <Grid container xs={12}>
+                  <Grid
+                    alignItems='center'
+                    container
+                    direction='column'
+                    item
+                    xs={4}
+                  >
+                    <Typography
+                      component='h5'
+                      variant='subtitle1'
+                      color='textPrimary'
+                    >
+                      Sms
+                    </Typography>
+                    <Typography
+                      component='h5'
+                      variant='subtitle1'
+                      color='secondary'
+                    >
+                      0
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    alignItems='center'
+                    container
+                    direction='column'
+                    item
+                    xs={4}
+                  >
+                    <Typography
+                      component='h5'
+                      variant='subtitle1'
+                      color='textPrimary'
+                    >
+                      Lapsed
+                    </Typography>
+                    <Typography
+                      component='h5'
+                      variant='subtitle1'
+                      color='secondary'
+                    >
+                      {stat?.lapsed}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    alignItems='center'
+                    container
+                    direction='column'
+                    item
+                    xs={4}
+                  >
+                    <Typography
+                      component='h5'
+                      variant='subtitle1'
+                      color='textPrimary'
+                    >
+                      Near
+                    </Typography>
+                    <Typography
+                      component='h5'
+                      variant='subtitle1'
+                      color='secondary'
+                    >
+                      {stat?.near}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Paper>
+            </>
+          )}
         </Grid>
-        <Grid item xs={6} direction='column'>
-          <Paper elevation={2} style={{ padding: 20 }}>
-            <Typography component='h5' variant='subtitle1' color='textPrimary'>
-              Net Sales
-            </Typography>
-            <Typography component='h5' variant='subtitle1' color='secondary'>
-              ₱ {stat?.netSales}
-            </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
+        {state?.currentUser?.role === 'admin' && (
+          <>
+            <Grid spacing={1} container xs={12}>
+              <Grid item xs={6} direction='column'>
+                <Paper elevation={2} style={{ padding: 20 }}>
+                  <Typography
+                    component='h5'
+                    variant='subtitle1'
+                    color='textPrimary'
+                  >
+                    Gross Sales
+                  </Typography>
+                  <Typography
+                    component='h5'
+                    variant='subtitle1'
+                    color='secondary'
+                  >
+                    ₱ {stat?.grossSales}
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid item xs={6} direction='column'>
+                <Paper elevation={2} style={{ padding: 20 }}>
+                  <Typography
+                    component='h5'
+                    variant='subtitle1'
+                    color='textPrimary'
+                  >
+                    Net Sales
+                  </Typography>
+                  <Typography
+                    component='h5'
+                    variant='subtitle1'
+                    color='secondary'
+                  >
+                    ₱ {stat?.netSales}
+                  </Typography>
+                </Paper>
+              </Grid>
+            </Grid>
 
-      <Grid spacing={1} style={{ marginTop: 5 }} container xs={12}>
-        <Grid item xs={6} direction='column'>
-          <Paper elevation={2} style={{ padding: 20 }}>
-            <Typography component='h5' variant='subtitle1' color='textPrimary'>
-              Release
-            </Typography>
-            <Typography component='h5' variant='subtitle1' color='secondary'>
-              ₱ {stat?.releaseCommissions}
-            </Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} direction='column'>
-          <Paper elevation={2} style={{ padding: 20 }}>
-            <Typography component='h5' variant='subtitle1' color='textPrimary'>
-              Unrelease
-            </Typography>
-            <Typography component='h5' variant='subtitle1' color='secondary'>
-              ₱ {stat?.unreleaseCommissions}
-            </Typography>
-          </Paper>
-        </Grid>
+            <Grid spacing={1} style={{ marginTop: 5 }} container xs={12}>
+              <Grid item xs={6} direction='column'>
+                <Paper elevation={2} style={{ padding: 20 }}>
+                  <Typography
+                    component='h5'
+                    variant='subtitle1'
+                    color='textPrimary'
+                  >
+                    Release
+                  </Typography>
+                  <Typography
+                    component='h5'
+                    variant='subtitle1'
+                    color='secondary'
+                  >
+                    ₱ {stat?.releaseCommissions}
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid item xs={6} direction='column'>
+                <Paper elevation={2} style={{ padding: 20 }}>
+                  <Typography
+                    component='h5'
+                    variant='subtitle1'
+                    color='textPrimary'
+                  >
+                    Unrelease
+                  </Typography>
+                  <Typography
+                    component='h5'
+                    variant='subtitle1'
+                    color='secondary'
+                  >
+                    ₱ {stat?.unreleaseCommissions}
+                  </Typography>
+                </Paper>
+              </Grid>
+            </Grid>
+            <Grid
+              style={{ padding: 5, marginTop: 5 }}
+              item
+              xs={12}
+              direction='column'
+              alignItems='center'
+            >
+              <Paper elevation={2} style={{ padding: 20 }}>
+                <Grid container xs={12} direction='column' alignItems='center'>
+                  <Typography
+                    component='h5'
+                    variant='subtitle1'
+                    color='textPrimary'
+                  >
+                    Clients
+                  </Typography>
+                  <Typography
+                    component='h5'
+                    variant='subtitle1'
+                    color='secondary'
+                  >
+                    {stat?.totalClients}
+                  </Typography>
+                </Grid>
+              </Paper>
+            </Grid>
+
+            <Divider
+              style={{ width: '100%', marginBottom: 10, marginTop: 20 }}
+            ></Divider>
+            <StatisticGraph
+              title='client/s'
+              getData={getClientStats}
+              branches={branches}
+            />
+            <Divider
+              style={{ width: '100%', marginBottom: 10, marginTop: 20 }}
+            ></Divider>
+            <StatisticGraph
+              title='sales'
+              getData={getSalesStats}
+              branches={branches}
+            />
+          </>
+        )}
       </Grid>
-      <Grid
-        style={{ padding: 5, marginTop: 5 }}
-        item
-        xs={12}
-        direction='column'
-        alignItems='center'
-      >
-        <Paper elevation={2} style={{ padding: 20 }}>
-          <Grid container xs={12} direction='column' alignItems='center'>
-            <Typography component='h5' variant='subtitle1' color='textPrimary'>
-              Clients
-            </Typography>
-            <Typography component='h5' variant='subtitle1' color='secondary'>
-              {stat?.totalClients}
-            </Typography>
-          </Grid>
-        </Paper>
-      </Grid>
-      <Divider
-        style={{ width: '100%', marginBottom: 10, marginTop: 20 }}
-      ></Divider>
-      <StatisticGraph
-        title='client/s'
-        getData={getClientStats}
-        branches={branches}
-      />
-      <Divider
-        style={{ width: '100%', marginBottom: 10, marginTop: 20 }}
-      ></Divider>
-      <StatisticGraph
-        title='sales'
-        getData={getSalesStats}
-        branches={branches}
-      />
-    </Grid>
+    </Fade>
   )
 }
 

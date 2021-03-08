@@ -26,6 +26,7 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "downlevelIteration": true,
+    "noImplicitAny": false,
   },
   "include": [
     "src"

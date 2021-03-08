@@ -2,6 +2,7 @@ import React from 'react'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Card, { CardProps } from '@material-ui/core/Card'
+import Fade from 'react-reveal/Fade'
 
 export interface MyCardProps extends CardProps {
   title: any
@@ -10,14 +11,20 @@ export interface MyCardProps extends CardProps {
 const MyCard: React.FC<MyCardProps> = ({ title, ...props }) => {
   const styles = useStyles()
   return (
-    <Card {...props}>
-      <div className={styles.cardHeader}>
-        <Typography className={styles.titleHeader} component='h6' variant='h6'>
-          {title}
-        </Typography>
-      </div>
-      {props.children}
-    </Card>
+    <Fade>
+      <Card {...props}>
+        <div className={styles.cardHeader}>
+          <Typography
+            className={styles.titleHeader}
+            component='h6'
+            variant='h6'
+          >
+            {title}
+          </Typography>
+        </div>
+        {props.children}
+      </Card>
+    </Fade>
   )
 }
 
@@ -36,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
     titleHeader: {
       color: 'white',
     },
-  }),
+  })
 )
 
 export default MyCard

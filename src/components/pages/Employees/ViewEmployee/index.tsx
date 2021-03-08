@@ -110,138 +110,131 @@ const ViewEmployee: React.SFC<ViewUserProps> = (props) => {
 
   return (
     <>
-      <Grid container xs={12}>
-        {isLoading && (
-          <>
-            <MySkeletonCard />
-            <Grid container style={{ marginBottom: 10 }} xs={12}>
-              <Badge
-                badgeContent={count! >= 100 ? '99+' : count}
-                color='primary'
-              >
-                <Typography variant='subtitle1'>Clients</Typography>
-              </Badge>
-              {/* <Link component='button' variant='body1'>
+      {isLoading && (
+        <>
+          <MySkeletonCard />
+          <Grid container style={{ marginBottom: 10 }} xs={12}>
+            <Badge badgeContent={count! >= 100 ? '99+' : count} color='primary'>
+              <Typography variant='subtitle1'>Clients</Typography>
+            </Badge>
+            {/* <Link component='button' variant='body1'>
                 View All({employee?.clients?.length})
               </Link> */}
-              <MySkeletonMiniCards />
-            </Grid>
-          </>
-        )}
-        {!isLoading && employee && (
-          <>
-            <MyCard title={'Employee#' + employee.id}>
-              <CardContent>
-                <Grid container xs={12} justify='space-between'>
+            <MySkeletonMiniCards />
+          </Grid>
+        </>
+      )}
+      {!isLoading && employee && (
+        <>
+          <MyCard title={'Employee#' + employee.id}>
+            <CardContent>
+              <Grid container xs={12} justify='space-between'>
+                <Grid
+                  style={{ paddingLeft: 10 }}
+                  container
+                  direction='column'
+                  item
+                  xs={7}
+                  justify='flex-start'
+                >
+                  <Typography component='h6' variant='h6'>
+                    {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
+                  </Typography>
+                  <Typography variant='subtitle1' color='textSecondary'>
+                    {position?.name}
+                  </Typography>
+                  <Typography variant='subtitle1' color='textSecondary'>
+                    {branch?.name}
+                  </Typography>
+                  <Grid item xs={1}>
+                    <Chip
+                      style={{ marginTop: 5 }}
+                      size='small'
+                      label={employee.status}
+                      variant='default'
+                      color={
+                        employee.status !== 'active' ? 'secondary' : 'primary'
+                      }
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  item
+                  xs={5}
+                  justify='center'
+                  alignItems='center'
+                >
+                  <MyAvatar src={employee.image_url} />
+                </Grid>
+              </Grid>
+            </CardContent>
+            <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
+            <CardContent>
+              <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
+                {detail('Gender', employee.gender)}
+                {detail('Civil Status', employee.civil)}
+                {detail('Contact', employee.contact)}
+                {detail(
+                  'Age',
+                  employee.birthdate ? calculateAge(employee.birthdate) : 'N/A'
+                )}
+                {
                   <Grid
-                    style={{ paddingLeft: 10 }}
                     container
+                    alignItems='center'
                     direction='column'
                     item
-                    xs={7}
-                    justify='flex-start'
+                    xs={12}
                   >
                     <Typography component='h6' variant='h6'>
-                      {`${employee.lastname}, ${employee.firstname} ${employee.middlename}`}
+                      Address
                     </Typography>
                     <Typography variant='subtitle1' color='textSecondary'>
-                      {position?.name}
+                      {employee.address}
                     </Typography>
-                    <Typography variant='subtitle1' color='textSecondary'>
-                      {branch?.name}
-                    </Typography>
-                    <Grid item xs={1}>
-                      <Chip
-                        style={{ marginTop: 5 }}
-                        size='small'
-                        label={employee.status}
-                        variant='default'
-                        color={
-                          employee.status !== 'active' ? 'secondary' : 'primary'
-                        }
-                      />
-                    </Grid>
                   </Grid>
-                  <Grid
-                    container
-                    item
-                    xs={5}
-                    justify='center'
-                    alignItems='center'
-                  >
-                    <MyAvatar src={employee.image_url} />
-                  </Grid>
-                </Grid>
-              </CardContent>
-              <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
-              <CardContent>
-                <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
-                  {detail('Gender', employee.gender)}
-                  {detail('Civil Status', employee.civil)}
-                  {detail('Contact', employee.contact)}
-                  {detail(
-                    'Age',
-                    employee.birthdate
-                      ? calculateAge(employee.birthdate)
-                      : 'N/A'
-                  )}
-                  {
-                    <Grid
-                      container
-                      alignItems='center'
-                      direction='column'
-                      item
-                      xs={12}
-                    >
-                      <Typography component='h6' variant='h6'>
-                        Address
-                      </Typography>
-                      <Typography variant='subtitle1' color='textSecondary'>
-                        {employee.address}
-                      </Typography>
-                    </Grid>
-                  }
-                </Grid>
-              </CardContent>
-            </MyCard>
-            {renderClients(employee.clients!)}
-            <Grid
-              style={{
-                paddingLeft: 18,
-                paddingTop: 10,
-                paddingBottom: 5,
-              }}
-              container
-              xs={12}
-              justify='center'
-              spacing={2}
-            >
-              <Grid item xs={6}>
-                <Button
-                  onClick={() => history.goBack()}
-                  style={{ paddingTop: 15, paddingBottom: 15 }}
-                  fullWidth
-                  variant='contained'
-                  color='default'
-                >
-                  BACK
-                </Button>
+                }
               </Grid>
-              <Grid item xs={6}>
-                <Button
-                  onClick={() => history.push('/employees/edit/' + employee.id)}
-                  style={{ paddingTop: 15, paddingBottom: 15 }}
-                  fullWidth
-                  variant='contained'
-                  color='primary'
-                >
-                  EDIT
-                </Button>
-              </Grid>
+            </CardContent>
+          </MyCard>
+          {renderClients(employee.clients!)}
+          <Grid
+            style={{
+              paddingLeft: 18,
+              paddingTop: 10,
+              paddingBottom: 5,
+            }}
+            container
+            xs={12}
+            justify='center'
+            spacing={2}
+          >
+            <Grid item xs={6}>
+              <Button
+                onClick={() => history.goBack()}
+                style={{ paddingTop: 15, paddingBottom: 15 }}
+                fullWidth
+                variant='contained'
+                color='default'
+              >
+                BACK
+              </Button>
             </Grid>
-          </>
-        )}
-      </Grid>
+            <Grid item xs={6}>
+              <Button
+                onClick={() => history.push('/employees/edit/' + employee.id)}
+                style={{ paddingTop: 15, paddingBottom: 15 }}
+                fullWidth
+                variant='contained'
+                color='primary'
+              >
+                EDIT
+              </Button>
+            </Grid>
+          </Grid>
+        </>
+      )}
     </>
   )
 }

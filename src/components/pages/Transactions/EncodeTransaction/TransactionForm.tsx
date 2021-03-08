@@ -32,15 +32,13 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
     null
   )
 
-  console.log({ transaction })
-
   const branchOptions: { value: any; name: string }[] = []
 
   useEffect(() => {
     setBranch(
       branchOptions.find((b) => b.value === +transaction?.branch?.id!) || null
     )
-  }, [])
+  }, [transaction?.branch])
 
   useEffect(() => {
     setTransaction((transaction) => ({
@@ -50,7 +48,7 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
       supervisor: '',
       sales_agent: '',
     }))
-  }, [branch])
+  }, [])
 
   const handleBranch = (e: any) => {
     const b = branchOptions.find((b) => b.value === +e.target.value)
@@ -119,7 +117,7 @@ export const CommissionersForm: React.SFC<ClientStepTwoProps> = ({
               label: 'Branch',
               value: branch?.value || '',
               name: 'branch',
-              labelWidth: 120,
+              labelWidth: 55,
               onChange: handleBranch,
               options: branchOptions,
             })}

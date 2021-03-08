@@ -4,7 +4,7 @@ import User from 'models/user'
 import { onSignIn } from 'services/authService'
 import validator from 'validators/signInValidator'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
-
+import Fade from 'react-reveal/Fade'
 import { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
@@ -77,7 +77,9 @@ const SignIn: React.SFC<SignInProps> = () => {
         justify='center'
         alignItems='flex-start'
       >
-        <img style={{ zIndex: 1 }} width={300} src={logo} alt='brand logo' />
+        <Fade delay={500}>
+          <img style={{ zIndex: 1 }} width={300} src={logo} alt='brand logo' />
+        </Fade>
       </Grid>
 
       <div className={styles.formContainer}>
@@ -95,6 +97,7 @@ const SignIn: React.SFC<SignInProps> = () => {
                 name: 'password',
                 type: 'password',
               })}
+
               {myButton('LOGIN')}
             </>
           )}

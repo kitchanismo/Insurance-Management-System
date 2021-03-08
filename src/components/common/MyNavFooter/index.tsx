@@ -4,8 +4,12 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import { useHistory } from 'react-router-dom'
 import Fab from '@material-ui/core/Fab'
-
+import Fade from 'react-reveal/Fade'
 import DashboardIcon from '@material-ui/icons/Dashboard'
+import IconButton from '@material-ui/core/IconButton'
+import Grid from '@material-ui/core/Grid'
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
+import TransactionIcon from '@material-ui/icons/Payment'
 
 export interface MyNavFooterProps {}
 
@@ -14,26 +18,39 @@ const MyNavFooter: React.SFC<MyNavFooterProps> = () => {
   const history = useHistory()
   return (
     <AppBar position='fixed' color='primary' className={styles.appBar}>
-      <Toolbar>
-        {/* <IconButton edge='start' color='inherit' aria-label='open drawer'>
-          <MenuIcon />
-        </IconButton> */}
-        <Fab
-          onClick={() => history.replace('/')}
-          color='secondary'
-          aria-label='add'
-          className={styles.fabButton}
-        >
-          <DashboardIcon />
-        </Fab>
-        <div className={styles.grow} />
-        {/* <IconButton color='inherit'>
-          <SearchIcon />
-        </IconButton>
-        <IconButton edge='end' color='inherit'>
-          <MoreIcon />
-        </IconButton> */}
-      </Toolbar>
+      <Fade delay={1000} bottom>
+        <Toolbar>
+          <Grid
+            container
+            style={{ paddingLeft: 50, paddingRight: 50 }}
+            xs={12}
+            justify='space-between'
+          >
+            <IconButton
+              onClick={() => history.push('/clients/new')}
+              style={{ paddingBottom: 22 }}
+              color='inherit'
+            >
+              <PersonAddIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => history.push('/transaction/encode')}
+              style={{ paddingBottom: 22 }}
+              color='inherit'
+            >
+              <TransactionIcon />
+            </IconButton>
+          </Grid>
+          <Fab
+            onClick={() => history.replace('/')}
+            color='secondary'
+            aria-label='add'
+            className={styles.fabButton}
+          >
+            <DashboardIcon />
+          </Fab>
+        </Toolbar>
+      </Fade>
     </AppBar>
   )
 }

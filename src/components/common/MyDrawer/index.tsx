@@ -20,7 +20,6 @@ import IconButton from '@material-ui/core/IconButton'
 import Divider from '@material-ui/core/Divider'
 import Collapse from '@material-ui/core/Collapse'
 import Grid from '@material-ui/core/Grid/Grid'
-import DashboardIcon from '@material-ui/icons/Dashboard'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { useHistory } from 'react-router-dom'
 import ExpandLess from '@material-ui/icons/ExpandLess'
@@ -222,16 +221,20 @@ const MyDrawer: React.FC<MyDrawerProps> = (props) => {
     setAlertDialog({
       open: false,
     })
+    dispatch({ type: 'SET_IS_LOADING', payload: true })
     onSignout()
       .then(() => {
         localStorage.removeItem('access_token')
         dispatch({ type: 'SET_CURRENT_USER', payload: null })
+        dispatch({ type: 'SET_IS_LOADING', payload: false })
       })
       .catch(() => {
         localStorage.removeItem('access_token')
         dispatch({ type: 'SET_CURRENT_USER', payload: null })
+        dispatch({ type: 'SET_IS_LOADING', payload: false })
       })
   }
+
   return (
     <Drawer
       anchor='left'

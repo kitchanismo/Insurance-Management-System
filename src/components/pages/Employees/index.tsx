@@ -163,7 +163,7 @@ const Employees: React.SFC<EmployeesProps> = () => {
           alignItems='center'
         >
           {employeeState.employees.map((employee) => (
-            <Grid key={employee.id} item xs={12}>
+            <Grid item xs={12}>
               <EmployeeCard
                 onArchive={handleSelectedEmployee}
                 employee={employee}

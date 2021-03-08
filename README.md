@@ -2,6 +2,7 @@
 
 Demo [https://psy-insurance.herokuapp.com](https://psy-insurance.herokuapp.com)
 
+<div width="300px">
 <div align="center">
 <img src="Screenshot_20210308-191048.jpg"/>
 </div>
@@ -22,4 +23,5 @@ Demo [https://psy-insurance.herokuapp.com](https://psy-insurance.herokuapp.com)
 </div>
 <div align="center">
 <img src="Screenshot_20210308-190637.jpg"/>
+</div>
 </div>

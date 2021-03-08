@@ -2,7 +2,7 @@
 
 Demo [https://psy-insurance.herokuapp.com](https://psy-insurance.herokuapp.com)
 
-<div style="width:200px;">
+<div style="width:300px;">
 <div align="center">
 <img src="Screenshot_20210308-191048.jpg"/>
 </div>

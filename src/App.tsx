@@ -9,9 +9,11 @@ import { GlobalContext } from 'providers/GlobalProvider'
 import { PaymentProvider } from 'providers/PaymentProvider'
 import { BranchProvider } from 'providers/BranchProvider'
 import { CommissionProvider } from 'providers/CommissionProvider'
+import { NotificationProvider } from 'providers/NotificationProvider'
 import wave from 'assets/wave.svg'
 import { UserProvider } from 'providers/UserProvider'
 import MyNavFooter from 'components/common/MyNavFooter'
+import { StatisticProvider } from 'providers/StatisticProvider'
 
 const App: React.FC = (props) => {
   const [state, dispatch] = useContext(GlobalContext)!
@@ -35,14 +37,18 @@ const App: React.FC = (props) => {
             <ClientProvider>
               <PaymentProvider>
                 <CommissionProvider>
-                  <Layout />
+                  <StatisticProvider>
+                    <NotificationProvider>
+                      <Layout />
+                      {state.currentUser && <MyNavFooter />}
+                    </NotificationProvider>
+                  </StatisticProvider>
                 </CommissionProvider>
               </PaymentProvider>
             </ClientProvider>
           </EmployeeProvider>
         </UserProvider>
       </BranchProvider>
-      {state.currentUser && <MyNavFooter />}
     </>
   )
 }

@@ -29,6 +29,7 @@ import Users from 'components/pages/Users'
 import NewUser from 'components/pages/Users/NewUser'
 import EditUser from 'components/pages/Users/EditUser'
 import AccountSettings from 'components/pages/Settings/Account'
+import Notifications from 'components/pages/Notifications'
 
 const Layout = () => {
   const styles = useStyles()
@@ -36,6 +37,7 @@ const Layout = () => {
   return (
     <Container maxWidth='xs' className={styles.container}>
       <Switch>
+        <AuthRoute isAdmin path='/notifications' component={Notifications} />
         <AuthRoute isAdmin path='/users/edit/:id' component={EditUser} />
         <AuthRoute isAdmin path='/users/new' component={NewUser} />
         <AuthRoute isAdmin path='/users' component={Users} />

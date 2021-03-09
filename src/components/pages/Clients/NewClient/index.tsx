@@ -19,11 +19,14 @@ import { getEmployees } from 'services/employeeService'
 import Employee from 'models/employee'
 import { getBranches } from 'services/branchService'
 import { BranchContext } from 'providers/BranchProvider'
+import { getUnread } from 'services/notificationService'
+import { NotificationContext } from 'providers/NotificationProvider'
 
 export interface NewClientProps {}
 
 const NewClient: React.SFC<NewClientProps> = () => {
   const [{ currentUser }, globalDispatch] = useContext(GlobalContext)!
+  const [notifState, notifDispatch] = useContext(NotificationContext)!
 
   const scroll = Scroll.animateScroll
 
@@ -111,6 +114,9 @@ const NewClient: React.SFC<NewClientProps> = () => {
             payload: { message: 'Successfully added', type: 'success' },
           })
           globalDispatch({ type: 'SET_IS_LOADING', payload: false })
+          getUnread().then((data) => {
+            notifDispatch({ type: 'ON_LOAD_UNREAD', payload: data.count })
+          })
           stepper.handleNext()
         })
         .catch((error) => {

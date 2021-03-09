@@ -14,35 +14,19 @@ import {
 import StatisticGraph from './StatisticGraph'
 import Fade from 'react-reveal/Fade'
 import Scroll from 'react-scroll'
+import { StatContext } from 'providers/StatisticProvider'
+import { getCurrentUser } from 'utils/helper'
 
 export interface DashboardProps {}
-
-interface StatisticsProps {
-  totalClients: number
-  grossSales: number
-  netSales: number
-  near: number
-  lapsed: number
-  releaseCommissions: number
-  unreleaseCommissions: number
-}
 
 const Dashboard: React.SFC<DashboardProps> = () => {
   const [state, dispatch] = useContext(GlobalContext)!
 
+  const [{ stat }, statDispatch] = useContext(StatContext)!
+
   const [branchState, branchDispatch] = useContext(BranchContext)!
 
   const scroll = Scroll.animateScroll
-
-  const [stat, setStat] = useState<StatisticsProps>({
-    totalClients: 0,
-    grossSales: 0,
-    netSales: 0,
-    near: 0,
-    lapsed: 0,
-    releaseCommissions: 0,
-    unreleaseCommissions: 0,
-  })
 
   useEffect(() => {
     dispatch({ type: 'SET_TITLE', payload: 'Purple Supremacy' })
@@ -51,16 +35,16 @@ const Dashboard: React.SFC<DashboardProps> = () => {
       branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches })
     })
 
-    if (state?.currentUser?.role === 'admin') {
+    if (getCurrentUser()?.role === 'admin') {
       dispatch({ type: 'SET_IS_LOADING', payload: true })
-      getStatistics().then((data) => {
-        setStat((prevData) => ({
-          ...prevData,
-          ...data,
-        }))
 
-        dispatch({ type: 'SET_IS_LOADING', payload: false })
-      })
+      getStatistics()
+        .then((data) => {
+          statDispatch({ type: 'ON_LOAD_STAT', payload: { ...stat, ...data } })
+
+          dispatch({ type: 'SET_IS_LOADING', payload: false })
+        })
+        .catch((error) => console.log(error))
     }
     scroll.scrollToTop({ duration: 1000 })
   }, [])
@@ -100,14 +84,14 @@ const Dashboard: React.SFC<DashboardProps> = () => {
                       variant='subtitle1'
                       color='textPrimary'
                     >
-                      Sms
+                      Draft
                     </Typography>
                     <Typography
                       component='h5'
                       variant='subtitle1'
                       color='secondary'
                     >
-                      0
+                      {stat?.draft}
                     </Typography>
                   </Grid>
                   <Grid
@@ -176,7 +160,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
                     variant='subtitle1'
                     color='secondary'
                   >
-                    ₱ {stat?.grossSales}
+                    ₱ {stat?.grossSales || 0}
                   </Typography>
                 </Paper>
               </Grid>

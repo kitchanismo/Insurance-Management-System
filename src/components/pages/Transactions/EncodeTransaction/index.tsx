@@ -22,11 +22,14 @@ import {
   getRecentCommissionerByClient,
   savePayments,
 } from 'services/paymentService'
+import { getUnread } from 'services/notificationService'
+import { NotificationContext } from 'providers/NotificationProvider'
 
 export interface TransactionProps {}
 
 const Transaction: React.SFC<TransactionProps> = () => {
   const [clientState, clientDispatch] = useContext(ClientContext)!
+  const [notifState, notifDispatch] = useContext(NotificationContext)!
 
   const [globalState, globalDispatch] = useContext(GlobalContext)!
 
@@ -175,6 +178,10 @@ const Transaction: React.SFC<TransactionProps> = () => {
           position: 'sales_agent',
           amount: 0,
         })
+
+        getUnread().then((data) => {
+          notifDispatch({ type: 'ON_LOAD_UNREAD', payload: data.count })
+        })
       })
       .catch((error) => {
         if (error.response.status === 400) {
@@ -193,6 +200,9 @@ const Transaction: React.SFC<TransactionProps> = () => {
             message: error.message,
             type: 'error',
           },
+        })
+        getUnread().then((data) => {
+          notifDispatch({ type: 'ON_LOAD_UNREAD', payload: data.count })
         })
       })
   }

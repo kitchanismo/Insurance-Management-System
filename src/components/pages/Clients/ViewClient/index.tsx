@@ -66,7 +66,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                   justify='flex-start'
                 >
                   <Typography component='h6' variant='h6'>
-                    {`${client.lastname}, ${client.firstname} ${client.middlename}`}
+                    {`${client?.profile?.lastname}, ${client?.profile?.firstname} ${client?.profile?.middlename}`}
                   </Typography>
                   <Typography variant='subtitle1' color='textSecondary'>
                     {client.plan?.name! + ' - ' + client.payment_mode}
@@ -96,7 +96,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                   justify='center'
                   alignItems='center'
                 >
-                  <MyAvatar src={client.image_url} />
+                  <MyAvatar src={client?.profile?.image_url} />
                 </Grid>
               </Grid>
             </CardContent>
@@ -115,12 +115,14 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
             <Divider style={{ marginLeft: 20, marginRight: 20 }}></Divider>
             <CardContent>
               <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
-                {detail('Gender', client.gender)}
-                {detail('Civil Status', client.civil)}
-                {detail('Contact', client.contact)}
+                {detail('Gender', client?.profile?.gender)}
+                {detail('Civil Status', client?.profile?.civil)}
+                {detail('Contact', client?.profile?.contact)}
                 {detail(
                   'Age',
-                  client.birthdate ? calculateAge(client.birthdate) : 'N/A'
+                  client?.profile?.birthdate
+                    ? calculateAge(client?.profile?.birthdate)
+                    : 'N/A'
                 )}
 
                 <Grid
@@ -134,7 +136,7 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                     Address
                   </Typography>
                   <Typography variant='subtitle1' color='textSecondary'>
-                    {client.address}
+                    {client?.profile?.address}
                   </Typography>
                 </Grid>
               </Grid>

@@ -50,13 +50,7 @@ export const plans: Plan[] = [
 ]
 
 export const getClient = async (id: number) => {
-  return http.get('/clients/' + id).then(
-    ({ data }) =>
-      ({
-        ...data.profile,
-        ...data,
-      } as Client)
-  )
+  return http.get('/clients/' + id).then(({ data }) => data)
 }
 
 export const getPlans = async () => {

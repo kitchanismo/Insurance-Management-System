@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import Typography from '@material-ui/core/Typography'
 import { postImage } from 'services/imageService'
-import { updateClient } from 'services/clientService'
+import { getClient, updateClient } from 'services/clientService'
 
 export interface EditClientProps {}
 
@@ -35,10 +35,9 @@ const EditClient: React.SFC<EditClientProps> = () => {
 
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Edit Client Profile' })
-    const profile = clientState.clients.filter(
-      (client) => client.id === +params.id
-    )[0]
-    setProfile(profile)
+    getClient(+params.id).then((client) =>
+      setProfile({ ...client.profile, id: client.id })
+    )
   }, [])
 
   const onSubmit = async (profile: Profile) => {
@@ -80,34 +79,34 @@ const EditClient: React.SFC<EditClientProps> = () => {
         <>
           {myControlledInput({
             label: 'Firstname',
-            value: profile.firstname,
+            value: profile?.firstname,
             name: 'firstname',
           })}
           {myControlledInput({
             label: 'Middlename',
-            value: profile.middlename,
+            value: profile?.middlename,
             name: 'middlename',
           })}
           {myControlledInput({
             label: 'Lastname',
-            value: profile.lastname,
+            value: profile?.lastname,
             name: 'lastname',
           })}
           {myControlledInput({
             label: 'Contact Number',
-            value: profile.contact,
+            value: profile?.contact,
             name: 'contact',
           })}
 
           {myControlledInput({
             label: 'Address',
-            value: profile.address,
+            value: profile?.address,
             name: 'address',
             isMultiline: true,
           })}
           {mySelect({
             label: 'Gender',
-            value: profile.gender,
+            value: profile?.gender,
             name: 'gender',
             options: [
               { value: 'Male' },
@@ -118,7 +117,7 @@ const EditClient: React.SFC<EditClientProps> = () => {
 
           {mySelect({
             label: 'Civil Status',
-            value: profile.civil,
+            value: profile?.civil,
             name: 'civil',
             labelWidth: 80,
             options: [
@@ -130,7 +129,7 @@ const EditClient: React.SFC<EditClientProps> = () => {
 
           {myDateTimePicker({
             label: 'Birthdate',
-            value: profile.birthdate,
+            value: profile?.birthdate,
             name: 'birthdate',
           })}
 

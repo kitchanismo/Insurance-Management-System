@@ -26,8 +26,8 @@ const SignIn: React.SFC<SignInProps> = () => {
   }, [])
 
   const [user, setUser] = useState<User>({
-    username: 'admin123',
-    password: 'admin123',
+    username: '',
+    password: '',
   })
 
   const onSubmit = async (user: User) => {

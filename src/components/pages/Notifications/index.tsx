@@ -18,14 +18,17 @@ export interface NotificationsProps {}
 const Notifications: React.SFC<NotificationsProps> = () => {
   const [globalState, globalDispatch] = useContext(GlobalContext)!
   const [notifState, notifDispatch] = useContext(NotificationContext)!
+
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Notifications' })
-
     onLoad()
   }, [])
 
   const onLoad = () => {
+    globalDispatch({ type: 'SET_IS_LOADING', payload: true })
+
     getNotifications().then((notifications) => {
+      globalDispatch({ type: 'SET_IS_LOADING', payload: false })
       notifDispatch({ type: 'ON_LOAD_NOTIFICATIONS', payload: notifications })
     })
   }
@@ -59,32 +62,41 @@ const Notifications: React.SFC<NotificationsProps> = () => {
       })
   }
 
-  return notifState.notifications?.length > 0 ? (
+  const isLoading = globalState.isLoading && !notifState.notifications.length
+
+  return (
     <>
-      <Grid item xs={12} justify='center' container>
-        <Button
-          onClick={handleMarkAllAsRead}
-          disabled={!notifState.notifications.filter((n) => !n.is_read).length}
-          variant='text'
-          color='primary'
-        >
-          Mark ALL AS READ
-        </Button>
-      </Grid>
-      {notifState.notifications.map((notif) => (
-        <NotificationCard
-          onRead={handleRead}
-          onResend={handleResend}
-          notification={notif}
-        ></NotificationCard>
-      ))}
+      {isLoading && (
+        <Grid container xs={12} justify='center'>
+          <Typography component='h6' variant='h6'>
+            No New Notification
+          </Typography>
+        </Grid>
+      )}
+      {!isLoading && (
+        <>
+          <Grid item xs={12} justify='center' container>
+            <Button
+              onClick={handleMarkAllAsRead}
+              disabled={
+                !notifState.notifications.filter((n) => !n.is_read).length
+              }
+              variant='text'
+              color='primary'
+            >
+              Mark ALL AS READ
+            </Button>
+          </Grid>
+          {notifState.notifications.map((notif) => (
+            <NotificationCard
+              onRead={handleRead}
+              onResend={handleResend}
+              notification={notif}
+            ></NotificationCard>
+          ))}
+        </>
+      )}
     </>
-  ) : (
-    <Grid container xs={12} justify='center'>
-      <Typography component='h6' variant='h6'>
-        No New Notification
-      </Typography>
-    </Grid>
   )
 }
 

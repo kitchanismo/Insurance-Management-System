@@ -40,10 +40,9 @@ const Transaction: React.SFC<TransactionProps> = () => {
     amount: 0,
   })
 
-  useEffect(() => {
-    clientDispatch({ type: 'SET_IS_LOADING', payload: true })
-    globalDispatch({ type: 'SET_TITLE', payload: 'Encode Transaction' })
+  const onLoadClients = () => {
     globalDispatch({ type: 'SET_IS_LOADING', payload: true })
+    clientDispatch({ type: 'SET_IS_LOADING', payload: true })
     getLapsedClients('').then((clients) => {
       clientDispatch({
         type: 'ON_LOAD_CLIENTS',
@@ -51,6 +50,12 @@ const Transaction: React.SFC<TransactionProps> = () => {
       })
       globalDispatch({ type: 'SET_IS_LOADING', payload: false })
     })
+  }
+
+  useEffect(() => {
+    globalDispatch({ type: 'SET_TITLE', payload: 'Encode Transaction' })
+
+    onLoadClients()
 
     getEmployees({ category: 'active' }).then((employees) => {
       setEmployees(employees)
@@ -182,7 +187,10 @@ const Transaction: React.SFC<TransactionProps> = () => {
         getUnread().then((data) => {
           notifDispatch({ type: 'ON_LOAD_UNREAD', payload: data.count })
         })
+
+        onLoadClients()
       })
+
       .catch((error) => {
         if (error.response.status === 400) {
           globalDispatch({
@@ -204,6 +212,8 @@ const Transaction: React.SFC<TransactionProps> = () => {
         getUnread().then((data) => {
           notifDispatch({ type: 'ON_LOAD_UNREAD', payload: data.count })
         })
+
+        onLoadClients()
       })
   }
 

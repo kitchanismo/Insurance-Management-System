@@ -10,6 +10,7 @@ import Divider from '@material-ui/core/Divider'
 import { getApiKeys, setApiKeys } from 'services/settingService'
 import MyForm, { MyFormProps } from 'components/common/MyForm'
 import validator from 'validators/settingValidator'
+import { getCurrentUser } from 'utils/helper'
 
 export interface SettingsProps {}
 
@@ -22,7 +23,9 @@ const Settings: React.SFC<SettingsProps> = () => {
   })
 
   useEffect(() => {
-    getApiKeys().then((keys) => setKeys(keys))
+    if (getCurrentUser()?.role === 'admin') {
+      getApiKeys().then((keys) => setKeys(keys))
+    }
   }, [])
 
   const onSave = () => {

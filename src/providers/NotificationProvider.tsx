@@ -2,6 +2,7 @@ import { createContext, Dispatch, useReducer, useEffect } from 'react'
 import { produce } from 'immer'
 import Notification from 'models/notification'
 import { getUnread } from 'services/notificationService'
+import { getCurrentUser } from 'utils/helper'
 
 export const NotificationContext = createContext<
   [state: NotificationState, dispatch: Dispatch<NotificationAction>] | null
@@ -43,9 +44,11 @@ export const NotificationProvider: React.FC = (props) => {
   })
 
   useEffect(() => {
-    getUnread().then((data) => {
-      dispatch({ type: 'ON_LOAD_UNREAD', payload: data.count })
-    })
+    if (getCurrentUser()?.role === 'admin') {
+      getUnread().then((data) => {
+        dispatch({ type: 'ON_LOAD_UNREAD', payload: data.count })
+      })
+    }
   }, [state.notifications])
 
   return (

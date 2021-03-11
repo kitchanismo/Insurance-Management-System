@@ -8,7 +8,7 @@ import Fade from 'react-reveal/Fade'
 import { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
-import logo from 'assets/revenue.svg'
+import logo from 'assets/logo.png'
 
 import { getCurrentUser, saveToken, nameCapitalize } from 'utils/helper'
 
@@ -78,7 +78,7 @@ const SignIn: React.SFC<SignInProps> = () => {
         alignItems='flex-start'
       >
         <Fade delay={500}>
-          <img style={{ zIndex: 1 }} width={300} src={logo} alt='brand logo' />
+          <img style={{ zIndex: 1 }} width={250} src={logo} alt='brand logo' />
         </Fade>
       </Grid>
 

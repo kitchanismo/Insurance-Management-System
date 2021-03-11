@@ -66,14 +66,14 @@ const Notifications: React.SFC<NotificationsProps> = () => {
 
   return (
     <>
-      {isLoading && (
+      {!globalState.isLoading && notifState.notifications.length === 0 && (
         <Grid container xs={12} justify='center'>
           <Typography component='h6' variant='h6'>
             No New Notification
           </Typography>
         </Grid>
       )}
-      {!isLoading && (
+      {!isLoading && notifState.notifications.length > 0 && (
         <>
           <Grid item xs={12} justify='center' container>
             <Button

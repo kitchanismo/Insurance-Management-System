@@ -64,17 +64,9 @@ And for the backend, you can deploy your server in [Heroku](https://heroku.com)
 
 <div align="center">
 <img src="screenshots/1.jpg"/>
-</div>
-<div align="center">
 <img src="screenshots/2.jpg"/>
-</div>
-<div align="center">
 <img src="screenshots/3.jpg"/>
-</div>
-<div align="center">
 <img src="screenshots/4.jpg"/>
-</div>
-<div align="center">
 <img src="screenshots/5.jpg"/>
 </div>
 

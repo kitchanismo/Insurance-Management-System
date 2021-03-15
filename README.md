@@ -1,7 +1,7 @@
 # Insurance Management System for Purple Supremacy Cascade Trading
 A web application which is developed for tracking the details of the insurance policy, customer details and company details.
 
-[Website](https://psy-demo.herokuapp.com)
+[https://psy-demo.herokuapp.com](https://psy-demo.herokuapp.com)
 
 ## Table of contents
 
@@ -13,7 +13,7 @@ A web application which is developed for tracking the details of the insurance p
 
 ## Features
 
-This web app consists of a features/functionalities of a socia media
+This web app consists of a features/functionalities
 
 - Login and Authorization
 - Client Management

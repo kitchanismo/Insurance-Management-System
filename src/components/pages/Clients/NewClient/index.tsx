@@ -37,6 +37,15 @@ const NewClient: React.SFC<NewClientProps> = () => {
     scroll.scrollToTop({ duration: 500 })
     getEmployees({ category: 'active' }).then((employees) => {
       setEmployees(employees)
+      if (employees?.length <= 0) {
+        globalDispatch({
+          type: 'SET_ALERT',
+          payload: {
+            message: `No employee is registered in ${currentUser?.branch?.name}`,
+            type: 'error',
+          },
+        })
+      }
     })
   }, [])
 

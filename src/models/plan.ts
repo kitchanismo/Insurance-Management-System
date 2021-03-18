@@ -9,7 +9,8 @@ export interface Plan {
     | 'Plan 6'
     | 'Plan 7'
     | 'Plan 8'
-  price: number
+  regular_price: number
+  sr_pwd_price: number
   amenities?: string
 }
 

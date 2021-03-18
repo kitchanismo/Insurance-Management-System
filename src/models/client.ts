@@ -17,6 +17,7 @@ interface Client extends Profile {
   profile?: Profile
   branch?: Branch
   next_payment?: Date
+  is_pwd: boolean
 }
 
 export default Client

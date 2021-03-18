@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import Chip from '@material-ui/core/Chip'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 import MyForm, { MyFormProps, OptionProps } from 'components/common/MyForm'
 import Client from 'models/client'
 import Commissioner from 'models/commissioner'
@@ -9,6 +11,8 @@ import validator from 'validators/clientStepThreeValidator'
 import { getAmountToPay } from 'services/clientService'
 import { ClientContext } from 'providers/ClientProvider'
 import Payment from 'models/payment'
+import { calculateAge } from 'utils/helper'
+import { SettingsPowerRounded } from '@material-ui/icons'
 
 export interface ClientStepTwoProps {
   onBack: () => void
@@ -37,7 +41,7 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
         amount: getAmountToPay({ ...client, plan }) ?? 0,
       }))
     }
-  }, [client.payment_mode, client.payment_period, client.plan])
+  }, [client.payment_mode, client.payment_period, client.plan, client.is_pwd])
 
   useEffect(() => {
     const options: OptionProps[] = clientState.plans.map((plan) => ({
@@ -52,6 +56,8 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
     onSubmit: onNext,
     validator,
   }
+
+  const isSenior = calculateAge(client?.profile?.birthdate) >= 60
 
   return (
     <MyForm {...formProps}>
@@ -120,6 +126,39 @@ export const ClientStepThree: React.SFC<ClientStepTwoProps> = ({
                 value: client.created_at,
                 name: 'created_at',
               })}
+              <Grid
+                style={{ marginLeft: 10, marginRight: 10, marginTop: 10 }}
+                xs={12}
+                container
+              >
+                <Grid justify='center' container item xs={6}>
+                  <Chip
+                    style={{ marginTop: 5 }}
+                    size='medium'
+                    label={isSenior ? 'senior' : 'non-senior'}
+                    color={isSenior ? 'secondary' : 'default'}
+                    variant='outlined'
+                  />
+                </Grid>
+                <Grid justify='center' container item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={client?.is_pwd}
+                        onChange={(e, checked) =>
+                          setClient((client) => ({
+                            ...client,
+                            is_pwd: checked,
+                          }))
+                        }
+                        name='pwd'
+                        color='primary'
+                      />
+                    }
+                    label='PWD'
+                  />
+                </Grid>
+              </Grid>
             </>
           )}
 

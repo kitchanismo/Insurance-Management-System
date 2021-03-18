@@ -49,6 +49,8 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
     </Grid>
   )
 
+  const isSenior = calculateAge(client?.profile?.birthdate) >= 60
+
   return (
     <>
       {isLoading && <MySkeletonCard />}
@@ -85,6 +87,15 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                           color='default'
                           variant='outlined'
                         />
+                        <Chip
+                          style={{ marginTop: 5 }}
+                          size='small'
+                          label={`${isSenior ? 'senior' : 'non-senior'} / ${
+                            client?.is_pwd ? 'pwd' : 'non-pwd'
+                          }`}
+                          color='default'
+                          variant='outlined'
+                        />
                       </Grid>
                     </>
                   )}
@@ -117,7 +128,10 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
               <Grid spacing={1} container xs={12} style={{ paddingLeft: 10 }}>
                 {detail('Gender', client?.profile?.gender)}
                 {detail('Civil Status', client?.profile?.civil)}
-                {detail('Contact', client?.profile?.contact)}
+                {detail(
+                  'Contact',
+                  client?.profile?.contact ? client?.profile?.contact : 'N/A'
+                )}
                 {detail(
                   'Age',
                   client?.profile?.birthdate
@@ -136,7 +150,9 @@ const ViewClient: React.SFC<ViewClientProps> = () => {
                     Address
                   </Typography>
                   <Typography variant='subtitle1' color='textSecondary'>
-                    {client?.profile?.address}
+                    {client?.profile?.address
+                      ? client?.profile?.address
+                      : 'N/A'}
                   </Typography>
                 </Grid>
               </Grid>

@@ -68,8 +68,8 @@ const Notifications: React.SFC<NotificationsProps> = () => {
     <>
       {!globalState.isLoading && notifState.notifications.length === 0 && (
         <Grid container xs={12} justify='center'>
-          <Typography component='h6' variant='h6'>
-            No New Notification
+          <Typography component='h6' variant='subtitle1' color='textSecondary'>
+            No new notification
           </Typography>
         </Grid>
       )}

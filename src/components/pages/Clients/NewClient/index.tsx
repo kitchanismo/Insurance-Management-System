@@ -21,6 +21,7 @@ import { getBranches } from 'services/branchService'
 import { BranchContext } from 'providers/BranchProvider'
 import { getUnread } from 'services/notificationService'
 import { NotificationContext } from 'providers/NotificationProvider'
+import { calculateAge } from 'utils/helper'
 
 export interface NewClientProps {}
 
@@ -66,11 +67,12 @@ const NewClient: React.SFC<NewClientProps> = () => {
   const [client, setClient] = React.useState<Client & Payment>({
     years_to_pay: 5,
     created_at: new Date(Date.now()),
+    is_pwd: false,
   })
 
   const onNextOne = async (profile: Profile) => {
     scroll.scrollToTop({ duration: 500 })
-    console.log('profile', profile)
+
     setProfile(profile)
     stepper.handleNext()
   }
@@ -98,8 +100,6 @@ const NewClient: React.SFC<NewClientProps> = () => {
     setCommissioner(commissioner)
 
     stepper.handleNext()
-
-    console.log(commissioner)
   }
 
   const onNextThree = async (client: Client & Payment) => {
@@ -159,6 +159,7 @@ const NewClient: React.SFC<NewClientProps> = () => {
     setClient({
       years_to_pay: 5,
       created_at: new Date(Date.now()),
+      is_pwd: false,
     })
   }
 
@@ -178,9 +179,16 @@ const NewClient: React.SFC<NewClientProps> = () => {
       )}
       {stepper.activeStep === 2 && (
         <ClientStepThree
-          onBack={() => stepper.handleBack()}
+          onBack={() => {
+            stepper.handleBack()
+            setClient({
+              years_to_pay: 5,
+              created_at: new Date(Date.now()),
+              is_pwd: false,
+            })
+          }}
           onNext={onNextThree}
-          state={[client, setClient]}
+          state={[{ ...client, profile }, setClient]}
         />
       )}
 

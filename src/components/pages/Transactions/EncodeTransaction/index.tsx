@@ -1,6 +1,7 @@
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
+import Chip from '@material-ui/core/Chip'
 import {
   getAmountToPay,
   getLapsedClients,
@@ -24,6 +25,7 @@ import {
 } from 'services/paymentService'
 import { getUnread } from 'services/notificationService'
 import { NotificationContext } from 'providers/NotificationProvider'
+import { calculateAge, toElipse } from 'utils/helper'
 
 export interface TransactionProps {}
 
@@ -38,6 +40,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
   const [transaction, setTransaction] = useState<TransactionModel>({
     position: 'sales_agent',
     amount: 0,
+    is_pwd: false,
   })
 
   const onLoadClients = () => {
@@ -182,6 +185,7 @@ const Transaction: React.SFC<TransactionProps> = () => {
         setTransaction({
           position: 'sales_agent',
           amount: 0,
+          is_pwd: false,
         })
 
         getUnread().then((data) => {
@@ -228,11 +232,14 @@ const Transaction: React.SFC<TransactionProps> = () => {
       setTransaction({
         position: 'sales_agent',
         amount: 0,
+        is_pwd: false,
       })
     })
   }
 
   const isLoading = clientState.isLoading && !clientState.clients.length
+
+  const isSenior = calculateAge(transaction?.birthdate) >= 60
 
   return (
     <Grid container direction='column' xs={12}>
@@ -248,7 +255,9 @@ const Transaction: React.SFC<TransactionProps> = () => {
           {({ renderCards, item }) => (
             <>
               {renderCards({
-                title: `${item?.lastname}, ${item?.firstname} ${item?.middlename}`,
+                title: toElipse(
+                  `${item?.lastname}, ${item?.firstname} ${item?.middlename}`
+                ),
                 subtitle: item.code!,
                 src: item.image_url,
                 item,
@@ -279,13 +288,26 @@ const Transaction: React.SFC<TransactionProps> = () => {
             <Typography variant='subtitle2' color='textSecondary'>
               {transaction?.code}
             </Typography>
-            <Typography variant='subtitle2' color='textSecondary'>
+            <Typography
+              style={{ marginTop: 10 }}
+              variant='subtitle2'
+              color='textSecondary'
+            >
               {transaction?.plan?.name! + ' - ' + transaction?.payment_period}
             </Typography>
             <Typography variant='caption' color='textSecondary'>
               {'Lapse on ' +
                 new Date(transaction?.next_payment!).toDateString()}
             </Typography>
+            <Chip
+              style={{ marginTop: 5 }}
+              size='small'
+              label={`${isSenior ? 'senior' : 'non-senior'} / ${
+                transaction?.is_pwd ? 'pwd' : 'non-pwd'
+              }`}
+              color='default'
+              variant='outlined'
+            />
           </Grid>
           <Grid item xs={4}>
             <MyAvatar src={transaction.image_url} />

@@ -21,7 +21,7 @@ export interface CommissionCardProps {
 
 const CommissionCard: React.SFC<CommissionCardProps> = ({ commission }) => {
   const history = useHistory()
-  const fullname = `${commission?.employee?.profile?.lastname}, ${commission?.employee?.profile?.firstname} ${commission?.employee?.profile?.lastname}`
+  const fullname = `${commission?.employee?.profile?.lastname}, ${commission?.employee?.profile?.firstname} ${commission?.employee?.profile?.middlename}`
   return (
     <MyCard title={`OR#${commission.payment?.or_number}`}>
       <CardContent>

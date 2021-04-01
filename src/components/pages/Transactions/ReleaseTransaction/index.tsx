@@ -1,9 +1,11 @@
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 import MyChips, { MyChip } from 'components/common/MyChips'
 import MySearchField from 'components/common/MySearchField'
 
 import Pagination from '@material-ui/lab/Pagination'
+import PDFForm from './PDFForm'
 import { useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { CommissionContext } from 'providers/CommissionProvider'
@@ -17,40 +19,76 @@ import MyAlertDialog, { AlertDataProps } from 'components/common/MyAlertDialog'
 import Commission from 'models/commission'
 import { toMoney } from 'utils/helper'
 import MySkeletonCards from 'components/common/MySkeletonCards'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@material-ui/core/Button'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import { BranchContext } from 'providers/BranchProvider'
+import { getBranches } from 'services/branchService'
+import Branch from 'models/branch'
+import ReactToPdf from 'react-to-pdf'
 
 export interface CommissionReleaseProps {}
 
 const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
   const [commissionState, commissionDispatch] = useContext(CommissionContext)!
 
+  const [branchState, branchDispatch] = useContext(BranchContext)!
+
   const [_, globalDispatch] = useContext(GlobalContext)!
 
   const [chip, setChip] = useState<MyChip>({ value: '', name: 'All' })
 
-  const [page, setPage] = useState(1)
+  //  const [page, setPage] = useState(1)
+
+  const [branchId, setBranchId] = useState('')
+
+  const [range, setRange] = useState<'week' | 'month' | 'year' | ''>('')
 
   const history = useHistory()
 
+  const [dateRange, setDateRange] = useState({
+    from: new Date(),
+    to: new Date(),
+  })
+
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Release Transaction' })
-    onLoad({ page: 1 })
+    onLoad({ range: '' })
     return () => {
       globalDispatch({ type: 'SET_IS_LOADING', payload: false })
     }
   }, [])
 
-  const onLoad = ({ page, search, category }: CommissionProps) => {
+  const onLoad = ({
+    search,
+    positionId,
+    branchId,
+    range,
+  }: {
+    search?: string
+    positionId?: string
+    branchId?: string
+    range: 'week' | 'month' | 'year' | ''
+  }) => {
     globalDispatch({ type: 'SET_IS_LOADING', payload: true })
     commissionDispatch({ type: 'SET_IS_LOADING', payload: true })
-    getTotalCommissionOfEmployees({ page, search, category })
-      .then(({ commissions, total, pages }) => {
+
+    getTotalCommissionOfEmployees({ search, positionId, branchId, range })
+      .then(({ commissions, total, range }) => {
+        console.log(range)
+        setDateRange({ from: new Date(range.from), to: new Date(range.to) })
         commissionDispatch({
           type: 'ON_LOAD_COMMISSIONS',
-          payload: { commissions, total, pages },
+          payload: { commissions, total },
         })
         globalDispatch({ type: 'SET_IS_LOADING', payload: false })
       })
       .catch(() => globalDispatch({ type: 'SET_IS_LOADING', payload: false }))
+
+    getBranches().then((branches) => {
+      branchDispatch({ type: 'ON_LOAD_BRANCHES', payload: branches })
+    })
   }
 
   const chips: MyChip[] = [
@@ -63,28 +101,29 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
   const onFilter = (chip: MyChip) => {
     commissionDispatch({ type: 'SET_TOTAL', payload: 0 })
     setChip(chip)
-    setPage(1)
-    onLoad({ page: 1, category: chip.value })
+    //setPage(1)
+    onLoad({ positionId: chip.value, branchId, range })
     if (!!chip.value) {
       history.push('/transaction/releases')
     }
   }
 
-  const onPage = (e: any, page: number) => {
-    commissionDispatch({ type: 'SET_TOTAL', payload: 0 })
-    setPage(page)
-    onLoad({ page, category: chip.value })
-    history.push('/transaction/releases?page=' + page)
-  }
+  // const onPage = (e: any, page: number) => {
+  //   commissionDispatch({ type: 'SET_TOTAL', payload: 0 })
+  //   setPage(page)
+  //   onLoad({ page, positionId: chip.value, branchId, range })
+  //   history.push('/transaction/releases?page=' + page)
+  // }
 
   const onSearch = (search: string) => {
     setChip({ value: '', name: 'All' })
-    setPage(1)
-    onLoad({ page: 1, search })
+    //setPage(1)
+    onLoad({ search, range: '' })
     history.push('/transaction/releases?search=' + search)
   }
 
   const [alertDialog, setAlertDialog] = useState<AlertDataProps>({})
+  const [alertDialogAll, setAlertDialogAll] = useState<AlertDataProps>({})
 
   const [selectedCommission, setSelectedCommission] = useState<Commission>()
 
@@ -98,16 +137,106 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
   }
 
   const handleRelease = () => {
-    releaseCommission(selectedCommission?.employee?.id!).then((data) => {
-      onLoad({ page, category: chip.value })
-    })
+  
+    releaseCommission(selectedCommission?.employee?.commissions!).then(
+      (data) => {
+        onLoad({ positionId: chip.value, range })
+      }
+    )
     setAlertDialog({
+      open: false,
+    })
+  }
+
+  const handleReleaseAll = () => {
+  
+    const ids = commissionState?.commissions.reduce(
+      (acc, com) => [...acc, ...com.employee?.commissions!],
+      [] as number[]
+    )
+
+    releaseCommission(ids).then((data) => {
+      onLoad({ positionId: chip.value, range })
+    })
+    setAlertDialogAll({
       open: false,
     })
   }
 
   const isLoading =
     commissionState.isLoading && !commissionState.commissions.length
+
+  const [anchorElRange, setAnchorElRange] = useState(null)
+
+  const [anchorElBranch, setAnchorElBranch] = useState(null)
+
+  const [textRange, setTextRange] = useState('ALL RECORDS')
+
+  const [textBranch, setTextBranch] = useState('ALL BRANCHES')
+
+  const handleClickRange = (event: any) => {
+    setAnchorElRange(event.currentTarget)
+  }
+
+  const handleClickBranch = (event: any) => {
+    setAnchorElBranch(event.currentTarget)
+  }
+
+  const handleSelectRange = (event: any) => {
+    const value = event.currentTarget?.id
+    const text = event.currentTarget?.title
+
+    setAnchorElRange(null)
+
+    if (!text) {
+      return
+    }
+
+    setRange(value)
+    setTextRange(text)
+    onLoad({ positionId: chip.value, branchId, range: value })
+  }
+
+  const handleSelectBranch = (event: any) => {
+    const value = event.currentTarget?.id
+    const text = event.currentTarget?.title
+    setAnchorElBranch(null)
+
+    if (!text) {
+      return
+    }
+
+    setBranchId(value)
+    setTextBranch(text)
+    onLoad({ positionId: chip.value, branchId: value, range })
+  }
+
+  const renderMenuItemBranch = (branch: Branch) => {
+    return (
+      <MenuItem
+        key={branch?.id!}
+        id={'' + branch?.id!}
+        title={branch?.name}
+        onClick={handleSelectBranch}
+      >
+        {branch?.name}
+      </MenuItem>
+    )
+  }
+
+  const branches = [...branchState.branches]
+
+  branches.push({ id: '' as any, name: 'ALL BRANCHES' })
+
+  const ref = React.createRef()
+
+  const [isDL, setIsDL] = useState(false)
+
+  let clickRef = () => {}
+
+  const options = {
+    orientation: 'orientation',
+  }
 
   return (
     <>
@@ -116,11 +245,16 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
         onDisagree={() => setAlertDialog({ open: false })}
         data={alertDialog}
       />
+      <MyAlertDialog
+        onAgree={handleReleaseAll}
+        onDisagree={() => setAlertDialogAll({ open: false })}
+        data={alertDialogAll}
+      />
       <MySearchField
         labelWidth={110}
         label='Name / Branch'
         onSearch={onSearch}
-        style={{ marginBottom: 15 }}
+        style={{ marginBottom: 10 }}
       />
 
       <MyChips
@@ -129,6 +263,102 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
         active={chip}
         chips={chips}
       />
+
+      <Grid
+        style={{ marginBottom: 20 }}
+        container
+        xs={12}
+        justify='space-between'
+      >
+        <Grid container xs={6} item>
+          <Button
+            aria-controls='simple-menu'
+            aria-haspopup='true'
+            color='default'
+            onClick={handleClickRange}
+            endIcon={<ExpandMore />}
+          >
+            {textRange}
+          </Button>
+          <Menu
+            id='simple-menu'
+            anchorEl={anchorElRange}
+            keepMounted
+            open={Boolean(anchorElRange)}
+            onClose={handleSelectRange}
+          >
+            <MenuItem title='PAST 7 DAYS' id='week' onClick={handleSelectRange}>
+              PAST 7 DAYS
+            </MenuItem>
+            <MenuItem
+              title='PAST 30 DAYS'
+              id='month'
+              onClick={handleSelectRange}
+            >
+              PAST 30 DAYS
+            </MenuItem>
+            <MenuItem
+              title='PAST 12 MONTHS'
+              id='year'
+              onClick={handleSelectRange}
+            >
+              PAST 12 MONTHS
+            </MenuItem>
+            <MenuItem title='ALL RECORDS' id='' onClick={handleSelectRange}>
+              ALL RECORDS
+            </MenuItem>
+          </Menu>
+        </Grid>
+        <Grid container xs={6} item justify='flex-end'>
+          <Button
+            aria-controls='simple-menu-branch'
+            aria-haspopup='true'
+            color='default'
+            onClick={handleClickBranch}
+            endIcon={<ExpandMore />}
+          >
+            {textBranch}
+          </Button>
+          <Menu
+            id='simple-menu-branch'
+            anchorEl={anchorElBranch}
+            keepMounted
+            open={Boolean(anchorElBranch)}
+            onClose={handleSelectBranch}
+          >
+            {branches.map((branch) => renderMenuItemBranch(branch || ''))}
+          </Menu>
+        </Grid>
+      </Grid>
+
+      {!!commissionState?.commissions.length && (
+        <Typography style={{ marginBottom: 20 }} variant='subtitle2'>
+          {`${dateRange.from.toDateString()} to ${dateRange.to.toDateString()}`}
+        </Typography>
+      )}
+
+      {!!commissionState?.commissions.length && (
+        <Grid style={{ marginBottom: 15 }} container xs={12}>
+          <Button
+            onClick={() => {
+              const totalAmount = commissionState?.commissions.reduce(
+                (acc, com) => acc + com?.amount!,
+                0
+              )
+              setAlertDialogAll({
+                open: true,
+                text: `Are you sure you want to release commissions?`,
+                description: `Amounting of ${toMoney(totalAmount)}`,
+              })
+            }}
+            fullWidth
+            variant='outlined'
+            color='primary'
+          >
+            Release All
+          </Button>
+        </Grid>
+      )}
       {isLoading && <MySkeletonCards />}
       {!isLoading && (
         <Grid
@@ -146,7 +376,7 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
               />
             </Grid>
           ))}
-          <Pagination
+          {/* <Pagination
             style={{ marginTop: 15, marginBottom: 15 }}
             variant='outlined'
             color='primary'
@@ -154,9 +384,30 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
             siblingCount={0}
             page={page}
             onChange={onPage}
-          />
+          /> */}
         </Grid>
       )}
+      {/* <ReactToPdf
+        targetRef={ref}
+        filename={`${new Date().getTime()}.pdf`}
+        options={options}
+      >
+        {({ toPdf }) => (clickRef = toPdf)}
+      </ReactToPdf>
+      <div
+        style={{
+          display: !alertDialogAll.open ? 'contents' : 'none',
+          width: 780,
+          height: 'auto',
+          background: 'white',
+        }}
+        ref={ref as any}
+      >
+        <PDFForm
+          range={dateRange}
+          commissions={commissionState.commissions || []}
+        />
+      </div> */}
     </>
   )
 }

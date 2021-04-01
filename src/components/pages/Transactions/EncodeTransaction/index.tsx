@@ -6,6 +6,7 @@ import {
   getAmountToPay,
   getLapsedClients,
   getClients,
+  computeTotalCountPaid,
 } from 'services/clientService'
 import MyMiniCards from 'components/common/MyMiniCards'
 import MySearchField from 'components/common/MySearchField'
@@ -295,19 +296,28 @@ const Transaction: React.SFC<TransactionProps> = () => {
             >
               {transaction?.plan?.name! + ' - ' + transaction?.payment_period}
             </Typography>
-            <Typography variant='caption' color='textSecondary'>
+            <Typography variant='subtitle2' color='textSecondary'>
               {'Lapse on ' +
                 new Date(transaction?.next_payment!).toDateString()}
             </Typography>
-            <Chip
-              style={{ marginTop: 5 }}
-              size='small'
-              label={`${isSenior ? 'senior' : 'non-senior'} / ${
-                transaction?.is_pwd ? 'pwd' : 'non-pwd'
-              }`}
-              color='default'
-              variant='outlined'
-            />
+            <Grid direction='column' item container xs={12}>
+              <Chip
+                style={{ marginTop: 20 }}
+                size='small'
+                label={`${isSenior ? 'senior' : 'non-senior'} / ${
+                  transaction?.is_pwd ? 'pwd' : 'non-pwd'
+                }`}
+                color='default'
+                variant='outlined'
+              />
+              <Chip
+                style={{ marginTop: 5 }}
+                size='small'
+                label={computeTotalCountPaid(transaction) + ' paid'}
+                color='default'
+                variant='outlined'
+              />
+            </Grid>
           </Grid>
           <Grid item xs={4}>
             <MyAvatar src={transaction.image_url} />

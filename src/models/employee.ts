@@ -17,6 +17,7 @@ interface Employee extends Profile {
   created_at?: Date
   clients?: Client[]
   profile?: Profile
+  commissions?: number[]
 }
 
 export default Employee

@@ -9,6 +9,13 @@ import Pagination from '@material-ui/lab/Pagination'
 import { useLocation, useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
 import MySkeletonCards from 'components/common/MySkeletonCards'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@material-ui/core/Button'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import { BranchContext } from 'providers/BranchProvider'
+import { getBranches } from 'services/branchService'
+import Branch from 'models/branch'
 
 export interface CommissionsProps {}
 
@@ -20,6 +27,8 @@ interface LoadProps {
 
 const Commissions: React.SFC<CommissionsProps> = () => {
   const [_, globalDispatch] = useContext(GlobalContext)!
+
+  const [branchState, branchDispatch] = useContext(BranchContext)!
 
   const [commissionState, commissionDispatch] = useContext(CommissionContext)!
 
@@ -97,6 +106,7 @@ const Commissions: React.SFC<CommissionsProps> = () => {
         active={chip}
         chips={chips}
       />
+
       {isLoading && <MySkeletonCards />}
       {!isLoading && (
         <Grid

@@ -25,7 +25,7 @@ const EditClient: React.SFC<EditClientProps> = () => {
 
   const [imageFile, setImageFile] = useState<HTMLImageElement | null>(null)
 
-  const [profile, setProfile] = useState<Profile>({
+  const [profile, setProfile] = useState<Profile & { insured_date?: Date }>({
     firstname: '',
     middlename: '',
     lastname: '',
@@ -36,7 +36,11 @@ const EditClient: React.SFC<EditClientProps> = () => {
   useEffect(() => {
     globalDispatch({ type: 'SET_TITLE', payload: 'Edit Client Profile' })
     getClient(+params.id).then((client) =>
-      setProfile({ ...client.profile, id: client.id })
+      setProfile({
+        ...client.profile,
+        id: client.id,
+        insured_date: client.created_at,
+      })
     )
   }, [])
 
@@ -131,6 +135,12 @@ const EditClient: React.SFC<EditClientProps> = () => {
             label: 'Birthdate',
             value: profile?.birthdate,
             name: 'birthdate',
+          })}
+
+          {myDateTimePicker({
+            label: 'Insured Date',
+            value: profile?.insured_date,
+            name: 'insured_date',
           })}
 
           <Grid

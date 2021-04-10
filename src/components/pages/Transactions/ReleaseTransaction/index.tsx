@@ -5,7 +5,6 @@ import MyChips, { MyChip } from 'components/common/MyChips'
 import MySearchField from 'components/common/MySearchField'
 
 import Pagination from '@material-ui/lab/Pagination'
-import PDFForm from './PDFForm'
 import { useHistory } from 'react-router-dom'
 import { GlobalContext } from 'providers/GlobalProvider'
 import { CommissionContext } from 'providers/CommissionProvider'
@@ -17,7 +16,7 @@ import {
 import ReleaseCard from './ReleaseCard'
 import MyAlertDialog, { AlertDataProps } from 'components/common/MyAlertDialog'
 import Commission from 'models/commission'
-import { toMoney } from 'utils/helper'
+import { downloadCSV, toMoney } from 'utils/helper'
 import MySkeletonCards from 'components/common/MySkeletonCards'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -26,7 +25,6 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import { BranchContext } from 'providers/BranchProvider'
 import { getBranches } from 'services/branchService'
 import Branch from 'models/branch'
-import ReactToPdf from 'react-to-pdf'
 
 export interface CommissionReleaseProps {}
 
@@ -137,7 +135,6 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
   }
 
   const handleRelease = () => {
-  
     releaseCommission(selectedCommission?.employee?.commissions!).then(
       (data) => {
         onLoad({ positionId: chip.value, range })
@@ -149,7 +146,6 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
   }
 
   const handleReleaseAll = () => {
-  
     const ids = commissionState?.commissions.reduce(
       (acc, com) => [...acc, ...com.employee?.commissions!],
       [] as number[]
@@ -157,6 +153,7 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
 
     releaseCommission(ids).then((data) => {
       onLoad({ positionId: chip.value, range })
+      downloadCSV(csvData)
     })
     setAlertDialogAll({
       open: false,
@@ -228,15 +225,20 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
 
   branches.push({ id: '' as any, name: 'ALL BRANCHES' })
 
-  const ref = React.createRef()
+  const csvData = commissionState.commissions.map((com) => ({
+    employee: `${com.employee?.profile?.firstname} ${com.employee?.profile?.middlename} ${com.employee?.profile?.lastname}`,
+    branch: com?.employee?.branch?.name,
+    amount: com?.amount,
+    from: dateRange.from.toLocaleDateString(),
+    to: dateRange.to.toLocaleDateString(),
+  }))
 
-  const [isDL, setIsDL] = useState(false)
-
-  let clickRef = () => {}
-
-  const options = {
-    orientation: 'orientation',
-  }
+  // const headers = [
+  //   { label: 'Employee Name', key: 'employee' },
+  //   { label: 'Commission Amount', key: 'amount' },
+  //   { label: 'To', key: 'to' },
+  //   { label: 'From', key: 'from' },
+  // ]
 
   return (
     <>
@@ -250,6 +252,7 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
         onDisagree={() => setAlertDialogAll({ open: false })}
         data={alertDialogAll}
       />
+
       <MySearchField
         labelWidth={110}
         label='Name / Branch'
@@ -338,7 +341,7 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
       )}
 
       {!!commissionState?.commissions.length && (
-        <Grid style={{ marginBottom: 15 }} container xs={12}>
+        <Grid style={{ marginBottom: 15 }} container xs={12} justify='center'>
           <Button
             onClick={() => {
               const totalAmount = commissionState?.commissions.reduce(
@@ -387,27 +390,6 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
           /> */}
         </Grid>
       )}
-      {/* <ReactToPdf
-        targetRef={ref}
-        filename={`${new Date().getTime()}.pdf`}
-        options={options}
-      >
-        {({ toPdf }) => (clickRef = toPdf)}
-      </ReactToPdf>
-      <div
-        style={{
-          display: !alertDialogAll.open ? 'contents' : 'none',
-          width: 780,
-          height: 'auto',
-          background: 'white',
-        }}
-        ref={ref as any}
-      >
-        <PDFForm
-          range={dateRange}
-          commissions={commissionState.commissions || []}
-        />
-      </div> */}
     </>
   )
 }

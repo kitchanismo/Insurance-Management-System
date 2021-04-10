@@ -99,3 +99,23 @@ export const capitalize = (s: string) => {
 export const toMoney = (num: number) => {
   return '₱ ' + num.toLocaleString()
 }
+
+function convertToCSV(arr) {
+  const array = [Object.keys(arr[0])].concat(arr)
+
+  return array
+    .map((it) => {
+      return Object.values(it).toString()
+    })
+    .join('\n')
+}
+
+export const downloadCSV = (csvData) => {
+  const csv = convertToCSV(csvData)
+  var data = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+  var csvURL = window.URL.createObjectURL(data)
+  var tempLink = document.createElement('a')
+  tempLink.href = csvURL
+  tempLink.setAttribute('download', `${new Date().getTime()}.csv`)
+  tempLink.click()
+}

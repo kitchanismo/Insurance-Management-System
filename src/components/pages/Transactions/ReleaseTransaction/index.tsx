@@ -137,7 +137,21 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
   const handleRelease = () => {
     releaseCommission(selectedCommission?.employee?.commissions!).then(
       (data) => {
-        onLoad({ positionId: chip.value, range })
+        onLoad({ positionId: chip.value, range, branchId })
+        downloadCSV([
+          {
+            ['Employee Name']: `${selectedCommission?.employee?.profile?.firstname} ${selectedCommission?.employee?.profile?.middlename} ${selectedCommission?.employee?.profile?.lastname}`,
+            ['Branch']: selectedCommission?.employee?.branch?.name,
+            ['Position']: selectedCommission?.employee?.position?.name,
+            ['Commission Amount']: selectedCommission?.amount,
+            ['From']: dateRange.from.toLocaleDateString(),
+            ['To']: dateRange.to.toLocaleDateString(),
+          },
+        ])
+        globalDispatch({
+          type: 'SET_ALERT',
+          payload: { message: 'Successfully Release', type: 'success' },
+        })
       }
     )
     setAlertDialog({
@@ -152,8 +166,12 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
     )
 
     releaseCommission(ids).then((data) => {
-      onLoad({ positionId: chip.value, range })
+      onLoad({ positionId: chip.value, range, branchId })
       downloadCSV(csvData)
+      globalDispatch({
+        type: 'SET_ALERT',
+        payload: { message: 'Successfully Release', type: 'success' },
+      })
     })
     setAlertDialogAll({
       open: false,
@@ -226,11 +244,12 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
   branches.push({ id: '' as any, name: 'ALL BRANCHES' })
 
   const csvData = commissionState.commissions.map((com) => ({
-    employee: `${com.employee?.profile?.firstname} ${com.employee?.profile?.middlename} ${com.employee?.profile?.lastname}`,
-    branch: com?.employee?.branch?.name,
-    amount: com?.amount,
-    from: dateRange.from.toLocaleDateString(),
-    to: dateRange.to.toLocaleDateString(),
+    ['Employee Name']: `${com.employee?.profile?.firstname} ${com.employee?.profile?.middlename} ${com.employee?.profile?.lastname}`,
+    ['Branch']: com?.employee?.branch?.name,
+    ['Position']: com?.employee?.position?.name,
+    ['Commission Amount']: com?.amount,
+    ['From']: dateRange.from.toLocaleDateString(),
+    ['To']: dateRange.to.toLocaleDateString(),
   }))
 
   // const headers = [
@@ -350,7 +369,7 @@ const ReleaseTransaction: React.SFC<CommissionReleaseProps> = () => {
               )
               setAlertDialogAll({
                 open: true,
-                text: `Are you sure you want to release commissions?`,
+                text: `Are you sure you want to release all commissions?`,
                 description: `Amounting of ${toMoney(totalAmount)}`,
               })
             }}

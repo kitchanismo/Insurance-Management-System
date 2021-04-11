@@ -1,5 +1,5 @@
 {
-    "apiUrlProd": "https://psy-demo.herokuapp.com/api/",
+    "apiUrlProd": "https://psy-insurance.herokuapp.com/api/",
     "apiUrlDev": "http://localhost:5000/api/",
     "apiUrlMobile": "http://192.168.9.101:5000/api/",
     "image_provider": "https://res.cloudinary.com/kitchanismo/image/upload/w_100,h_100,c_thumb,g_faces/v"

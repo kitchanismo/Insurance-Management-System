@@ -70,7 +70,8 @@ const MyNavFooter: React.SFC<MyNavFooterProps> = () => {
               >
                 <Badge
                   invisible={unread <= 0}
-                  badgeContent={unread! >= 100 ? '99+' : unread}
+                  badgeContent={unread}
+                  max={99}
                   color='secondary'
                 >
                   <NotificationIcon />

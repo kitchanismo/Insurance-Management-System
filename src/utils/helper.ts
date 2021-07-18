@@ -97,7 +97,7 @@ export const capitalize = (s: string) => {
 }
 
 export const toMoney = (num: number) => {
-  return '₱ ' + num.toLocaleString()
+  return '₱ ' + num?.toLocaleString(undefined, { minimumFractionDigits: 2 })
 }
 
 function convertToCSV(arr) {

@@ -15,7 +15,7 @@ import StatisticGraph from './StatisticGraph'
 import Fade from 'react-reveal/Fade'
 import Scroll from 'react-scroll'
 import { StatContext } from 'providers/StatisticProvider'
-import { getCurrentUser } from 'utils/helper'
+import { getCurrentUser, toMoney } from 'utils/helper'
 
 export interface DashboardProps {}
 
@@ -160,7 +160,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
                     variant='subtitle1'
                     color='secondary'
                   >
-                    ₱ {stat?.grossSales || 0}
+                    {toMoney(stat?.grossSales)}
                   </Typography>
                 </Paper>
               </Grid>
@@ -178,7 +178,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
                     variant='subtitle1'
                     color='secondary'
                   >
-                    ₱ {stat?.netSales}
+                    {toMoney(stat?.netSales)}
                   </Typography>
                 </Paper>
               </Grid>
@@ -199,7 +199,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
                     variant='subtitle1'
                     color='secondary'
                   >
-                    ₱ {stat?.releaseCommissions}
+                    {toMoney(stat?.releaseCommissions)}
                   </Typography>
                 </Paper>
               </Grid>
@@ -217,7 +217,7 @@ const Dashboard: React.SFC<DashboardProps> = () => {
                     variant='subtitle1'
                     color='secondary'
                   >
-                    ₱ {stat?.unreleaseCommissions}
+                    {toMoney(stat?.unreleaseCommissions)}
                   </Typography>
                 </Paper>
               </Grid>

@@ -212,7 +212,7 @@ const MyGraph: React.SFC<ClientsGraphProps> = ({
 
       <Grid xs={12} item container alignItems='center' justify='center'>
         <Typography component='h5' variant='subtitle1' color='textSecondary'>
-          {`${total} ${title} from ${
+          {`${total?.toLocaleString()} ${title} from ${
             range?.start
               ? new Date(range?.start!).toLocaleDateString('en-GB', {
                   month: '2-digit',
